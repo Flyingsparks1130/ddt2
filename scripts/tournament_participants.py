@@ -36,7 +36,8 @@ def attach_participants(matches, race_docs, portraits=None):
                     'variant_id': row['variant_id'], 'display_name': display_name(row['owner']),
                     'benched': False, 'stats': row.get('stats', {}),
                     'build_fingerprint': row.get('build_fingerprint'),
-                    'running_style': row.get('running_style')}
+                    'running_style': row.get('running_style'),
+                    'support': [dict(card) for card in row.get('support', [])]}
 
         if verified:
             lineup = [runner(r) for r in sorted(verified[-1]['results'], key=lambda r: (r['team_id'] or '', r['owner'].casefold()))
