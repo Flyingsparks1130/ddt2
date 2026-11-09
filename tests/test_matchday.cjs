@@ -98,9 +98,11 @@ console.log('Matchday: published status, follow persistence, event isolation, mi
  let prevented=false;
  handlers.keydown({key:'ArrowRight',target:{closest:()=>buttons[1]},preventDefault(){prevented=true;}});
  assert(prevented);assert.equal(focused,0);assert.equal(buttons[0]['aria-pressed'],'true');
- const animated=animations;browser.matchMedia=()=>({matches:true});
+ const animated=animations;browser.matchMedia=()=>({matches:true});let rosterScroll;
+ buttons[1].scrollIntoView=options=>rosterScroll=options;
  handlers.keydown({key:'End',target:{closest:()=>buttons[0]},preventDefault(){}});
  assert.equal(focused,1);assert.equal(animations,animated,'Reduced motion selects immediately without an entrance');
+ assert.equal(rosterScroll.behavior,'instant','Reduced motion still brings the selected roster button into view');
  // Match intros run once per fixture per visit, never on refresh or a draft tab switch.
  browser.matchMedia=()=>({matches:false});let entrances=0;
  const fixture={dataset:{matchEntrance:'R1:m'},classList:{add(){entrances++;}}},stageRoot={querySelector:s=>s==='[data-match-entrance]'?fixture:null};
