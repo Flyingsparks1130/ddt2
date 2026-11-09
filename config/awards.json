@@ -1,19 +1,9 @@
 {
   "schema_version": 1,
-  "reveal": true,
+  "reveal": false,
   "performance_round_min": 2,
   "wheelchair_min_rounds": 2,
-  "disqualifications": [
-    {
-      "id": "r1-m1-callmeneko-dq",
-      "match_id": "r1-m1",
-      "round": "R1",
-      "team_id": "dominarium",
-      "player": "CallMeNeko",
-      "count": 1,
-      "source": "Organizer confirmation: CallMeNeko was disqualified in the Round 1 matchup."
-    }
-  ],
+  "disqualifications": [],
   "player_aliases": {},
   "verified_metrics": [],
   "tie_decisions": {},
@@ -62,7 +52,7 @@
     "goo-goo": "assets/awards/trophy-goo-goo.png"
   },
   "mvp_champion_tiebreak": {
-    "enabled": true,
-    "source": "Organizer clarification, September 16, 2026: Essential takes the 27-point MVP tie over wata because Dominance won the tournament."
+    "enabled": false,
+    "source": ""
   }
 }

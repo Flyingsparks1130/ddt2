@@ -17,7 +17,7 @@ Use `manage_tournament.bat` if you want to enter results yourself. It starts a l
 
 For local edits, first fetch and pull in GitHub Desktop. Review and commit your local changes, then push. Avoid copying an old ZIP over newer repository files.
 
-`rebuild_tournament.bat` rebuilds local data. `publish_latest.bat` is an older compatibility entry point that also rescans folders. `randomize_draw.bat` does not reroll the supplied fixed bracket. `apply_LHNCFL_result.bat` is an idempotent one-time helper for the existing LHNCFL report; the connected workflow has already applied that match.
+`rebuild_tournament.bat` rebuilds local data. `publish_latest.bat` is an older compatibility entry point that also rescans folders. `randomize_draw.bat` does not reroll the supplied fixed bracket.
 
 ## Build and deployment
 
@@ -28,7 +28,7 @@ python -m unittest discover -s tests -v
 python scripts/tournament_engine.py site
 ```
 
-The `_site/` directory is generated and ignored by Git. It contains public pages, assets, active config, generated data and the tournament archive. `legacy/`, tests, scripts and historical documentation are excluded. Keep the tracked index regenerated when match data changes; do not edit generated scores directly.
+The `_site/` directory is generated and ignored by Git. It contains public pages, assets, active config, generated data and the current tournament data. Tests and scripts are excluded; previous tournament records are not retained in this starter. Keep the tracked index regenerated when match data changes; do not edit generated scores directly.
 
 No repository token belongs in browser JavaScript, uploaded match files, or committed configuration. The connected GitHub app performs repository writes; GitHub Actions uses its existing workflow permissions for publishing.
 

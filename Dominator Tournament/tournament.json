@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "id": "dominator-2026",
-  "name": "Dominator Tournament",
+  "id": "dominator-companion-starter",
+  "name": "Dominator Tournament Starter",
   "published": true,
-  "source_note": "Bracket transcribed from the image supplied in the latest request. 11 teams, 3 played R1 matches, 5 byes. No redemption round. No results have been entered.",
+  "source_note": "Copied bracket and rules are a reusable template. No previous tournament results, drafts, lineups or race exports are included. Confirm the next event format before use.",
   "rounds": [
     {
       "id": "R1",

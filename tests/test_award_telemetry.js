@@ -28,16 +28,4 @@ r=duelFixture();delete r.replay.runners[0].analysis_data;assert.equal(T.estimate
 r=duelFixture();for(const e of r.replay.events)e.type=4;for(const runner of r.replay.runners)runner.duel_events=0;
 near(T.estimate(r,data).a.duel_seconds.value,0); // Spot Struggle is a different event.
 
-const index=require('../data/tournament-index.json');let runners=0,duelers=0;
-for(const match of index.matches)for(const file of match.races){
- const race=JSON.parse(fs.readFileSync(file.data_file)),estimates=T.estimate(race,data);
- for(const row of race.results){
-  const v=estimates[row.entry_id];assert(Number.isFinite(v.lane_loss_m.value));assert(Number.isFinite(v.duel_seconds.value));
-  assert(v.duel_seconds.value>=0&&v.duel_seconds.value<=row.raw_seconds);
-  const runner=race.replay.runners.find(r=>r.entry_id===row.entry_id);
-  if(v.duel_seconds.value>0){duelers++;assert(runner.duel_events>0)}
-  runners++;
- }
-}
-assert(runners>=240);assert(duelers>0);
-console.log(`WT integration and duel expiry tests passed; complete estimates for ${runners} recorded starts (${duelers} positive duels).`);
+console.log('Synthetic world-transform loss and duel expiry checks passed.');

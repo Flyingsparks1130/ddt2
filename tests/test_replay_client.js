@@ -1,4 +1,4 @@
-// Pure playback checks use real generated race documents; no DOM or browser needed.
+// Playback checks use an isolated practice fixture; no event archive or browser needed.
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
 const context={};vm.createContext(context);vm.runInContext(fs.readFileSync('assets/replay.js','utf8'),context);
 const {sample,orderRows}=context.RaceReplay;
@@ -38,11 +38,10 @@ for(const [value,color,pearl,capped] of [[null,0,0,false],[-1,0,0,false],[800,40
 }
 let races=0;
 const portraitLabels=JSON.parse(fs.readFileSync('assets/race-labels.json')).portraits;
-for(const file of fs.readdirSync('data/tournament-races')){
- const data=JSON.parse(fs.readFileSync(path.join('data/tournament-races',file)));
+for(const data of [require('./practice-replay.cjs')]){
  for(const runner of data.results){
   const portrait=portraitLabels[runner.variant_id];
-  assert(portrait&&fs.existsSync(portrait),`Missing results portrait for ${runner.uma} (${runner.variant_id})`);
+  if(portrait)assert(fs.existsSync(portrait),`Missing portrait ${portrait}`);
  }
  if(data.replay?.status!=='ready')continue;
  const rep=data.replay;

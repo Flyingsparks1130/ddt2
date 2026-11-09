@@ -26,7 +26,7 @@ Add `--linked-art` for a compact review file that loads the already-public artwo
 
 ## Counting rules
 
-- Performance scope starts at Round 2. Round 1 supplies only sourced DQ incidents; CallMeNeko's organizer-confirmed R1-M1 DQ is recorded separately from official scores.
+- Performance scope starts at Round 2. Only explicitly recorded disqualifications count; the starter has none.
 - Player identity uses club ID and normalized owner name. Optional aliases explicitly reconcile name changes. Equal names on different clubs are separate identities.
 - Count each distinct fielded build once per player per matchup. Its identity includes variant, five submitted stats, equipped skills and running style. Repeated races with the same build do not repeatedly add its stats or SP. The same build fielded in a later matchup counts there too. Benched/unplayed Umas do not count.
 - All Star Trainer, Hot Headed, Fine Motion Wit and Mejiro Fund compare **individual fielded Uma builds**, not accumulated player totals. Each player enters their highest combined stats, highest Guts, lowest Wit or highest raw skill value at undiscounted SP prices, respectively. Skill value measures what the skills are worth, not the SP actually spent. The winning entry carries that specific Uma/build and source export. Additional builds, races and rounds add nothing, and equal values stay tied without participation-based tiebreakers. Aggregate build totals remain available only for the unchanged Performance Anxiety / Nakayama Festa efficiency formulas and receipts.
@@ -73,16 +73,12 @@ Run `node tests/test_awards_client.js` and `node tests/test_award_telemetry.js`.
 
 The gold statistics section follows the trophy cabinet and club records. Support cards, fielded Umas, opponent-vetoed Umas and equipped skills show top-five lists and a top-three podium. Ties share competition ranks; expanded lists preserve entries beyond fifth. Support-card IDs separate editions, while limit breaks are grouped. The five leading support cards have bundled art from the pinned Hakuraku source.
 
-Current coverage: 57 reported races and 100 non-benched roster slots from all ten matches; 39 verified exports, 390 starts and 70 fielded builds from R2–R4. Round 1 has no build exports. Build statistics use the importer fingerprint plus trainer, club and match. Repeated races with one build do not add extra deck/skill/stat observations. A build fielded in another match counts there too. Missing grades remain unknown.
+The starter has no reported races, exported races, fielded builds or recorded rosters. Coverage is regenerated from new event records. Build statistics use the importer fingerprint plus trainer, club and match. Repeated races with one build do not add extra deck/skill/stat observations. A build fielded in another match counts there too. Missing grades remain unknown.
 
-Recorded track picks are available in seven drafts; partial or missing pick history is not reconstructed. Picks and track vetoes are separate charts. Venue, layout, distance and surface form a track group; conditions and seasons are combined. Played track counts use reported results, not draft schedules or runner counts. Dirt/turf is separate from the four distance classes to avoid overlapping categories.
+Only recorded track picks are counted; missing pick history is not reconstructed. Picks and track vetoes are separate charts. Venue, layout, distance and surface form a track group; conditions and seasons are combined. Played track counts use reported results, not draft schedules or runner counts. Dirt/turf is separate from the four distance classes to avoid overlapping categories.
 
 Aptitude charts show all build distance/style/ground grades, A-or-S counts and S-only counts. The active-race chart instead weights each actual start by its race distance, surface and chosen style. Base-stat histograms use `stats`, before mood modifiers, and expose mean, median, range, quartiles and keyboard-accessible bin counts. Skills count equipped IDs once per build, including unique/passive skills and without adding inferred prerequisites.
 
 Run `node tests/test_tournament_statistics.cjs` for deduplication, eligibility, benches, ranks, boundaries, histogram accounting, artwork and real-data totals. Rebuild the private preview after the public snapshot to include the same statistics.
 
-## MVP championship tiebreak clarification
-
-On September 16, 2026 the organizer selected Essential over wata because Dominance won the tournament. Both finished with 27 eligible points. The sourced `mvp_champion_tiebreak` setting places membership of the confirmed champion team before the existing points-per-race and starts tiebreakers. Total points and the two-round eligibility requirement still come first. It uses only `index.champion_id`, never an inferred score winner. Other award rules and all recorded points remain unchanged. The MVP dialog publishes the clarified rule and its source; receipts show champion status as Yes/No.
-
-Statistics panels and summary cards use the shared `--race-line` border, 12px corner radius and charcoal/plum surfaces. Gold remains on podiums and chart values.
+The starter has no historical award results. Reveal is disabled, and disqualifications and event-specific tiebreak decisions are cleared. Confirm award rules for the next event before enabling reveal.
