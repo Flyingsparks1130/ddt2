@@ -13,7 +13,7 @@
 /* Keep motion short, continuous and responsive to another navigation. */
 :root{--ease-motion:cubic-bezier(.22,1,.36,1)}
 .season-header{view-transition-name:header}.season-scene-word{view-transition-name:scene-word}
-::view-transition,::view-transition-group(*){pointer-events:none}
+::view-transition,::view-transition-group(*),::view-transition-image-pair(*),::view-transition-old(*),::view-transition-new(*){pointer-events:none}
 ::view-transition-group(character),::view-transition-group(scene-word){animation-duration:.46s;animation-timing-function:var(--ease-motion)}
 ::view-transition-group(content){animation-duration:.36s;animation-timing-function:var(--ease-motion)}
 ::view-transition-group(header){animation:none}
