@@ -1,6 +1,6 @@
 # Tournament companion connection
 
-The site can now read the local companion's existing `dominator-tournament/v1` approved-results export. `companion.html` shows event and per-match standings, each approved heat, course conditions, scoring snapshots, approval details and void corrections. The copied bracket is a template; the starter contains no old results.
+The site can now read the local companion's existing `dominator-tournament/v1` approved-results export. `companion.html` shows event and per-match standings, each approved heat, course conditions, scoring snapshots, approval details and void corrections. DDT2 starts with no clubs, bracket, match drafts or results.
 
 ## Try it before choosing a format
 
@@ -36,7 +36,7 @@ These values are documented, not installed into the running companion. No token 
 
 No fake feed is committed: the first valid publication creates the file with the real tournament ID. The companion and local staging command refuse to overwrite a feed belonging to another event. For a new event, select a new results path and update the connection settings deliberately.
 
-## Enable the copied website when ready
+## Website publication
 
 This independent copy is published through GitHub Actions Pages with `PUBLISH_PAGES=true`. Validated updates to `main` deploy the starter. Previous tournament records have been removed; the companion feed remains empty until the new event publishes approved results.
 
@@ -71,7 +71,7 @@ Quote Windows file paths containing spaces. `stage` updates only the local confi
 | `standings` | Player/team totals, finish counts, entry counts and ranks, verified against the approved rows |
 | `voided[]` | Corrected race ID, optional heat ID and reason; no scored rows |
 
-V1 supports additive position points, zero points for unlisted places, and either shared ranks or countback. It does not impose a series length, qualification rule, team roster size, score threshold or bracket format. No rule is borrowed from the completed 2026 archive. Each race's points must match its approval-time rule snapshot. Current tournament tie policy ranks the totals. A future non-additive format requires a versioned adapter rather than silently changing v1.
+V1 supports additive position points, zero points for unlisted places, and either shared ranks or countback. It does not impose a series length, qualification rule, team roster size, score threshold or bracket format. The current event’s approved scoring snapshot is authoritative. Each race's points must match its approval-time rule snapshot. Current tournament tie policy ranks the totals. A future non-additive format requires a versioned adapter rather than silently changing v1.
 
 Pending races are omitted by the companion. Duplicate races, fingerprints, approved heats, duplicate finishing positions, unresolved reviews, missing approvals, mismatched totals and incompatible event IDs are rejected. Voiding a race removes it from results on the next approved publication; the site replaces the snapshot rather than appending scores. The consumer validates consistency, but approval fields are not cryptographic signatures: publish access to the repository remains the trust boundary.
 
