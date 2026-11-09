@@ -36,12 +36,11 @@ jobs:
       - name: Check replay playback against the recorded races
         run: |
           node tests/test_replay_client.js
-          node tests/test_championship_client.js
-      - name: Check award calculations, reveal gate and statistics
+          node tests/test_season_ui.cjs
+      - name: Check statistics and exact outfit artwork
         run: |
-          node tests/test_awards_client.js
-          node tests/test_award_telemetry.js
           node tests/test_tournament_statistics.cjs
+          node tests/test_race_art.cjs
       - name: Configure Pages
         if: github.event_name != 'pull_request' && vars.PUBLISH_PAGES == 'true'
         uses: actions/configure-pages@v5
