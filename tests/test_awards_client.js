@@ -164,16 +164,8 @@ const index=JSON.parse(fs.readFileSync('data/tournament-index.json')),config=JSO
 for(const m of index.matches)for(const f of m.races)docs[f.id]=JSON.parse(fs.readFileSync(f.data_file));
 require('../assets/award-telemetry.js');
 const real=E.compute(index,docs,config,catalogue,require('../assets/award-telemetry-data.json'));
-check('Essential wins the real 27-point MVP tie; other awards and recorded points are unchanged',()=>{
- const previous=E.compute(index,docs,{...config,mvp_champion_tiebreak:{enabled:false}},catalogue,require('../assets/award-telemetry-data.json'));
- assert.equal(award(previous,'mvp').winner.name,'wata');
- const mvp=award(real,'mvp');assert.equal(mvp.winner.name,'Essential');assert.equal(mvp.winner.team,'Dominance');assert.equal(mvp.winner.value,27);assert.equal(mvp.runners_up[0].name,'wata');assert.equal(mvp.runners_up[0].value,27);assert(mvp.rule.includes('tournament-winning team'));
- assert.deepEqual(real.awards.filter(a=>a.id!=='mvp'),previous.awards.filter(a=>a.id!=='mvp'));
- assert.deepEqual(real.players.map(p=>[p.id,p.points]),previous.players.map(p=>[p.id,p.points]));
- assert(UI.awardCard(mvp,{revealed:true,standings:real}).includes('tournament champion: Yes'));
-});
+check('Empty starter has no inherited players, awards or disqualifications',()=>{assert.deepEqual(real.players,[]);assert(real.awards.every(a=>!a.winner));assert.equal(config.reveal,false);assert.deepEqual(config.disqualifications,[]);});
 assert.deepEqual(real.awards.map(a=>a.id),['mvp','wheelchair','hard-carry','top-road','nature','gate-kept','all-star','performance-anxiety','hot-headed','fine-motion','mejiro','festa','flyingsparks','nitro','double-jet','bourbon','blocked-count','blocked-time','neck','fences','goo-goo']);
-assert.equal(award(real,'neck').status,'provisional');assert.equal(award(real,'fences').status,'provisional');
 check('Every award has distinct trophy art in the public and private renderers',()=>{
  const catalog=E.catalog(config),paths=catalog.map(a=>a.trophy_image||`assets/awards/trophy-${a.trophy}.png`);
  assert.equal(new Set(paths).size,21);assert(paths.every(p=>fs.existsSync(p)));
@@ -186,20 +178,20 @@ check('Every current export is included, and official points agree',()=>{
  const races=index.matches.filter(m=>Number(m.round.slice(1))>=2).flatMap(m=>m.races);
  assert.equal(real.coverage.verified_races,races.length);
  assert.equal(real.players.reduce((n,p)=>n+p.points,0),races.reduce((n,f)=>n+Object.values(docs[f.id].team_points).reduce((n,v)=>n+v,0),0));
- assert(real.coverage.played_builds>=40);assert(real.coverage.verified_races>=24);
+ assert.equal(real.coverage.played_builds,0);assert.equal(real.coverage.verified_races,0);
  assert(real.players.filter(p=>p.starts).every(p=>p.coverage.wit===p.starts&&p.coverage.sp===p.build_count));
  assert(real.awards.filter(a=>a.winner).every(a=>a.runners_up.length<=2));
- assert.equal(award(real,'gate-kept').winner.name,'CallMeNeko');
+ assert.equal(award(real,'gate-kept').winner,null);
 });
 (async()=>{
  const snapshot=JSON.parse(fs.readFileSync('data/tournament-statistics.json'));
  for(const reveal of [false,true]){
-  const dialog={querySelector:()=>({})},root={innerHTML:'',querySelector:()=>dialog,querySelectorAll:()=>[]},requests=[],ctx={console,URLSearchParams,location:{search:'?reveal=true&private=true'},document:{getElementById:()=>root},fetch:async url=>{requests.push(url);return {ok:true,json:async()=>url.includes('index')?index:url.includes('config')?{...config,reveal}:snapshot};}};
+  const dialog={querySelector:()=>({})},root={innerHTML:'',querySelector:()=>dialog,querySelectorAll:()=>[]},requests=[],ctx={console,URLSearchParams,location:{search:'?reveal=true&private=true'},document:{getElementById:()=>root},fetch:async url=>{requests.push(url);return {ok:true,json:async()=>url.includes('index')?index:url.includes('config')?{...config,reveal}:{...snapshot,standings:reveal?real:null}};}};
   vm.createContext(ctx);vm.runInContext(fs.readFileSync('assets/award-engine.js','utf8'),ctx);vm.runInContext(fs.readFileSync('assets/tournament-statistics.js','utf8'),ctx);vm.runInContext(fs.readFileSync('assets/awards.js','utf8'),ctx);
   ctx.AwardEngine.compute=()=>{throw Error('Public page attempted to calculate winners');};await ctx.AwardUI.publicMount();
   assert.deepEqual(requests.sort(),['config/awards.json','data/tournament-index.json','data/tournament-statistics.json']);assert.equal((root.innerHTML.match(/data-open-award=/g)||[]).length,21);assert(!root.innerHTML.includes('could not load'));
-  assert.equal(root.innerHTML.includes('FINAL AWARDS'),reveal);assert.equal(root.innerHTML.includes('Their winners are still under wraps'),!reveal);assert(root.innerHTML.includes('What the field brought.'));
-  if(reveal){assert(root.innerHTML.includes('Flyingsparkz'));assert(root.innerHTML.includes('4,300'));assert(root.innerHTML.includes('Essential &amp; Reyov')||root.innerHTML.includes('Essential & Reyov'));}
+  assert.equal(root.innerHTML.includes('FINAL AWARDS'),reveal);assert.equal(root.innerHTML.includes('Their winners are still under wraps'),!reveal);assert(root.innerHTML.includes('No tournament statistics yet.'));
+  assert(!root.innerHTML.includes('4,300'));
   checks++;
  }
  console.log(`${checks} award scenarios passed; ${real.coverage.verified_races} real races reconciled. Explicit configuration controls final reveal.`);

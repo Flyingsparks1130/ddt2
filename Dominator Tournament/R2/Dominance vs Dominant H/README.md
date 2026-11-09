@@ -1,1 +1,0 @@
-`match.json` connects this folder to the bracket. Edit `draft.json` for this matchup’s own draft. Create numbered race-description subfolders for original race JSONs. Official scores and winners can be entered in the organizer even if no race JSON is available. See docs/match-data.md.

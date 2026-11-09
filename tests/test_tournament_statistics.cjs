@@ -10,15 +10,10 @@ stats=S.compute({matches:[match,{...match,id:'later',races:[{id:'later'}]}]},{r:
 assert.deepEqual([1400,1401,1800,1801,2400,2401].map(S.distanceType),['Sprint','Mile','Mile','Medium','Medium','Long']);assert.equal(S.trackKey('Tokyo 1600m · Turf · Summer'),S.trackKey('Tokyo 1600m · Turf · Winter'));
 assert.deepEqual(S.ranking(new Map([['a',3],['b',3],['c',1]])).map(r=>r.rank),[1,1,3]);
 const dist=S.distribution([100,200,300,400,null]);assert.equal(dist.n,4);assert.equal(dist.median,250);assert.equal(dist.q1,175);assert.equal(dist.q3,325);assert.equal(dist.bins.reduce((n,b)=>n+b.count,0),4);
-const snapshot=JSON.parse(fs.readFileSync('data/tournament-statistics.json')),real=snapshot.statistics;
-assert.deepEqual(real.coverage,{matches:10,draft_matches:10,pick_matches:7,roster_matches:10,reported_races:57,verified_races:39,starts:390,builds:70,deck_builds:70,skill_builds:70,fielded_slots:100});
-assert.equal(real.support[0].id,'30052');assert.equal(real.support[0].count,70);assert.equal(real.support.reduce((n,r)=>n+r.count,0),420);
-assert.equal(real.fielded.reduce((n,r)=>n+r.count,0),100);assert.equal(real.veto.reduce((n,r)=>n+r.count,0),20);assert.equal(real.preban.reduce((n,r)=>n+r.count,0),40);assert.equal(real.distance.reduce((n,r)=>n+r.count,0),57);assert.equal(real.surface.reduce((n,r)=>n+r.count,0),57);
-for(const g of Object.values(real.aptitudes))assert.equal(Object.values(g).reduce((a,b)=>a+b,0),70);
-for(const g of Object.values(real.active_aptitudes))assert.equal(Object.values(g).reduce((a,b)=>a+b,0),390);
-for(const d of Object.values(real.distributions)){assert.equal(d.n,70);assert.equal(d.bins.reduce((n,b)=>n+b.count,0),70);}
-assert.equal(snapshot.standings.awards.find(a=>a.id==='mejiro').winner.value,4300);assert.equal(snapshot.standings.awards.find(a=>a.id==='goo-goo').status,'tie');
-for(const key of ['support','veto','fielded','skills'])for(const r of real[key].slice(0,5))assert(r.image&&fs.existsSync(r.image),`Missing top-five image ${r.name}`);
-const UI=require('../assets/tournament-statistics.js'),html=UI.render(real);for(const text of ['Most used support cards','Most vetoed Umas','Most picked tracks','Most played distance','Turf &amp; dirt','Distance aptitude','Running-style aptitude','Ground aptitude','Most common skills'])assert(html.includes(text.replace('&amp;','&')),text);
-assert.equal((html.match(/class="meta-podium"/g)||[]).length,4);assert(html.includes('390'));assert(html.includes('57'));assert(!html.includes('NaN'));assert(!html.includes('undefined'));
-console.log('Statistics checks passed: duplicate races/builds, benches, ties, grade coverage, distance boundaries, distributions and all real totals.');
+const snapshot=JSON.parse(fs.readFileSync('data/tournament-statistics.json')),empty=snapshot.statistics;
+assert.equal(snapshot.standings,null);
+for(const [key,value] of Object.entries(empty.coverage))if(key!=='matches')assert.equal(value,0,key);
+for(const key of ['support','skills','fielded','veto','preban'])assert.deepEqual(empty[key],[]);
+const UI=require('../assets/tournament-statistics.js'),html=UI.render(empty);
+assert(html.includes('No tournament statistics yet.'));assert(!html.includes('NaN'));assert(!html.includes('undefined'));
+console.log('Statistics deduplication, boundaries and empty starter checks passed.');

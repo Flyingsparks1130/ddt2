@@ -10,35 +10,16 @@ from tournament_participants import attach_participants, display_name
 
 
 class ParticipantTests(unittest.TestCase):
-    def test_race_owner_names_drive_match_and_club_lineups(self):
-        result = build(ROOT, write=False)
-        index = result['index']
-        match = next(m for m in index['matches'] if m['id'] == 'r2-m4')
-        expected = {'dominate': {'Reyov', 'Mayday', 'Flyingsparkz', 'BYond', 'raine'},
-                    'dominium': {'Raven621', 'Mamboo', 'Yokka', 'Unluckyyy', 'Juqi'}}
-        for club, names in expected.items():
-            self.assertEqual({r['display_name'] for r in match['lineup'] if r['team_id'] == club and not r['benched']}, names)
-            self.assertEqual({r['display_name'] for r in index['club_rosters'][club]['members']}, names)
-            # The R2 match keeps its lineup; the club follows its latest played round.
-            self.assertEqual(index['club_rosters'][club]['round'], 'R3' if club == 'dominate' else 'R2')
-            self.assertEqual(index['club_rosters'][club]['match_id'], 'r3-m2' if club == 'dominate' else 'r2-m4')
-        self.assertEqual(match['reported_results']['races'][1]['podium'][0]['display_name'], 'Mamboo')
-        self.assertTrue(match['draft']['roster'][0]['discord'].startswith('<@'))
-        self.assertEqual(len(match['races']), 5)
-        self.assertTrue(all(result['races'][r['id']]['replay']['status'] == 'ready' for r in match['races']))
-
-    def test_match_contributions_do_not_double_count_report_and_exports(self):
-        result = build(ROOT, write=False)
-        for m in result['index']['matches']:
-            if not m['player_points_recorded']:
-                continue
-            self.assertEqual(len(m['player_points']), 10)
-            for team in m['participants']:
-                self.assertEqual(sum(r['points'] for r in m['player_points'] if r['team_id']==team['id']), m['scores'][team['id']])
-            for player in m['lineup']:
-                self.assertTrue((ROOT/player['portrait']).is_file())
-        match = next(m for m in result['index']['matches'] if m['id']=='r2-m4')
-        self.assertEqual(sorted(r['points'] for r in match['player_points']), [0,0,0,2,2,2,3,5,8,13])
+    def test_verified_owners_and_report_do_not_double_count(self):
+        rows=[{'entry_id':str(i),'place':i+1,'owner':name,'team_id':team,'eligible':True,'variant_id':100+i,'uma':f'Uma {i}','points':points}
+              for i,(name,team,points) in enumerate([('Player A','a',4),('Player B','b',2),('Player C','a',1)])]
+        match={'id':'m','round':'R1','participants':[{'id':'a'},{'id':'b'}], 'draft':None,
+               'races':[{'id':'r','scoring_verified':True}],
+               'reported_results':{'races':[{'number':1,'podium':[{'team_id':'a','uma':'Uma 0','discord':'@Player A','points':4,'place':1}]}]}}
+        clubs=attach_participants([match],{'r':{'race_folder':'01 - Test','results':rows}})
+        self.assertEqual({r['display_name'] for r in match['lineup']},{'Player A','Player B','Player C'})
+        self.assertEqual(sum(r['points'] for r in match['player_points']),7)
+        self.assertEqual(clubs['b']['members'],[{'display_name':'Player B'}])
 
     def test_unverified_race_cannot_replace_draft_roster(self):
         match = {'id':'r1-m1','round':'R1','participants':[{'id':'a'},{'id':'b'}],

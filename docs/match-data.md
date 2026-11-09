@@ -21,13 +21,13 @@ Use `R1` through `R4` for Round 1, quarterfinals, semifinals and final. `Round 1
 
 | Field | Value |
 | --- | --- |
-| `external_match_id` | Source identifier such as `LHNCFL`; distinct from `r1-m1` |
+| `external_match_id` | Source identifier such as `EXAMPLE`; distinct from `r1-m1` |
 | `status` | `pending`, `in_progress`, or `locked`; independent of official result status |
 | `track_pool`, `final_tracks` | Arrays of full track-description strings; final-track order is race order |
 | `tiebreaker_track` | Track string or `null` |
 | `track_picks`, `track_vetoes` | Arrays of `{"team_id":"dominion","track":"Track description"}` |
 | `uma_pre_bans`, `uma_picks`, `uma_bans`, `uma_additions`, `benched_umas` | Arrays of `{"team_id":"dominion","uma":"Character and variant"}` |
-| `roster` | Arrays of `{"team_id":"dominion","uma":"Gold Ship","discord":"@Beep","benched":false}` |
+| `roster` | Arrays of `{"team_id":"dominion","uma":"Gold Ship","discord":"@Player","benched":false}` |
 | `training_start`, `training_deadline` | Optional date/time strings with timezone |
 | `notes` | Optional context and gaps in the available record |
 
@@ -42,22 +42,3 @@ Roster entries may include `display_name` to resolve a supplied Discord ID or re
 The engine validates active roster membership and variants, applies 4/2/1 to reported podiums, and generates race scores and cumulative totals. A report does not become an original race export and does not automatically confirm the winner. Report totals and raw-export totals remain separate. Official adjustments remain available through organizer controls.
 
 Reported runners and MVP may also include `display_name`, with the same rule for an unknown Discord identity. Use `external_match_id:null` when no external ID was supplied. Player contributions include zero-point players and combine verified race points with reported podiums only for races that have no verified export.
-
-
-LHNCFL records Dominion **22–27** Dominarium after six standard races plus a tiebreaker. MVP is **@LESKBILL**, Tamamo Cross, with 12 podium points. Dominarium advances to face Dominator in R2. Its source is the organizer's text and screenshots; live Uma Drafter retrieval was blocked. No original race files were provided.
-
-JZENUX (`r2-m1`) records Dominator **29–13** Dominarium after six races. MVP is **@AdoboProdigy**, Taiki Shuttle, with 10 podium points. All six unchanged exports corroborate the reported podiums; they do not add a second set of points. Tamamo Cross and Gold City were benched. Chukyo 1400m remains the unused tiebreaker, with no race export. The final lineup, track picks, vetoes and bans come from the supplied draft screenshots; unsupplied snake-pick order is left empty.
-
-`r2-m3` records **Domineer 17–25 Dominacion** after six races. MVP is **@wata**, Rice Shower (Halloween), with 13 podium points. All six unchanged exports corroborate the reported podiums. Winning Ticket and El Condor Pasa were benched; Hakodate 1000m was the unused tiebreaker. No external match ID was supplied. Dominacion advanced to face Dominate in Round 3.
-
-LDGU92 (`r3-m2`) records **Dominate 2–26 Dominacion** after four races. MVP is **@Zanko**, Oguri Cap, with 9 podium points. All four unchanged exports corroborate the reported podiums. Silence Suzuka and Agnes Digital (Halloween) were benched. The remaining two standard tracks and Kyoto (Inner) 1200m tiebreaker were not run. Dominacion advances to the Grand Final against Dominance.
-
-`r3-m1` records **Dominator 10–25 Dominance** after five races. MVP is **@Essential**, Grass Wonder, with 8 podium points. All five unchanged exports corroborate the reported podiums. Kitasan Black and Eishin Flash were benched; Hanshin (Inner) 2000m and the Chukyo 2000m tiebreaker were not run. No external match ID was supplied. Round 4 is open for **Dominance vs Dominacion**, with a blank draft awaiting submissions.
-
-## Official scores and original exports
-
-Use `Dominator Tournament/control.json` through the engine's mutation functions or local organizer to record scores and confirm advancement. Supply an audit reason and the current revision. Scores alone do not eliminate a club.
-
-For raw exports, preserve bytes and map the Uma owner's in-game name to a club. Do not infer ownership from the capture trainer, game team, or ghost flag. Explicit NPC/DQ decisions pass scoring places to the next eligible runner. Discord handles in drafts are not assumed to equal in-game names.
-
-The importer supports horseACT `raceHorse` exports with zero-based finish order, retaining all runners and distinct raw/scaled times. Displayed build data includes stats and named skills, local icons and support IDs. Native replay decoding, skill outcomes and event graphs are described in [race-analysis.md](race-analysis.md); no race files are sent to Hakuraku.

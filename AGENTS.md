@@ -14,7 +14,7 @@
 - Per-match `draft.json`: track card, draft actions, roster and bench. Per-match `results.json`: organizer-reported podiums and MVP.
 - Original race exports live inside race-description subfolders and must remain unchanged. Do not fabricate race exports for score-only matches.
 - Reported podium totals and exported race totals are separate; never add them together. Never infer a winner from a draft or score threshold.
-- `legacy/` and `docs/history/` are inactive references, not current configuration.
+- This starter intentionally has no historical tournament records. Do not restore the copied event's results, drafts or award decisions.
 
 ## Validation and scope
 

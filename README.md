@@ -1,64 +1,31 @@
 # Dominator Tournament Companion Starter
 
-This is a separate repository copied from [the original 2026 tournament](https://github.com/Flyingsparks1130/dominatornetworktourney2026), with the companion-compatible results foundation included. The original repository and live website are separate.
+[Live website](https://flyingsparks1130.github.io/dominatornetworktourney2026-companion-starter/) · [Companion results](https://flyingsparks1130.github.io/dominatornetworktourney2026-companion-starter/companion.html)
 
-Start with `preview_companion.bat` and `companion.html`. [Connection guide](docs/companion-integration.md) · [Build checks](https://github.com/Flyingsparks1130/dominatornetworktourney2026-companion-starter/actions/workflows/tournament-pages.yml)
+An independent copy of the original tournament website, prepared as a foundation for the next event. Previous tournament results, race exports, drafts, player lineups, organizer decisions and award standings have been removed. The copied club/bracket structure, rules and artwork remain templates; the next event's format is not finalized.
 
-The copied 2026 records are preserved as historical material, not a new event. New scoring rules remain undecided. This starter has no published results feed and does not deploy a website by default.
+GitHub Actions tests and publishes updates to `main`. Pages uses GitHub Actions and the repository variable `PUBLISH_PAGES=true`.
 
-## Updates through ChatGPT / Codex
+## Companion connection
 
+`companion.html` reads operator-approved `dominator-tournament/v1` exports. No results feed or event binding is preloaded. Run `preview_companion.bat` for a local preview, or use **Preview an export** on the results page.
 
-Send the requested site changes, draft text, race JSONs, or official scores in the connected conversation. Codex works from the latest repository, changes the relevant files, validates them, and submits the update through GitHub. For an authorized publication, Codex checks the pull request, merges it, and verifies the Pages deployment.
+## Source files
 
+- `Dominator Tournament/tournament.json`: copied club/bracket template.
+- `Dominator Tournament/control.json`: empty organizer state.
+- `data/tournament-index.json` and `data/tournament-statistics.json`: generated current-event data.
+- `assets/` and root HTML: website layout, replay and results components.
+- `config/companion.json`: approved-results connection settings.
+- `tests/fixtures/`: isolated practice and synthetic test inputs, excluded from publication.
 
-There is no ZIP-copy or GitHub Desktop step for this workflow. GitHub Actions validates updates to `main`. Pages publication is opt-in: configure this repository for GitHub Actions Pages, then set its `PUBLISH_PAGES` Actions variable to `true` when publication is authorized. GitHub Desktop remains optional for changes you make yourself; fetch and pull remote updates before editing a local copy.
-
-
-This is a workflow for requested updates during an active conversation. It does not monitor the repository or invent changes in the background.
-
-
-## Repository map
-
-
-| Path | Purpose |
-| --- | --- |
-| `Dominator Tournament/` | Official bracket configuration, organizer decisions, and round/match/race records |
-| `assets/` and root HTML pages | Website presentation and navigation |
-| `scripts/` | Importing, scoring, organizer controls, and static-site build |
-| `tests/` | Regression tests and isolated fixtures |
-| `config/clubs.json` | Club-profile roster fallback |
-| `config/timeline.json` | Existing homepage schedule |
-| `data/tournament-index.json`, `data/tournament-races/` | Generated website data; rebuild instead of hand-editing |
-| `docs/` | Current maintenance and match-data guides |
-| `docs/history/`, `legacy/` | Superseded instructions and inactive data, preserved for reference |
-
-
-## Guides
-
-
-- [Maintaining and publishing the site](docs/maintaining.md)
-- [Drafts, reported results, race files, and official decisions](docs/match-data.md)
-- [Native race analysis and replay](docs/race-analysis.md)
-- [Known content inconsistencies and deferred work](docs/known-issues.md)
-- [Tournament companion connection and approved-results preview](docs/companion-integration.md)
-
-
-The companion foundation is available at `companion.html`. It reads the operator-approved `dominator-tournament/v1` export, with match selection and player/team totals. Scoring and event binding remain configurable; no results feed or future tournament rules are preloaded.
-
-
-## Local development (optional)
-
-
-Python 3.10+ is sufficient; the backend has no third-party Python dependencies.
-
+## Development
 
 ```sh
 python -m unittest discover -s tests -v
+python scripts/tournament_engine.py build
+node scripts/build_public_stats.cjs
 python scripts/tournament_engine.py site
-node tests/test_replay_client.js
 ```
 
-
-On Windows, `manage_tournament.bat` opens the local organizer and preview. `rebuild_tournament.bat` rescans the archive. These launchers remain available, but are not needed when Codex makes and publishes the update through GitHub.
-
+[Publishing](docs/maintaining.md) · [Match data](docs/match-data.md) · [Companion connection](docs/companion-integration.md) · [Race analysis](docs/race-analysis.md)

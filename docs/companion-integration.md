@@ -1,6 +1,6 @@
 # Tournament companion connection
 
-The site can now read the local companion's existing `dominator-tournament/v1` approved-results export. `companion.html` shows event and per-match standings, each approved heat, course conditions, scoring snapshots, approval details and void corrections. The original archive and bracket remain their own official record.
+The site can now read the local companion's existing `dominator-tournament/v1` approved-results export. `companion.html` shows event and per-match standings, each approved heat, course conditions, scoring snapshots, approval details and void corrections. The copied bracket is a template; the starter contains no old results.
 
 ## Try it before choosing a format
 
@@ -38,7 +38,7 @@ No fake feed is committed: the first valid publication creates the file with the
 
 ## Enable the copied website when ready
 
-This repository is an independent copy. Its Actions checks build and validate every update, while deployment is off by default. When website publication is authorized, choose **GitHub Actions** under this repository's **Settings → Pages**, add the Actions variable `PUBLISH_PAGES` with value `true`, and run **Build and publish tournament** on `main`. This publishes the copied site separately; it does not update the original tournament site. Until then, use the local preview.
+This independent copy is published through GitHub Actions Pages with `PUBLISH_PAGES=true`. Validated updates to `main` deploy the starter. Previous tournament records have been removed; the companion feed remains empty until the new event publishes approved results.
 
 ## Local staging and build
 
