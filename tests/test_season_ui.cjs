@@ -19,6 +19,44 @@ match.winner_id='b';match.loser_id='a';assert.deepEqual(UI.record(future,'a'),{w
 const html=UI.views.stats(future);assert.match(html,/Club B/);assert.match(html,/Club standings/);
 console.log('DDT2 views: clean season, future fixtures, official winner decisions, six prizes, missing statistics and escaped names passed.');
 
+// The interactive guide is a self-contained example, never a tournament mutation.
+{
+ const vm=require('node:vm'),handlers={},browser={matchMedia:()=>({matches:false})},context={window:browser};
+ vm.createContext(context);vm.runInContext(fs.readFileSync(require.resolve('../assets/ddt2-guide.js'),'utf8'),context);
+ const guide=browser.DDT2Guide;
+ for(let mask=0;mask<8;mask++){
+  const podium=[0,1,2].map(i=>mask&(1<<i)?'a':'b'),score=guide.totals(podium);
+  assert.equal(score.a+score.b,7,'All podium assignments conserve the seven race points');
+  assert.equal(score.a,podium.reduce((sum,t,i)=>sum+(t==='a'?[4,2,1][i]:0),0));
+ }
+ const untouched=JSON.stringify(data.index);let animations=0,cancelled=0,focused=-1;
+ const steps=Array.from({length:6},(_,i)=>({dataset:{guideStep:String(i)},setAttribute(k,v){this[k]=v;},focus(){focused=i;}}));
+ const moves=[-1,1].map(i=>({dataset:{guideMove:String(i)}})),position={textContent:''};
+ const panel={innerHTML:'',getAnimations:()=>[{cancel(){cancelled++;}}],querySelector:()=>({animate(){animations++;}})};
+ const scoreButtons=[0,1,2].flatMap(i=>['a','b'].map(t=>({dataset:{scorePlace:String(i),scoreTeam:t},setAttribute(k,v){this[k]=v;}})));
+ const totals={a:{textContent:4},b:{textContent:3}},fractions={},lanes=Object.fromEntries(['a','b'].map(t=>[t,{style:{setProperty(k,v){fractions[t]=v;}}}])),announcement={textContent:''};
+ const root={addEventListener:(name,fn)=>handlers[name]=fn,querySelectorAll:s=>s==='[data-guide-step]'?steps:s==='[data-guide-move]'?moves:scoreButtons,
+  querySelector:s=>s==='#draft-stage'?panel:s==='[data-guide-position]'?position:s==='[data-score-announcement]'?announcement:s.startsWith('[data-score-total')?totals[s.includes('"a"')?'a':'b']:lanes[s.includes('"a"')?'a':'b']};
+ guide.bind(root);
+ const click=(selector,element)=>handlers.click({target:{closest:s=>s===selector?element:null}});
+ click('[data-guide-step]',steps[5]);assert.match(panel.innerHTML,/Train in Unity Cup/);assert.equal(moves[1].disabled,true);
+ click('[data-guide-step]',steps[1]);assert.match(panel.innerHTML,/six remaining tracks/);assert.equal(position.textContent,'Stage 2 of 6');assert.equal(steps[1]['aria-pressed'],'true');
+ assert.equal(cancelled,2,'Rapid selections cancel the old illustration and render immediately');
+ click('[data-guide-step]',steps[1]);assert.equal(cancelled,2,'The current stage does not replay');
+ handlers.keydown({key:'Home',target:{closest:()=>steps[1]},preventDefault(){}});assert.equal(focused,0);assert.equal(moves[0].disabled,true);
+ click('[data-guide-move]',moves[0]);assert.equal(position.textContent,'Stage 1 of 6','Previous at the first stage is bounded');
+ const before=animations;browser.matchMedia=()=>({matches:true});click('[data-guide-step]',steps[4]);assert.equal(animations,before);assert.match(panel.innerHTML,/remaining Uma is benched/);
+ assert.match(guide.walkthrough(),/data-guide-step="4" aria-pressed="true"/,'Stage choice survives a page redraw');
+ handlers.toggle({target:{classList:{contains:()=>true},open:true}});assert.match(guide.walkthrough(),/guide-transcript" open/,'Expanded written steps survive refresh');
+ click('[data-score-place]',scoreButtons[2]);assert.equal(totals.a.textContent,6);assert.equal(totals.b.textContent,1);
+ click('[data-score-place]',scoreButtons[4]);assert.equal(totals.a.textContent,7);assert.equal(totals.b.textContent,0);assert.equal(fractions.a,1);assert.equal(fractions.b,0);
+ assert.equal(announcement.textContent,'Team A: 7 points. Team B: 0 points.');
+ assert.match(guide.scoring(),/data-score-place="2" data-score-team="a" aria-pressed="true"/,'Example choices survive redraw');
+ click('[data-score-place]',{dataset:{scorePlace:'9',scoreTeam:'c'}});assert.equal(totals.a.textContent,7);
+ assert.equal(JSON.stringify(data.index),untouched,'The scoring illustration cannot change published data');
+ console.log('Interactive guide: all scoring combinations, immediate stage changes, bounded controls, keyboard, reduced motion and redraw persistence passed.');
+}
+
 // Exercise the real controller: hash history must not replace the page or reset its scroll.
 (async()=>{
  const vm=require('node:vm'),listeners={},location=new URL('https://example.test/ddt2/stats.html#build-stats');
@@ -38,6 +76,7 @@ console.log('DDT2 views: clean season, future fixtures, official winner decision
  const settle=()=>new Promise(resolve=>setImmediate(resolve));
  vm.createContext(context);
  vm.runInContext(fs.readFileSync(require.resolve('../assets/ddt2-matchday.js'),'utf8'),context);
+ vm.runInContext(fs.readFileSync(require.resolve('../assets/ddt2-guide.js'),'utf8'),context);
  vm.runInContext(fs.readFileSync(require.resolve('../assets/ddt2-app.js'),'utf8'),context);
  await settle();assert.equal(anchors,1,'Direct section links scroll after data loads');
  const before=renders;location.hash='standings';listeners.popstate();await settle();

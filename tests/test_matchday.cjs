@@ -120,7 +120,7 @@ console.log('Matchday: published status, follow persistence, event isolation, mi
  const browser={addEventListener:(k,fn)=>listeners[k]=fn,setInterval:fn=>{poll=fn;},localStorage:store};
  const context={window:browser,document,location,URL,URLSearchParams,console,DDT2:{header:()=>'',footer:()=>''},matchMedia:()=>({matches:true}),Image:class{decode(){return Promise.resolve();}},fetch:async p=>{if(failed)throw Error('Offline');return {ok:true,json:async()=>p.includes('index')?response:p.includes('event')?data.event:p.includes('support')?data.supports:{}};}};
  vm.createContext(context);
- for(const file of ['ddt2-matchday.js','ddt2-app.js'])vm.runInContext(fs.readFileSync(require.resolve('../assets/'+file),'utf8'),context);
+ for(const file of ['ddt2-matchday.js','ddt2-guide.js','ddt2-app.js'])vm.runInContext(fs.readFileSync(require.resolve('../assets/'+file),'utf8'),context);
  await new Promise(r=>setImmediate(r));const initial=renders;
  await poll();assert.equal(renders,initial,'Unchanged data does not interrupt the page');
  failed=true;await poll();assert.match(rendered,/Updates unavailable/);assert.match(rendered,/Preview Club A/);
