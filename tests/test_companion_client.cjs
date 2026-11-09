@@ -10,7 +10,7 @@ const config = require('../config/companion.json');
 const source = fs.readFileSync(path.join(__dirname,'../assets/companion.js'),'utf8');
 const shared = fs.readFileSync(path.join(__dirname,'../assets/site.js'),'utf8');
 const clone = value => JSON.parse(JSON.stringify(value));
-function harness(reply) {
+function harness(reply, hostname='example.test') {
   const elements = new Map(), calls = [];
   const element = id => {
     if (!elements.has(id)) elements.set(id,{id,hidden:false,textContent:'',dataset:{},value:'',html:'',listeners:{},
@@ -20,7 +20,7 @@ function harness(reply) {
     return elements.get(id);
   };
   const context = vm.createContext({console,Response,URL,URLSearchParams,Blob,Date,CompanionContract:contract,
-    location:{search:''},window:{addEventListener(){}},
+    location:{search:'',hostname},window:{addEventListener(){}},
     document:{body:{insertAdjacentHTML(){}},querySelector(){return null;},getElementById:element},
     fetch:async url=>{calls.push(url);return url==='config/companion.json'?new Response(JSON.stringify(config)):reply(url);}});
   vm.runInContext(shared,context);
@@ -31,10 +31,13 @@ function harness(reply) {
 (async()=>{
   let status=404, data=fixture;
   const h=harness(()=>new Response(JSON.stringify(data),{status})); await h.ready;
-  assert.match(h.element('connection-status').textContent,/No approved results/);
+  assert.equal(h.element('local-preview').hidden,true);
+  assert.equal(h.element('local-preview-help').hidden,true);
+  assert.match(h.element('connection-status').textContent,/No race results published/);
   assert.equal(h.element('results').hidden,true);
   status=200; await vm.runInContext('published()',h.context);
-  assert.match(h.element('connection-status').textContent,/Published approved results/);
+  assert.match(h.element('connection-status').textContent,/Published results/);
+  assert.equal(h.element('download').hidden,true);
   assert.match(h.element('match-results').innerHTML,/Demo match A/);
   assert.match(h.element('match-results').innerHTML,/Demo match B/);
   h.element('match-select').value='match-a'; vm.runInContext('renderMatches()',h.context);
@@ -51,15 +54,15 @@ function harness(reply) {
   assert.equal(h.element('results').hidden,true); assert.equal(h.element('download').hidden,true);
   status=503; await vm.runInContext('published()',h.context);
   assert.match(h.element('connection-status').textContent,/HTTP 503/);
-  assert.doesNotMatch(h.element('connection-status').textContent,/No approved results/);
+  assert.doesNotMatch(h.element('connection-status').textContent,/No race results published/);
   status=200; data=clone(fixture); data.results[0].rows[0].name='<img src=x onerror=alert(1)>';
   await vm.runInContext('published()',h.context);
   assert.doesNotMatch(h.element('match-results').innerHTML,/<img src=x/);
   assert.match(h.element('match-results').innerHTML,/&lt;img src=x/);
   data={schema:contract.SCHEMA,tournament:{id:'empty',name:'To be decided',scoring:null},results:[],standings:{players:[],teams:[]},voided:[]};
   await vm.runInContext('published()',h.context);
-  assert.match(h.element('results').innerHTML,/To be decided/);
-  assert.match(h.element('match-results').innerHTML,/first approved heat/);
+  assert.match(h.element('results').innerHTML,/Scoring rules have not been announced/);
+  assert.match(h.element('match-results').innerHTML,/No race results yet/);
   // A slow published fetch must not replace a newer local preview.
   let resolveSlow;
   const slow=harness(()=>new Promise(resolve=>{resolveSlow=resolve;}));
@@ -69,6 +72,10 @@ function harness(reply) {
   resolveSlow(new Response(JSON.stringify(data))); await slow.ready;
   assert.match(slow.element('connection-status').textContent,/LOCAL PREVIEW/);
   assert.equal(slow.element('event-name').textContent,fixture.tournament.name);
-  vm.runInContext('clear()',h.context); vm.runInContext('clear()',slow.context);
+  const local=harness(()=>new Response(JSON.stringify(fixture)),'localhost');await local.ready;
+  assert.equal(local.element('local-preview').hidden,false);
+  assert.equal(local.element('local-preview-help').hidden,false);
+  assert.equal(local.element('download').hidden,false);
+  vm.runInContext('clear()',h.context); vm.runInContext('clear()',slow.context);vm.runInContext('clear()',local.context);
   console.log('Client checks passed: missing feed, published results, match selection, local-only preview, error clearing, escaping, undecided format and stale-response protection.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

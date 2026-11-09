@@ -4,26 +4,25 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Live results · DDT2</title>
   <link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/companion.css">
-  <script src="assets/site.js?v=ddt2" defer></script><script src="assets/companion-contract.js" defer></script><script src="assets/uma-race-art.js?v=2"></script><script src="assets/companion.js?v=2" defer></script>
-<link rel="icon" href="assets/ddt2/favicon.svg" type="image/svg+xml"><link rel="preload" href="assets/ddt2/barlow-condensed-bold.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="assets/ddt2.css?v=1"><script src="assets/ddt2-brand.js?v=2"></script><script src="assets/ddt2-motion.js?v=2" defer></script><link rel="stylesheet" href="assets/ddt2-season.css?v=2"></head>
+  <script src="assets/site.js?v=ddt2" defer></script><script src="assets/companion-contract.js" defer></script><script src="assets/uma-race-art.js?v=2"></script><script src="assets/companion.js?v=3" defer></script>
+<link rel="icon" href="assets/ddt2/favicon.svg" type="image/svg+xml"><link rel="preload" href="assets/ddt2/barlow-condensed-bold.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="assets/ddt2.css?v=1"><script src="assets/ddt2-brand.js?v=3"></script><script src="assets/ddt2-motion.js?v=2" defer></script><link rel="stylesheet" href="assets/ddt2-season.css?v=2"></head>
 <body>
   <main class="page cp-page">
     <a class="cp-back" href="bracket.html">← Back to the bracket</a>
     <header class="page-head">
-      <p class="section-kicker">DDT2 / LIVE RESULTS</p>
       <h1 id="event-name">Live results</h1>
-      <p class="lead">Approved race results, match scores and standings from the tournament desk.</p>
+      <p class="lead">Race results, match scores and standings.</p>
       <div class="cp-actions">
-        <button class="btn primary" id="refresh" type="button">Refresh published results</button>
-        <label class="btn cp-file">Preview an export <input id="preview-file" type="file" accept=".json,application/json"></label>
+        <button class="btn primary" id="refresh" type="button">Refresh results</button>
+        <label class="btn cp-file" id="local-preview" hidden>Preview results file <input id="preview-file" type="file" accept=".json,application/json"></label>
         <button class="btn" id="end-preview" type="button" hidden>Return to published results</button>
-        <a class="btn" id="download" download hidden>Download approved JSON</a>
+        <a class="btn" id="download" download hidden>Download results file</a>
       </div>
-      <p class="cp-help">Preview opens a companion export on this device. Publishing stays in the local tournament desk.</p>
+      <p class="cp-help" id="local-preview-help" hidden>Preview a results file before publishing.</p>
     </header>
-    <p id="connection-status" role="status" aria-live="polite">Loading connection…</p>
-    <section id="results" aria-label="Approved tournament results" hidden></section>
-    <noscript><p>Enable JavaScript to read the approved results.</p></noscript>
+    <p id="connection-status" role="status" aria-live="polite">Loading results…</p>
+    <section id="results" aria-label="Tournament results" hidden></section>
+    <noscript><p>Enable JavaScript to view race results.</p></noscript>
   </main>
 </body>
 </html>

@@ -7,7 +7,7 @@ for(const [key,view] of Object.entries(UI.views)){
  const html=view(data);assert(!/undefined|NaN/.test(html),key);assert(!/Dominator Player|Dominion|Domichill|Quarterfinals|Semifinals|Trophy room|Award/i.test(html),key);
  assert(/<h1/.test(html),key);
 }
-assert.match(UI.views.home(data),/06/);assert.match(UI.views.rules(data),/>6<\/strong>/);
+assert.match(UI.views.home(data),/>6<\/strong>/);assert.match(UI.views.rules(data),/>6<\/strong>/);
 assert.match(UI.views.bracket(data),/Bracket not published/);assert.match(UI.views.clubs(data),/Clubs to be announced/);
 assert.match(UI.views.stats(data),/Standings will appear/);assert.match(UI.views.stats(data),/No data recorded/);
 // Future data remains functional and cannot fabricate a winner from a high score.

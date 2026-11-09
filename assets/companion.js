@@ -2,6 +2,9 @@
 siteHeader(''); siteFooter();
 const contract = CompanionContract;
 const byId = id => document.getElementById(id);
+const localTools = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
+byId('local-preview').hidden = !localTools;
+byId('local-preview-help').hidden = !localTools;
 let connection = null, current = null, generation = 0, downloadURL = null;
 const status = (message, state = '') => {
   byId('connection-status').textContent = message;
@@ -25,14 +28,14 @@ async function loadConnection() {
 }
 async function published() {
   const request = ++generation;
-  clear(); byId('end-preview').hidden = true; status('Loading published results…');
+  clear(); byId('end-preview').hidden = true; status('Loading results…');
   try {
     const settings = await loadConnection(); if (request !== generation) return;
     connection = settings;
     const response = await fetch(settings.resultsPath, {cache:'no-store'});
     if (request !== generation) return;
     if (response.status === 404) {
-      status('Connection ready. No approved results have been published yet. You can preview a companion export while the tournament format is being decided.'); return;
+      status('No race results published yet.'); return;
     }
     if (!response.ok) throw new Error(`Results could not be loaded (HTTP ${response.status}).`);
     const bundle = contract.validate(await readJSON(response), settings.expectedTournamentId);
@@ -61,22 +64,22 @@ function display(bundle, isPreview) {
   byId('event-name').textContent = bundle.tournament.name;
   const last = bundle.results.map(r => r.approvedAt).sort((a,b) => Date.parse(b)-Date.parse(a))[0];
   status(isPreview ? 'LOCAL PREVIEW · This export is visible only on this device. Nothing has been published.' :
-    `Published approved results${last ? ' · Last approval: ' + new Date(last).toLocaleString() : ' · No approved heats yet'}.`, isPreview ? 'preview' : '');
+    `Published results${last ? ' · Updated ' + new Date(last).toLocaleString() : ' · No races yet'}.`, isPreview ? 'preview' : '');
   downloadURL = URL.createObjectURL(new Blob([JSON.stringify(bundle, null, 2) + '\n'], {type:'application/json'}));
-  byId('download').href = downloadURL; byId('download').download = 'approved-results.json'; byId('download').hidden = false;
+  byId('download').href = downloadURL; byId('download').download = 'approved-results.json'; byId('download').hidden = !localTools;
   const matches = [...new Map(bundle.results.map(r => [r.match.id, r.match])).values()];
   const rules = bundle.tournament.scoring;
   byId('results').innerHTML = `
     <div class="cp-summary">
-      <div class="cp-stat"><strong>${bundle.results.length}</strong><span>Approved heats</span></div>
+      <div class="cp-stat"><strong>${bundle.results.length}</strong><span>Completed races</span></div>
       <div class="cp-stat"><strong>${matches.length}</strong><span>Matches with results</span></div>
-      <div class="cp-stat"><strong>${bundle.standings.players.length}</strong><span>Scored players</span></div>
+      <div class="cp-stat"><strong>${bundle.standings.players.length}</strong><span>Players</span></div>
     </div>
     <section class="cp-panel"><h2>Scoring format</h2>${rules ? `
       <ul class="cp-rule-points">${rules.points.map((n,i) => `<li>Place ${i+1} <strong>+${esc(n)}</strong></li>`).join('')}</ul>
       <p class="cp-meta">Points add across approved Uma entries. Unlisted places receive 0 points. Ties: ${rules.tiebreak === 'countback' ? 'countback by finishing position' : 'shared rank'}.</p>
       <p class="cp-meta">Each heat keeps the scoring rules used at approval. These totals do not decide bracket advancement.</p>` :
-      '<p class="cp-meta">To be decided. Set the format in the local tournament desk before approving results.</p>'}</section>
+      '<p class="cp-meta">Scoring rules have not been announced.</p>'}</section>
     <div class="cp-filter"><label for="match-select">Show results for</label><select id="match-select"><option value="">All matches · event totals</option>${matches.map(m => `<option value="${esc(m.id)}">${esc([m.round,m.stage,m.name].filter(Boolean).join(' / '))}</option>`).join('')}</select></div>
     <div id="match-results"></div>
     ${bundle.voided.length ? `<details class="cp-panel cp-audit"><summary>Voided races (${bundle.voided.length}) · excluded from scores</summary><ul>${bundle.voided.map(v => `<li>${esc(v.reason)}<br>Race ${esc(v.raceId)}${v.heatId ? ' · Heat '+esc(v.heatId) : ''}</li>`).join('')}</ul></details>` : ''}`;
@@ -112,9 +115,9 @@ function renderMatches() {
         ${table(['Place','Uma','Player','Team','Gate','Time (s)','Points'], [...r.rows].sort((a,b) => a.rank-b.rank).map(row => `
           <tr><td>${row.rank}</td><td class="cp-name">${esc(row.name)}${row.card ? `<div class="cp-meta">Card ${row.card}</div>` : ''}</td>
           <td>${esc(row.playerName)}</td><td>${esc(row.team || '—')}</td><td>${row.gate}</td><td>${row.finishTime.toFixed(3)}</td><td>${esc(row.points)}</td></tr>`).join(''))}
-        <details class="cp-audit"><summary>Approval details &amp; scoring snapshot</summary><p>Race ${esc(r.raceId)} · Heat ${esc(r.heat.id)}</p>
+        <details class="cp-audit"><summary>Result details</summary><p>Race ${esc(r.raceId)} · Heat ${esc(r.heat.id)}</p>
           <p>Points by place: ${r.rules.points.map(esc).join(', ')} · ${esc(r.rules.tiebreak)} ties</p><p>Fingerprint: ${esc(r.fingerprint)}</p></details>
-      </section>`).join('') : '<section class="cp-panel"><h2>Ready for the first approved heat</h2><p class="cp-meta">Run a race, review it in the tournament desk, then approve and publish when ready.</p></section>'}`;
+      </section>`).join('') : '<section class="cp-panel"><h2>No race results yet</h2><p class="cp-meta">Results will appear after the first race.</p></section>'}`;
   window.UmaRaceArt?.attachAll();
 }
 window.UmaRaceArt?.load().then(()=>{if(current)renderMatches();});
