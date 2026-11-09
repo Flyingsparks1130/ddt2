@@ -157,11 +157,12 @@
     panel.innerHTML=detail(p,d);
     global.UmaRaceArt?.attachAll();
     const art=panel.querySelector?.('.matchday-build-art'),info=panel.querySelector?.('.matchday-build-info');
-    if(!motion()) return;
+    const animate=motion();
+    pick.scrollIntoView?.({behavior:animate?'smooth':'instant',block:'nearest',inline:'nearest'});
+    if(!animate) return;
     // The character is the focal movement; the build stays readable throughout.
     (art||panel).animate?.([{opacity:.25,transform:`translateX(${direction*28}px) scale(.94)`},{opacity:1,transform:'none'}],{duration:460,easing:ease});
     info?.animate?.([{opacity:.55,transform:`translateX(${direction*8}px)`},{opacity:1,transform:'none'}],{duration:320,easing:ease});
-    pick.scrollIntoView?.({behavior:'smooth',block:'nearest',inline:'nearest'});
   }
   function bind(root, getData, rerender) {
     root.addEventListener('change', e => {
