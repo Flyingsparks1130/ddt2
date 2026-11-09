@@ -1,8 +1,8 @@
-# Dominator Tournament Companion Starter
+# DDT2 · Who Will Dominate?
 
-[Live website](https://flyingsparks1130.github.io/dominatornetworktourney2026-companion-starter/) · [Companion results](https://flyingsparks1130.github.io/dominatornetworktourney2026-companion-starter/companion.html)
+[Live website](https://flyingsparks1130.github.io/ddt2/) · [Companion results](https://flyingsparks1130.github.io/ddt2/companion.html)
 
-An independent copy of the original tournament website, prepared as a foundation for the next event. Previous tournament results, race exports, drafts, player lineups, organizer decisions and award standings have been removed. The copied club/bracket structure, rules and artwork remain templates; the next event's format is not finalized.
+The second chapter of the Dominator Draft Tournament, built on the original DDT 2026 site. A crimson, black and gold interface features Gentildonna in her official race outfit, a shared tournament shell and short animated Uma transitions. Previous tournament results, race exports, drafts, player lineups, organizer decisions and award standings have been removed. The copied club/bracket structure, rules and artwork remain templates; the next event's format is not finalized.
 
 GitHub Actions tests and publishes updates to `main`. Pages uses GitHub Actions and the repository variable `PUBLISH_PAGES=true`.
 
@@ -29,3 +29,9 @@ python scripts/tournament_engine.py site
 ```
 
 [Publishing](docs/maintaining.md) · [Match data](docs/match-data.md) · [Companion connection](docs/companion-integration.md) · [Race analysis](docs/race-analysis.md)
+
+## Design and motion
+
+`assets/ddt2.css` owns the DDT2 visual system; `ddt2-brand.js` shares navigation and the footer, and `ddt2-motion.js` provides progressive navigation transitions. Normal document navigation, modifier clicks, downloads and deep links remain intact. Device reduced-motion preferences and the **Motion** button disable animation.
+
+[Artwork sources and credits](docs/artwork-credits.md).

@@ -28,7 +28,7 @@ When publication is authorized, the companion's GitHub target can be:
 | Field | Value |
 | --- | --- |
 | Owner | `Flyingsparks1130` |
-| Repository | `dominatornetworktourney2026-companion-starter` |
+| Repository | `ddt2` |
 | Branch | The review branch first; `main` only when ready for live publication |
 | File | `data/companion/approved-results.json` |
 
