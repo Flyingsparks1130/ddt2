@@ -83,3 +83,64 @@
 .matchday-points>div{display:grid;gap:8px}.matchday-points span,.matchday-points small{font-size:11px;color:var(--muted)}.matchday-points strong{font:700 48px/1 var(--display);color:var(--gold)}
 @media(max-width:600px){.matchday-rule-steps{grid-template-columns:1fr}.matchday-rule-steps li{padding-left:48px;padding-right:0}.matchday-rule-steps p{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.matchday-picker img,.matchday-picker button,.matchday-follow{transition:none}}
+
+/* Character selection: a stable stage above a compact, always available roster. */
+.matchday-lineup{display:flex;flex-direction:column;background:linear-gradient(135deg,#6b101b99,#200307 62%)}
+.matchday-lineup>header{order:0;position:relative;z-index:2}
+.matchday-build{order:1;position:relative;isolation:isolate;grid-template-columns:minmax(140px,1fr) minmax(0,1fr);gap:18px;padding:24px 24px 28px;min-height:480px;flex:1}
+.matchday-build-art{align-self:stretch;background:linear-gradient(115deg,transparent 10%,#c0363d22 10%,#c0363d22 65%,transparent 65%)}
+.matchday-build-art:before{content:'';position:absolute;inset:6% 18% 8%;border-left:1px solid #e7c96f55;transform:skew(-12deg);pointer-events:none}
+.matchday-build-art:after{inset:auto 0 5%;height:20px;transform:rotate(-6deg);background:#08000299;border:1px solid #e7c96f28;filter:blur(3px)}
+.matchday-build-art .uma-art,.matchday-build-art .uma-art-placeholder,.matchday-lineups.is-single .matchday-build-art .uma-art{height:420px;transform-origin:50% 85%}
+.matchday-build-art img{filter:drop-shadow(1px 0 0 #edcc7b88) drop-shadow(-1px 0 0 #edcc7b66) drop-shadow(0 16px 16px #08000088)}
+.matchday-build-info{padding-top:26px;align-self:center}
+.matchday-build-info h3{font-size:36px;line-height:1.02}
+.matchday-owner{letter-spacing:.6px}
+.matchday-picker{order:2;border-top:1px solid var(--line);padding:16px 18px;background:#16020588;scroll-snap-type:x proximity;overscroll-behavior-x:contain}
+.matchday-picker button{flex:1 0 84px;max-width:120px;scroll-snap-align:center;overflow:hidden;border-color:transparent;min-height:112px}
+.matchday-picker button .uma-art,.matchday-picker button .uma-art-placeholder{height:76px;min-height:76px;line-height:76px}
+.matchday-picker button[aria-pressed=true]{border-color:var(--gold);box-shadow:inset 0 -2px var(--gold);background:linear-gradient(#a32a3544,#6b171d66)}
+.matchday-picker button:focus-visible{outline:2px solid var(--paper);outline-offset:-4px}
+.matchday-lineups.is-single{max-width:1000px}
+
+/* One entrance, then an ordinary interactive scoreboard. */
+.matchday-entrance{border-block:1px solid var(--line);background:linear-gradient(110deg,#46070fbb,#190205d9 50%,#670c16bb);padding:20px 30px 32px;overflow:hidden}
+.matchday-entrance-round{display:flex;justify-content:space-between;gap:15px;font-size:10px;color:var(--gold-soft);letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid #e7c96f1c;padding-bottom:18px;margin-bottom:24px}
+.matchday-faceoff{display:grid;grid-template-columns:minmax(0,1fr) 80px minmax(0,1fr);gap:24px;align-items:center}
+.matchday-contender{display:flex;gap:20px;align-items:center;min-width:0}
+.matchday-contender>div{min-width:0;flex:1}
+.matchday-contender a,.matchday-contender>div>span{display:block;font:700 clamp(26px,3.3vw,48px)/1.05 var(--display);overflow-wrap:anywhere}
+.matchday-contender a:hover{color:var(--gold)}
+.matchday-contender small{display:block;margin-top:10px;color:var(--gold);font-size:10px;text-transform:uppercase;letter-spacing:2px}
+.matchday-contender>strong{font:700 64px/1 var(--display);color:var(--gold)}
+.matchday-club-mark{display:grid;place-items:center;width:64px;height:76px;flex:none;border:1px solid #e7c96f66;clip-path:polygon(0 0,100% 0,100% 78%,50% 100%,0 78%);background:linear-gradient(150deg,#d4a34722,#200307);font:700 40px/1 var(--display);color:var(--gold-soft)}
+.matchday-faceoff-vs{text-align:center;color:var(--gold);font:700 24px/1 var(--display);font-style:italic;position:relative}
+.matchday-faceoff-vs:before,.matchday-faceoff-vs:after{content:'';display:block;width:1px;height:28px;background:var(--line);margin:12px auto;transform:rotate(20deg)}
+.matchday-contender:last-child{flex-direction:row-reverse;text-align:right}
+.matchday-entrance.is-entering .matchday-contender{animation:matchday-arrive-left .62s var(--ease-motion) both}
+.matchday-entrance.is-entering .matchday-contender:last-child{animation-name:matchday-arrive-right}
+.matchday-entrance.is-entering .matchday-faceoff-vs{animation:matchday-vs .52s var(--ease-motion) both}
+@keyframes matchday-arrive-left{from{opacity:.2;transform:translateX(-40px)}to{opacity:1;transform:none}}
+@keyframes matchday-arrive-right{from{opacity:.2;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes matchday-vs{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+
+/* The gold route follows confirmed appearances only. */
+.matchday-path-tools{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 22px;border:1px solid var(--line);border-bottom:0;background:#230307}
+.matchday-path-tools label{font-size:12px;color:var(--gold)}
+.matchday-path-tools select{max-width:100%;min-height:44px;padding:10px 36px 10px 12px;border:1px solid var(--line);background:#35070b;color:var(--paper);font-size:12px}
+.matchday-path-summary{font-size:11px;color:var(--muted);margin-left:auto;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.matchday-path-summary a{color:var(--gold);padding:8px 0;border-bottom:1px solid var(--line)}
+.season-bracket-scroll{display:block;padding:24px;scrollbar-color:var(--gold-soft) #250306;overscroll-behavior-x:contain}
+.matchday-bracket-board{position:relative;display:flex;gap:50px;min-width:100%;width:max-content}
+.matchday-bracket-board .season-bracket-round{width:295px;flex:1 0 295px;min-width:0}
+.matchday-path-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;color:var(--gold)}
+.matchday-path-lines path{fill:none;stroke:currentColor;stroke-width:2;stroke-dasharray:1;stroke-dashoffset:0;filter:drop-shadow(0 0 4px #e7c96f33)}
+.matchday-bracket-board .season-match{transition:border-color .3s,opacity .3s,box-shadow .3s;background:linear-gradient(130deg,#280207,#51060c)}
+.matchday-bracket-board[data-has-club=true] .season-match:not(.is-club-path){opacity:.5}
+.matchday-bracket-board[data-has-club=true] .season-match:not(.is-club-path):hover,.matchday-bracket-board .season-match:focus-visible{opacity:1}
+.matchday-bracket-board .is-club-path{border-color:var(--gold);box-shadow:0 0 0 1px #e7c96f22,0 0 30px #e7c96f0c}
+.is-path-team .season-team-label:before{content:'★';display:inline-block;font:12px/1 sans-serif;margin-right:6px;color:var(--gold)}
+@media(max-width:1100px){.matchday-build{gap:12px;padding:18px;grid-template-columns:minmax(120px,.9fr) minmax(0,1.1fr)}.matchday-build-art .uma-art{height:390px}.matchday-club-mark{width:46px;height:58px;font-size:30px}.matchday-contender{gap:12px}.matchday-faceoff{gap:15px;grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr)}}
+@media(max-width:850px){.matchday-build{grid-template-columns:minmax(170px,1fr) minmax(0,1fr)}.matchday-build-art .uma-art{height:430px}.matchday-build-info h3{font-size:40px}.matchday-picker button{max-width:none}}
+@media(max-width:600px){.matchday-build,.matchday-lineups.is-single .matchday-build{grid-template-columns:minmax(100px,.85fr) minmax(0,1.15fr);padding:16px 12px 24px;gap:10px;min-height:400px}.matchday-build-art .uma-art,.matchday-build-art .uma-art-placeholder,.matchday-lineups.is-single .matchday-build-art .uma-art{height:340px}.matchday-build-info{padding-top:8px}.matchday-build-info h3{font-size:29px}.matchday-picker{padding:12px;gap:6px}.matchday-picker button{flex-basis:75px}.matchday-entrance{padding:16px 16px 24px}.matchday-faceoff{gap:12px;grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr)}.matchday-contender,.matchday-contender:last-child{flex-direction:column;text-align:center;gap:12px;align-self:stretch}.matchday-contender>strong{font-size:48px}.matchday-contender a,.matchday-contender>div>span{font-size:29px}.matchday-club-mark{width:42px;height:50px;font-size:26px}.matchday-faceoff-vs{font-size:20px}.matchday-path-tools{padding:16px;gap:12px}.matchday-path-summary{margin-left:0;width:100%}.matchday-path-tools select{flex:1;min-width:0}.matchday-bracket-board{gap:36px}.season-bracket-scroll{padding:18px}.matchday-bracket-board .season-bracket-round{width:270px;flex-basis:270px}}
+@media(prefers-reduced-motion:reduce){.matchday-entrance.is-entering *{animation:none!important}.matchday-bracket-board .season-match{transition:none}}

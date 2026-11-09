@@ -4,6 +4,10 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const url = m => `archive.html?${new URLSearchParams({round:m.round, match:m.id})}`;
   const selected = new Map();
+  const introduced = new Set();
+  const motion = () => !global.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const ease = 'cubic-bezier(.22,1,.36,1)';
+  let bracketObserver;
   const rows = m => (m.lineup?.length ? m.lineup : m.draft_lineup?.length ? m.draft_lineup : m.draft?.roster || []).filter(p => !p.benched);
   const belongs = (m, id) => m.participants?.some(t => t?.id === id);
   const ended = m => Boolean(m.winner_id) || ['complete','forfeit'].includes(m.status);
@@ -87,10 +91,95 @@
     const m = [...d.index.matches].reverse().find(m => rows(m).some(p => p.team_id === id));
     return m ? `<a class="season-text-link" href="${esc(url(m))}">View match →</a>${lineups(d,m,id)}` : '<p class="season-no-data">Lineup not announced.</p>';
   }
+  function pathMatches(index, id) {
+    if (!index.teams.some(t => t.id === id)) return [];
+    const order = new Map(index.rounds.map((r,i) => [r.id,i]));
+    return index.matches.filter(m => belongs(m,id)).slice().sort((a,b) => (order.get(a.round) ?? Infinity)-(order.get(b.round) ?? Infinity));
+  }
+  const pathClub = d => d.index.teams.some(t => t.id === (d.bracketClub ?? d.favorite)) ? (d.bracketClub ?? d.favorite) : '';
+  function pathSummary(d, id) {
+    if (!id) return 'Choose a club to highlight its fixtures.';
+    const matches = pathMatches(d.index,id), upcoming = matches.find(m => !ended(m) && ['ready','in_progress'].includes(m.status));
+    return `${matches.length} published ${matches.length===1?'fixture':'fixtures'}${upcoming ? ` <a href="${esc(url(upcoming))}">${upcoming.status==='ready'?'Next match':'Latest results'} ↗</a>` : ''}`;
+  }
+  function bracketTools(d) {
+    const id = pathClub(d);
+    return `<div class="matchday-path-tools"><label for="bracket-club">Club path</label><select id="bracket-club"><option value="">All clubs</option>${d.index.teams.map(t => `<option value="${esc(t.id)}" ${t.id===id?'selected':''}>${esc(t.name)}</option>`).join('')}</select><p class="matchday-path-summary" role="status">${pathSummary(d,id)}</p></div>`;
+  }
+  function paintBracket(root,d,animate=false) {
+    const board = root.querySelector('.matchday-bracket-board');
+    if (!board?.getBoundingClientRect) return;
+    const id = pathClub(d), ids = new Set(pathMatches(d.index,id).map(m => m.id));
+    board.dataset.hasClub = String(Boolean(id));
+    const cards = [...board.querySelectorAll('[data-match-id]')];
+    cards.forEach(card => {
+      card.classList.toggle('is-club-path',ids.has(card.dataset.matchId));
+      card.querySelectorAll('[data-club-id]').forEach(side => side.classList.toggle('is-path-team',side.dataset.clubId===id));
+    });
+    const summary=root.querySelector('.matchday-path-summary');
+    if(summary) summary.innerHTML=pathSummary(d,id);
+    const svg=board.querySelector('.matchday-path-lines'), origin=board.getBoundingClientRect();
+    const stops=pathMatches(d.index,id).map(m=>cards.find(c=>c.dataset.matchId===m.id)).filter(Boolean);
+    svg.setAttribute('viewBox',`0 0 ${board.scrollWidth} ${board.scrollHeight}`);
+    svg.innerHTML=stops.slice(1).map((card,i)=>{
+      const a=stops[i].getBoundingClientRect(),b=card.getBoundingClientRect();
+      // Only join published appearances in successive columns; no projected advancement.
+      if(b.left<a.right) return '';
+      const x=a.right-origin.left,y=a.top+a.height/2-origin.top,xx=b.left-origin.left,yy=b.top+b.height/2-origin.top,mid=(x+xx)/2;
+      return `<path d="M${x},${y} C${mid},${y} ${mid},${yy} ${xx},${yy}" pathLength="1"/>`;
+    }).join('');
+    if(animate && motion()) svg.querySelectorAll('path').forEach(p=>p.animate([{strokeDashoffset:1},{strokeDashoffset:0}],{duration:650,easing:ease}));
+    if(animate && id) {
+      const focusMatch=pathMatches(d.index,id).find(m=>!ended(m)&&['ready','in_progress'].includes(m.status));
+      (cards.find(c=>c.dataset.matchId===focusMatch?.id)||stops[0])?.scrollIntoView({behavior:motion()?'smooth':'instant',block:'nearest',inline:'center'});
+    }
+  }
+  function entrance(d,m) {
+    const round=d.index.rounds.find(r=>r.id===m.round);
+    return `<section class="matchday-entrance" data-match-entrance="${esc(m.round+':'+m.id)}" aria-label="Match score"><p class="matchday-entrance-round">${esc(round?.name || m.round)} <span>${esc(m.id.toUpperCase())}</span></p><div class="matchday-faceoff">${[0,1].map(i=>{
+      const t=m.participants?.[i];
+      return `<div class="matchday-contender"><span class="matchday-club-mark" aria-hidden="true">${esc(t?.name?.slice(0,1) || '—')}</span><div>${t?`<a href="club.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:'<span>Opponent to be confirmed</span>'}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div><strong>${esc(m.scores?.[t?.id] ?? '—')}</strong></div>`;
+    }).join('<span class="matchday-faceoff-vs" aria-hidden="true">VS</span>')}</div></section>`;
+  }
+  function present(root,d,{enter=false}={}) {
+    bracketObserver?.disconnect();
+    paintBracket(root,d);
+    const board=root.querySelector('.matchday-bracket-board');
+    if(board?.getBoundingClientRect && global.ResizeObserver){bracketObserver=new global.ResizeObserver(()=>paintBracket(root,d));bracketObserver.observe(board);}
+    const fixture=root.querySelector('[data-match-entrance]');
+    if(enter && fixture?.dataset?.matchEntrance && !introduced.has(fixture.dataset.matchEntrance)) {
+      introduced.add(fixture.dataset.matchEntrance);
+      if(motion()) fixture.classList.add('is-entering');
+    }
+  }
+  function selectRunner(panel,p,d,pick,direction) {
+    panel.getAnimations?.({subtree:true}).forEach(a=>a.cancel());
+    panel.innerHTML=detail(p,d);
+    global.UmaRaceArt?.attachAll();
+    const art=panel.querySelector?.('.matchday-build-art'),info=panel.querySelector?.('.matchday-build-info');
+    const animate=motion();
+    pick.scrollIntoView?.({behavior:animate?'smooth':'instant',block:'nearest',inline:'nearest'});
+    if(!animate) return;
+    // The character is the focal movement; the build stays readable throughout.
+    (art||panel).animate?.([{opacity:.25,transform:`translateX(${direction*28}px) scale(.94)`},{opacity:1,transform:'none'}],{duration:460,easing:ease});
+    info?.animate?.([{opacity:.55,transform:`translateX(${direction*8}px)`},{opacity:1,transform:'none'}],{duration:320,easing:ease});
+  }
   function bind(root, getData, rerender) {
     root.addEventListener('change', e => {
+      if(e.target.id==='bracket-club') {
+        const d=getData(),id=e.target.value;
+        if(id&&!d.index.teams.some(t=>t.id===id)) return;
+        d.bracketClub=id;paintBracket(root,d,true);return;
+      }
       if (e.target.id !== 'follow-club') return;
       follow(e.target.value);
+    });
+    root.addEventListener('keydown',e=>{
+      const pick=e.target.closest('[data-runner]');
+      if(!pick||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
+      const buttons=[...pick.closest('.matchday-picker').querySelectorAll('[data-runner]')],i=buttons.indexOf(pick);
+      const next=e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;
+      e.preventDefault();buttons[next].focus({preventScroll:true});buttons[next].click();
     });
     function follow(id) {
       const d = getData();
@@ -111,13 +200,11 @@
         const team = m?.participants.find(t => t && `${m.round}:${m.id}:${t.id}` === groupEl.dataset.lineupGroup);
         const p = rows(m || {}).filter(p => p.team_id === team?.id)[Number(pick.dataset.runner)];
         if (!p || pick.getAttribute?.('aria-pressed') === 'true' || selected.get(groupEl.dataset.lineupGroup) === identity(p)) return;
+        const previous=[...groupEl.querySelectorAll('[data-runner]')].find(b=>b.getAttribute?.('aria-pressed')==='true');
         selected.set(groupEl.dataset.lineupGroup, identity(p));
         groupEl.querySelectorAll('[data-runner]').forEach(b => b.setAttribute('aria-pressed',String(b===pick)));
         const panel = groupEl.querySelector('.matchday-build');
-        panel.innerHTML = detail(p,d);
-        global.UmaRaceArt?.attachAll();
-        panel.getAnimations?.().forEach(a => a.cancel());
-        if (!global.matchMedia('(prefers-reduced-motion: reduce)').matches) panel.animate([{opacity:.35,transform:'translateX(8px)'},{opacity:1,transform:'none'}],{duration:360,easing:'cubic-bezier(.22,1,.36,1)'});
+        selectRunner(panel,p,d,pick,Number(pick.dataset.runner)<Number(previous?.dataset.runner)?-1:1);
       }
       const share = e.target.closest('[data-share-match]');
       if (share) {
@@ -131,7 +218,7 @@
       if (d && (e.key===preference.key(d.event.id) || e.key===null)) { preference.external(d.event.id); d.favorite=preference.get(d.event.id,d.index.teams); rerender(); }
     });
   }
-  const api = {featured,createPreference,preference,followButton,hub,lineups,clubLineup,detail,bind};
+  const api = {featured,createPreference,preference,followButton,hub,lineups,clubLineup,detail,bind,pathMatches,bracketTools,paintBracket,entrance,present};
   global.DDT2Matchday = api;
   if (typeof module !== 'undefined' && module.exports) module.exports=api;
 })(typeof window !== 'undefined' ? window : globalThis);
