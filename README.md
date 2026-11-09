@@ -2,7 +2,7 @@
 
 [Live site](https://flyingsparks1130.github.io/ddt2/) · [Race artwork library](https://github.com/Flyingsparks1130/uma-race-art)
 
-Dominator Draft Tournament 2. The event starts with no registered clubs, rounds, matches, drafts, scores or race exports. The Rulebook includes the organizer's five-trainer draft format, Unity Cup build requirements and 4/2/1 scoring to 25 points. The prize pool is six Discord Nitro prizes; allocation and the schedule are to be announced.
+Dominator Draft Tournament 2 starts November 29, 2026. No clubs, rounds, matches, drafts, scores or race exports have been registered yet. The Rulebook includes the organizer's five-trainer draft format, Unity Cup build requirements and 4/2/1 scoring to 25 points. The prize pool is six Discord Nitro prizes; allocation and match times are to be announced.
 
 ## Public interface
 

@@ -110,13 +110,14 @@
         const m = d.index.matches.find(m => m.id === matchEl.dataset.lineupMatch);
         const team = m?.participants.find(t => t && `${m.round}:${m.id}:${t.id}` === groupEl.dataset.lineupGroup);
         const p = rows(m || {}).filter(p => p.team_id === team?.id)[Number(pick.dataset.runner)];
-        if (!p) return;
+        if (!p || pick.getAttribute?.('aria-pressed') === 'true' || selected.get(groupEl.dataset.lineupGroup) === identity(p)) return;
         selected.set(groupEl.dataset.lineupGroup, identity(p));
         groupEl.querySelectorAll('[data-runner]').forEach(b => b.setAttribute('aria-pressed',String(b===pick)));
         const panel = groupEl.querySelector('.matchday-build');
         panel.innerHTML = detail(p,d);
         global.UmaRaceArt?.attachAll();
-        if (!global.matchMedia('(prefers-reduced-motion: reduce)').matches) panel.animate([{opacity:.2,transform:'translateY(7px)'},{opacity:1,transform:'none'}],{duration:240,easing:'ease-out'});
+        panel.getAnimations?.().forEach(a => a.cancel());
+        if (!global.matchMedia('(prefers-reduced-motion: reduce)').matches) panel.animate([{opacity:.35,transform:'translateX(8px)'},{opacity:1,transform:'none'}],{duration:360,easing:'cubic-bezier(.22,1,.36,1)'});
       }
       const share = e.target.closest('[data-share-match]');
       if (share) {

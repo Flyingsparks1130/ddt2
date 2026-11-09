@@ -1,6 +1,6 @@
 # Event configuration
 
-DDT2 has no confirmed clubs, rounds, fixtures or drafts. Registration and dates remain unannounced. The confirmed prize count is six; allocation is not yet set.
+DDT2 starts November 29, 2026. No clubs, rounds, fixtures or drafts have been confirmed. Registration details and match times remain unannounced. The confirmed prize count is six; allocation is not yet set.
 
 The organizer supplied the match format: five trainers per team, six tracks plus a tiebreaker, Unity Cup, a 24-hour training window, one submitted build per trainer used on every track, 4/2/1 podium scoring and a 25-point target. The Rulebook describes the supplied track and Uma draft sequence. Existing scoring defaults already match these values. Official winners still require an organizer decision.
 
