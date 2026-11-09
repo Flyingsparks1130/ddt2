@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       contents: read
       pages: read
@@ -52,7 +52,7 @@ jobs:
   deploy:
     if: github.event_name != 'pull_request' && vars.PUBLISH_PAGES == 'true'
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       pages: write
       id-token: write
