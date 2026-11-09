@@ -19,7 +19,11 @@ class EmptyStarterTests(unittest.TestCase):
         self.assertEqual(control['revision'], 0)
         for key in ('decisions', 'race_overrides', 'roster', 'audit'):
             self.assertFalse(control[key], key)
-        self.assertEqual(len(index['matches']), 10)
+        self.assertEqual(index['matches'], [])
+        self.assertEqual(index['teams'], [])
+        self.assertEqual(index['rounds'], [])
+        self.assertFalse(index['published'])
+        self.assertEqual(index['prize']['count'], 6)
         for match in index['matches']:
             for key in ('winner_id', 'scores', 'draft', 'reported_results', 'races', 'lineup', 'player_points'):
                 self.assertFalse(match[key], (match['id'], key))
@@ -37,4 +41,4 @@ class EmptyStarterTests(unittest.TestCase):
         config = json.loads((ROOT / 'config/awards.json').read_text())
         self.assertFalse(config['reveal'])
         self.assertFalse(config['disqualifications'])
-        self.assertFalse(config['mvp_champion_tiebreak']['enabled'])
+        self.assertEqual(config['images'], {})

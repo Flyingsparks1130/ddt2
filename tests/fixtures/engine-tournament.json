@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "id": "synthetic-engine-fixture",
+  "name": "Synthetic test tournament",
+  "published": true,
+  "source_note": "Synthetic engine test fixture; never published.",
+  "rounds": [
+    {
+      "id": "R1",
+      "name": "Round 1",
+      "order": 1
+    },
+    {
+      "id": "R2",
+      "name": "Quarterfinals",
+      "order": 2
+    },
+    {
+      "id": "R3",
+      "name": "Semifinals",
+      "order": 3
+    },
+    {
+      "id": "R4",
+      "name": "Grand Final",
+      "order": 4
+    }
+  ],
+  "teams": [
+    {
+      "id": "test-club-a",
+      "name": "Test Club A",
+      "seed": 1,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-b",
+      "name": "Test Club B",
+      "seed": 2,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-c",
+      "name": "Test Club C",
+      "seed": 3,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-d",
+      "name": "Test Club D",
+      "seed": 4,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-e",
+      "name": "Test Club E",
+      "seed": 5,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-f",
+      "name": "Test Club F",
+      "seed": 6,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-g",
+      "name": "Test Club G",
+      "seed": 7,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-h",
+      "name": "Test Club H",
+      "seed": 8,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-i",
+      "name": "Test Club I",
+      "seed": 9,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-j",
+      "name": "Test Club J",
+      "seed": 10,
+      "club_id": null,
+      "aliases": []
+    },
+    {
+      "id": "test-club-k",
+      "name": "Test Club K",
+      "seed": 11,
+      "club_id": null,
+      "aliases": []
+    }
+  ],
+  "scoring": {
+    "points_by_place": [
+      4,
+      2,
+      1
+    ],
+    "standard_races": 6,
+    "target_points": 25,
+    "expected_entries": 10,
+    "players_per_team": 5,
+    "auto_finalize": false
+  },
+  "matches": [
+    {
+      "id": "r1-m1",
+      "round": "R1",
+      "slot": 1,
+      "sources": [
+        {
+          "team": "test-club-i"
+        },
+        {
+          "team": "test-club-h"
+        }
+      ]
+    },
+    {
+      "id": "r1-m2",
+      "round": "R1",
+      "slot": 2,
+      "sources": [
+        {
+          "team": "test-club-k"
+        },
+        {
+          "team": "test-club-f"
+        }
+      ]
+    },
+    {
+      "id": "r1-m3",
+      "round": "R1",
+      "slot": 3,
+      "sources": [
+        {
+          "team": "test-club-g"
+        },
+        {
+          "team": "test-club-j"
+        }
+      ]
+    },
+    {
+      "id": "r2-m1",
+      "round": "R2",
+      "slot": 1,
+      "sources": [
+        {
+          "team": "test-club-a"
+        },
+        {
+          "winner_of": "r1-m1"
+        }
+      ]
+    },
+    {
+      "id": "r2-m2",
+      "round": "R2",
+      "slot": 2,
+      "sources": [
+        {
+          "team": "test-club-e"
+        },
+        {
+          "team": "test-club-d"
+        }
+      ]
+    },
+    {
+      "id": "r2-m3",
+      "round": "R2",
+      "slot": 3,
+      "sources": [
+        {
+          "team": "test-club-c"
+        },
+        {
+          "winner_of": "r1-m2"
+        }
+      ]
+    },
+    {
+      "id": "r2-m4",
+      "round": "R2",
+      "slot": 4,
+      "sources": [
+        {
+          "winner_of": "r1-m3"
+        },
+        {
+          "team": "test-club-b"
+        }
+      ]
+    },
+    {
+      "id": "r3-m1",
+      "round": "R3",
+      "slot": 1,
+      "sources": [
+        {
+          "winner_of": "r2-m1"
+        },
+        {
+          "winner_of": "r2-m2"
+        }
+      ]
+    },
+    {
+      "id": "r3-m2",
+      "round": "R3",
+      "slot": 2,
+      "sources": [
+        {
+          "winner_of": "r2-m3"
+        },
+        {
+          "winner_of": "r2-m4"
+        }
+      ]
+    },
+    {
+      "id": "r4-m1",
+      "round": "R4",
+      "slot": 1,
+      "sources": [
+        {
+          "winner_of": "r3-m1"
+        },
+        {
+          "winner_of": "r3-m2"
+        }
+      ]
+    }
+  ]
+}

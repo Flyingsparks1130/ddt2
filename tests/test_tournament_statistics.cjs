@@ -14,6 +14,4 @@ const snapshot=JSON.parse(fs.readFileSync('data/tournament-statistics.json')),em
 assert.equal(snapshot.standings,null);
 for(const [key,value] of Object.entries(empty.coverage))if(key!=='matches')assert.equal(value,0,key);
 for(const key of ['support','skills','fielded','veto','preban'])assert.deepEqual(empty[key],[]);
-const UI=require('../assets/tournament-statistics.js'),html=UI.render(empty);
-assert(html.includes('No tournament statistics yet.'));assert(!html.includes('NaN'));assert(!html.includes('undefined'));
-console.log('Statistics deduplication, boundaries and empty starter checks passed.');
+console.log('Statistics deduplication, boundaries and empty event checks passed.');

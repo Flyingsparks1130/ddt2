@@ -19,7 +19,7 @@ def attach_participants(matches, race_docs, portraits=None):
     by_variant = {p['variant_id']: p for p in portraits.values()}
     clubs = {}
     for match in matches:
-        draft = [{**r, **portraits.get(r['uma'], {})}
+        draft = [{**portraits.get(r['uma'], {}), **r}
                  for r in (match.get('draft') or {}).get('roster', [])]
         match['draft_lineup'] = [{**r, 'display_name': r.get('display_name') or display_name(r.get('discord'))}
                                 for r in draft]
@@ -34,7 +34,9 @@ def attach_participants(matches, race_docs, portraits=None):
             return {**selection, **by_variant.get(row['variant_id'], {}),
                     'team_id': row['team_id'], 'uma': selection.get('uma', row['uma']),
                     'variant_id': row['variant_id'], 'display_name': display_name(row['owner']),
-                    'benched': False}
+                    'benched': False, 'stats': row.get('stats', {}),
+                    'build_fingerprint': row.get('build_fingerprint'),
+                    'running_style': row.get('running_style')}
 
         if verified:
             lineup = [runner(r) for r in sorted(verified[-1]['results'], key=lambda r: (r['team_id'] or '', r['owner'].casefold()))

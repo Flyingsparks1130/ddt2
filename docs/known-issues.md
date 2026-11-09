@@ -1,5 +1,5 @@
-# Starter configuration
+# Event configuration
 
-The copied bracket, club list and rules are templates. Finalize the next tournament's format, roster, dates and prizes before announcing it. Previous results, drafts, race exports and award decisions have been removed.
+DDT2 has no confirmed clubs, rounds, fixtures or drafts. Final rules, registration and dates remain unannounced. The confirmed prize count is six; allocation is not yet set.
 
-Companion event binding and scoring are still unset. The approved-results page correctly shows an empty state until the companion publishes an export. Practice fixtures belong only in tests and are excluded from the public site.
+The organizer engine retains its configurable scoring defaults and four-round bracket validation. These are implementation defaults, not announced DDT2 rules. Confirm the event format before adding a new structure.

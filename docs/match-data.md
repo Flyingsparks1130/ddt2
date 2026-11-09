@@ -4,7 +4,7 @@ The public navigation follows tournament → round → matchup → race descript
 
 ## Folder contents
 
-Example: `Dominator Tournament/R1/Dominion vs Dominarium/`
+Example: `Dominator Tournament/R1/Example Club A vs Example Club B/`
 
 | File or folder | Purpose |
 | --- | --- |

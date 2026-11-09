@@ -9,7 +9,7 @@ const status = (message, state = '') => {
 };
 function clear() {
   current = null; byId('results').replaceChildren(); byId('results').hidden = true;
-  byId('event-name').textContent = 'Tournament connection'; byId('download').hidden = true;
+  byId('event-name').textContent = 'Live results'; byId('download').hidden = true;
   if (downloadURL) URL.revokeObjectURL(downloadURL); downloadURL = null;
 }
 async function readJSON(response) {
@@ -101,20 +101,23 @@ function renderMatches() {
   const link = connection.matchLinks.find(m => m.companionMatchId === selected);
   const archiveURL = link ? `archive.html?${new URLSearchParams({round:link.archiveRoundId,match:link.archiveMatchId})}` : null;
   byId('match-results').innerHTML = `
-    ${archiveURL ? `<p><a class="cp-link" href="${esc(archiveURL)}">View linked archive match →</a></p>` : ''}
+    ${archiveURL ? `<p><a class="cp-link" href="${esc(archiveURL)}">View match details →</a></p>` : ''}
     <p class="cp-meta">${selected ? 'Selected match' : 'Entire event'} · ${results.length} approved heats. Each Uma contributes its awarded points to its player and, when assigned, team.</p>
     <div class="cp-standings">${standingTable(players,'Player standings')}${standingTable(teams,'Team standings')}</div>
     ${results.length ? [...results].sort((a,b) => a.match.id.localeCompare(b.match.id) || a.heat.number-b.heat.number).map(r => `
       <section class="cp-panel"><div class="cp-heat-head"><div><h3>${esc(r.match.name)} · Heat ${r.heat.number}</h3>
         <p class="cp-meta">${esc([r.match.round,r.match.stage].filter(Boolean).join(' · '))}</p><p class="cp-meta">${esc(contract.course(r.track))}</p></div>
         <div class="cp-meta">Approved ${esc(new Date(r.approvedAt).toLocaleString())}<br>By ${esc(r.operator)}</div></div>
+        <div class="cp-uma-gallery">${[...r.rows].sort((a,b)=>a.rank-b.rank).map(row=>`<article class="cp-uma-entry"><span>PLACE ${row.rank} · ${esc(row.points)} POINTS</span>${window.UmaRaceArt?.figure(row)||''}<strong>${esc(row.name)}</strong><p>${esc(row.playerName)} · ${esc(row.team||'Unassigned')}</p></article>`).join('')}</div>
         ${table(['Place','Uma','Player','Team','Gate','Time (s)','Points'], [...r.rows].sort((a,b) => a.rank-b.rank).map(row => `
           <tr><td>${row.rank}</td><td class="cp-name">${esc(row.name)}${row.card ? `<div class="cp-meta">Card ${row.card}</div>` : ''}</td>
           <td>${esc(row.playerName)}</td><td>${esc(row.team || '—')}</td><td>${row.gate}</td><td>${row.finishTime.toFixed(3)}</td><td>${esc(row.points)}</td></tr>`).join(''))}
         <details class="cp-audit"><summary>Approval details &amp; scoring snapshot</summary><p>Race ${esc(r.raceId)} · Heat ${esc(r.heat.id)}</p>
           <p>Points by place: ${r.rules.points.map(esc).join(', ')} · ${esc(r.rules.tiebreak)} ties</p><p>Fingerprint: ${esc(r.fingerprint)}</p></details>
       </section>`).join('') : '<section class="cp-panel"><h2>Ready for the first approved heat</h2><p class="cp-meta">Run a race, review it in the tournament desk, then approve and publish when ready.</p></section>'}`;
+  window.UmaRaceArt?.attachAll();
 }
+window.UmaRaceArt?.load().then(()=>{if(current)renderMatches();});
 byId('refresh').addEventListener('click', published);
 byId('end-preview').addEventListener('click', published);
 byId('preview-file').addEventListener('change', event => preview(event.target.files[0]));

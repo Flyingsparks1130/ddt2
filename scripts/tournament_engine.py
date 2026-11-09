@@ -188,6 +188,13 @@ def load_setup(root: Path) -> tuple[dict, dict]:
     mids = [m['id'] for m in matches]
     if len(set(tids)) != len(tids) or len(set(mids)) != len(mids):
         raise TournamentError('Team and match IDs must be unique.')
+    # An unpublished season may start with no field or bracket at all.
+    if not teams and not matches and not rounds:
+        if config.get('published') or any(control.get(k) for k in ('decisions','race_overrides','roster')):
+            raise TournamentError('An empty season must be unpublished and have no organizer records.')
+        if not isinstance(control.get('revision'), int):
+            raise TournamentError('control.json revision must be an integer.')
+        return config, control
     if [r['id'] for r in rounds] != ['R1','R2','R3','R4']:
         raise TournamentError('Exactly four ordered rounds R1, R2, R3, R4 are required.')
     by_id = {m['id']:m for m in matches}
@@ -381,11 +388,12 @@ def build(root: Path, write=True) -> dict:
     portrait_path = root / 'assets/uma-portraits.json'
     portraits = json.loads(portrait_path.read_text(encoding='utf-8')) if portrait_path.exists() else {}
     club_rosters = attach_participants(matches, race_docs, portraits)
-    final = next(m for m in matches if m['round']=='R4')
+    final = next((m for m in matches if m['round']=='R4'), None)
     output={'schema_version':1,'generated_at':now(),'id':config['id'],'name':config['name'],
         'published':config.get('published',False),'revision':control['revision'],'rounds':config['rounds'],
         'teams':config['teams'],'scoring':config['scoring'],'matches':matches,'warnings':warnings,
-        'eliminated':sorted(eliminated),'champion_id':final['winner_id'], 'club_rosters': club_rosters}
+        'eliminated':sorted(eliminated),'champion_id':final['winner_id'] if final else None, 'club_rosters': club_rosters,
+        'prize':config.get('prize',{}), 'event_status':config.get('event_status','preparation')}
     if write:
         target=root/'data/tournament-races';target.mkdir(parents=True,exist_ok=True)
         for rid,race in race_docs.items():write_json(target/f'{rid}.json',race)

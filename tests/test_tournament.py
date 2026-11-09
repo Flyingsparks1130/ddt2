@@ -31,7 +31,8 @@ def fixture(seed=100):
 class EngineTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
-        shutil.copytree(ROOT/ARCHIVE,self.root/ARCHIVE)
+        (self.root/ARCHIVE).mkdir()
+        shutil.copy2(ROOT/'tests/fixtures/engine-tournament.json',self.root/ARCHIVE/'tournament.json')
         # Each test starts with clean organizer state, irrespective of any local demo activity.
         p=self.root/ARCHIVE/'control.json';p.write_text(json.dumps({'schema_version':1,'revision':0,'decisions':{},'race_overrides':{},'roster':{},'audit':[]}))
         for rd in (self.root/ARCHIVE).glob('R*'):
@@ -70,39 +71,39 @@ class EngineTests(unittest.TestCase):
         self.assertTrue(all(x['eligible'] for x in race['results']))
         self.assertIsNone(next(m for m in r['index']['matches'] if m['id']=='r1-m1')['scores'])
     def test_mapping_and_npc_points_roll_down(self):
-        r=self.upload();rid=next(iter(r['races']));a={str(i):{'team_id':'dominion' if i<5 else 'dominarium','eligible':i!=0} for i in range(10)}
+        r=self.upload();rid=next(iter(r['races']));a={str(i):{'team_id':'test-club-i' if i<5 else 'test-club-h','eligible':i!=0} for i in range(10)}
         r=self.command('mapping',race_id=rid,assignments=a,remember_owners=True);race=r['races'][rid]
         self.assertTrue(race['scoring_verified']);self.assertEqual([x['points'] for x in race['results'][:5]],[0,4,2,1,0])
     def test_reject_more_than_five_per_team(self):
-        r=self.upload();rid=next(iter(r['races']));a={str(i):{'team_id':'dominion','eligible':True} for i in range(10)}
+        r=self.upload();rid=next(iter(r['races']));a={str(i):{'team_id':'test-club-i','eligible':True} for i in range(10)}
         r=self.command('mapping',race_id=rid,assignments=a)
         self.assertFalse(r['races'][rid]['scoring_verified'])
     def test_manual_score_survives_rebuild(self):
-        self.command('score',scores={'dominion':25,'dominarium':18})
-        self.assertEqual(build(self.root)['index']['matches'][0]['scores'],{'dominion':25,'dominarium':18})
+        self.command('score',scores={'test-club-i':25,'test-club-h':18})
+        self.assertEqual(build(self.root)['index']['matches'][0]['scores'],{'test-club-i':25,'test-club-h':18})
         self.assertIsNone(build(self.root)['index']['matches'][0]['winner_id'])
     def test_advance_eliminate_and_fill_next(self):
-        self.command('score',scores={'dominion':25,'dominarium':10})
-        r=self.command('advance',winner_id='dominion')['index'];m=next(m for m in r['matches'] if m['id']=='r2-m1')
-        self.assertEqual([p['id'] for p in m['participants']],['dominator','dominion']);self.assertIn('dominarium',r['eliminated'])
+        self.command('score',scores={'test-club-i':25,'test-club-h':10})
+        r=self.command('advance',winner_id='test-club-i')['index'];m=next(m for m in r['matches'] if m['id']=='r2-m1')
+        self.assertEqual([p['id'] for p in m['participants']],['test-club-a','test-club-i']);self.assertIn('test-club-h',r['eliminated'])
         finished=next(m for m in r['matches'] if m['id']=='r1-m1')
         self.assertEqual(finished['status'],'complete');self.assertTrue(finished['score_only']);self.assertEqual(finished['races'],[])
-        self.assertEqual(finished['scores'],{'dominion':25,'dominarium':10})
+        self.assertEqual(finished['scores'],{'test-club-i':25,'test-club-h':10})
     def test_full_progression(self):
-        choices={'r1-m1':'dominion','r1-m2':'domineer','r1-m3':'dominium','r2-m1':'dominator','r2-m2':'dominance','r2-m3':'dominacion','r2-m4':'dominate','r3-m1':'dominator','r3-m2':'dominate','r4-m1':'dominator'}
+        choices={'r1-m1':'test-club-i','r1-m2':'test-club-f','r1-m3':'test-club-g','r2-m1':'test-club-a','r2-m2':'test-club-e','r2-m3':'test-club-c','r2-m4':'test-club-b','r3-m1':'test-club-a','r3-m2':'test-club-b','r4-m1':'test-club-a'}
         for mid,w in choices.items():r=self.command('advance',mid,winner_id=w)
-        self.assertEqual(r['index']['champion_id'],'dominator');self.assertEqual(len(r['index']['eliminated']),10)
+        self.assertEqual(r['index']['champion_id'],'test-club-a');self.assertEqual(len(r['index']['eliminated']),10)
     def test_downstream_change_guard(self):
-        self.command('advance',winner_id='dominion');self.command('score','r2-m1',scores={'dominator':1,'dominion':2})
-        with self.assertRaises(TournamentError):self.command('advance',winner_id='dominarium')
+        self.command('advance',winner_id='test-club-i');self.command('score','r2-m1',scores={'test-club-a':1,'test-club-i':2})
+        with self.assertRaises(TournamentError):self.command('advance',winner_id='test-club-h')
     def test_forfeit_and_reopen(self):
-        self.command('forfeit',winner_id='dominion');r=self.command('reopen')['index'];self.assertFalse(r['eliminated'])
+        self.command('forfeit',winner_id='test-club-i');r=self.command('reopen')['index'];self.assertFalse(r['eliminated'])
     def test_stale_revision(self):
-        self.command('score',scores={'dominion':1,'dominarium':2})
-        with self.assertRaises(TournamentError):mutate(self.root,{'action':'score','revision':0,'reason':'Old page','match_id':'r1-m1','scores':{'dominion':3,'dominarium':4}})
+        self.command('score',scores={'test-club-i':1,'test-club-h':2})
+        with self.assertRaises(TournamentError):mutate(self.root,{'action':'score','revision':0,'reason':'Old page','match_id':'r1-m1','scores':{'test-club-i':3,'test-club-h':4}})
     def test_original_bytes_preserved(self):
         f=fixture();text=json.dumps(f,indent=3)+'\n';self.upload(f,raw_text=text)
-        target=self.root/ARCHIVE/'R1/Dominion vs Dominarium/01 - 2200m Turf/test.json'
+        target=self.root/ARCHIVE/'R1/Test Club I vs Test Club H/01 - 2200m Turf/test.json'
         self.assertEqual(target.read_bytes(),text.encode())
     def test_duplicate_content_rejected(self):
         self.upload()
@@ -111,26 +112,26 @@ class EngineTests(unittest.TestCase):
         for part in ('../escape','a/b','a\\b','CON','a:bad'):
             with self.assertRaises(TournamentError):self.upload(race_folder=part)
     def test_manual_folder_discovery(self):
-        p=self.root/ARCHIVE/'Round 1'/'DomiChill vs Domineer'/'01 - Race & course';p.mkdir(parents=True)
+        p=self.root/ARCHIVE/'Round 1'/'Test Club K vs Test Club F'/'01 - Race & course';p.mkdir(parents=True)
         (p/'raw export.json').write_text(json.dumps(fixture()))
         r=build(self.root);self.assertEqual(next(iter(r['races'].values()))['match_id'],'r1-m2')
     def test_no_advancement_before_participants(self):
-        with self.assertRaises(TournamentError):self.command('advance','r4-m1',winner_id='dominator')
+        with self.assertRaises(TournamentError):self.command('advance','r4-m1',winner_id='test-club-a')
     def draft(self,mid='r1-m1',**fields):
         raw=blank_draft(mid);raw.update(fields)
         rev=read_json(self.root/ARCHIVE/'control.json')['revision']
         return save_draft(self.root,{'revision':rev,'match_id':mid,'reason':'Record match draft','draft_json':raw})
     def test_drafts_are_isolated_from_other_matches_and_races(self):
-        r=self.draft(track_pool=['R1 pool'],track_picks=[{'team_id':'dominion','track':'2200m Turf'}])
+        r=self.draft(track_pool=['R1 pool'],track_picks=[{'team_id':'test-club-i','track':'2200m Turf'}])
         r=self.draft('r2-m2',track_pool=['R2 pool'],final_tracks=['1600m Turf'])
         by_id={m['id']:m for m in r['index']['matches']}
         self.assertEqual(by_id['r1-m1']['draft']['track_pool'],['R1 pool'])
         self.assertEqual(by_id['r2-m2']['draft']['track_pool'],['R2 pool'])
         self.assertEqual(r['races'],{});self.assertFalse(any(m['scores'] or m['winner_id'] for m in by_id.values()))
-        folder=self.root/ARCHIVE/'R1/Dominion vs Dominarium';folder.rename(folder.with_name('Renamed match'))
+        folder=self.root/ARCHIVE/'R1/Test Club I vs Test Club H';folder.rename(folder.with_name('Renamed match'))
         self.assertEqual(build(self.root)['index']['matches'][0]['draft']['track_pool'],['R1 pool'])
     def test_final_selections_do_not_invent_players_benches_or_results(self):
-        selections=[{'team_id':'dominion','uma':f'Uma {i}'} for i in range(6)]
+        selections=[{'team_id':'test-club-i','uma':f'Uma {i}'} for i in range(6)]
         r=self.draft(status='locked',uma_selections=selections)
         m=next(m for m in r['index']['matches'] if m['id']=='r1-m1')
         self.assertEqual(m['draft_uma_actions']['uma_selections'],selections)
@@ -138,11 +139,11 @@ class EngineTests(unittest.TestCase):
         self.assertEqual(m['draft']['benched_umas'],[])
         self.assertFalse(m['scores'] or m['winner_id'] or m['races'])
         with self.assertRaises(TournamentError):
-            self.draft(uma_selections=[{'team_id':'dominator','uma':'Wrong club'}])
+            self.draft(uma_selections=[{'team_id':'test-club-a','uma':'Wrong club'}])
     def test_wrong_draft_match_and_club_rejected_without_overwrite(self):
         self.draft(track_pool=['Keep this pool'])
-        path=self.root/ARCHIVE/'R1/Dominion vs Dominarium/draft.json';before=path.read_bytes()
-        for raw in [blank_draft('r2-m2'),dict(blank_draft('r1-m1'),track_picks=[{'team_id':'dominator','track':'Wrong club'}])]:
+        path=self.root/ARCHIVE/'R1/Test Club I vs Test Club H/draft.json';before=path.read_bytes()
+        for raw in [blank_draft('r2-m2'),dict(blank_draft('r1-m1'),track_picks=[{'team_id':'test-club-a','track':'Wrong club'}])]:
             with self.assertRaises(TournamentError):
                 save_draft(self.root,{'revision':1,'match_id':'r1-m1','reason':'Invalid draft','draft_json':raw})
         self.assertEqual(path.read_bytes(),before)
@@ -150,26 +151,26 @@ class EngineTests(unittest.TestCase):
             save_draft(self.root,{'revision':0,'match_id':'r1-m1','reason':'Stale edit','draft_json':blank_draft('r1-m1')})
     def test_r2_json_scores_and_historical_draft_coexist(self):
         r=self.upload(match_id='r2-m2');rid=next(iter(r['races']))
-        self.command('score','r2-m2',scores={'dominance':25,'dominant-h':10})
-        self.command('advance','r2-m2',winner_id='dominance')
+        self.command('score','r2-m2',scores={'test-club-e':25,'test-club-d':10})
+        self.command('advance','r2-m2',winner_id='test-club-e')
         r=self.draft('r2-m2',status='locked',final_tracks=['Race '+str(i) for i in range(1,6)])
         m=next(m for m in r['index']['matches'] if m['id']=='r2-m2')
-        self.assertEqual(m['scores'],{'dominance':25,'dominant-h':10});self.assertEqual(m['winner_id'],'dominance')
+        self.assertEqual(m['scores'],{'test-club-e':25,'test-club-d':10});self.assertEqual(m['winner_id'],'test-club-e')
         self.assertFalse(m['score_only']);self.assertEqual(m['races'][0]['id'],rid);self.assertEqual(len(m['draft']['final_tracks']),5)
     def test_downstream_populated_draft_blocks_earlier_winner_change(self):
-        self.command('advance',winner_id='dominion')
-        self.draft('r2-m1',track_picks=[{'team_id':'dominion','track':'2200m Turf'}])
+        self.command('advance',winner_id='test-club-i')
+        self.draft('r2-m1',track_picks=[{'team_id':'test-club-i','track':'2200m Turf'}])
         with self.assertRaises(TournamentError):self.command('reopen')
-        self.assertEqual(build(self.root)['index']['matches'][0]['winner_id'],'dominion')
+        self.assertEqual(build(self.root)['index']['matches'][0]['winner_id'],'test-club-i')
     def test_downstream_empty_template_does_not_block_winner_change(self):
-        self.command('advance',winner_id='dominion');self.draft('r2-m1')
-        r=self.command('advance',winner_id='dominarium')
-        self.assertEqual(next(m for m in r['index']['matches'] if m['id']=='r2-m1')['participants'][1]['id'],'dominarium')
+        self.command('advance',winner_id='test-club-i');self.draft('r2-m1')
+        r=self.command('advance',winner_id='test-club-h')
+        self.assertEqual(next(m for m in r['index']['matches'] if m['id']=='r2-m1')['participants'][1]['id'],'test-club-h')
     def install_report(self):
         folder=self.root/ARCHIVE/'R1'/'Example match'
         folder.mkdir(parents=True,exist_ok=True)
         (folder/'match.json').write_text(json.dumps({'match_id':'r1-m1'}))
-        podium=[{'team_id':'dominion' if i < 2 else 'dominarium','uma':f'Uma {i+1}','discord':f'@Player{i+1}'} for i in range(3)]
+        podium=[{'team_id':'test-club-i' if i < 2 else 'test-club-h','uma':f'Uma {i+1}','discord':f'@Player{i+1}'} for i in range(3)]
         raw={'schema_version':1,'match_id':'r1-m1','external_match_id':None,'source':'Synthetic test report','mvp':podium[0],
              'races':[{'number':1,'track':'Test 2200m Turf','tiebreaker':False,'podium':podium}]}
         (folder/'results.json').write_text(json.dumps(raw))
@@ -177,7 +178,7 @@ class EngineTests(unittest.TestCase):
     def test_report_does_not_infer_official_winner(self):
         self.install_report()
         state=build(self.root);match=state['index']['matches'][0]
-        self.assertEqual(match['reported_results']['totals'],{'dominion':6,'dominarium':1})
+        self.assertEqual(match['reported_results']['totals'],{'test-club-i':6,'test-club-h':1})
         self.assertIsNone(match['winner_id']);self.assertIsNone(match['scores'])
         self.assertEqual(state['races'],{})
     def test_report_rejects_duplicate_podium(self):
@@ -187,10 +188,10 @@ class EngineTests(unittest.TestCase):
         with self.assertRaises(TournamentError):build(self.root)
     def test_report_and_export_scores_are_not_added(self):
         self.install_report();state=self.upload();rid=next(iter(state['races']))
-        state=self.command('mapping',race_id=rid,assignments={str(i):{'team_id':'dominion' if i<5 else 'dominarium','eligible':True} for i in range(10)})
+        state=self.command('mapping',race_id=rid,assignments={str(i):{'team_id':'test-club-i' if i<5 else 'test-club-h','eligible':True} for i in range(10)})
         match=state['index']['matches'][0]
-        self.assertEqual(match['scores'],{'dominion':7,'dominarium':0})
-        self.assertEqual(match['reported_results']['totals'],{'dominion':6,'dominarium':1})
+        self.assertEqual(match['scores'],{'test-club-i':7,'test-club-h':0})
+        self.assertEqual(match['reported_results']['totals'],{'test-club-i':6,'test-club-h':1})
         self.assertEqual(sum(p['points'] for p in match['player_points']),7)
     def test_http_csrf_host_and_write(self):
         s=serve(self.root,0);thread=threading.Thread(target=s.serve_forever,daemon=True);thread.start()
@@ -198,7 +199,7 @@ class EngineTests(unittest.TestCase):
         opener=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
         try:
             session=json.load(opener.open(base+'/api/session'))
-            data={'revision':0,'action':'score','match_id':'r1-m1','reason':'Verified scores','scores':{'dominion':10,'dominarium':4}}
+            data={'revision':0,'action':'score','match_id':'r1-m1','reason':'Verified scores','scores':{'test-club-i':10,'test-club-h':4}}
             req=urllib.request.Request(base+'/api/control',data=json.dumps(data).encode(),headers={'Content-Type':'application/json','Origin':base})
             with self.assertRaises(urllib.error.HTTPError) as fail:opener.open(req)
             self.assertEqual(fail.exception.code,403)
