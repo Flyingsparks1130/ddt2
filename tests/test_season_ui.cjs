@@ -18,3 +18,31 @@ assert.deepEqual(UI.record(future,'a'),{wins:0,losses:0,points:0});assert.match(
 match.winner_id='b';match.loser_id='a';assert.deepEqual(UI.record(future,'a'),{wins:0,losses:1,points:99});
 const html=UI.views.stats(future);assert.match(html,/Club B/);assert.match(html,/Club standings/);
 console.log('DDT2 views: clean season, future fixtures, official winner decisions, six prizes, missing statistics and escaped names passed.');
+
+// Exercise the real controller: hash history must not replace the page or reset its scroll.
+(async()=>{
+ const vm=require('node:vm'),listeners={},location=new URL('https://example.test/ddt2/stats.html#build-stats');
+ let renders=0,scrolls=0,anchors=0,animations=0;
+ const root={set innerHTML(value){renders++;},querySelector:()=>({focus(){}}),animate(){animations++;}};
+ const scene={},section={scrollIntoView(){anchors++;}},document={
+  body:{dataset:{}},getElementById:id=>id==='season-root'?root:id==='build-stats'?section:null,
+  querySelector:()=>scene,querySelectorAll:()=>[],addEventListener:(name,fn)=>{listeners['document:'+name]=fn;}
+ };
+ const browser={addEventListener:(name,fn)=>{listeners[name]=fn;},scrollTo(){scrolls++;}};
+ const context={window:browser,document,location,URL,URLSearchParams,console,
+  DDT2:{header:()=>'',footer:()=>''},matchMedia:()=>({matches:true}),
+  history:{pushState:(_state,_unused,url)=>{location.href=url.href;}},
+  Image:class{decode(){return Promise.resolve();}},
+  fetch:async path=>({ok:true,json:async()=>path.includes('index')?data.index:path.includes('statistics')?data.stats:data.event})
+ };
+ const settle=()=>new Promise(resolve=>setImmediate(resolve));
+ vm.runInNewContext(fs.readFileSync(require.resolve('../assets/ddt2-app.js'),'utf8'),context);
+ await settle();assert.equal(anchors,1,'Direct section links scroll after data loads');
+ const before=renders;location.hash='standings';listeners.popstate();await settle();
+ assert.equal(renders,before,'Hash navigation preserves the rendered page');assert.equal(scrolls,0,'Hash navigation preserves native scrolling');
+ function click(href){listeners['document:click']({button:0,target:{closest:()=>({href,hasAttribute:()=>false})},preventDefault(){}});}
+ click('https://example.test/ddt2/bracket.html');await settle();assert.equal(document.body.dataset.section,'bracket');
+ click('https://example.test/ddt2/stats.html#build-stats');await settle();assert.equal(anchors,2,'Cross-page section links reach their target');
+ assert.equal(animations,0,'Device reduced-motion preference also covers the fallback transition');
+ console.log('Navigation: same-page anchors, direct section links, cross-page section links and reduced motion passed.');
+})().catch(error=>{console.error(error);process.exitCode=1;});
