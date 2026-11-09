@@ -55,5 +55,15 @@ console.log('DDT2 views: clean season, future fixtures, official winner decision
  assert.equal(document.body.dataset.section,'rules','Rapid clicks reach the latest destination');
  assert.equal(transitions.length,2,'Intermediate queued pages are not replayed');
  transitions.at(-1).finish();await settle();
+ // Native view transitions update the DOM asynchronously after capturing the old view.
+ document.startViewTransition=change=>{let finish;const update=Promise.resolve().then(change),done=new Promise(resolve=>{finish=resolve;});const t={finished:update.then(()=>done),finish:()=>finish(),skipTransition:()=>finish()};transitions.push(t);return t;};
+ click('https://example.test/ddt2/clubs.html');
+ click('https://example.test/ddt2/rules.html');await settle();
+ assert.equal(document.body.dataset.section,'rules','Returning to the starting page during capture is not ignored');
+ transitions.at(-1).finish();await settle();
+ click('https://example.test/ddt2/bracket.html');
+ click('https://example.test/ddt2/rules.html#draft-process');await settle();
+ assert.equal(document.body.dataset.section,'rules','A same-page anchor during capture keeps the intended destination');
+ assert.equal(location.hash,'#draft-process');transitions.at(-1).finish();await settle();
  console.log('Navigation: same-page anchors, direct section links, cross-page section links and reduced motion passed.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
