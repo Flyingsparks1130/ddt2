@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "id": "dominator-companion-starter",
-  "name": "Dominator Tournament Starter",
+  "id": "ddt2",
+  "name": "DDT2 · Dominator Draft Tournament",
   "published": true,
   "source_note": "Copied bracket and rules are a reusable template. No previous tournament results, drafts, lineups or race exports are included. Confirm the next event format before use.",
   "rounds": [

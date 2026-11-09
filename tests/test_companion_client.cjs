@@ -24,6 +24,8 @@ function harness(reply) {
     document:{body:{insertAdjacentHTML(){}},querySelector(){return null;},getElementById:element},
     fetch:async url=>{calls.push(url);return url==='config/companion.json'?new Response(JSON.stringify(config)):reply(url);}});
   vm.runInContext(shared,context);
+  vm.runInContext(fs.readFileSync(path.join(__dirname,'../assets/ddt2-brand.js'),'utf8'),context);
+  context.DDT2=context.window.DDT2;
   return {context,element,calls,ready:vm.runInContext(source,context)};
 }
 (async()=>{
