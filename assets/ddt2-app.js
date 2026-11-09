@@ -45,7 +45,7 @@
  if(typeof module!=='undefined'&&module.exports){module.exports=global.DDT2Views;return;}
  const root=document.getElementById('season-root');if(!root)return;
  const routes={index:'home',bracket:'bracket',tracks:'tracks',clubs:'clubs',club:'club',stats:'stats',rules:'rules',archive:'archive'};
- let data,currentURL=location.href,navigating=false,queued=null,clubQuery='',refreshing=false;
+ let data,currentURL=location.href,navigating=false,queued=null,clubQuery='',refreshing=false,transition=null;
  const read=async p=>{const r=await fetch(p,{cache:'no-store'});if(!r.ok)throw Error('Tournament information could not be loaded.');return r.json();};
  const page=u=>routes[u.pathname.split('/').pop().replace('.html','')||'index']||'home';
  const pose=key=>['bracket','stats','tracks','archive'].includes(key)?'assets/ddt2/gentildonna-concept.png':'assets/ddt2/gentildonna-race.png';
@@ -77,7 +77,27 @@
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshPublished();});
  window.setInterval?.(refreshPublished,60000);
  function scrollToSection(url,reset=false){let target;try{target=url.hash&&document.getElementById(decodeURIComponent(url.hash.slice(1)));}catch{}if(target)target.scrollIntoView({behavior:'instant',block:'start'});else if(reset)window.scrollTo({top:0,behavior:'instant'});}
- async function navigate(url,{historyChange=true}={}){if(navigating){queued={url,historyChange};return;}navigating=true;const change=()=>{if(historyChange)history.pushState({},'',url);render(url,true);scrollToSection(url,true);};try{if(document.startViewTransition&&!matchMedia('(prefers-reduced-motion: reduce)').matches){await document.startViewTransition(change).finished;}else{change();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)root.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:240,easing:'ease-out'});}}catch{if(currentURL!==url.href)location.assign(url.href);}finally{navigating=false;if(queued){const next=queued;queued=null;navigate(next.url,{historyChange:next.historyChange});}}}
+ async function navigate(url,{historyChange=true}={}){
+  if(navigating){queued={url,historyChange};transition?.skipTransition();return;}
+  navigating=true;
+  const change=()=>{if(historyChange)history.pushState({},'',url);render(url,true);scrollToSection(url,true);};
+  try{
+   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+   if(document.startViewTransition&&!reduced){
+    transition=document.startViewTransition(change);
+    transition.ready?.catch(()=>{});
+    await transition.finished;
+   }else{
+    change();
+    if(!reduced){
+     root.getAnimations?.().forEach(a=>a.cancel());
+     root.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:360,easing:'cubic-bezier(.22,1,.36,1)'});
+     document.querySelector('.season-character-stage')?.animate?.([{opacity:.25,transform:'translateX(12px)'},{opacity:1,transform:'none'}],{duration:460,easing:'cubic-bezier(.22,1,.36,1)'});
+    }
+   }
+  }catch{if(currentURL!==url.href)location.assign(url.href);}
+  finally{transition=null;navigating=false;if(queued){const next=queued;queued=null;navigate(next.url,{historyChange:next.historyChange});}}
+ }
  document.addEventListener('click',e=>{const link=e.target.closest('a[href]');if(!link||e.defaultPrevented||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||link.hasAttribute('download')||link.target&&link.target!=='_self')return;const u=new URL(link.href,location.href),now=new URL(location.href),file=u.pathname.split('/').pop().replace('.html','');if(u.origin!==now.origin||u.pathname.slice(0,u.pathname.lastIndexOf('/'))!==now.pathname.slice(0,now.pathname.lastIndexOf('/'))||!(file in routes))return;if(u.pathname===now.pathname&&u.search===now.search&&u.hash)return;e.preventDefault();if(u.href===currentURL){window.scrollTo({top:0,behavior:'smooth'});return;}navigate(u);});
  window.addEventListener('popstate',()=>{if(!data)return;const next=new URL(location.href),previous=new URL(currentURL);if(next.pathname===previous.pathname&&next.search===previous.search){currentURL=next.href;return;}navigate(next,{historyChange:false});});
  document.querySelector('.season-footer').innerHTML=DDT2.footer();document.querySelector('.season-header').innerHTML=DDT2.header(page(new URL(location.href)));
