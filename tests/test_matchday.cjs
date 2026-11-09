@@ -45,6 +45,34 @@ assert.match(UI.views.clubs(data),/data-follow="a"/);
 assert(!/\bLive\b/.test(M.hub(data)),'A published fixture is not a live race feed');
 console.log('Matchday: published status, follow persistence, event isolation, missing data, supports, escaping and bench filtering passed.');
 
+// A club route includes actual published participants, never a projected winner.
+{
+ const first=match('opening','in_progress',{scores:{a:99,b:0}}),next=match('next','ready',{round:'R2',participants:[teams[0],teams[2]]});
+ const unresolved=match('unresolved','awaiting_opponent',{round:'R3',participants:[null,teams[2]]});
+ const d={...data,favorite:'a',index:{...data.index,rounds:[{id:'R1'},{id:'R2'},{id:'R3'}],matches:[unresolved,next,first]}};
+ assert.deepEqual(M.pathMatches(d.index,'a').map(m=>m.id),['opening','next']);
+ assert.deepEqual(M.pathMatches(d.index,'missing'),[]);
+ assert.match(M.bracketTools(d),/<option value="a" selected>/);
+ assert(!M.entrance(d,first).includes('<small>Winner</small>'),'Scores cannot imply a winner');
+ assert.match(M.entrance(d,{...first,winner_id:'b'}),/<small>Winner<\/small>/);
+ assert.match(M.entrance(d,unresolved),/Opponent to be confirmed/);
+ assert(!/undefined|NaN/.test(M.entrance(d,unresolved)));
+ const classes=()=>({values:new Set(),toggle(k,v){v?this.values.add(k):this.values.delete(k);}});
+ const cards=[first,next,unresolved].map((m,i)=>({dataset:{matchId:m.id},classList:classes(),
+  getBoundingClientRect:()=>({left:20+i*350,right:315+i*350,top:50,height:260}),
+  querySelectorAll:()=>[],scrollIntoView(){throw Error('Passive redraw must not move the page');}}));
+ const svg={innerHTML:'',setAttribute(){},querySelectorAll:()=>[]};
+ const board={dataset:{},scrollWidth:1000,scrollHeight:400,getBoundingClientRect:()=>({left:20,top:0}),querySelectorAll:()=>cards,querySelector:()=>svg};
+ const summary={innerHTML:''},root={querySelector:s=>s==='.matchday-bracket-board'?board:summary};
+ M.paintBracket(root,d);
+ assert(cards[0].classList.values.has('is-club-path'));assert(cards[1].classList.values.has('is-club-path'));assert(!cards[2].classList.values.has('is-club-path'));
+ assert.equal((svg.innerHTML.match(/<path /g)||[]).length,1,'Only confirmed appearances are connected');
+ assert.match(summary.innerHTML,/2 published fixtures/);
+ d.bracketClub='';M.paintBracket(root,d);assert.equal(svg.innerHTML,'');assert.equal(board.dataset.hasClub,'false');
+ assert(cards.every(c=>!c.classList.values.has('is-club-path')),'All clubs clears the route');
+ console.log('Club path: published appearances, round order, follow default, unknown opponents and no inferred advancement passed.');
+}
+
 // Exercise actual click/change handlers, including outfit selection and unfollowing.
 {
  const handlers={},browser={localStorage:store,addEventListener(){},matchMedia:()=>({matches:false}),UmaRaceArt:{attachAll(){},resolve:()=>null,figure:()=>'<span>◇</span>'}};
@@ -65,6 +93,20 @@ console.log('Matchday: published status, follow persistence, event isolation, mi
  handlers.click({target:{closest:s=>s==='[data-runner]'?buttons[1]:null}});
  assert.equal(animations,1,'Selecting the current Uma does not replay its entrance');
  assert.match(browser.DDT2Matchday.lineups(d,d.index.matches[0]),/data-runner="1" aria-pressed="true"/,'Selected build survives redraws');
+ // Directional keys select and wrap without moving focus out of the roster.
+ let focused=-1;buttons.forEach((b,i)=>{b.focus=()=>focused=i;b.click=()=>handlers.click({target:{closest:s=>s==='[data-runner]'?b:null}});b.closest=s=>s==='.matchday-picker'?{querySelectorAll:()=>buttons}:group;b.getAttribute=k=>b[k];});
+ let prevented=false;
+ handlers.keydown({key:'ArrowRight',target:{closest:()=>buttons[1]},preventDefault(){prevented=true;}});
+ assert(prevented);assert.equal(focused,0);assert.equal(buttons[0]['aria-pressed'],'true');
+ const animated=animations;browser.matchMedia=()=>({matches:true});
+ handlers.keydown({key:'End',target:{closest:()=>buttons[0]},preventDefault(){}});
+ assert.equal(focused,1);assert.equal(animations,animated,'Reduced motion selects immediately without an entrance');
+ // Match intros run once per fixture per visit, never on refresh or a draft tab switch.
+ browser.matchMedia=()=>({matches:false});let entrances=0;
+ const fixture={dataset:{matchEntrance:'R1:m'},classList:{add(){entrances++;}}},stageRoot={querySelector:s=>s==='[data-match-entrance]'?fixture:null};
+ browser.DDT2Matchday.present(stageRoot,d,{enter:true});browser.DDT2Matchday.present(stageRoot,d,{enter:true});browser.DDT2Matchday.present(stageRoot,d);
+ assert.equal(entrances,1);
+ fixture.dataset.matchEntrance='R2:m2';browser.matchMedia=()=>({matches:true});browser.DDT2Matchday.present(stageRoot,d,{enter:true});assert.equal(entrances,1);
  console.log('Matchday interactions: choose/unfollow club, switch runner, selected state, animation and redraw persistence passed.');
 }
 
