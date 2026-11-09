@@ -23,7 +23,7 @@ console.log('DDT2 views: clean season, future fixtures, official winner decision
 (async()=>{
  const vm=require('node:vm'),listeners={},location=new URL('https://example.test/ddt2/stats.html#build-stats');
  let renders=0,scrolls=0,anchors=0,animations=0;
- const root={set innerHTML(value){renders++;},querySelector:()=>({focus(){}}),animate(){animations++;}};
+ const root={set innerHTML(value){renders++;},addEventListener(){},querySelector:()=>({focus(){}}),querySelectorAll:()=>[],animate(){animations++;}};
  const scene={},section={scrollIntoView(){anchors++;}},document={
   body:{dataset:{}},getElementById:id=>id==='season-root'?root:id==='build-stats'?section:null,
   querySelector:()=>scene,querySelectorAll:()=>[],addEventListener:(name,fn)=>{listeners['document:'+name]=fn;}
@@ -36,7 +36,9 @@ console.log('DDT2 views: clean season, future fixtures, official winner decision
   fetch:async path=>({ok:true,json:async()=>path.includes('index')?data.index:path.includes('statistics')?data.stats:data.event})
  };
  const settle=()=>new Promise(resolve=>setImmediate(resolve));
- vm.runInNewContext(fs.readFileSync(require.resolve('../assets/ddt2-app.js'),'utf8'),context);
+ vm.createContext(context);
+ vm.runInContext(fs.readFileSync(require.resolve('../assets/ddt2-matchday.js'),'utf8'),context);
+ vm.runInContext(fs.readFileSync(require.resolve('../assets/ddt2-app.js'),'utf8'),context);
  await settle();assert.equal(anchors,1,'Direct section links scroll after data loads');
  const before=renders;location.hash='standings';listeners.popstate();await settle();
  assert.equal(renders,before,'Hash navigation preserves the rendered page');assert.equal(scrolls,0,'Hash navigation preserves native scrolling');

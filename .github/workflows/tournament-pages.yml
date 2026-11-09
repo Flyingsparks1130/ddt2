@@ -37,6 +37,7 @@ jobs:
         run: |
           node tests/test_replay_client.js
           node tests/test_season_ui.cjs
+          node tests/test_matchday.cjs
       - name: Check statistics and exact outfit artwork
         run: |
           node tests/test_tournament_statistics.cjs
