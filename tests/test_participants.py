@@ -36,6 +36,19 @@ class ParticipantTests(unittest.TestCase):
         self.assertEqual(display_name('<@!479998555290075136>'), '')
         self.assertEqual(display_name('name@club'), 'name@club')
 
+    def test_lineup_preserves_verified_build_supports_without_mutating_source(self):
+        row = {'team_id':'a', 'eligible':True, 'owner':'Player', 'variant_id':111601,
+               'uma':'Gentildonna', 'points':4, 'stats':{'speed':1234},
+               'running_style':'Pace', 'support':[{'id':30028, 'limit_breaks':4}]}
+        original = copy.deepcopy(row)
+        match = {'id':'m', 'round':'R1', 'participants':[{'id':'a'}], 'draft':None,
+                 'races':[{'id':'r', 'scoring_verified':True}]}
+        attach_participants([match], {'r':{'results':[row], 'race_folder':'01 - Test'}})
+        self.assertEqual(match['lineup'][0]['support'], row['support'])
+        self.assertEqual(match['lineup'][0]['stats'], {'speed':1234})
+        match['lineup'][0]['support'][0]['limit_breaks'] = 0
+        self.assertEqual(row, original)
+
 
 if __name__ == '__main__':
     unittest.main()
