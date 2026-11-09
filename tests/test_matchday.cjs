@@ -62,6 +62,8 @@ console.log('Matchday: published status, follow persistence, event isolation, mi
  buttons[1].closest=()=>group;
  handlers.click({target:{closest:s=>s==='[data-runner]'?buttons[1]:null}});
  assert.equal(buttons[1]['aria-pressed'],'true');assert.equal(buttons[0]['aria-pressed'],'false');assert.match(panel.innerHTML,/&lt;Runner B&gt;/);assert.equal(animations,1);
+ handlers.click({target:{closest:s=>s==='[data-runner]'?buttons[1]:null}});
+ assert.equal(animations,1,'Selecting the current Uma does not replay its entrance');
  assert.match(browser.DDT2Matchday.lineups(d,d.index.matches[0]),/data-runner="1" aria-pressed="true"/,'Selected build survives redraws');
  console.log('Matchday interactions: choose/unfollow club, switch runner, selected state, animation and redraw persistence passed.');
 }

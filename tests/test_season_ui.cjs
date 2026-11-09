@@ -46,5 +46,14 @@ console.log('DDT2 views: clean season, future fixtures, official winner decision
  click('https://example.test/ddt2/bracket.html');await settle();assert.equal(document.body.dataset.section,'bracket');
  click('https://example.test/ddt2/stats.html#build-stats');await settle();assert.equal(anchors,2,'Cross-page section links reach their target');
  assert.equal(animations,0,'Device reduced-motion preference also covers the fallback transition');
+ const transitions=[];let skipped=0;
+ context.matchMedia=()=>({matches:false});
+ document.startViewTransition=change=>{change();let finish;const finished=new Promise(resolve=>{finish=resolve;});const t={finished,finish:()=>finish(),skipTransition(){skipped++;finish();}};transitions.push(t);return t;};
+ click('https://example.test/ddt2/clubs.html');await settle();
+ click('https://example.test/ddt2/bracket.html');click('https://example.test/ddt2/rules.html');await settle();
+ assert(skipped>0,'New navigation interrupts the current animation');
+ assert.equal(document.body.dataset.section,'rules','Rapid clicks reach the latest destination');
+ assert.equal(transitions.length,2,'Intermediate queued pages are not replayed');
+ transitions.at(-1).finish();await settle();
  console.log('Navigation: same-page anchors, direct section links, cross-page section links and reduced motion passed.');
 })().catch(error=>{console.error(error);process.exitCode=1;});
