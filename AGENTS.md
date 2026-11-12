@@ -9,7 +9,7 @@
 
 ## Sources of truth
 
-- `Dominator Tournament/tournament.json`: clubs and bracket structure.
+- `Dominator Tournament/tournament.json`: teams and bracket structure.
 - `Dominator Tournament/control.json`: official scores, winners, runner assignments, revisions and audit history. Use the existing engine mutation functions to make organizer decisions; preserve unrelated decisions.
 - Per-match `draft.json`: track card, draft actions, roster and bench. Per-match `results.json`: organizer-reported podiums and MVP.
 - Original race exports live inside race-description subfolders and must remain unchanged. Do not fabricate race exports for score-only matches.
