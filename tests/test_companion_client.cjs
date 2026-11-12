@@ -62,7 +62,7 @@ function harness(reply, hostname='example.test') {
   data={schema:contract.SCHEMA,tournament:{id:'empty',name:'To be decided',scoring:null},results:[],standings:{players:[],teams:[]},voided:[]};
   await vm.runInContext('published()',h.context);
   assert.match(h.element('results').innerHTML,/Scoring rules have not been announced/);
-  assert.match(h.element('match-results').innerHTML,/No race results yet/);
+  assert.match(h.element('match-results').innerHTML,/No Race Results Yet/);
   // A slow published fetch must not replace a newer local preview.
   let resolveSlow;
   const slow=harness(()=>new Promise(resolve=>{resolveSlow=resolve;}));
