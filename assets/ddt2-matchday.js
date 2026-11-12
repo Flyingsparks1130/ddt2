@@ -42,22 +42,22 @@
   const preference = createPreference(() => global.localStorage);
   function followButton(d, id) {
     const following = d.favorite === id;
-    const name = d.index.teams.find(t => t.id === id)?.name || 'club';
-    return `<button class="matchday-follow" type="button" data-follow="${esc(id)}" aria-pressed="${following}" aria-label="${following?'Unfollow':'Follow'} ${esc(name)}"><span aria-hidden="true">${following?'★':'☆'}</span> ${following?'Following':'Follow club'}</button>`;
+    const name = d.index.teams.find(t => t.id === id)?.name || 'team';
+    return `<button class="matchday-follow" type="button" data-follow="${esc(id)}" aria-pressed="${following}" aria-label="${following?'Unfollow':'Follow'} ${esc(name)}"><span aria-hidden="true">${following?'★':'☆'}</span> ${following?'Following':'Follow team'}</button>`;
   }
   function hub(d) {
     const club = d.index.teams.find(t => t.id === d.favorite);
     const item = featured(d.index, club?.id) || (club ? featured(d.index) : null);
     const m = item?.match;
     const round = m && d.index.rounds.find(r => r.id === m.round);
-    return `<section class="matchday-hub" aria-label="Match updates and followed club">
+    return `<section class="matchday-hub" aria-label="Match updates and followed team">
       <div class="matchday-fixture"><p class="season-eyebrow">${esc(item?.label || 'Match updates')}</p>
         ${m ? `<a class="matchday-feature" href="${esc(url(m))}"><span class="matchday-versus">${m.participants.map(t => `<span>${esc(t?.name || 'Opponent to be confirmed')}<b>${esc(m.scores?.[t?.id] ?? '—')}</b></span>`).join('<i>VS</i>')}</span><span class="matchday-fixture-footer">${esc(round?.name || m.round)} <span>View match ↗</span></span></a>${item.activeCount > 1 ? `<a class="season-text-link" href="bracket.html">${item.activeCount} matches in progress →</a>` : ''}` : '<h2>Schedule to be announced</h2><p>Match details will appear here once fixtures are published.</p>'}
         <p class="matchday-sync" role="status">${d.syncError ? 'Updates unavailable. Showing the last loaded results.' : m ? 'Updates as results are published.' : ''}</p>
       </div>
-      <div class="matchday-follow-panel"><label class="season-eyebrow" for="follow-club">${club ? 'Your club' : 'Follow your club'}</label>
-        <select id="follow-club" ${d.index.teams.length ? '' : 'disabled'}><option value="">${d.index.teams.length ? 'Choose a club' : 'Clubs to be announced'}</option>${d.index.teams.map(t => `<option value="${esc(t.id)}" ${club?.id===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select>
-        ${club ? `<div class="matchday-follow-links"><a href="club.html?id=${encodeURIComponent(club.id)}">View club →</a><button type="button" data-follow="${esc(club.id)}" aria-label="Unfollow ${esc(club.name)}">Unfollow</button></div>` : '<p>Your club’s matches, one tap away.</p>'}
+      <div class="matchday-follow-panel"><label class="season-eyebrow" for="follow-club">${club ? 'Your team' : 'Follow your team'}</label>
+        <select id="follow-club" ${d.index.teams.length ? '' : 'disabled'}><option value="">${d.index.teams.length ? 'Choose a team' : 'Teams to be announced'}</option>${d.index.teams.map(t => `<option value="${esc(t.id)}" ${club?.id===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select>
+        ${club ? `<div class="matchday-follow-links"><a href="team.html?id=${encodeURIComponent(club.id)}">View team →</a><button type="button" data-follow="${esc(club.id)}" aria-label="Unfollow ${esc(club.name)}">Unfollow</button></div>` : '<p>Your team’s matches, one tap away.</p>'}
         <small role="status">${d.followNotice || 'Saved in this browser. No account needed.'}</small>
       </div>
     </section>`;
@@ -79,7 +79,7 @@
     const players = lineup.filter(p => p.team_id === team?.id);
     const chosen = players.find(p => identity(p) === selected.get(key)) || players[0];
     const panelId = `build-${encodeURIComponent(key)}`;
-    return `<section class="matchday-lineup" data-lineup-group="${esc(key)}"><header><a href="club.html?id=${encodeURIComponent(team.id)}">${esc(team.name)}</a>${followButton(d, team.id)}</header>
+    return `<section class="matchday-lineup" data-lineup-group="${esc(key)}"><header><a href="team.html?id=${encodeURIComponent(team.id)}">${esc(team.name)}</a>${followButton(d, team.id)}</header>
       ${players.length ? `<div class="matchday-picker" role="group" aria-label="${esc(team.name)} lineup">${players.map((p,i) => `<button type="button" data-runner="${i}" aria-pressed="${p===chosen}" aria-controls="${panelId}" aria-label="View ${esc(p.uma || p.name)}${p.display_name?' · '+esc(p.display_name):''}">${figure(p)}<span>${esc(p.uma || p.name)}</span></button>`).join('')}</div><div class="matchday-build" id="${panelId}" aria-live="polite" aria-atomic="true">${detail(chosen,d)}</div>` : '<div class="matchday-lineup-empty"><span aria-hidden="true">◇</span><h3>Lineup not announced</h3><p>Published Umas and builds will appear here.</p></div>'}
     </section>`;
   }
@@ -98,13 +98,13 @@
   }
   const pathClub = d => d.index.teams.some(t => t.id === (d.bracketClub ?? d.favorite)) ? (d.bracketClub ?? d.favorite) : '';
   function pathSummary(d, id) {
-    if (!id) return 'Choose a club to highlight its fixtures.';
+    if (!id) return 'Choose a team to highlight its fixtures.';
     const matches = pathMatches(d.index,id), upcoming = matches.find(m => !ended(m) && ['ready','in_progress'].includes(m.status));
     return `${matches.length} published ${matches.length===1?'fixture':'fixtures'}${upcoming ? ` <a href="${esc(url(upcoming))}">${upcoming.status==='ready'?'Next match':'Latest results'} ↗</a>` : ''}`;
   }
   function bracketTools(d) {
     const id = pathClub(d);
-    return `<div class="matchday-path-tools"><label for="bracket-club">Club path</label><select id="bracket-club"><option value="">All clubs</option>${d.index.teams.map(t => `<option value="${esc(t.id)}" ${t.id===id?'selected':''}>${esc(t.name)}</option>`).join('')}</select><p class="matchday-path-summary" role="status">${pathSummary(d,id)}</p></div>`;
+    return `<div class="matchday-path-tools"><label for="bracket-club">Team path</label><select id="bracket-club"><option value="">All teams</option>${d.index.teams.map(t => `<option value="${esc(t.id)}" ${t.id===id?'selected':''}>${esc(t.name)}</option>`).join('')}</select><p class="matchday-path-summary" role="status">${pathSummary(d,id)}</p></div>`;
   }
   function paintBracket(root,d,animate=false) {
     const board = root.querySelector('.matchday-bracket-board');
@@ -138,7 +138,7 @@
     const round=d.index.rounds.find(r=>r.id===m.round);
     return `<section class="matchday-entrance" data-match-entrance="${esc(m.round+':'+m.id)}" aria-label="Match score"><p class="matchday-entrance-round">${esc(round?.name || m.round)} <span>${esc(m.id.toUpperCase())}</span></p><div class="matchday-faceoff">${[0,1].map(i=>{
       const t=m.participants?.[i];
-      return `<div class="matchday-contender"><span class="matchday-club-mark" aria-hidden="true">${esc(t?.name?.slice(0,1) || '—')}</span><div>${t?`<a href="club.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:'<span>Opponent to be confirmed</span>'}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div><strong>${esc(m.scores?.[t?.id] ?? '—')}</strong></div>`;
+      return `<div class="matchday-contender"><span class="matchday-club-mark" aria-hidden="true">${esc(t?.name?.slice(0,1) || '—')}</span><div>${t?`<a href="team.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:'<span>Opponent to be confirmed</span>'}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div><strong>${esc(m.scores?.[t?.id] ?? '—')}</strong></div>`;
     }).join('<span class="matchday-faceoff-vs" aria-hidden="true">VS</span>')}</div></section>`;
   }
   function present(root,d,{enter=false}={}) {

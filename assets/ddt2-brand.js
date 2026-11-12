@@ -2,7 +2,7 @@
 (function(global){
   'use strict';
   const crown='<svg viewBox="0 0 40 32" fill="none" aria-hidden="true"><path d="m4 8 8 7 8-12 8 12 8-7-4 19H8L4 8Z" stroke="currentColor" stroke-width="1.7"/><path d="M10 23h20M17 17l3-4 3 4-3 4-3-4Z" stroke="currentColor" stroke-width="1.4"/></svg>';
-  const items=[['index.html','Home','home'],['bracket.html','Bracket','bracket'],['tracks.html','Drafts','tracks'],['clubs.html','Clubs','clubs'],['rules.html','Rulebook','rules'],['stats.html','Stats','stats']];
+  const items=[['index.html','Home','home'],['bracket.html','Bracket','bracket'],['tracks.html','Drafts','tracks'],['teams.html','Teams','clubs'],['rules.html','Rulebook','rules'],['stats.html','Stats','stats']];
   function header(active){
     const key={overview:'bracket',archive:'bracket',drafts:'tracks'}[active]||active;
     return `<a class="ddt-skip" href="#season-root">Skip to content</a><div class="ddt-header-inner"><a class="ddt-brand" href="index.html" aria-label="DDT2 home"><span class="ddt-brand-mark">${crown}</span><span class="ddt-wordmark">DDT<span>2</span><small>DOMINATOR DRAFT TOURNAMENT</small></span></a><nav class="ddt-nav" aria-label="Main">${items.map(([href,label,id])=>`<a href="${href}" ${key===id?'aria-current="page"':''}>${label}</a>`).join('')}</nav></div>`;

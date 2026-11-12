@@ -99,7 +99,7 @@
    </section>
    <section class="rp-live"><div class="dt-caption"><h2>Live positioning</h2><span class="dt-small" data-live-time></span></div><table class="rp-table"><thead><tr>${['Position','Runner','Distance','Gap','Speed','HP','Lane','Blocked by','Recent skill'].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody data-live></tbody></table></section>
   `:`<section class="dt-empty"><h2>Replay unavailable</h2><p>This file has no supported replay data.</p></section>`}`;
-  if(data.review_reasons?.length)host.insertAdjacentHTML('afterbegin','<div class="dt-notice">Club assignments need review. Points are provisional.</div>');
+  if(data.review_reasons?.length)host.insertAdjacentHTML('afterbegin','<div class="dt-notice">Team assignments need review. Points are provisional.</div>');
   function seek(value){if(!replay)return;pause();time=Math.max(0,Math.min(replay.duration_s,value));render()}
   host.addEventListener('click',e=>{const button=e.target.closest('[data-inspect]');if(!button)return;pause();const r=data.results.find(r=>r.entry_id===button.dataset.inspect);if(r)RunnerAnalysis.open({data,runner:r,labels,teamName,sample,seek})});
   if(!replay)return cleanup;
