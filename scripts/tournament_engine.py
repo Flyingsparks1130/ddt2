@@ -188,10 +188,24 @@ def load_setup(root: Path) -> tuple[dict, dict]:
     mids = [m['id'] for m in matches]
     if len(set(tids)) != len(tids) or len(set(mids)) != len(mids):
         raise TournamentError('Team and match IDs must be unique.')
-    # An unpublished season may start with no field or bracket at all.
-    if not teams and not matches and not rounds:
+    for team in teams:
+        if 'members' not in team:
+            continue
+        members = team['members']
+        if not isinstance(members, list) or len(members) > config['scoring']['players_per_team']:
+            raise TournamentError('A registered team may list up to five players.')
+        names = []
+        for member in members:
+            name = member.get('display_name') if isinstance(member, dict) else None
+            if not isinstance(name, str) or not name.strip():
+                raise TournamentError('Every registered player needs a display name.')
+            names.append(name.strip().casefold())
+        if len(set(names)) != len(names):
+            raise TournamentError('A team cannot register the same player twice.')
+    # Team registration does not imply a confirmed bracket or match schedule.
+    if not matches and not rounds:
         if config.get('published') or any(control.get(k) for k in ('decisions','race_overrides','roster')):
-            raise TournamentError('An empty season must be unpublished and have no organizer records.')
+            raise TournamentError('A season without a bracket must be unpublished and have no organizer records.')
         if not isinstance(control.get('revision'), int):
             raise TournamentError('control.json revision must be an integer.')
         return config, control
@@ -347,8 +361,8 @@ def build(root: Path, write=True) -> dict:
                     if tid in participants:
                         counts[tid]+=1; totals[tid]+=row['points']
                     elif eligible:
-                        reasons.append(f"Map {row['owner'] or 'runner '+row['entry_id']} to one of this match's clubs.")
-                if any(v>config['scoring']['players_per_team'] for v in counts.values()): reasons.append('More than five runners are assigned to one club.')
+                        reasons.append(f"Map {row['owner'] or 'runner '+row['entry_id']} to one of this match's teams.")
+                if any(v>config['scoring']['players_per_team'] for v in counts.values()): reasons.append('More than five runners are assigned to one team.')
                 race.update(id=rid,round=m['round'],match_id=m['id'],race_folder=racefolder.name,file_name=f.name,
                     raw_path=source,raw_sha256=hashlib.sha256(f.read_bytes()).hexdigest(),
                     scoring_verified=not reasons,review_reasons=list(dict.fromkeys(reasons)),team_points=totals if not reasons else None)
@@ -387,12 +401,13 @@ def build(root: Path, write=True) -> dict:
         if m['loser_id']: eliminated.add(m['loser_id'])
     portrait_path = root / 'assets/uma-portraits.json'
     portraits = json.loads(portrait_path.read_text(encoding='utf-8')) if portrait_path.exists() else {}
-    club_rosters = attach_participants(matches, race_docs, portraits)
+    team_rosters = attach_participants(matches, race_docs, portraits, config['teams'])
     final = next((m for m in matches if m['round']=='R4'), None)
     output={'schema_version':1,'generated_at':now(),'id':config['id'],'name':config['name'],
         'published':config.get('published',False),'revision':control['revision'],'rounds':config['rounds'],
         'teams':config['teams'],'scoring':config['scoring'],'matches':matches,'warnings':warnings,
-        'eliminated':sorted(eliminated),'champion_id':final['winner_id'] if final else None, 'club_rosters': club_rosters,
+        'eliminated':sorted(eliminated),'champion_id':final['winner_id'] if final else None,
+        'team_rosters':team_rosters, 'club_rosters':team_rosters,  # Compatibility for existing index readers.
         'prize':config.get('prize',{}), 'event_status':config.get('event_status','preparation')}
     if write:
         target=root/'data/tournament-races';target.mkdir(parents=True,exist_ok=True)
@@ -460,7 +475,7 @@ def mutate(root: Path, payload: dict) -> dict:
         clean={}
         for entry,a in assignments.items():
             tid=a.get('team_id');eligible=a.get('eligible')
-            if tid not in ids and not(tid is None and eligible is False):raise TournamentError('Assign eligible runners to one of the two clubs.')
+            if tid not in ids and not(tid is None and eligible is False):raise TournamentError('Assign eligible runners to one of the two teams.')
             if not isinstance(eligible,bool):raise TournamentError('Eligibility must be a boolean.')
             clean[entry]={'team_id':tid,'eligible':eligible}
         control['race_overrides'][rid]=clean

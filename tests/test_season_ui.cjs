@@ -2,22 +2,38 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const UI=require('../assets/ddt2-app.js');
 const data={index:require('../data/tournament-index.json'),stats:require('../data/tournament-statistics.json'),event:require('../config/event.json'),params:new URLSearchParams()};
-assert.deepEqual(data.index.teams,[]);assert.deepEqual(data.index.rounds,[]);assert.deepEqual(data.index.matches,[]);
+assert.deepEqual(data.index.teams.map(t=>t.name),['Dominator','Dominare','Domineer','Dominium','DomiMoon']);assert.deepEqual(data.index.rounds,[]);assert.deepEqual(data.index.matches,[]);
 for(const [key,view] of Object.entries(UI.views)){
  const html=view(data);assert(!/undefined|NaN/.test(html),key);assert(!/Dominator Player|Dominion|Domichill|Quarterfinals|Semifinals|Trophy room|Award/i.test(html),key);
  assert(/<h1/.test(html),key);
+ assert(!/\bclubs?\b/i.test(html.replace(/<[^>]*>/g,'')),key+' uses team wording');
 }
 assert.match(UI.views.home(data),/>6<\/strong>/);assert.match(UI.views.rules(data),/>6<\/strong>/);
-assert.match(UI.views.bracket(data),/Bracket not published/);assert.match(UI.views.clubs(data),/Clubs to be announced/);
-assert.match(UI.views.stats(data),/Standings will appear/);assert.match(UI.views.stats(data),/No data recorded/);
+assert.match(UI.views.bracket(data),/Bracket not confirmed/);
+assert.match(UI.views.stats(data),/Team standings/);assert.match(UI.views.stats(data),/No data recorded/);
+const teamList=UI.views.clubs(data);
+assert.equal((teamList.match(/Roster full · 5\/5/g)||[]).length,5);
+assert.equal((teamList.match(/<li>/g)||[]).length,25);
+for(const team of data.index.teams){
+ const detail=UI.views.club({...data,params:new URLSearchParams({id:team.id})});
+ assert.match(teamList,new RegExp('team.html\\?id='+team.id));
+ for(const member of team.members){assert(teamList.includes(member.display_name));assert(detail.includes(member.display_name));}
+ assert.match(detail,/Matchups have not been announced/);assert.match(detail,/Lineup not announced/);
+ assert(!detail.includes('data-runner='),'Registration cannot invent Uma selections');
+}
+const empty={...data,index:{...data.index,teams:[],team_rosters:{},club_rosters:{}}};
+assert.match(UI.views.clubs(empty),/Teams to be announced/);assert.match(UI.views.stats(empty),/Standings will appear/);
+const unsafe={...data,index:{...data.index,team_rosters:{dominare:{members:[{display_name:'<img src=x onerror=alert(1)>'}]}},club_rosters:{}}};
+assert.match(UI.views.clubs(unsafe),/&lt;img src=x onerror=alert\(1\)&gt;/);
+assert(!UI.views.clubs(unsafe).includes('<img src=x'));
 // Future data remains functional and cannot fabricate a winner from a high score.
 const future=JSON.parse(JSON.stringify(data));future.params=new URLSearchParams('id=a');
 future.index.teams=[{id:'a',name:'<Club A>'},{id:'b',name:'Club B'}];future.index.rounds=[{id:'R1',name:'Opening round'}];
 const match={id:'r1-m1',round:'R1',participants:future.index.teams,status:'in_progress',winner_id:null,scores:{a:99,b:1},draft_lineup:[{team_id:'a',uma:'Gentildonna',variant_id:111602,benched:false}],races:[]};future.index.matches=[match];
 assert.deepEqual(UI.record(future,'a'),{wins:0,losses:0,points:0});assert.match(UI.views.bracket(future),/&lt;Club A&gt;/);assert(!UI.views.bracket(future).includes('<Club A>'));
 match.winner_id='b';match.loser_id='a';assert.deepEqual(UI.record(future,'a'),{wins:0,losses:1,points:99});
-const html=UI.views.stats(future);assert.match(html,/Club B/);assert.match(html,/Club standings/);
-console.log('DDT2 views: clean season, future fixtures, official winner decisions, six prizes, missing statistics and escaped names passed.');
+const html=UI.views.stats(future);assert.match(html,/Club B/);assert.match(html,/Team standings/);
+console.log('DDT2 views: five full team rosters, no bracket or builds, empty season, future fixtures, official decisions and escaped names passed.');
 
 // The interactive guide is a self-contained example, never a tournament mutation.
 {
@@ -60,10 +76,11 @@ console.log('DDT2 views: clean season, future fixtures, official winner decision
 // Exercise the real controller: hash history must not replace the page or reset its scroll.
 (async()=>{
  const vm=require('node:vm'),listeners={},location=new URL('https://example.test/ddt2/stats.html#build-stats');
- let renders=0,scrolls=0,anchors=0,animations=0;
+ let renders=0,scrolls=0,anchors=0,animations=0,searchHandler,searchResults='';
+ const searchInput={value:'',addEventListener:(_name,fn)=>{searchHandler=fn;}},searchList={set innerHTML(v){searchResults=v;}};
  const root={set innerHTML(value){renders++;},addEventListener(){},querySelector:()=>({focus(){}}),querySelectorAll:()=>[],animate(){animations++;}};
  const scene={},section={scrollIntoView(){anchors++;}},document={
-  body:{dataset:{}},getElementById:id=>id==='season-root'?root:id==='build-stats'?section:null,
+  body:{dataset:{}},getElementById:id=>id==='season-root'?root:id==='build-stats'?section:document.body.dataset.section==='clubs'&&id==='season-club-search'?searchInput:id==='season-club-list'?searchList:null,
   querySelector:()=>scene,querySelectorAll:()=>[],addEventListener:(name,fn)=>{listeners['document:'+name]=fn;}
  };
  const browser={addEventListener:(name,fn)=>{listeners[name]=fn;},scrollTo(){scrolls++;}};
@@ -83,6 +100,10 @@ console.log('DDT2 views: clean season, future fixtures, official winner decision
  assert.equal(renders,before,'Hash navigation preserves the rendered page');assert.equal(scrolls,0,'Hash navigation preserves native scrolling');
  function click(href){listeners['document:click']({button:0,target:{closest:()=>({href,hasAttribute:()=>false})},preventDefault(){}});}
  click('https://example.test/ddt2/bracket.html');await settle();assert.equal(document.body.dataset.section,'bracket');
+ click('https://example.test/ddt2/teams.html');assert.equal(document.body.dataset.section,'clubs');assert.equal(document.title,'Teams · DDT2');
+ searchInput.value='Bloodwolf';searchHandler();assert.match(searchResults,/Dominare/);assert(!searchResults.includes('Domineer'));
+ searchInput.value='';searchHandler();
+ click('https://example.test/ddt2/team.html?id=dominium');assert.equal(document.body.dataset.section,'club');assert.equal(document.title,'Team · DDT2');
  click('https://example.test/ddt2/stats.html#build-stats');await settle();assert.equal(anchors,2,'Cross-page section links reach their target');
  assert.equal(animations,0,'Device reduced-motion preference also covers the fallback transition');
  let cancelled=0;const active=[];

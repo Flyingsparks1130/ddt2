@@ -3,9 +3,65 @@
   "id": "ddt2",
   "name": "DDT2 · Dominator Draft Tournament",
   "published": false,
-  "source_note": "DDT2. Clubs, rounds, matches and drafts have not been announced.",
+  "source_note": "Five teams have registered full rosters. The bracket, rounds, matches and drafts have not been confirmed.",
   "rounds": [],
-  "teams": [],
+  "teams": [
+    {
+      "id": "dominator",
+      "name": "Dominator",
+      "members": [
+        {"display_name": "Flo"},
+        {"display_name": "PKHR"},
+        {"display_name": "Mayday"},
+        {"display_name": "Zen"},
+        {"display_name": "Cynical"}
+      ]
+    },
+    {
+      "id": "dominare",
+      "name": "Dominare",
+      "members": [
+        {"display_name": "SunioBunio"},
+        {"display_name": "McGee"},
+        {"display_name": "Bloodwolf"},
+        {"display_name": "Azure"},
+        {"display_name": "AngelicVixen"}
+      ]
+    },
+    {
+      "id": "domineer",
+      "name": "Domineer",
+      "members": [
+        {"display_name": "Stayk"},
+        {"display_name": "Bean"},
+        {"display_name": "ABG"},
+        {"display_name": "Sonic"},
+        {"display_name": "Juni"}
+      ]
+    },
+    {
+      "id": "dominium",
+      "name": "Dominium",
+      "members": [
+        {"display_name": "Yokka"},
+        {"display_name": "Ramnek"},
+        {"display_name": "NakedGhostie"},
+        {"display_name": "Nir"},
+        {"display_name": "Tomomo"}
+      ]
+    },
+    {
+      "id": "domimoon",
+      "name": "DomiMoon",
+      "members": [
+        {"display_name": "Moon"},
+        {"display_name": "Kamie"},
+        {"display_name": "Eibaman"},
+        {"display_name": "IceColaa"},
+        {"display_name": "GallCho"}
+      ]
+    }
+  ],
   "scoring": {
     "points_by_place": [
       4,
