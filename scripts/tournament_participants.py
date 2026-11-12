@@ -14,10 +14,13 @@ def race_number(race):
     return int(match[1]) if match else None
 
 
-def attach_participants(matches, race_docs, portraits=None):
+def attach_participants(matches, race_docs, portraits=None, registered_teams=None):
     portraits = portraits or {}
     by_variant = {p['variant_id']: p for p in portraits.values()}
-    clubs = {}
+    registered = {t['id']: t['members'] for t in (registered_teams or []) if 'members' in t}
+    rosters = {tid: {'source': 'registration',
+                     'members': [{'display_name': r['display_name']} for r in members]}
+               for tid, members in registered.items()}
     for match in matches:
         draft = [{**portraits.get(r['uma'], {}), **r}
                  for r in (match.get('draft') or {}).get('roster', [])]
@@ -111,8 +114,8 @@ def attach_participants(matches, race_docs, portraits=None):
             if not team:
                 continue
             members = [r for r in lineup if r['team_id'] == team['id'] and not r['benched']]
-            if members:
-                clubs[team['id']] = {'match_id': match['id'], 'round': match['round'],
+            if members and team['id'] not in registered:
+                rosters[team['id']] = {'match_id': match['id'], 'round': match['round'],
                                      'source': match['lineup_source'],
                                      'members': [{'display_name': r['display_name']} for r in members]}
-    return clubs
+    return rosters

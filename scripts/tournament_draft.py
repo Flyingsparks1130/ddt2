@@ -66,7 +66,7 @@ def normalize_draft(raw, match):
                 if not isinstance(value, dict) or set(value) != {'team_id', key}:
                     raise ValueError(f'{label} must contain team_id and {key}.')
                 if not isinstance(value['team_id'], str) or value['team_id'] not in teams:
-                    raise ValueError(f'{label} must name one of this match’s two clubs.')
+                    raise ValueError(f'{label} must name one of this match’s two teams.')
                 text(value[key], label + '.' + key)
     for key in ('tiebreaker_track', 'training_start', 'training_deadline'):
         text(result[key], key, optional=True)
@@ -84,7 +84,7 @@ def normalize_draft(raw, match):
             text(row['display_name'], 'roster.display_name')
         text(row['discord'], 'roster.discord', optional=row['benched'] is True or bool(row.get('display_name')))
         if row['team_id'] not in teams or type(row['benched']) is not bool:
-            raise ValueError('Roster club must be a participant and benched must be a boolean.')
+            raise ValueError('Roster team must be a participant and benched must be a boolean.')
         key = (row['team_id'], row['uma'].casefold())
         player = (row['discord'] or row.get('display_name') or '').casefold()
         if key in seen_umas or (player and player in seen_players):
@@ -95,7 +95,7 @@ def normalize_draft(raw, match):
     for team in teams:
         entries = [r for r in roster if r['team_id'] == team]
         if sum(not r['benched'] for r in entries) > 5 or sum(r['benched'] for r in entries) > 1:
-            raise ValueError('Each club may list up to five active Umas and one bench.')
+            raise ValueError('Each team may list up to five active Umas and one bench.')
     text(result['notes'], 'notes', optional=True, max_length=4000)
     if result['notes'] is None:
         result['notes'] = ''
