@@ -2,9 +2,13 @@
 
 The public navigation follows tournament → round → matchup → race description → original export. Each matchup also has a **Match draft** tab.
 
+## Registered teams
+
+Register players in `tournament.json` under each team’s `members`, using `{"display_name":"Player"}`. A team may have up to five players. Registration does not create a bracket, match, draft or Uma build; leave `rounds` and `matches` empty until the draw is confirmed. The public index exposes `team_rosters` with `source:"registration"`; `club_rosters` remains a compatibility alias. Registered player names are preserved when match lineups are added.
+
 ## Folder contents
 
-Example: `Dominator Tournament/R1/Example Club A vs Example Club B/`
+Example: `Dominator Tournament/R1/Example Team A vs Example Team B/`
 
 | File or folder | Purpose |
 | --- | --- |
@@ -13,11 +17,11 @@ Example: `Dominator Tournament/R1/Example Club A vs Example Club B/`
 | `results.json` | Optional organizer-reported podiums and MVP when raw exports are unavailable |
 | `01 - track description/original.json` | Unmodified race export; folder numbering controls display order |
 
-Use `R1` through `R4` for Round 1, quarterfinals, semifinals and final. `Round 1` through `Round 4` are also recognized. A stable match marker allows display-folder renames. Distinct exports count as distinct races; duplicate content is rejected. Keep practice files outside the active archive.
+The current engine supports `R1` through `R4`. DDT2’s bracket is not confirmed; agree on its structure before creating any round folders. `Round 1` through `Round 4` are also recognized. A stable match marker allows display-folder renames. Distinct exports count as distinct races; duplicate content is rejected. Keep practice files outside the active archive.
 
 ## Drafts
 
-`draft.json` uses schema version 1 and the internal `match_id`. All other fields can be omitted until known. Unknown fields or another matchup's club are rejected.
+`draft.json` uses schema version 1 and the internal `match_id`. All other fields can be omitted until known. Unknown fields or another matchup's team are rejected.
 
 | Field | Value |
 | --- | --- |
@@ -31,9 +35,9 @@ Use `R1` through `R4` for Round 1, quarterfinals, semifinals and final. `Round 1
 | `training_start`, `training_deadline` | Optional date/time strings with timezone |
 | `notes` | Optional context and gaps in the available record |
 
-For actions, `team_id` is the club making the pick or veto. For a bench or roster entry, it is the owning club. Preserve known snake-pick order across both teams. A bench may use `discord:null`. Do not reconstruct unsupplied pick phases from the final roster. Only one draft belongs to each match.
+For actions, `team_id` is the team making the pick or veto. For a bench or roster entry, it is the owning team. Preserve known snake-pick order across both teams. A bench may use `discord:null`. Do not reconstruct unsupplied pick phases from the final roster. Only one draft belongs to each match.
 
-Roster entries may include `display_name` to resolve a supplied Discord ID or record an export-backed player name. An active entry may use `discord:null` only with a non-empty `display_name`; an in-game owner name is not assumed to be a Discord handle. Club rosters expose only player names. Uma selections and portraits remain specific to each matchup.
+Roster entries may include `display_name` to resolve a supplied Discord ID or record an export-backed player name. An active entry may use `discord:null` only with a non-empty `display_name`; an in-game owner name is not assumed to be a Discord handle. Team rosters expose only player names. Uma selections and portraits remain specific to each matchup.
 
 ## Reported results
 
