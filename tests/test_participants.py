@@ -36,6 +36,20 @@ class ParticipantTests(unittest.TestCase):
         self.assertEqual(display_name('<@!479998555290075136>'), '')
         self.assertEqual(display_name('name@club'), 'name@club')
 
+    def test_registered_players_are_not_replaced_by_match_owner_names(self):
+        registered = [{'id': 'a', 'members': [{'display_name': 'Registered Player'}]}]
+        original = copy.deepcopy(registered)
+        match = {'id': 'm', 'round': 'R1', 'participants': [{'id': 'a'}, {'id': 'b'}],
+                 'races': [], 'draft': {'roster': [
+                     {'team_id': 'a', 'uma': 'Uma A', 'display_name': 'Match owner', 'benched': False},
+                     {'team_id': 'b', 'uma': 'Uma B', 'display_name': 'Other owner', 'benched': False}]}}
+        rosters = attach_participants([match], {}, registered_teams=registered)
+        self.assertEqual(rosters['a'], {'source': 'registration', 'members': registered[0]['members']})
+        self.assertEqual(rosters['b']['members'], [{'display_name': 'Other owner'}])
+        self.assertEqual(match['lineup'][0]['display_name'], 'Match owner')
+        rosters['a']['members'][0]['display_name'] = 'Changed copy'
+        self.assertEqual(registered, original)
+
     def test_lineup_preserves_verified_build_supports_without_mutating_source(self):
         row = {'team_id':'a', 'eligible':True, 'owner':'Player', 'variant_id':111601,
                'uma':'Gentildonna', 'points':4, 'stats':{'speed':1234},
