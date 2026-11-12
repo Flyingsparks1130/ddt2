@@ -33,14 +33,14 @@ const players=[{team_id:'a',uma:'Gentildonna',display_name:'Player A',variant_id
  {team_id:'b',uma:'Gold Ship',display_name:'Player C',variant_id:100701}];
 data.index.matches=[match('m','ready',{lineup:players})];data.params=new URLSearchParams('match=m&round=R1');
 let html=UI.views.archive(data);
-assert.match(html,/data-runner="0"/);assert.match(html,/Support cards/);assert.match(html,/Kitasan Black/);
+assert.match(html,/data-runner="0"/);assert.match(html,/Support Cards/);assert.match(html,/Kitasan Black/);
 assert(!html.includes('Runner B'),'Benched Uma must not be selectable');
 assert.match(html,/Copy match link/);assert(!/undefined|NaN/.test(html));
 assert.match(M.detail(players[1],data),/&lt;Runner B&gt;/);assert.match(M.detail(players[1],data),/>0<\/dd>/);
 assert.match(M.detail(players[2],data),/>—<\/dd>/,'Missing stats stay unknown');
 data.favorite='a';assert.match(M.hub(data),/<option value="a" selected>/);
 assert.match(M.followButton(data,'a'),/aria-pressed="true"/);
-data.index.matches[0].lineup=[];assert.match(M.lineups(data,data.index.matches[0]),/Lineup not announced/);
+data.index.matches[0].lineup=[];assert.match(M.lineups(data,data.index.matches[0]),/Lineup Not Announced/);
 assert.match(UI.views.clubs(data),/data-follow="a"/);
 assert(!/\bLive\b/.test(M.hub(data)),'A published fixture is not a live race feed');
 console.log('Matchday: published status, follow persistence, event isolation, missing data, supports, escaping and bench filtering passed.');

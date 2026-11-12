@@ -9,20 +9,20 @@ for(const [key,view] of Object.entries(UI.views)){
  assert(!/\bclubs?\b/i.test(html.replace(/<[^>]*>/g,'')),key+' uses team wording');
 }
 assert.match(UI.views.home(data),/>6<\/strong>/);assert.match(UI.views.rules(data),/>6<\/strong>/);
-assert.match(UI.views.bracket(data),/Bracket not confirmed/);
-assert.match(UI.views.stats(data),/Team standings/);assert.match(UI.views.stats(data),/No data recorded/);
+assert.match(UI.views.bracket(data),/Bracket Not Confirmed/);
+assert.match(UI.views.stats(data),/Team Standings/);assert.match(UI.views.stats(data),/No data recorded/);
 const teamList=UI.views.clubs(data);
-assert.equal((teamList.match(/Roster full · 5\/5/g)||[]).length,5);
+assert(!/Roster full|season-roster-status|5\/5/.test(teamList));
 assert.equal((teamList.match(/<li>/g)||[]).length,25);
 for(const team of data.index.teams){
  const detail=UI.views.club({...data,params:new URLSearchParams({id:team.id})});
  assert.match(teamList,new RegExp('team.html\\?id='+team.id));
  for(const member of team.members){assert(teamList.includes(member.display_name));assert(detail.includes(member.display_name));}
- assert.match(detail,/Matchups have not been announced/);assert.match(detail,/Lineup not announced/);
+ assert.match(detail,/Matchups will be announced after the draw/);assert.match(detail,/No Uma builds have been submitted yet/);
  assert(!detail.includes('data-runner='),'Registration cannot invent Uma selections');
 }
 const empty={...data,index:{...data.index,teams:[],team_rosters:{},club_rosters:{}}};
-assert.match(UI.views.clubs(empty),/Teams to be announced/);assert.match(UI.views.stats(empty),/Standings will appear/);
+assert.match(UI.views.clubs(empty),/Teams to Be Announced/);assert.match(UI.views.stats(empty),/Standings will appear/);
 const unsafe={...data,index:{...data.index,team_rosters:{dominare:{members:[{display_name:'<img src=x onerror=alert(1)>'}]}},club_rosters:{}}};
 assert.match(UI.views.clubs(unsafe),/&lt;img src=x onerror=alert\(1\)&gt;/);
 assert(!UI.views.clubs(unsafe).includes('<img src=x'));
