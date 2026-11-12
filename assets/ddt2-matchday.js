@@ -52,7 +52,7 @@
     const round = m && d.index.rounds.find(r => r.id === m.round);
     return `<section class="matchday-hub" aria-label="Match updates and followed team">
       <div class="matchday-fixture"><p class="season-eyebrow">${esc(item?.label || 'Match updates')}</p>
-        ${m ? `<a class="matchday-feature" href="${esc(url(m))}"><span class="matchday-versus">${m.participants.map(t => `<span>${esc(t?.name || 'Opponent to be confirmed')}<b>${esc(m.scores?.[t?.id] ?? '—')}</b></span>`).join('<i>VS</i>')}</span><span class="matchday-fixture-footer">${esc(round?.name || m.round)} <span>View match ↗</span></span></a>${item.activeCount > 1 ? `<a class="season-text-link" href="bracket.html">${item.activeCount} matches in progress →</a>` : ''}` : '<h2>Schedule to be announced</h2><p>Match details will appear here once fixtures are published.</p>'}
+        ${m ? `<a class="matchday-feature" href="${esc(url(m))}"><span class="matchday-versus">${m.participants.map(t => `<span>${esc(t?.name || 'Opponent to be confirmed')}<b>${esc(m.scores?.[t?.id] ?? '—')}</b></span>`).join('<i>VS</i>')}</span><span class="matchday-fixture-footer">${esc(round?.name || m.round)} <span>View match ↗</span></span></a>${item.activeCount > 1 ? `<a class="season-text-link" href="bracket.html">${item.activeCount} matches in progress →</a>` : ''}` : '<h2>Schedule to Be Announced</h2><p>Match details will appear here once fixtures are published.</p>'}
         <p class="matchday-sync" role="status">${d.syncError ? 'Updates unavailable. Showing the last loaded results.' : m ? 'Updates as results are published.' : ''}</p>
       </div>
       <div class="matchday-follow-panel"><label class="season-eyebrow" for="follow-club">${club ? 'Your team' : 'Follow your team'}</label>
@@ -72,7 +72,7 @@
       ${artwork ? `<p class="matchday-outfit">${esc(artwork.outfit_name)}</p>` : ''}
       <p class="matchday-style">Running style <strong>${esc(p.running_style || '—')}</strong></p>
       <dl class="matchday-stats">${statLabels.map(([key,label]) => `<div><dt>${label}</dt><dd>${esc(p.stats?.[key] ?? '—')}</dd></div>`).join('')}</dl>
-      <div class="matchday-supports"><h4>Support cards</h4>${p.support?.length ? `<ul>${p.support.map(s => `<li><span>${esc(d.supports?.cards?.[s.id]?.name || 'Support card '+s.id)}</span>${s.limit_breaks != null ? `<small>${esc(s.limit_breaks)} LB</small>` : ''}</li>`).join('')}</ul>` : '<p>Not available</p>'}</div>
+      <div class="matchday-supports"><h4>Support Cards</h4>${p.support?.length ? `<ul>${p.support.map(s => `<li><span>${esc(d.supports?.cards?.[s.id]?.name || 'Support card '+s.id)}</span>${s.limit_breaks != null ? `<small>${esc(s.limit_breaks)} LB</small>` : ''}</li>`).join('')}</ul>` : '<p>Not available</p>'}</div>
     </div>`;
   }
   function group(d, team, lineup, key) {
@@ -80,7 +80,7 @@
     const chosen = players.find(p => identity(p) === selected.get(key)) || players[0];
     const panelId = `build-${encodeURIComponent(key)}`;
     return `<section class="matchday-lineup" data-lineup-group="${esc(key)}"><header><a href="team.html?id=${encodeURIComponent(team.id)}">${esc(team.name)}</a>${followButton(d, team.id)}</header>
-      ${players.length ? `<div class="matchday-picker" role="group" aria-label="${esc(team.name)} lineup">${players.map((p,i) => `<button type="button" data-runner="${i}" aria-pressed="${p===chosen}" aria-controls="${panelId}" aria-label="View ${esc(p.uma || p.name)}${p.display_name?' · '+esc(p.display_name):''}">${figure(p)}<span>${esc(p.uma || p.name)}</span></button>`).join('')}</div><div class="matchday-build" id="${panelId}" aria-live="polite" aria-atomic="true">${detail(chosen,d)}</div>` : '<div class="matchday-lineup-empty"><span aria-hidden="true">◇</span><h3>Lineup not announced</h3><p>Published Umas and builds will appear here.</p></div>'}
+      ${players.length ? `<div class="matchday-picker" role="group" aria-label="${esc(team.name)} lineup">${players.map((p,i) => `<button type="button" data-runner="${i}" aria-pressed="${p===chosen}" aria-controls="${panelId}" aria-label="View ${esc(p.uma || p.name)}${p.display_name?' · '+esc(p.display_name):''}">${figure(p)}<span>${esc(p.uma || p.name)}</span></button>`).join('')}</div><div class="matchday-build" id="${panelId}" aria-live="polite" aria-atomic="true">${detail(chosen,d)}</div>` : '<div class="matchday-lineup-empty"><span aria-hidden="true">◇</span><h3>Lineup Not Announced</h3><p>Published Umas and builds will appear here.</p></div>'}
     </section>`;
   }
   function lineups(d, m, clubId) {
@@ -89,7 +89,7 @@
   }
   function clubLineup(d,id) {
     const m = [...d.index.matches].reverse().find(m => rows(m).some(p => p.team_id === id));
-    return m ? `<a class="season-text-link" href="${esc(url(m))}">View match →</a>${lineups(d,m,id)}` : '<p class="season-no-data">Lineup not announced.</p>';
+    return m ? `<a class="season-text-link" href="${esc(url(m))}">View match →</a>${lineups(d,m,id)}` : '<p class="season-no-data">No Uma builds have been submitted yet.</p>';
   }
   function pathMatches(index, id) {
     if (!index.teams.some(t => t.id === id)) return [];

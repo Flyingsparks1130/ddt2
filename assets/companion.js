@@ -75,7 +75,7 @@ function display(bundle, isPreview) {
       <div class="cp-stat"><strong>${matches.length}</strong><span>Matches with results</span></div>
       <div class="cp-stat"><strong>${bundle.standings.players.length}</strong><span>Players</span></div>
     </div>
-    <section class="cp-panel"><h2>Scoring format</h2>${rules ? `
+    <section class="cp-panel"><h2>Scoring Format</h2>${rules ? `
       <ul class="cp-rule-points">${rules.points.map((n,i) => `<li>Place ${i+1} <strong>+${esc(n)}</strong></li>`).join('')}</ul>
       <p class="cp-meta">Points add across approved Uma entries. Unlisted places receive 0 points. Ties: ${rules.tiebreak === 'countback' ? 'countback by finishing position' : 'shared rank'}.</p>
       <p class="cp-meta">Each heat keeps the scoring rules used at approval. These totals do not decide bracket advancement.</p>` :
@@ -106,7 +106,7 @@ function renderMatches() {
   byId('match-results').innerHTML = `
     ${archiveURL ? `<p><a class="cp-link" href="${esc(archiveURL)}">View match details →</a></p>` : ''}
     <p class="cp-meta">${selected ? 'Selected match' : 'Entire event'} · ${results.length} approved heats. Each Uma contributes its awarded points to its player and, when assigned, team.</p>
-    <div class="cp-standings">${standingTable(players,'Player standings')}${standingTable(teams,'Team standings')}</div>
+    <div class="cp-standings">${standingTable(players,'Player Standings')}${standingTable(teams,'Team Standings')}</div>
     ${results.length ? [...results].sort((a,b) => a.match.id.localeCompare(b.match.id) || a.heat.number-b.heat.number).map(r => `
       <section class="cp-panel"><div class="cp-heat-head"><div><h3>${esc(r.match.name)} · Heat ${r.heat.number}</h3>
         <p class="cp-meta">${esc([r.match.round,r.match.stage].filter(Boolean).join(' · '))}</p><p class="cp-meta">${esc(contract.course(r.track))}</p></div>
@@ -117,7 +117,7 @@ function renderMatches() {
           <td>${esc(row.playerName)}</td><td>${esc(row.team || '—')}</td><td>${row.gate}</td><td>${row.finishTime.toFixed(3)}</td><td>${esc(row.points)}</td></tr>`).join(''))}
         <details class="cp-audit"><summary>Result details</summary><p>Race ${esc(r.raceId)} · Heat ${esc(r.heat.id)}</p>
           <p>Points by place: ${r.rules.points.map(esc).join(', ')} · ${esc(r.rules.tiebreak)} ties</p><p>Fingerprint: ${esc(r.fingerprint)}</p></details>
-      </section>`).join('') : '<section class="cp-panel"><h2>No race results yet</h2><p class="cp-meta">Results will appear after the first race.</p></section>'}`;
+      </section>`).join('') : '<section class="cp-panel"><h2>No Race Results Yet</h2><p class="cp-meta">Results will appear after the first race.</p></section>'}`;
   window.UmaRaceArt?.attachAll();
 }
 window.UmaRaceArt?.load().then(()=>{if(current)renderMatches();});
