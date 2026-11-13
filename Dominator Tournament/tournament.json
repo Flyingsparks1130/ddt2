@@ -3,7 +3,7 @@
   "id": "ddt2",
   "name": "DDT2 · Dominator Draft Tournament",
   "published": false,
-  "source_note": "Five teams have registered full rosters. The bracket, rounds, matches and drafts have not been confirmed.",
+  "source_note": "Six teams have registered full rosters. The bracket, rounds, matches and drafts have not been confirmed.",
   "rounds": [],
   "teams": [
     {
@@ -23,7 +23,7 @@
       "members": [
         {"display_name": "SunioBunio"},
         {"display_name": "McGee"},
-        {"display_name": "Bloodwolf"},
+        {"display_name": "Bloodvvolf"},
         {"display_name": "Azure"},
         {"display_name": "AngelicVixen"}
       ]
@@ -59,6 +59,17 @@
         {"display_name": "Eibaman"},
         {"display_name": "IceColaa"},
         {"display_name": "GallCho"}
+      ]
+    },
+    {
+      "id": "dominance",
+      "name": "Dominance",
+      "members": [
+        {"display_name": "Essential"},
+        {"display_name": "WCH"},
+        {"display_name": "Fabino"},
+        {"display_name": "Iviers"},
+        {"display_name": "Raykini"}
       ]
     }
   ],

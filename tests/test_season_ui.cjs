@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const UI=require('../assets/ddt2-app.js');
 const data={index:require('../data/tournament-index.json'),stats:require('../data/tournament-statistics.json'),event:require('../config/event.json'),params:new URLSearchParams()};
-assert.deepEqual(data.index.teams.map(t=>t.name),['Dominator','Dominare','Domineer','Dominium','DomiMoon']);assert.deepEqual(data.index.rounds,[]);assert.deepEqual(data.index.matches,[]);
+assert.deepEqual(data.index.teams.map(t=>t.name),['Dominator','Dominare','Domineer','Dominium','DomiMoon','Dominance']);assert.deepEqual(data.index.rounds,[]);assert.deepEqual(data.index.matches,[]);
 for(const [key,view] of Object.entries(UI.views)){
  const html=view(data);assert(!/undefined|NaN/.test(html),key);assert(!/Dominator Player|Dominion|Domichill|Quarterfinals|Semifinals|Trophy room|Award/i.test(html),key);
  assert(/<h1/.test(html),key);
@@ -13,7 +13,7 @@ assert.match(UI.views.bracket(data),/Bracket Not Confirmed/);
 assert.match(UI.views.stats(data),/Team Standings/);assert.match(UI.views.stats(data),/No data recorded/);
 const teamList=UI.views.clubs(data);
 assert(!/Roster full|season-roster-status|5\/5/.test(teamList));
-assert.equal((teamList.match(/<li>/g)||[]).length,25);
+assert.equal((teamList.match(/<li>/g)||[]).length,30);
 for(const team of data.index.teams){
  const detail=UI.views.club({...data,params:new URLSearchParams({id:team.id})});
  assert.match(teamList,new RegExp('team.html\\?id='+team.id));
@@ -33,7 +33,7 @@ const match={id:'r1-m1',round:'R1',participants:future.index.teams,status:'in_pr
 assert.deepEqual(UI.record(future,'a'),{wins:0,losses:0,points:0});assert.match(UI.views.bracket(future),/&lt;Club A&gt;/);assert(!UI.views.bracket(future).includes('<Club A>'));
 match.winner_id='b';match.loser_id='a';assert.deepEqual(UI.record(future,'a'),{wins:0,losses:1,points:99});
 const html=UI.views.stats(future);assert.match(html,/Club B/);assert.match(html,/Team standings/);
-console.log('DDT2 views: five full team rosters, no bracket or builds, empty season, future fixtures, official decisions and escaped names passed.');
+console.log('DDT2 views: six full team rosters, no bracket or builds, empty season, future fixtures, official decisions and escaped names passed.');
 
 // The interactive guide is a self-contained example, never a tournament mutation.
 {
@@ -101,7 +101,7 @@ console.log('DDT2 views: five full team rosters, no bracket or builds, empty sea
  function click(href){listeners['document:click']({button:0,target:{closest:()=>({href,hasAttribute:()=>false})},preventDefault(){}});}
  click('https://example.test/ddt2/bracket.html');await settle();assert.equal(document.body.dataset.section,'bracket');
  click('https://example.test/ddt2/teams.html');assert.equal(document.body.dataset.section,'clubs');assert.equal(document.title,'Teams · DDT2');
- searchInput.value='Bloodwolf';searchHandler();assert.match(searchResults,/Dominare/);assert(!searchResults.includes('Domineer'));
+ searchInput.value='Bloodvvolf';searchHandler();assert.match(searchResults,/Dominare/);assert(!searchResults.includes('Domineer'));
  searchInput.value='';searchHandler();
  click('https://example.test/ddt2/team.html?id=dominium');assert.equal(document.body.dataset.section,'club');assert.equal(document.title,'Team · DDT2');
  click('https://example.test/ddt2/stats.html#build-stats');await settle();assert.equal(anchors,2,'Cross-page section links reach their target');
