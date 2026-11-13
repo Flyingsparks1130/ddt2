@@ -1,6 +1,6 @@
 # Event configuration
 
-DDT2 starts November 29, 2026. Dominator, Dominare, Domineer, Dominium and DomiMoon have registered five players each. The bracket, rounds, fixtures, drafts and match times have not been confirmed. The confirmed prize count is six; allocation is not yet set.
+DDT2 starts November 29, 2026. Dominator, Dominare, Domineer, Dominium, DomiMoon and Dominance have registered five players each. The bracket, rounds, fixtures, drafts and match times have not been confirmed. The confirmed prize count is six; allocation is not yet set.
 
 The organizer supplied the match format: five trainers per team, six tracks plus a tiebreaker, Unity Cup, a 24-hour training window, one submitted build per trainer used on every track, 4/2/1 podium scoring and a 25-point target. The Rulebook describes the supplied track and Uma draft sequence. Existing scoring defaults already match these values. Official winners still require an organizer decision.
 
