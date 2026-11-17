@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-13T16:41:10Z",
+  "generated_at": "2026-11-17T23:32:21Z",
   "id": "ddt2",
   "name": "DDT2 · Dominator Draft Tournament",
   "published": false,
@@ -130,6 +130,111 @@
         },
         {
           "display_name": "Raykini"
+        }
+      ]
+    },
+    {
+      "id": "domimommy",
+      "name": "Domimommy",
+      "members": [
+        {
+          "display_name": "Emperor"
+        },
+        {
+          "display_name": "CR7"
+        },
+        {
+          "display_name": "Mor Mas"
+        },
+        {
+          "display_name": "Khinus"
+        },
+        {
+          "display_name": "Renfield"
+        }
+      ]
+    },
+    {
+      "id": "dominacion",
+      "name": "Dominacion",
+      "members": [
+        {
+          "display_name": "Snowy"
+        },
+        {
+          "display_name": "wata"
+        },
+        {
+          "display_name": "mikeluigi64"
+        },
+        {
+          "display_name": "Yumi"
+        },
+        {
+          "display_name": "raine"
+        }
+      ]
+    },
+    {
+      "id": "dominant-h",
+      "name": "Dominant H",
+      "members": [
+        {
+          "display_name": "Fizzle"
+        },
+        {
+          "display_name": "Flyingsparkz"
+        },
+        {
+          "display_name": "Reeces Puffs"
+        },
+        {
+          "display_name": "JeryDream"
+        },
+        {
+          "display_name": "Kitasan"
+        }
+      ]
+    },
+    {
+      "id": "dominate",
+      "name": "Dominate",
+      "members": [
+        {
+          "display_name": "POP"
+        },
+        {
+          "display_name": "Reyov"
+        },
+        {
+          "display_name": "Sacrell"
+        },
+        {
+          "display_name": "Pjoes"
+        },
+        {
+          "display_name": "Juqi"
+        }
+      ]
+    },
+    {
+      "id": "dominion",
+      "name": "Dominion",
+      "members": [
+        {
+          "display_name": "Flareon"
+        },
+        {
+          "display_name": "axdzcs"
+        },
+        {
+          "display_name": "Zangona"
+        },
+        {
+          "display_name": "Beep"
+        },
+        {
+          "display_name": "muuchan"
         }
       ]
     }
@@ -270,6 +375,106 @@
           "display_name": "Raykini"
         }
       ]
+    },
+    "domimommy": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Emperor"
+        },
+        {
+          "display_name": "CR7"
+        },
+        {
+          "display_name": "Mor Mas"
+        },
+        {
+          "display_name": "Khinus"
+        },
+        {
+          "display_name": "Renfield"
+        }
+      ]
+    },
+    "dominacion": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Snowy"
+        },
+        {
+          "display_name": "wata"
+        },
+        {
+          "display_name": "mikeluigi64"
+        },
+        {
+          "display_name": "Yumi"
+        },
+        {
+          "display_name": "raine"
+        }
+      ]
+    },
+    "dominant-h": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Fizzle"
+        },
+        {
+          "display_name": "Flyingsparkz"
+        },
+        {
+          "display_name": "Reeces Puffs"
+        },
+        {
+          "display_name": "JeryDream"
+        },
+        {
+          "display_name": "Kitasan"
+        }
+      ]
+    },
+    "dominate": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "POP"
+        },
+        {
+          "display_name": "Reyov"
+        },
+        {
+          "display_name": "Sacrell"
+        },
+        {
+          "display_name": "Pjoes"
+        },
+        {
+          "display_name": "Juqi"
+        }
+      ]
+    },
+    "dominion": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Flareon"
+        },
+        {
+          "display_name": "axdzcs"
+        },
+        {
+          "display_name": "Zangona"
+        },
+        {
+          "display_name": "Beep"
+        },
+        {
+          "display_name": "muuchan"
+        }
+      ]
     }
   },
   "club_rosters": {
@@ -390,6 +595,106 @@
         },
         {
           "display_name": "Raykini"
+        }
+      ]
+    },
+    "domimommy": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Emperor"
+        },
+        {
+          "display_name": "CR7"
+        },
+        {
+          "display_name": "Mor Mas"
+        },
+        {
+          "display_name": "Khinus"
+        },
+        {
+          "display_name": "Renfield"
+        }
+      ]
+    },
+    "dominacion": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Snowy"
+        },
+        {
+          "display_name": "wata"
+        },
+        {
+          "display_name": "mikeluigi64"
+        },
+        {
+          "display_name": "Yumi"
+        },
+        {
+          "display_name": "raine"
+        }
+      ]
+    },
+    "dominant-h": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Fizzle"
+        },
+        {
+          "display_name": "Flyingsparkz"
+        },
+        {
+          "display_name": "Reeces Puffs"
+        },
+        {
+          "display_name": "JeryDream"
+        },
+        {
+          "display_name": "Kitasan"
+        }
+      ]
+    },
+    "dominate": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "POP"
+        },
+        {
+          "display_name": "Reyov"
+        },
+        {
+          "display_name": "Sacrell"
+        },
+        {
+          "display_name": "Pjoes"
+        },
+        {
+          "display_name": "Juqi"
+        }
+      ]
+    },
+    "dominion": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Flareon"
+        },
+        {
+          "display_name": "axdzcs"
+        },
+        {
+          "display_name": "Zangona"
+        },
+        {
+          "display_name": "Beep"
+        },
+        {
+          "display_name": "muuchan"
         }
       ]
     }
