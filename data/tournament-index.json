@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-17T23:32:21Z",
+  "generated_at": "2026-11-18T01:11:22Z",
   "id": "ddt2",
   "name": "DDT2 · Dominator Draft Tournament",
   "published": false,
@@ -235,6 +235,27 @@
         },
         {
           "display_name": "muuchan"
+        }
+      ]
+    },
+    {
+      "id": "dominante",
+      "name": "Dominante",
+      "members": [
+        {
+          "display_name": "Bloop"
+        },
+        {
+          "display_name": "Dinomar"
+        },
+        {
+          "display_name": "ReginL"
+        },
+        {
+          "display_name": "eile"
+        },
+        {
+          "display_name": "Raven621"
         }
       ]
     }
@@ -475,6 +496,26 @@
           "display_name": "muuchan"
         }
       ]
+    },
+    "dominante": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Bloop"
+        },
+        {
+          "display_name": "Dinomar"
+        },
+        {
+          "display_name": "ReginL"
+        },
+        {
+          "display_name": "eile"
+        },
+        {
+          "display_name": "Raven621"
+        }
+      ]
     }
   },
   "club_rosters": {
@@ -695,6 +736,26 @@
         },
         {
           "display_name": "muuchan"
+        }
+      ]
+    },
+    "dominante": {
+      "source": "registration",
+      "members": [
+        {
+          "display_name": "Bloop"
+        },
+        {
+          "display_name": "Dinomar"
+        },
+        {
+          "display_name": "ReginL"
+        },
+        {
+          "display_name": "eile"
+        },
+        {
+          "display_name": "Raven621"
         }
       ]
     }
