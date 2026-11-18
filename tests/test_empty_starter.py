@@ -19,8 +19,8 @@ class UpcomingEventTests(unittest.TestCase):
         self.assertEqual(index['eliminated'], [])
         self.assertEqual(index['club_rosters'], index['team_rosters'])
         self.assertEqual([team['name'] for team in index['teams']],
-                         ['Dominator', 'Dominare', 'Domineer', 'Dominium', 'DomiMoon', 'Dominance', 'Domimommy', 'Dominacion', 'Dominant H', 'Dominate', 'Dominion'])
-        self.assertEqual(len(index['team_rosters']), 11)
+                         ['Dominator', 'Dominare', 'Domineer', 'Dominium', 'DomiMoon', 'Dominance', 'Domimommy', 'Dominacion', 'Dominant H', 'Dominate', 'Dominion', 'Dominante'])
+        self.assertEqual(len(index['team_rosters']), 12)
         for team in index['teams']:
             roster = index['team_rosters'][team['id']]
             self.assertEqual(roster['source'], 'registration')

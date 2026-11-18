@@ -3,7 +3,7 @@
   "id": "ddt2",
   "name": "DDT2 · Dominator Draft Tournament",
   "published": false,
-  "source_note": "Eleven teams have registered full rosters. The bracket, rounds, matches and drafts have not been confirmed.",
+  "source_note": "Twelve teams have registered full rosters. The bracket, rounds, matches and drafts have not been confirmed.",
   "rounds": [],
   "teams": [
     {
@@ -125,6 +125,17 @@
         {"display_name": "Zangona"},
         {"display_name": "Beep"},
         {"display_name": "muuchan"}
+      ]
+    },
+    {
+      "id": "dominante",
+      "name": "Dominante",
+      "members": [
+        {"display_name": "Bloop"},
+        {"display_name": "Dinomar"},
+        {"display_name": "ReginL"},
+        {"display_name": "eile"},
+        {"display_name": "Raven621"}
       ]
     }
   ],
