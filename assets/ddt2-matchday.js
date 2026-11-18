@@ -11,6 +11,28 @@
   const rows = m => (m.lineup?.length ? m.lineup : m.draft_lineup?.length ? m.draft_lineup : m.draft?.roster || []).filter(p => !p.benched);
   const belongs = (m, id) => m.participants?.some(t => t?.id === id);
   const ended = m => Boolean(m.winner_id) || ['complete','forfeit'].includes(m.status);
+  // Each registered team keeps the same heraldic charge across tournament views.
+  const charges = new Map(Object.entries({
+    dominator: 'M10 15l5 4 5-9 5 9 5-4-3 12H13Z',
+    dominare: 'M20 9l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1Z',
+    domineer: 'M23 9L12 21h7l-2 10 12-15h-8Z',
+    dominium: 'M20 9L9 20l11 11 11-11Z M16 20l4-5 4 5-4 5Z',
+    domimoon: 'M24 10a10 10 0 1 0 5 16 11 11 0 0 1-5-16Z',
+    dominance: 'M9 23l11-12 11 12-11-6Z M12 28l8-8 8 8-8-3Z',
+    domimommy: 'M20 29C2 18 13 7 20 16c7-9 18 2 0 13Z',
+    dominacion: 'M9 15l21-5-8 9H12Z M13 21h10l-6 5h-4Z',
+    'dominant-h': 'M12 11h5v10a3 3 0 0 0 6 0V11h5v10a8 8 0 0 1-16 0Z',
+    dominate: 'M18 10c-2 7-9 9-6 15 1 3 4 5 8 5-4-4 0-7 2-10 0 4 4 5 3 9 8-6 4-12 0-17 0 4-2 5-3 6Z',
+    dominion: 'M11 11h4v4h3v-4h4v4h3v-4h4v8l-3 2 1 8H13l1-8-3-2Z',
+    dominante: 'M20 9l3 7 7 4-7 3-3 8-3-8-7-3 7-4Z'
+  }));
+  function teamCrest(id) {
+    if (!id) return '';
+    const key = String(id).trim().toLowerCase().replace(/ +/g, '-');
+    const charge = charges.get(key) || 'M13 19h14v3H13Z';
+    return `<svg class="team-crest" aria-hidden="true" focusable="false" viewBox="0 0 40 42"><path fill="#600d20" stroke="#ebce86" stroke-width="1.8" d="M3 6 20 2l17 4v13c0 9-8 16-17 21C11 35 3 28 3 19Z"/><path fill="#f7dea3" fill-rule="evenodd" d="${charge}"/></svg>`;
+  }
+
   function featured(index, clubId) {
     const matches = (index.matches || []).filter(m => !clubId || belongs(m, clubId));
     const active = matches.filter(m => !ended(m) && m.status === 'in_progress');
@@ -138,7 +160,7 @@
     const round=d.index.rounds.find(r=>r.id===m.round);
     return `<section class="matchday-entrance" data-match-entrance="${esc(m.round+':'+m.id)}" aria-label="Match score"><p class="matchday-entrance-round">${esc(round?.name || m.round)} <span>${esc(m.id.toUpperCase())}</span></p><div class="matchday-faceoff">${[0,1].map(i=>{
       const t=m.participants?.[i];
-      return `<div class="matchday-contender"><span class="matchday-club-mark" aria-hidden="true">${esc(t?.name?.slice(0,1) || '—')}</span><div>${t?`<a href="team.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:'<span>Opponent to be confirmed</span>'}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div><strong>${esc(m.scores?.[t?.id] ?? '—')}</strong></div>`;
+      return `<div class="matchday-contender"><span class="matchday-club-mark" aria-hidden="true">${teamCrest(t?.id) || '—'}</span><div>${t?`<a href="team.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:'<span>Opponent to be confirmed</span>'}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div><strong>${esc(m.scores?.[t?.id] ?? '—')}</strong></div>`;
     }).join('<span class="matchday-faceoff-vs" aria-hidden="true">VS</span>')}</div></section>`;
   }
   function present(root,d,{enter=false}={}) {
@@ -218,7 +240,7 @@
       if (d && (e.key===preference.key(d.event.id) || e.key===null)) { preference.external(d.event.id); d.favorite=preference.get(d.event.id,d.index.teams); rerender(); }
     });
   }
-  const api = {featured,createPreference,preference,followButton,hub,lineups,clubLineup,detail,bind,pathMatches,bracketTools,paintBracket,entrance,present};
+  const api = {teamCrest,featured,createPreference,preference,followButton,hub,lineups,clubLineup,detail,bind,pathMatches,bracketTools,paintBracket,entrance,present};
   global.DDT2Matchday = api;
   if (typeof module !== 'undefined' && module.exports) module.exports=api;
 })(typeof window !== 'undefined' ? window : globalThis);

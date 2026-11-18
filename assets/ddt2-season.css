@@ -41,3 +41,32 @@ body:not(.season-app) .page,body:not(.season-app) .dt-main{max-width:1392px;marg
 
 /* Consistent spacing on individual team pages. */
 body[data-section=club] .matchday-club-toolbar{margin-bottom:0}.season-team-section{padding-top:36px}.season-team-section>h2{margin-bottom:18px}.season-team-section>.season-team-roster{margin-top:0;max-width:none;padding-block:8px}.season-team-section>.season-team-roster li:first-child{border-top:0}.season-team-section>.season-no-data{margin:0;padding:24px;line-height:1.7}.season-team-section>.season-text-link{margin-bottom:18px}.season-team-section+.season-metrics{margin-top:36px}@media(max-width:600px){.season-team-section{padding-top:28px}.season-team-section>h2{margin-bottom:14px}.season-team-section>.season-no-data{padding:20px}}
+
+/* Team identity travels with the team name. */
+.team-crest { width: 1.35em; height: 1.42em; vertical-align: middle; flex: none; }
+.season-crest .team-crest { display: block; width: 42px; height: 44px; }
+.season-heading h1 .team-crest { width: .83em; height: .9em; margin-right: .2em; vertical-align: -.03em; }
+.season-team-label .team-crest, .season-stat-panel th .team-crest, .cp-table .team-crest { margin-right: .35em; }
+.matchday-contender .matchday-club-mark:has(.team-crest) { background: none; border: 0; clip-path: none; }
+.matchday-club-mark .team-crest { width: 100%; height: 100%; }
+.season-team-roster mark { background: #f5d58a; color: #310613; border-radius: .15em; }
+
+@media (max-width: 600px) {
+  .season-header .ddt-header-inner { padding-inline: 12px; }
+  .season-header .ddt-nav { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; }
+  .season-header .ddt-nav a { display: grid; place-items: center; padding: 0; min-height: 44px; font-size: clamp(10px, 2.9vw, 13px); }
+  .season-header .ddt-nav a::after { left: 20%; right: 20%; }
+  .season-main { padding-inline: clamp(14px, 4vw, 20px); }
+  body:not([data-section=home]) .season-character-stage { width: min(43vw, 210px); height: 208px; top: 4px; right: -12px; }
+  .season-heading { max-width: 68%; min-height: 215px; padding: 25px 0; }
+  .season-heading h1 { font-size: clamp(31px, 9.5vw, 46px); overflow-wrap: anywhere; }
+  .season-heading > p:last-of-type { font-size: 13px; line-height: 1.45; margin-top: 12px; }
+  .season-search input, .matchday-follow-panel select { min-height: 44px; font-size: 16px; }
+  .matchday-club-card .season-club > header { padding: 14px 16px; gap: 12px; }
+  .matchday-club-card .season-team-roster { padding: 0 16px 10px; }
+  .matchday-club-card .season-team-roster ul { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 12px; }
+  .matchday-club-card .season-team-roster li { padding: 7px 0; font-size: 14px; }
+  .matchday-club-card .season-team-pending { padding: 0 16px 12px; }
+  .matchday-club-card .matchday-club-actions { padding: 0 16px 12px; }
+  .matchday-follow { min-height: 44px; }
+}
