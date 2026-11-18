@@ -14,6 +14,11 @@ assert.match(UI.views.stats(data),/Team Standings/);assert.match(UI.views.stats(
 const teamList=UI.views.clubs(data);
 assert(!/Roster full|season-roster-status|5\/5/.test(teamList));
 assert.equal((teamList.match(/<li>/g)||[]).length,60);
+const {teamCrest}=require('../assets/ddt2-matchday.js');
+assert.equal(new Set(data.index.teams.map(team=>teamCrest(team.id))).size,12);
+const followedList=UI.views.clubs({...data,favorite:'dominante'});
+assert.equal(followedList.match(/team\.html\?id=([^"]+)/)[1],'dominante');
+assert.equal(data.index.teams[0].id,'dominator','Following a team preserves the registration order');
 for(const team of data.index.teams){
  const detail=UI.views.club({...data,params:new URLSearchParams({id:team.id})});
  assert.match(teamList,new RegExp('team.html\\?id='+team.id));
@@ -101,7 +106,7 @@ console.log('DDT2 views: twelve full team rosters, no bracket or builds, empty s
  function click(href){listeners['document:click']({button:0,target:{closest:()=>({href,hasAttribute:()=>false})},preventDefault(){}});}
  click('https://example.test/ddt2/bracket.html');await settle();assert.equal(document.body.dataset.section,'bracket');
  click('https://example.test/ddt2/teams.html');assert.equal(document.body.dataset.section,'clubs');assert.equal(document.title,'Teams · DDT2');
- searchInput.value='Bloodvvolf';searchHandler();assert.match(searchResults,/Dominare/);assert(!searchResults.includes('Domineer'));
+ searchInput.value='OoDv';searchHandler();assert.match(searchResults,/<li>Bl<mark>oodv<\/mark>volf<\/li>/);assert.match(searchResults,/Dominare/);assert(!searchResults.includes('Domineer'));
  searchInput.value='';searchHandler();
  click('https://example.test/ddt2/team.html?id=dominium');assert.equal(document.body.dataset.section,'club');assert.equal(document.title,'Team · DDT2');
  click('https://example.test/ddt2/stats.html#build-stats');await settle();assert.equal(anchors,2,'Cross-page section links reach their target');
