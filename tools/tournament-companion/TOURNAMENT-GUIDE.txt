@@ -36,8 +36,13 @@ Public corrections require another publication review and explicit publish.
 PUBLISHING ACCESS
 DDT2 import configures Flyingsparks1130/ddt2, main, and
 data/companion/approved-results.json. It does not grant permission to publish.
-Use a fine-grained GitHub token restricted to this repository with Contents
-read/write. It must belong to an account granted repository write access.
+The repository owner can use a fine-grained GitHub token restricted to DDT2
+with Contents read/write. For another account collaborating on this personal
+repository, GitHub currently requires a classic token (public_repo for this
+public repository). Do not share the owner's token with other operators.
+Operators without repository access can approve locally and export results
+for the owner to publish. The proposed private operator-key publishing service
+is not implemented in 0.6.0. Private ZIP distribution alone grants no access.
 Set DOMINATOR_GITHUB_TOKEN in the companion process environment before launch.
 For example, use Windows Environment Variables to set a user variable, then
 reopen the launcher from a fresh sign-in so it inherits that environment.

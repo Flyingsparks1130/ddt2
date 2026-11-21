@@ -5,8 +5,8 @@ hachimi_register_present_callback. horseACT remains a separate prerequisite
 for automatic race JSON capture. Neither dependency is bundled or modified.
 
 INSTALL / UPDATE
-1. Download Dominator-Tournament-0.6.0-win64.zip from the DDT2 GitHub releases.
-   Extract it outside your game folder. Do not use GitHub's Source code ZIP.
+1. Obtain Dominator-Tournament-0.6.0-win64.zip privately from the organizer.
+   Extract it outside your game folder. Public installer downloads are withdrawn.
 2. Close Umamusume and the existing Tournament Companion, if running.
 3. Run Install.cmd. Paste Steam > Umamusume > Manage > Browse local files.
    The installer checks the package, copies only DominatorNetwork files and

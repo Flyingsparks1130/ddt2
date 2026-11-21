@@ -1,4 +1,4 @@
-name: Build tournament companion
+name: Validate tournament companion
 on:
   pull_request:
     branches: [main]
@@ -44,34 +44,5 @@ jobs:
         run: |
           ./tools/tournament-companion/package.ps1 -NodeRuntime "$env:RUNNER_TEMP/node.exe"
           ./tools/tournament-companion/tests/install.test.ps1
-      - uses: actions/upload-artifact@v4
-        with:
-          name: tournament-companion-win64
-          path: |
-            tools/tournament-companion/dist/*.zip
-            tools/tournament-companion/dist/SHA256SUMS.txt
-          if-no-files-found: error
-  release:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: windows
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v4
-        with:
-          name: tournament-companion-win64
-          path: companion-release
-      - name: Publish versioned operator download
-        env:
-          GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-        run: |
-          version=$(tr -d '\r\n' < tools/tournament-companion/version.txt)
-          tag="companion-v$version"
-          if gh release view "$tag" >/dev/null 2>&1; then
-            echo "Release $tag already exists; leaving it unchanged."
-            exit 0
-          fi
-          gh release create "$tag" companion-release/*.zip companion-release/SHA256SUMS.txt --target "$GITHUB_SHA" --title "Dominator Tournament Companion $version" --notes-file docs/companion-release-0.6.0.md
+      # Validate the installer without exposing a downloadable build artifact.
+      # The organizer distributes locally built Windows packages privately.

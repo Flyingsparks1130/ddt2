@@ -2,7 +2,7 @@
 
 [Live site](https://flyingsparks1130.github.io/ddt2/) · [Race artwork library](https://github.com/Flyingsparks1130/uma-race-art)
 
-[Download the Windows tournament companion](https://github.com/Flyingsparks1130/ddt2/releases) · [Operator guide](tools/tournament-companion/TOURNAMENT-GUIDE.txt) · [Site integration](docs/companion-operations.md)
+[Operator guide](tools/tournament-companion/TOURNAMENT-GUIDE.txt) · [Private operator handoff](docs/private-operator-handoff.md) · [Site integration](docs/companion-operations.md)
 
 Dominator Draft Tournament 2 starts November 29, 2026. Twelve teams have registered five players each. The bracket, rounds and matchups remain unconfirmed; no drafts, builds or results have been submitted. The Rulebook includes the organizer's five-trainer draft format, Unity Cup build requirements and 4/2/1 scoring to 25 points. The prize pool is six Discord Nitro prizes; allocation and match times are to be announced.
 
