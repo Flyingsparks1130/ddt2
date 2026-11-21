@@ -1,4 +1,4 @@
-DDT2 OPERATIONS — COMPANION 0.6.1
+DDT2 OPERATIONS — COMPANION 0.6.2
 
 1. Open http://127.0.0.1:27840/. In Teams & connection, check the published DDT2
    source, review it, then import. The bundled fallback has 12 teams and 60
@@ -44,7 +44,7 @@ repository, GitHub currently requires a classic token (public_repo for this
 public repository). Do not share the owner's token with other operators.
 Operators without repository access can approve locally and export results
 for the owner to publish. The proposed private operator-key publishing service
-is not implemented in 0.6.1. Private ZIP distribution alone grants no access.
+is not implemented in 0.6.2. Private ZIP distribution alone grants no access.
 Set DOMINATOR_GITHUB_TOKEN in the companion process environment before launch.
 For example, use Windows Environment Variables to set a user variable, then
 reopen the launcher from a fresh sign-in so it inherits that environment.

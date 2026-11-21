@@ -31,6 +31,8 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           ./build-clang.ps1 -Clang "$env:RUNNER_TEMP/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe"
+          ./PreviewTest.exe "$PWD/DominatorNetwork/assets" "$env:RUNNER_TEMP/preview-check"
+          if ($LASTEXITCODE -ne 0) { throw 'Off-screen preview tests failed' }
           ./TelemetryTest.exe
           if ($LASTEXITCODE -ne 0) { throw 'Telemetry tests failed' }
           & "$env:RUNNER_TEMP/node.exe" --test tests/companion.test.mjs tests/ddt2-series.test.mjs tests/companion-bridge.test.mjs tests/broadcast.test.mjs
