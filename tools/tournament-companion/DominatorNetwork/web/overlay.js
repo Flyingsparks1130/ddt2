@@ -34,7 +34,7 @@ function draw(state,cfg,connected=true){
    p.name.textContent=r.name;p.variant.textContent=r.variant?`(${r.variant})`:'';p.identity.title=r.name+(r.variant?` (${r.variant})`:'');
    p.trainer.textContent=(r.trainer||'Player unavailable').replace(/^@+/,'');p.trainer.title=r.creator&&r.creator!==r.trainer?`Player: ${r.trainer} · Owner: ${r.creator}`:p.trainer.textContent;
   }
-  for(const r of state.runners)rowHeight=Math.max(rowHeight,nodes.get(r.id).parts['identity-stack'].offsetHeight+(cfg.compact?31:34));
+  for(const r of state.runners)rowHeight=Math.max(rowHeight,nodes.get(r.id).parts['identity-stack'].offsetHeight+12);
  }
  const frame=fit(view.count,innerWidth/density,innerHeight/density,{...cfg,rowHeight});header(cfg,frame);panel.style.setProperty('--row-height',`${frame.row-3}px`);
  const info=raceLabels(view.live?state.raceInfo:{});for(const key of ['track','distance','surface','going','weather','season']){$('race-'+key).textContent=info[key];$('race-'+key).title=info[key];}

@@ -24,6 +24,8 @@ Missing feeds are normal before first publication. Malformed or temporarily unav
 
 - `/overlay`: live race tracker, 440 × 1080. Use 880 × 2160 with `?renderScale=2` for higher-resolution rendering.
 - `/matchup`: 1920 × 1080, team names, five players each, series points.
-- `/scoreboard`: 1600 × 262, series scores and race slots.
+- `/scoreboard`: 1920 × 1080, series scores and race slots.
 
 Add `?demo=1` for clearly labelled samples. Sample output cannot enter scoring. The desk also controls the independent DominatorNetwork in-game preview; F8 toggles it. Hachimi and horseACT are unchanged.
+
+The current scene sizes and operator flow are documented in [Companion 0.6.1](companion-release-0.6.1.md).

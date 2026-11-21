@@ -10,7 +10,7 @@ export function raceLabels(info={}){
  return {track:info.track|| (info.trackId?`Track ${info.trackId}`:'TRACK TBD'),distance:info.distance>0?`${Math.round(info.distance)} m`:'DISTANCE TBD',surface:({1:'Turf',2:'Dirt'})[info.surface]||'SURFACE TBD',going:({1:'Firm',2:'Good',3:'Soft',4:'Heavy'})[info.going]||'GOING TBD',weather:({1:'Sunny',2:'Cloudy',3:'Rainy',4:'Snowy'})[info.weather]||'WEATHER TBD',season:({1:'Spring',2:'Summer',3:'Autumn',4:'Winter',5:'Spring (cherry blossoms)'})[info.season]||'SEASON TBD'};
 }
 export function fit(count,width,height,{compact=false,scale=1,autoFit=true,rowHeight=0}={}){
- const row=Math.max(compact?70:76,rowHeight), panelHeight=238+count*row+34;
+ const row=Math.max(compact?60:66,rowHeight), panelHeight=216+count*row+34;
  return {row,height:panelHeight,scale:autoFit?Math.max(.05,Math.min(scale,(width-24)/400,(height-24)/panelHeight)):scale};
 }
 export function teamFor(r,config){const teams=config.teams||{};return (Object.hasOwn(teams,r.trainer)?teams[r.trainer]:'')||r.club||'TEAM TBD';}
