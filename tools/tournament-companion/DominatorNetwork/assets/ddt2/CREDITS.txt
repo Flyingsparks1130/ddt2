@@ -1,0 +1,31 @@
+DDT2 broadcast assets
+
+Copied without image edits from Flyingsparks1130/ddt2, assets/ddt2.
+Original event direction and poster: Yoi-Koi, supplied by the tournament owner.
+The poster itself is not bundled here; the overlays use the website's existing
+Gentildonna art, crimson/gold palette, font, crown and flourishes.
+
+Gentildonna racewear and concept pose: official Umamusume Pretty Derby gallery,
+https://umamusume.jp/character/gentildonna/
+Character artwork copyright Cygames. Native transparent PNGs are preserved.
+Race pose: 1160 x 1980; alternate concept pose: 1125 x 1980.
+Concept source:
+https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/b71f00cf5ebb4e11b641ba15d5749ca1/gentildonna_03_3.png
+
+Barlow Condensed Bold: Copyright 2017 The Barlow Project Authors.
+Licensed under SIL Open Font License 1.1; see FONT-LICENSE.txt (included unchanged).
+https://github.com/jpt/barlow
+
+Flourish and crown: original DDT2 SVG interface artwork.
+Team crest SVGs reproduce the site's published teamCrest artwork exactly, from
+assets/ddt2-matchday.js. Each filename is the stable DDT2 team ID.
+
+This is an unofficial community competition. Character rights remain with
+Cygames and their respective owners. These are not AI-generated replacements.
+
+Theme reference: assets/ddt2-season.css in the source repository.
+Gold #e7c96f; soft gold #baa16b; paper #fff8ed; muted #cbb6ae;
+red #dc1a29; dark crimson #210105; panel rgba(27,2,5,.76).
+Display face: Barlow Condensed Bold. Body face: Arial/Helvetica/sans-serif.
+
+Source repository revision: ed78e9cb717719d000218f1c55f63f2e935e48eb

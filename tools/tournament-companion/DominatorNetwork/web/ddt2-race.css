@@ -1,0 +1,16 @@
+@font-face{font-family:DDTDisplay;src:url('/assets/ddt2/barlow-condensed-bold.ttf');font-weight:700;font-display:swap}
+:root{--gold:#e7c96f;--paper:#fff8ed;--muted:#cbb6ae}
+#panel{color:var(--paper);background:rgba(25,3,7,var(--opacity,1));border:1px solid #e7c96f66;border-top:3px solid var(--gold);border-radius:3px;box-shadow:0 6px 24px #16000380}
+header{background:radial-gradient(ellipse at right top,#df0018,#78000a 48%,#210105 90%)}
+.figure{width:155px;right:-5px;top:-15px}
+.header-shade{background:linear-gradient(90deg,#280105 0%,#480007e6 48%,#56000700 88%),linear-gradient(0deg,#190307 0%,transparent 45%)}
+header:after{content:'';position:absolute;left:-28px;top:-54px;width:125px;height:125px;background:url('/assets/ddt2/flourish.svg') center/contain no-repeat;opacity:.24;pointer-events:none}
+.eyebrow{color:var(--gold)}h1{font-family:DDTDisplay,'Arial Narrow',sans-serif;font-size:28px;letter-spacing:.1px;line-height:24px;color:var(--paper)}
+#matchup{color:#fff1d9;background:#160205bf;border:1px solid #e7c96f22;border-radius:1px}
+.round-line b{background:#7b0717;border-color:#e7c96f66;color:var(--gold);border-radius:1px}.round-line span{color:#e8d1b0}
+.columns{background:#360609;color:#ceae79}.race-info{background:#260408;border-top-color:#e7c96f44}.race-conditions{color:#cebbae}.race-conditions span+span{border-color:#d1ad6744}
+.runner{background:#290b10;border-radius:2px}.runner[data-place="3"]{background:#431018}.runner[data-place="2"]{background:#651722}.runner[data-place="1"]{background:linear-gradient(100deg,#9b2630,#6c191d);box-shadow:inset 0 1px #e7c96f3b}
+.rank{font-family:DDTDisplay,sans-serif;font-size:26px;border-radius:2px;border-color:#9a684c;background:#26090e}.runner[data-place="1"] .rank{color:#ffe59b;border-color:var(--gold)}
+.portrait-wrap{background:#43131c;border-radius:2px}.runner.picked{border-left-color:var(--gold)}.variant{color:#e3cba7}.trainer{color:#d6bfb4}.speed{color:#cbb6ae}.gate{border-color:#90725d}
+footer{color:#cbb6ae}.progress{background:#e7c96f25}.progress i{background:linear-gradient(90deg,#e7c96f,#fff0bb)}#remaining{color:var(--gold)}
+.empty-row{background:#38090c88;border-color:#e7c96f1c}.empty-pos{border-color:#e7c96f44}.empty-portrait,.empty-name,.empty-player{background:#d8b46a20}

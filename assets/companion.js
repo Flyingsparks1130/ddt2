@@ -67,7 +67,7 @@ function display(bundle, isPreview) {
     `Published results${last ? ' · Updated ' + new Date(last).toLocaleString() : ' · No races yet'}.`, isPreview ? 'preview' : '');
   downloadURL = URL.createObjectURL(new Blob([JSON.stringify(bundle, null, 2) + '\n'], {type:'application/json'}));
   byId('download').href = downloadURL; byId('download').download = 'approved-results.json'; byId('download').hidden = !localTools;
-  const matches = [...new Map(bundle.results.map(r => [r.match.id, r.match])).values()];
+  const matches = [...new Map([...bundle.results.map(r => [r.match.id, r.match]), ...(bundle.series?.matches||[]).map(m=>[m.id,m])]).values()];
   const rules = bundle.tournament.scoring;
   byId('results').innerHTML = `
     <div class="cp-summary">
@@ -103,7 +103,11 @@ function renderMatches() {
   const players = contract.standings(results, 'players', ties), teams = contract.standings(results, 'teams', ties);
   const link = connection.matchLinks.find(m => m.companionMatchId === selected);
   const archiveURL = link ? `archive.html?${new URLSearchParams({round:link.archiveRoundId,match:link.archiveMatchId})}` : null;
+  const series = (current.series?.matches||[]).filter(m=>!selected||m.id===selected);
+  const seriesHTML = series.map(m=>`<section class="cp-panel"><h2>${esc(m.name)} · Series score</h2><p>${m.teams.map(t=>`${esc(t.name)} <strong>${t.points}</strong>`).join(' — ')}</p><p class="cp-meta">First to 25 · ${m.raceCount} approved races · ${m.winnerId?'Winner confirmed: '+esc(m.teams.find(t=>t.id===m.winnerId).name):'Outcome awaits operator confirmation'}</p>${m.manualOverride?`<p class="cp-meta">Static scores approved by ${esc(m.manualOverride.approval.operator)}: ${esc(m.manualOverride.reason)}</p>`:''}${m.races.filter(r=>r.manual).map(r=>`<details><summary>Race ${r.number} · Manual podium</summary><p>${r.rows.map(p=>`${p.rank}. ${esc(p.playerName)} (${p.points})`).join(' · ')}</p><p>${esc(r.reason)} · Approved by ${esc(r.operator)}</p></details>`).join('')}</section>`).join('');
   byId('match-results').innerHTML = `
+    ${seriesHTML}
+    ${series.length?'<p class="cp-meta">The race standings below contain recorded finishers only. Manual podiums and static score corrections are included in the series scores above.</p>':''}
     ${archiveURL ? `<p><a class="cp-link" href="${esc(archiveURL)}">View match details →</a></p>` : ''}
     <p class="cp-meta">${selected ? 'Selected match' : 'Entire event'} · ${results.length} approved heats. Each Uma contributes its awarded points to its player and, when assigned, team.</p>
     <div class="cp-standings">${standingTable(players,'Player Standings')}${standingTable(teams,'Team Standings')}</div>
