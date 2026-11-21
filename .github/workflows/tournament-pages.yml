@@ -27,6 +27,7 @@ jobs:
         run: |
           node tests/test_companion.cjs
           node tests/test_companion_client.cjs
+          node tests/test_series.cjs
           node scripts/companion_bridge.cjs check
       - name: Build the index, published statistics and static site
         run: |

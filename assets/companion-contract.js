@@ -1,8 +1,8 @@
 /* Shared by the static reader, local staging command and CI. No dependencies. */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory();
-  else root.CompanionContract = factory();
-})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./series-contract.js'));
+  else root.CompanionContract = factory(root.DDT2SeriesContract);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (seriesContract) {
   'use strict';
   const SCHEMA = 'dominator-tournament/v1';
   const MAX_BYTES = 10 * 1024 * 1024;
@@ -117,6 +117,7 @@
         'Standings do not match the approved races.');
       }
     }
+    if (bundle.series !== undefined) { assert(seriesContract, 'Series reader is unavailable.'); seriesContract.validate(bundle); }
     return bundle;
   }
   function config(value) {

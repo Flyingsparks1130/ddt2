@@ -1,0 +1,1053 @@
+{
+  "commit": "ed78e9cb717719d000218f1c55f63f2e935e48eb",
+  "tournament": {
+    "schema_version": 1,
+    "id": "ddt2",
+    "name": "DDT2 · Dominator Draft Tournament",
+    "published": false,
+    "source_note": "Twelve teams have registered full rosters. The bracket, rounds, matches and drafts have not been confirmed.",
+    "rounds": [],
+    "teams": [
+      {
+        "id": "dominator",
+        "name": "Dominator",
+        "members": [
+          {
+            "display_name": "Flo"
+          },
+          {
+            "display_name": "PKHR"
+          },
+          {
+            "display_name": "Mayday"
+          },
+          {
+            "display_name": "Zen"
+          },
+          {
+            "display_name": "Cynical"
+          }
+        ]
+      },
+      {
+        "id": "dominare",
+        "name": "Dominare",
+        "members": [
+          {
+            "display_name": "SunioBunio"
+          },
+          {
+            "display_name": "McGee"
+          },
+          {
+            "display_name": "Bloodvvolf"
+          },
+          {
+            "display_name": "Azure"
+          },
+          {
+            "display_name": "AngelicVixen"
+          }
+        ]
+      },
+      {
+        "id": "domineer",
+        "name": "Domineer",
+        "members": [
+          {
+            "display_name": "Stayk"
+          },
+          {
+            "display_name": "Bean"
+          },
+          {
+            "display_name": "ABG"
+          },
+          {
+            "display_name": "Sonic"
+          },
+          {
+            "display_name": "JUNI"
+          }
+        ]
+      },
+      {
+        "id": "dominium",
+        "name": "Dominium",
+        "members": [
+          {
+            "display_name": "Yokka"
+          },
+          {
+            "display_name": "Ramnek"
+          },
+          {
+            "display_name": "NakedGhostie"
+          },
+          {
+            "display_name": "Nir"
+          },
+          {
+            "display_name": "Tomomo"
+          }
+        ]
+      },
+      {
+        "id": "domimoon",
+        "name": "DomiMoon",
+        "members": [
+          {
+            "display_name": "Moon"
+          },
+          {
+            "display_name": "Kamie"
+          },
+          {
+            "display_name": "Eibaman"
+          },
+          {
+            "display_name": "IceColaa"
+          },
+          {
+            "display_name": "GallCho"
+          }
+        ]
+      },
+      {
+        "id": "dominance",
+        "name": "Dominance",
+        "members": [
+          {
+            "display_name": "Essential"
+          },
+          {
+            "display_name": "WCH"
+          },
+          {
+            "display_name": "Fabino"
+          },
+          {
+            "display_name": "Iviers"
+          },
+          {
+            "display_name": "Raykini"
+          }
+        ]
+      },
+      {
+        "id": "domimommy",
+        "name": "Domimommy",
+        "members": [
+          {
+            "display_name": "Emperor"
+          },
+          {
+            "display_name": "CR7"
+          },
+          {
+            "display_name": "Mor Mas"
+          },
+          {
+            "display_name": "Khinus"
+          },
+          {
+            "display_name": "Renfield"
+          }
+        ]
+      },
+      {
+        "id": "dominacion",
+        "name": "Dominacion",
+        "members": [
+          {
+            "display_name": "Snowy"
+          },
+          {
+            "display_name": "wata"
+          },
+          {
+            "display_name": "mikeluigi64"
+          },
+          {
+            "display_name": "Yumi"
+          },
+          {
+            "display_name": "raine"
+          }
+        ]
+      },
+      {
+        "id": "dominant-h",
+        "name": "Dominant H",
+        "members": [
+          {
+            "display_name": "Fizzle"
+          },
+          {
+            "display_name": "Flyingsparkz"
+          },
+          {
+            "display_name": "Reeces Puffs"
+          },
+          {
+            "display_name": "JeryDream"
+          },
+          {
+            "display_name": "Kitasan"
+          }
+        ]
+      },
+      {
+        "id": "dominate",
+        "name": "Dominate",
+        "members": [
+          {
+            "display_name": "POP"
+          },
+          {
+            "display_name": "Reyov"
+          },
+          {
+            "display_name": "Sacrell"
+          },
+          {
+            "display_name": "Pjoes"
+          },
+          {
+            "display_name": "Juqi"
+          }
+        ]
+      },
+      {
+        "id": "dominion",
+        "name": "Dominion",
+        "members": [
+          {
+            "display_name": "Flareon"
+          },
+          {
+            "display_name": "axdzcs"
+          },
+          {
+            "display_name": "Zangona"
+          },
+          {
+            "display_name": "Beep"
+          },
+          {
+            "display_name": "muuchan"
+          }
+        ]
+      },
+      {
+        "id": "dominante",
+        "name": "Dominante",
+        "members": [
+          {
+            "display_name": "Bloop"
+          },
+          {
+            "display_name": "Dinomar"
+          },
+          {
+            "display_name": "ReginL"
+          },
+          {
+            "display_name": "eile"
+          },
+          {
+            "display_name": "Raven621"
+          }
+        ]
+      }
+    ],
+    "scoring": {
+      "points_by_place": [
+        4,
+        2,
+        1
+      ],
+      "standard_races": 6,
+      "target_points": 25,
+      "expected_entries": 10,
+      "players_per_team": 5,
+      "auto_finalize": false
+    },
+    "matches": [],
+    "event_status": "preparation",
+    "prize": {
+      "count": 6,
+      "unit": "Discord Nitro",
+      "allocation": "To be announced"
+    }
+  },
+  "index": {
+    "schema_version": 1,
+    "generated_at": "2026-11-18T01:11:22Z",
+    "id": "ddt2",
+    "name": "DDT2 · Dominator Draft Tournament",
+    "published": false,
+    "revision": 0,
+    "rounds": [],
+    "teams": [
+      {
+        "id": "dominator",
+        "name": "Dominator",
+        "members": [
+          {
+            "display_name": "Flo"
+          },
+          {
+            "display_name": "PKHR"
+          },
+          {
+            "display_name": "Mayday"
+          },
+          {
+            "display_name": "Zen"
+          },
+          {
+            "display_name": "Cynical"
+          }
+        ]
+      },
+      {
+        "id": "dominare",
+        "name": "Dominare",
+        "members": [
+          {
+            "display_name": "SunioBunio"
+          },
+          {
+            "display_name": "McGee"
+          },
+          {
+            "display_name": "Bloodvvolf"
+          },
+          {
+            "display_name": "Azure"
+          },
+          {
+            "display_name": "AngelicVixen"
+          }
+        ]
+      },
+      {
+        "id": "domineer",
+        "name": "Domineer",
+        "members": [
+          {
+            "display_name": "Stayk"
+          },
+          {
+            "display_name": "Bean"
+          },
+          {
+            "display_name": "ABG"
+          },
+          {
+            "display_name": "Sonic"
+          },
+          {
+            "display_name": "JUNI"
+          }
+        ]
+      },
+      {
+        "id": "dominium",
+        "name": "Dominium",
+        "members": [
+          {
+            "display_name": "Yokka"
+          },
+          {
+            "display_name": "Ramnek"
+          },
+          {
+            "display_name": "NakedGhostie"
+          },
+          {
+            "display_name": "Nir"
+          },
+          {
+            "display_name": "Tomomo"
+          }
+        ]
+      },
+      {
+        "id": "domimoon",
+        "name": "DomiMoon",
+        "members": [
+          {
+            "display_name": "Moon"
+          },
+          {
+            "display_name": "Kamie"
+          },
+          {
+            "display_name": "Eibaman"
+          },
+          {
+            "display_name": "IceColaa"
+          },
+          {
+            "display_name": "GallCho"
+          }
+        ]
+      },
+      {
+        "id": "dominance",
+        "name": "Dominance",
+        "members": [
+          {
+            "display_name": "Essential"
+          },
+          {
+            "display_name": "WCH"
+          },
+          {
+            "display_name": "Fabino"
+          },
+          {
+            "display_name": "Iviers"
+          },
+          {
+            "display_name": "Raykini"
+          }
+        ]
+      },
+      {
+        "id": "domimommy",
+        "name": "Domimommy",
+        "members": [
+          {
+            "display_name": "Emperor"
+          },
+          {
+            "display_name": "CR7"
+          },
+          {
+            "display_name": "Mor Mas"
+          },
+          {
+            "display_name": "Khinus"
+          },
+          {
+            "display_name": "Renfield"
+          }
+        ]
+      },
+      {
+        "id": "dominacion",
+        "name": "Dominacion",
+        "members": [
+          {
+            "display_name": "Snowy"
+          },
+          {
+            "display_name": "wata"
+          },
+          {
+            "display_name": "mikeluigi64"
+          },
+          {
+            "display_name": "Yumi"
+          },
+          {
+            "display_name": "raine"
+          }
+        ]
+      },
+      {
+        "id": "dominant-h",
+        "name": "Dominant H",
+        "members": [
+          {
+            "display_name": "Fizzle"
+          },
+          {
+            "display_name": "Flyingsparkz"
+          },
+          {
+            "display_name": "Reeces Puffs"
+          },
+          {
+            "display_name": "JeryDream"
+          },
+          {
+            "display_name": "Kitasan"
+          }
+        ]
+      },
+      {
+        "id": "dominate",
+        "name": "Dominate",
+        "members": [
+          {
+            "display_name": "POP"
+          },
+          {
+            "display_name": "Reyov"
+          },
+          {
+            "display_name": "Sacrell"
+          },
+          {
+            "display_name": "Pjoes"
+          },
+          {
+            "display_name": "Juqi"
+          }
+        ]
+      },
+      {
+        "id": "dominion",
+        "name": "Dominion",
+        "members": [
+          {
+            "display_name": "Flareon"
+          },
+          {
+            "display_name": "axdzcs"
+          },
+          {
+            "display_name": "Zangona"
+          },
+          {
+            "display_name": "Beep"
+          },
+          {
+            "display_name": "muuchan"
+          }
+        ]
+      },
+      {
+        "id": "dominante",
+        "name": "Dominante",
+        "members": [
+          {
+            "display_name": "Bloop"
+          },
+          {
+            "display_name": "Dinomar"
+          },
+          {
+            "display_name": "ReginL"
+          },
+          {
+            "display_name": "eile"
+          },
+          {
+            "display_name": "Raven621"
+          }
+        ]
+      }
+    ],
+    "scoring": {
+      "points_by_place": [
+        4,
+        2,
+        1
+      ],
+      "standard_races": 6,
+      "target_points": 25,
+      "expected_entries": 10,
+      "players_per_team": 5,
+      "auto_finalize": false
+    },
+    "matches": [],
+    "warnings": [],
+    "eliminated": [],
+    "champion_id": null,
+    "team_rosters": {
+      "dominator": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Flo"
+          },
+          {
+            "display_name": "PKHR"
+          },
+          {
+            "display_name": "Mayday"
+          },
+          {
+            "display_name": "Zen"
+          },
+          {
+            "display_name": "Cynical"
+          }
+        ]
+      },
+      "dominare": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "SunioBunio"
+          },
+          {
+            "display_name": "McGee"
+          },
+          {
+            "display_name": "Bloodvvolf"
+          },
+          {
+            "display_name": "Azure"
+          },
+          {
+            "display_name": "AngelicVixen"
+          }
+        ]
+      },
+      "domineer": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Stayk"
+          },
+          {
+            "display_name": "Bean"
+          },
+          {
+            "display_name": "ABG"
+          },
+          {
+            "display_name": "Sonic"
+          },
+          {
+            "display_name": "JUNI"
+          }
+        ]
+      },
+      "dominium": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Yokka"
+          },
+          {
+            "display_name": "Ramnek"
+          },
+          {
+            "display_name": "NakedGhostie"
+          },
+          {
+            "display_name": "Nir"
+          },
+          {
+            "display_name": "Tomomo"
+          }
+        ]
+      },
+      "domimoon": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Moon"
+          },
+          {
+            "display_name": "Kamie"
+          },
+          {
+            "display_name": "Eibaman"
+          },
+          {
+            "display_name": "IceColaa"
+          },
+          {
+            "display_name": "GallCho"
+          }
+        ]
+      },
+      "dominance": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Essential"
+          },
+          {
+            "display_name": "WCH"
+          },
+          {
+            "display_name": "Fabino"
+          },
+          {
+            "display_name": "Iviers"
+          },
+          {
+            "display_name": "Raykini"
+          }
+        ]
+      },
+      "domimommy": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Emperor"
+          },
+          {
+            "display_name": "CR7"
+          },
+          {
+            "display_name": "Mor Mas"
+          },
+          {
+            "display_name": "Khinus"
+          },
+          {
+            "display_name": "Renfield"
+          }
+        ]
+      },
+      "dominacion": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Snowy"
+          },
+          {
+            "display_name": "wata"
+          },
+          {
+            "display_name": "mikeluigi64"
+          },
+          {
+            "display_name": "Yumi"
+          },
+          {
+            "display_name": "raine"
+          }
+        ]
+      },
+      "dominant-h": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Fizzle"
+          },
+          {
+            "display_name": "Flyingsparkz"
+          },
+          {
+            "display_name": "Reeces Puffs"
+          },
+          {
+            "display_name": "JeryDream"
+          },
+          {
+            "display_name": "Kitasan"
+          }
+        ]
+      },
+      "dominate": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "POP"
+          },
+          {
+            "display_name": "Reyov"
+          },
+          {
+            "display_name": "Sacrell"
+          },
+          {
+            "display_name": "Pjoes"
+          },
+          {
+            "display_name": "Juqi"
+          }
+        ]
+      },
+      "dominion": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Flareon"
+          },
+          {
+            "display_name": "axdzcs"
+          },
+          {
+            "display_name": "Zangona"
+          },
+          {
+            "display_name": "Beep"
+          },
+          {
+            "display_name": "muuchan"
+          }
+        ]
+      },
+      "dominante": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Bloop"
+          },
+          {
+            "display_name": "Dinomar"
+          },
+          {
+            "display_name": "ReginL"
+          },
+          {
+            "display_name": "eile"
+          },
+          {
+            "display_name": "Raven621"
+          }
+        ]
+      }
+    },
+    "club_rosters": {
+      "dominator": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Flo"
+          },
+          {
+            "display_name": "PKHR"
+          },
+          {
+            "display_name": "Mayday"
+          },
+          {
+            "display_name": "Zen"
+          },
+          {
+            "display_name": "Cynical"
+          }
+        ]
+      },
+      "dominare": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "SunioBunio"
+          },
+          {
+            "display_name": "McGee"
+          },
+          {
+            "display_name": "Bloodvvolf"
+          },
+          {
+            "display_name": "Azure"
+          },
+          {
+            "display_name": "AngelicVixen"
+          }
+        ]
+      },
+      "domineer": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Stayk"
+          },
+          {
+            "display_name": "Bean"
+          },
+          {
+            "display_name": "ABG"
+          },
+          {
+            "display_name": "Sonic"
+          },
+          {
+            "display_name": "JUNI"
+          }
+        ]
+      },
+      "dominium": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Yokka"
+          },
+          {
+            "display_name": "Ramnek"
+          },
+          {
+            "display_name": "NakedGhostie"
+          },
+          {
+            "display_name": "Nir"
+          },
+          {
+            "display_name": "Tomomo"
+          }
+        ]
+      },
+      "domimoon": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Moon"
+          },
+          {
+            "display_name": "Kamie"
+          },
+          {
+            "display_name": "Eibaman"
+          },
+          {
+            "display_name": "IceColaa"
+          },
+          {
+            "display_name": "GallCho"
+          }
+        ]
+      },
+      "dominance": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Essential"
+          },
+          {
+            "display_name": "WCH"
+          },
+          {
+            "display_name": "Fabino"
+          },
+          {
+            "display_name": "Iviers"
+          },
+          {
+            "display_name": "Raykini"
+          }
+        ]
+      },
+      "domimommy": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Emperor"
+          },
+          {
+            "display_name": "CR7"
+          },
+          {
+            "display_name": "Mor Mas"
+          },
+          {
+            "display_name": "Khinus"
+          },
+          {
+            "display_name": "Renfield"
+          }
+        ]
+      },
+      "dominacion": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Snowy"
+          },
+          {
+            "display_name": "wata"
+          },
+          {
+            "display_name": "mikeluigi64"
+          },
+          {
+            "display_name": "Yumi"
+          },
+          {
+            "display_name": "raine"
+          }
+        ]
+      },
+      "dominant-h": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Fizzle"
+          },
+          {
+            "display_name": "Flyingsparkz"
+          },
+          {
+            "display_name": "Reeces Puffs"
+          },
+          {
+            "display_name": "JeryDream"
+          },
+          {
+            "display_name": "Kitasan"
+          }
+        ]
+      },
+      "dominate": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "POP"
+          },
+          {
+            "display_name": "Reyov"
+          },
+          {
+            "display_name": "Sacrell"
+          },
+          {
+            "display_name": "Pjoes"
+          },
+          {
+            "display_name": "Juqi"
+          }
+        ]
+      },
+      "dominion": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Flareon"
+          },
+          {
+            "display_name": "axdzcs"
+          },
+          {
+            "display_name": "Zangona"
+          },
+          {
+            "display_name": "Beep"
+          },
+          {
+            "display_name": "muuchan"
+          }
+        ]
+      },
+      "dominante": {
+        "source": "registration",
+        "members": [
+          {
+            "display_name": "Bloop"
+          },
+          {
+            "display_name": "Dinomar"
+          },
+          {
+            "display_name": "ReginL"
+          },
+          {
+            "display_name": "eile"
+          },
+          {
+            "display_name": "Raven621"
+          }
+        ]
+      }
+    },
+    "prize": {
+      "count": 6,
+      "unit": "Discord Nitro",
+      "allocation": "To be announced"
+    },
+    "event_status": "preparation"
+  }
+}

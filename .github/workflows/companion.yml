@@ -1,0 +1,77 @@
+name: Build tournament companion
+on:
+  pull_request:
+    branches: [main]
+    paths: ['tools/tournament-companion/**', 'assets/*contract.js', '.github/workflows/companion.yml']
+  push:
+    branches: [main]
+    paths: ['tools/tournament-companion/**', '.github/workflows/companion.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v6
+      - name: Download verified build tools
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $archive = Join-Path $env:RUNNER_TEMP 'llvm-mingw.zip'
+          Invoke-WebRequest 'https://github.com/mstorsjo/llvm-mingw/releases/download/20261006/llvm-mingw-20261006-ucrt-x86_64.zip' -OutFile $archive
+          if ((Get-FileHash $archive -Algorithm SHA256).Hash -ne '317492C456AA27EE607A5919F1D2D38DCDC1112516A24D0BF4B00D078F52D17A') { throw 'Toolchain checksum mismatch' }
+          Expand-Archive -LiteralPath $archive -DestinationPath $env:RUNNER_TEMP
+          $runtime = Join-Path $env:RUNNER_TEMP 'node.exe'
+          Invoke-WebRequest 'https://nodejs.org/dist/v24.19.0/win-x64/node.exe' -OutFile $runtime
+          if ((Get-FileHash $runtime -Algorithm SHA256).Hash -ne '3602F2BB1A10F2CBAB4C36886218A33C1AB3DB87290E73B033C46C77147D0237') { throw 'Node checksum mismatch' }
+      - name: Build and test independent bridge and companion
+        shell: pwsh
+        working-directory: tools/tournament-companion
+        run: |
+          $ErrorActionPreference = 'Stop'
+          ./build-clang.ps1 -Clang "$env:RUNNER_TEMP/llvm-mingw-20261006-ucrt-x86_64/bin/clang++.exe"
+          ./TelemetryTest.exe
+          if ($LASTEXITCODE -ne 0) { throw 'Telemetry tests failed' }
+          & "$env:RUNNER_TEMP/node.exe" --test tests/companion.test.mjs tests/ddt2-series.test.mjs tests/companion-bridge.test.mjs
+          if ($LASTEXITCODE -ne 0) { throw 'Companion tests failed' }
+          & "$env:RUNNER_TEMP/node.exe" tests/web-0.4.2.mjs
+          if ($LASTEXITCODE -ne 0) { throw 'Overlay tests failed' }
+          & "$env:RUNNER_TEMP/node.exe" tests/race-info-stamina.mjs
+          if ($LASTEXITCODE -ne 0) { throw 'Indicator tests failed' }
+      - name: Package Windows distribution
+        shell: pwsh
+        run: |
+          ./tools/tournament-companion/package.ps1 -NodeRuntime "$env:RUNNER_TEMP/node.exe"
+          ./tools/tournament-companion/tests/install.test.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tournament-companion-win64
+          path: |
+            tools/tournament-companion/dist/*.zip
+            tools/tournament-companion/dist/SHA256SUMS.txt
+          if-no-files-found: error
+  release:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: windows
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v4
+        with:
+          name: tournament-companion-win64
+          path: companion-release
+      - name: Publish versioned operator download
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          version=$(tr -d '\r\n' < tools/tournament-companion/version.txt)
+          tag="companion-v$version"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists; leaving it unchanged."
+            exit 0
+          fi
+          gh release create "$tag" companion-release/*.zip companion-release/SHA256SUMS.txt --target "$GITHUB_SHA" --title "Dominator Tournament Companion $version" --notes-file docs/companion-release-0.6.0.md

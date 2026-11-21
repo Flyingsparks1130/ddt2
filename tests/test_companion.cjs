@@ -70,7 +70,7 @@ check('Only same-site data paths and explicit match bindings are allowed', () =>
 check('Staging is atomic, guards event identity and preserves existing data on failure', () => {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'dominator-bridge-'));
   try {
-    fs.mkdirSync(path.join(temp,'config')); fs.copyFileSync(path.join(__dirname,'../config/companion.json'),path.join(temp,'config/companion.json'));
+    fs.mkdirSync(path.join(temp,'config')); fs.writeFileSync(path.join(temp,'config/companion.json'),JSON.stringify({...require('../config/companion.json'),expectedTournamentId:null}));
     assert.equal(bridge.checkSite(temp).configured,false);
     const input=path.join(temp,'input.json'); fs.writeFileSync(input,JSON.stringify(fixture));
     const staged=bridge.stage(input,temp); assert.equal(bridge.checkSite(temp).configured,true);

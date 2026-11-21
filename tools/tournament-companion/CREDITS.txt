@@ -1,0 +1,43 @@
+ARTWORK
+Gentildonna and Umamusume character artwork belong to Cygames, Inc.
+This is an unofficial, user-requested fan overlay, with no affiliation.
+
+Header artwork: Gentildonna's official character page, racing outfit.
+https://umamusume.jp/character/gentildonna/
+https://images.microcms-assets.io/assets/973fc097984b400db8729642ddff5938/d7eede6083004c2bbe1c6c0726a7360d/gentildonna_02.png
+
+Character portrait assets: GameTora's hosted Umamusume character artwork.
+https://gametora.com/umamusume/characters
+https://media.gametora.com/umamusume/characters/portrait/trainee/256/
+270 exact card/outfit portraits are included, indexed by their full card IDs.
+The catalogue was checked on 2026-10-11. Live names and outfit titles are read
+from the installed game; the hosted catalogue supplies portrait identity only.
+No ownership or independent relicensing of the character artwork is claimed.
+
+CODE / REFERENCES
+nlohmann/json 3.12.0, Copyright (c) 2013–2025 Niels Lohmann.
+https://github.com/nlohmann/json/tree/v3.12.0
+Used under the MIT license; see JSON-LICENSE.txt.
+
+Hachimi plugin API and game metadata reviewed for integration:
+https://hachimi.noccu.art/docs/plugins/development
+https://github.com/kairusds/Hachimi-Edge
+
+horseACT's architecture and output were reviewed for coexistence.
+Neither Hachimi nor horseACT is bundled or modified by this package.
+
+Rendering uses HTML/CSS in an OBS Browser Source. The local bridge uses Winsock.
+The race overlay uses Windows Segoe UI. DDT2 broadcast sources also bundle
+Barlow Condensed; see DominatorNetwork/assets/ddt2/FONT-LICENSE.txt.
+
+The tournament companion bundles the Node.js 24.19.0 Windows x64 runtime.
+Node.js copyright and dependency notices: DominatorNetwork/companion/NODE-LICENSE.txt.
+https://nodejs.org/
+The companion uses Node's standard library and no third-party JS packages.
+Native 0.6.0 binaries were built with LLVM-MinGW 20261006, statically linking
+its C++ support libraries. See LLVM-MINGW-LICENSE.txt for toolchain notices.
+https://github.com/mstorsjo/llvm-mingw/releases/tag/20261006
+
+Dear ImGui is used for the optional independent in-game preview.
+See vendor/imgui/LICENSE.txt (included as IMGUI-LICENSE.txt in the release).
+DDT2 artwork credits: DominatorNetwork/assets/ddt2/CREDITS.txt.

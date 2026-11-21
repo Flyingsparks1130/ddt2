@@ -1,0 +1,64 @@
+DDT2 OPERATIONS — COMPANION 0.6.0
+
+1. Open http://127.0.0.1:27840/. In Teams & bracket, check the published DDT2
+   source, review it, then import. The bundled fallback has 12 teams and 60
+   players but no invented bracket. Recheck the source after bracket updates.
+   Import is deliberate; opening the desk never replaces tournament data.
+2. Save exact in-game trainer aliases for registered players. Unknown aliases
+   can also be mapped gate by gate during race review.
+3. Select an imported matchup. If the bracket is not ready, create a local
+   two-team series. A local series is not automatically a public bracket slot.
+4. Enter the six drafted courses. The seventh slot is reserved for a random
+   tiebreaker if neither team reaches 25 after six races. Load the selected
+   heat to update the broadcast header, matchup source and scoreboard.
+5. Choose your own horseACT Saved races folder and enable watching. Existing
+   files are ignored at watcher startup; import an older file manually.
+   Arm next race attaches the next new valid export to the selected heat.
+   Loading another heat disarms the old selection.
+6. Let the race finish ON THE BROADCAST before approving. horseACT may save a
+   full simulated result before playback ends. Review all 10 entrants, their
+   registered players, the course and podium. Race points are 4 / 2 / 1.
+   Enter an operator name and approve the heat. This changes local totals only.
+7. Reaching 25 blocks further race approvals but does not declare a winner.
+   Confirm the series outcome separately after review. A score/race change
+   invalidates an earlier outcome confirmation. No automatic bracket advance.
+8. Review publication, inspect the exact bundle and destination, then use the
+   separate Publish approved results action. Pending captures are excluded.
+
+MANUAL RECOVERY
+Manual corrections supports a missing-capture podium, static team scores,
+confirmed outcome/reopening, and a return from static to calculated scores.
+Enter a reason and operator; review and approve the proposed change.
+Manual results are visibly marked and never create fake raw horseACT files.
+A rerun requires voiding the prior heat approval before a replacement counts.
+Public corrections require another publication review and explicit publish.
+
+PUBLISHING ACCESS
+DDT2 import configures Flyingsparks1130/ddt2, main, and
+data/companion/approved-results.json. It does not grant permission to publish.
+Use a fine-grained GitHub token restricted to this repository with Contents
+read/write. It must belong to an account granted repository write access.
+Set DOMINATOR_GITHUB_TOKEN in the companion process environment before launch.
+For example, use Windows Environment Variables to set a user variable, then
+reopen the launcher from a fresh sign-in so it inherits that environment.
+Never paste a token into OBS URLs, source code, results JSON or the public site.
+The companion does not request/store credentials. Keep one results publisher.
+If the repository requires pull requests for result commits, export the
+approved JSON and have an authorized maintainer submit it through that policy;
+the companion does not bypass branch protection.
+
+PUBLIC SITE
+https://flyingsparks1130.github.io/ddt2/companion.html reads approved series.
+The main bracket displays explicitly linked match IDs only when participants
+match. Conflicting organizer scores, podiums or winners are preserved and
+flagged. Resolve conflicts and advance the bracket with the existing organizer
+engine, then refresh the companion's source. GitHub Pages updates after its
+deployment completes; a successful JSON commit is not a deployment receipt.
+Raw replays remain local. The current publisher uploads approved summary JSON.
+
+LOCAL STATE
+%LOCALAPPDATA%/DominatorTournament/tournament.json stores this PC's event.
+Raw imports are kept under raw/ by fingerprint. Duplicate exports cannot
+score twice. Stop the companion before copying or restoring its state.
+Each PC is independent; the website is the published view, not a multi-user
+editing server. Demo overlays and the native sample preview never score.

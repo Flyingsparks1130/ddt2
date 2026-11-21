@@ -1,0 +1,9 @@
+*.dll
+*.exe
+*.pdb
+*.lib
+dist/
+DominatorNetwork/companion/node.exe
+DominatorNetwork/companion/Start Tournament Companion.exe
+DominatorNetwork/game-preview.json
+DominatorNetwork/*.log

@@ -1,0 +1,15 @@
+{
+  "tournament": "DOMINATOR NETWORK",
+  "matchup": "MATCHUP TBD",
+  "round": "ROUND TBD",
+  "stage": "TBD",
+  "enabled": true,
+  "autoFit": true,
+  "compact": false,
+  "indicators": true,
+  "scale": 1,
+  "motion": 320,
+  "opacity": 1,
+  "teams": {},
+  "picks": []
+}

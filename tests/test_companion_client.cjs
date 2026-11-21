@@ -6,7 +6,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const contract = require('../assets/companion-contract.js');
 const fixture = require('./fixtures/companion-approved.json');
-const config = require('../config/companion.json');
+const config = {...require('../config/companion.json'),expectedTournamentId:null};
 const source = fs.readFileSync(path.join(__dirname,'../assets/companion.js'),'utf8');
 const shared = fs.readFileSync(path.join(__dirname,'../assets/site.js'),'utf8');
 const clone = value => JSON.parse(JSON.stringify(value));
