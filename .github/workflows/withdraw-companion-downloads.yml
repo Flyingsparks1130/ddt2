@@ -1,0 +1,52 @@
+name: Withdraw public companion downloads
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/withdraw-companion-downloads.yml']
+  workflow_dispatch:
+permissions: {}
+jobs:
+  withdraw:
+    if: github.ref == 'refs/heads/main' && github.repository == 'Flyingsparks1130/ddt2'
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - name: Remove only the withdrawn 0.6.0 release and its two package artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: python
+        run: |
+          import json, os, urllib.request, urllib.error
+          base = 'https://api.github.com/repos/Flyingsparks1130/ddt2/'
+          headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                     'Accept': 'application/vnd.github+json',
+                     'X-GitHub-Api-Version': '2026-03-10',
+                     'User-Agent': 'DDT2-withdraw-companion-downloads'}
+          def request(path, method='GET'):
+              try:
+                  req = urllib.request.Request(base + path, headers=headers, method=method)
+                  with urllib.request.urlopen(req, timeout=30) as response:
+                      body = response.read()
+                      return json.loads(body) if body else None
+              except urllib.error.HTTPError as error:
+                  if error.code == 404:
+                      return None
+                  raise
+          targets = [
+              ('releases/453987141', 'tag_name', 'companion-v0.6.0'),
+              ('actions/artifacts/14725151523', 'name', 'tournament-companion-win64'),
+              ('actions/artifacts/14724773947', 'name', 'tournament-companion-win64'),
+          ]
+          for path, field, expected in targets:
+              resource = request(path)
+              if resource is None:
+                  print(path + ': already absent')
+                  continue
+              if resource.get(field) != expected:
+                  raise RuntimeError('Refusing unexpected deletion target: ' + path)
+              request(path, 'DELETE')
+              if request(path) is not None:
+                  raise RuntimeError('Deletion verification failed: ' + path)
+              print(path + ': removed and verified absent')
