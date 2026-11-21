@@ -1,11 +1,11 @@
-DOMINATOR TOURNAMENT COMPANION 0.6.0 — WINDOWS x64
+DOMINATOR TOURNAMENT COMPANION 0.6.1 — WINDOWS x64
 
 For Steam Umamusume with a Hachimi build supporting plugin API v3 and
 hachimi_register_present_callback. horseACT remains a separate prerequisite
 for automatic race JSON capture. Neither dependency is bundled or modified.
 
 INSTALL / UPDATE
-1. Obtain Dominator-Tournament-0.6.0-win64.zip privately from the organizer.
+1. Obtain Dominator-Tournament-0.6.1-win64.zip privately from the organizer.
    Extract it outside your game folder. Public installer downloads are withdrawn.
 2. Close Umamusume and the existing Tournament Companion, if running.
 3. Run Install.cmd. Paste Steam > Umamusume > Manage > Browse local files.
@@ -27,14 +27,14 @@ Hachimi loads this independent plugin, which starts the local companion.
 The launcher also works without the game for tournament operations/demo views.
 The companion remains running when the game closes and ends at sign-out.
 It is not registered as a Windows service or startup task.
-The optional in-game preview starts OFF. Enable it in the OBS & in-game tab;
+The optional in-game preview starts OFF. Enable it in the Broadcast scenes tab;
 F8 toggles it while in game. It is a separate native preview of the data,
 not an embedded OBS browser. Its visual output can differ from the OBS source.
 
 OBS BROWSER SOURCES
 Race: http://127.0.0.1:27840/overlay                 440 x 1080
 Matchup: http://127.0.0.1:27840/matchup              1920 x 1080
-Series score: http://127.0.0.1:27840/scoreboard      1600 x 262
+Series score: http://127.0.0.1:27840/scoreboard      1920 x 1080
 Add ?demo=1 for clearly labelled samples without a race. Demo data cannot
 enter scoring. The original race overlay design is retained. It shows its
 waiting frame while the game bridge is connected. For a sharper race source,

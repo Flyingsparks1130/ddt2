@@ -7,6 +7,7 @@ import {initialState,InputError,requireThat,id,text,cleanName,digest,rulesFrom,p
 import {openStore,atomicWrite} from './store.mjs';
 import {targetFrom,publicationPreview,publishBundle} from './github.mjs';
 import {sourcePreview,importDDT2} from './ddt2.mjs';
+import {broadcastState,saveLineup,umaCatalog} from './broadcast.mjs';
 import {allSeries,seriesSummary,checkSeriesRace,draftCorrection,correctionReview,approveCorrection,draftManualHeat,manualReview,approveManual} from './series.mjs';
 
 function reviewRace(state,race){const review=baseReview(state,race);if(race.heatId)checkSeriesRace(state,race,review.problems);review.problems=[...new Set(review.problems)];review.canApprove=review.problems.length===0&&race.status==='pending';review.hash=digest({review,revision:state.revision});return review;}
@@ -30,7 +31,7 @@ const audit=(state,action,detail)=>state.audit.push({at:new Date().toISOString()
 function response(res,status,value,type='application/json; charset=utf-8',headers={}){
  const body=Buffer.isBuffer(value)?value:typeof value==='string'?value:JSON.stringify(value);
  res.writeHead(status,{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',
-  'Content-Security-Policy':"default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'self'; form-action 'self'; base-uri 'none'",...headers});res.end(body);
+  'Content-Security-Policy':"default-src 'self'; img-src 'self' data: https://raw.githubusercontent.com; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'self'; form-action 'self'; base-uri 'none'",...headers});res.end(body);
 }
 async function bodyOf(req){const chunks=[];let length=0;for await(const chunk of req){length+=chunk.length;requireThat(length<=16*1024*1024,'Upload is too large (16 MB maximum).',413);chunks.push(chunk);}try{return JSON.parse(Buffer.concat(chunks).toString('utf8').replace(/^\uFEFF/,''));}catch{throw new InputError('Request is not valid JSON.');}}
 function writable(state){requireThat(!state.races.some(r=>r.status==='approved'),'Tournament rules and participants are locked while approved results exist. Void those results before changing the format.');}
@@ -71,7 +72,7 @@ async function watchTick(){if(watchBusy||!store?.state.watch.enabled)return;watc
    catch(e){watchNotice=`Waiting for a complete race file: ${path.basename(file.file)} (${e.message})`;if(Date.now()-known.seen>15000)known.done=true;}
   }watchBaseline=false;
  }catch(e){watchNotice=e.message;}finally{watchBusy=false;}}
-function opsState(){const state=store.state,bundle=publicBundle(state);return {version:'0.6.0',revision:state.revision,tournament:state.tournament,matches:state.matches,site:state.site||null,series:allSeries(state),corrections:state.corrections||[],manualHeats:state.manualHeats||[],activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
+function opsState(){const state=store.state,bundle=publicBundle(state);return {version:'0.6.1',revision:state.revision,tournament:state.tournament,matches:state.matches,site:state.site||null,series:allSeries(state),corrections:state.corrections||[],manualHeats:state.manualHeats||[],activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
  races:state.races.map(({id,filename,heatId,status,importedAt,runners,voidReason})=>({id,filename,heatId,status,importedAt,count:runners.length,voidReason})),
  watch:state.watch,watchNotice,github:state.github,publication:publicationPreview(state,bundle,!!process.env.DOMINATOR_GITHUB_TOKEN),publications:state.publications.slice(-10).reverse(),
  standings:bundle.standings,audit:state.audit.slice(-30).reverse(),locked:state.races.some(r=>r.status==='approved'),bridge:{connected:!!bridge,active:!!bridge?.active,count:bridge?.runners?.length||0,version:bridge?.version||null},overlayNotice};}
@@ -84,6 +85,7 @@ async function mutate(route,body){
   const result=await publishBundle(state.github,bundle,process.env.DOMINATOR_GITHUB_TOKEN);const receipt={...result,target:state.github,at:new Date().toISOString()};state.publications.push(receipt);audit(state,'github.published',{hash:result.hash,commit:result.commit});return receipt;});
  const result=await store.transaction(async state=>{checkRevision(state,body);
   if(route==='ddt2-sync'){requireThat(sourceCache&&body.sourceHash===sourceCache.hash,'Refresh the DDT2 import preview first.',409);const result=importDDT2(state,sourceCache.source);audit(state,'ddt2.synchronized',{...result,commit:sourceCache.source.commit});return result;}
+  else if(route==='lineup'){const result=saveLineup(state,body);audit(state,'heat.lineup',result);return result;}
   else if(route==='player-alias'){const p=state.tournament.players.find(p=>p.id===body.playerId);requireThat(p,'Player not found.');const name=cleanName(String(body.gameName||'')).slice(0,120);requireThat(!name||!state.tournament.players.some(x=>x.id!==p.id&&x.gameName===name),'That in-game name is already assigned to another player.');p.gameName=name;audit(state,'player.alias',{playerId:p.id,name});}
   else if(route==='series-match'){requireThat(state.tournament.id==='ddt2','Connect DDT2 first.');const ids=body.teamIds;requireThat(Array.isArray(ids)&&ids.length===2&&ids[0]!==ids[1]&&ids.every(tid=>state.tournament.teams.some(t=>t.id===tid)),'Choose two different registered teams.');const matchId=id();const playerIds=state.tournament.players.filter(p=>ids.includes(p.teamId)&&!p.retired).map(p=>p.id);requireThat(playerIds.length===10,'Each team must have five players.');const match={id:matchId,name:ids.map(tid=>state.tournament.teams.find(t=>t.id===tid).name).join(' vs '),teamIds:ids,playerIds,round:text(body.round,'Round',60),stage:text(body.stage,'Stage',30),expected:{},heats:Array.from({length:7},(_,i)=>({id:id(),number:i+1,tiebreaker:i===6,expected:{}}))};state.matches.push(match);audit(state,'series.created',{matchId});return {id:matchId};}
   else if(route==='heat-course'){const {heat}=heatFor(state,body.heatId);requireThat(!state.races.some(r=>r.status==='approved'&&r.heatId===heat.id)&&!(state.manualHeats||[]).some(r=>r.status==='approved'&&r.heatId===heat.id),'An approved race already uses this track slot.');heat.trackName=String(body.trackName||'').trim().slice(0,120);heat.expected={};for(const key of ['distance','surface','trackId']){const value=Number(body[key]||0);requireThat(Number.isInteger(value)&&value>=0,'Course checks must be whole numbers.');heat.expected[key]=value;}audit(state,'heat.course',{heatId:heat.id,trackName:heat.trackName});}
@@ -118,7 +120,7 @@ async function mutate(route,body){
  if(['select','setup','ddt2-sync'].includes(route)){try{if(store.state.activeHeatId)await syncActive();else if(route==='ddt2-sync')await saveConfig({...config,tournament:store.state.tournament.name,matchup:'BRACKET TO BE ANNOUNCED',stage:'DDT2',round:'FIRST TO 25'});}catch(e){overlayNotice=`Match saved; header update needs attention: ${e.message}`;}}
  return result;
 }
-const staticFiles={'/':'ops.html','/ops.js':'ops.js','/ops.css':'ops.css','/ddt2-ops.js':'ddt2-ops.js','/ddt2-ops.css':'ddt2-ops.css','/broadcast':'settings.html','/settings':'settings.html','/settings.js':'settings.js','/settings.css':'settings.css','/overlay':'overlay.html','/overlay.js':'overlay.js','/overlay.css':'overlay.css','/ddt2-race.css':'ddt2-race.css','/model.js':'model.js','/matchup':'matchup.html','/scoreboard':'matchup.html','/matchup.css':'matchup.css','/matchup.js':'matchup.js'};
+const staticFiles={'/':'ops.html','/ops.js':'ops.js','/ops.css':'ops.css','/ddt2-ops.js':'ddt2-ops.js','/ddt2-ops.css':'ddt2-ops.css','/broadcast':'settings.html','/settings':'settings.html','/settings.js':'settings.js','/settings.css':'settings.css','/overlay':'overlay.html','/overlay.js':'overlay.js','/overlay.css':'overlay.css','/ddt2-race.css':'ddt2-race.css','/model.js':'model.js','/matchup':'intermission.html','/scoreboard':'intermission.html','/intermission.css':'intermission.css','/intermission.js':'intermission.js','/matchup.css':'matchup.css','/matchup.js':'matchup.js','/operator-flow.js':'operator-flow.js','/operator-flow.css':'operator-flow.css'};
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.svg':'image/svg+xml','.ttf':'font/ttf'};
 const server=http.createServer(async(req,res)=>{try{
  requireThat(store,'The companion is starting. Please try again shortly.',503);
@@ -132,7 +134,8 @@ const server=http.createServer(async(req,res)=>{try{
  if(route==='/api/config')return response(res,200,config);
  if(route==='/api/ops/game-preview')return response(res,200,await previewSettings());
  if(route==='/api/ops/ddt2-preview'){sourceCache=await sourcePreview(url.searchParams.get('offline')==='1');return response(res,200,{hash:sourceCache.hash,offline:sourceCache.offline,commit:sourceCache.source.commit,teamCount:sourceCache.teamCount,playerCount:sourceCache.playerCount,matchCount:sourceCache.matchCount});}
- if(route==='/api/broadcast'){const active=store.state.activeHeatId?heatFor(store.state,store.state.activeHeatId):null;return response(res,200,{tournament:store.state.tournament.name,config,series:active?.match.teamIds?.length?seriesSummary(store.state,active.match):null,heat:active?.heat||null,connected:!!bridge});}
+ if(route==='/api/broadcast')return response(res,200,broadcastState(store.state,config,!!bridge));
+ if(route==='/api/ops/uma-catalog')return response(res,200,umaCatalog);
  if(route.startsWith('/api/ops/correction/')){const c=store.state.corrections?.find(c=>c.id===route.split('/').pop());requireThat(c,'Correction not found.',404);return response(res,200,correctionReview(store.state,c));}
  if(route.startsWith('/api/ops/manual/')){const m=store.state.manualHeats?.find(m=>m.id===route.split('/').pop());requireThat(m,'Manual result not found.',404);return response(res,200,manualReview(store.state,m));}
  if(route==='/api/ops/state')return response(res,200,opsState());
@@ -149,6 +152,6 @@ server.on('error',error=>{if(error.code==='EADDRINUSE'){console.log('Tournament 
 // Bind first: a second game launch must not open or mutate a second copy of the store.
 await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
 store=await openStore(dataDir,config.tournament);
-await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.0',startedAt:new Date().toISOString()}));
+await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.1',startedAt:new Date().toISOString()}));
 await refreshBridge();setInterval(refreshBridge,100);setInterval(watchTick,2000);
-console.log(`DDT2 tournament companion 0.6.0: ${origin} (bridge ${bridgePort})`);
+console.log(`DDT2 tournament companion 0.6.1: ${origin} (bridge ${bridgePort})`);

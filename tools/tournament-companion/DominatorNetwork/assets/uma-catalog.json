@@ -1,0 +1,698 @@
+[
+  {
+    "card": 103301,
+    "name": "Admire Vega",
+    "outfit": "Starry Nocturne",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103301.png"
+  },
+  {
+    "card": 101902,
+    "name": "Agnes Digital",
+    "outfit": "Fanatic♡Jiangshi",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101902.png"
+  },
+  {
+    "card": 101901,
+    "name": "Agnes Digital",
+    "outfit": "Full-Color Fangirling",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101901.png"
+  },
+  {
+    "card": 103201,
+    "name": "Agnes Tachyon",
+    "outfit": "tach-nology",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103201.png"
+  },
+  {
+    "card": 101801,
+    "name": "Air Groove",
+    "outfit": "Empress Road",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101801.png"
+  },
+  {
+    "card": 101802,
+    "name": "Air Groove",
+    "outfit": "Quercus Civilis",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101802.png"
+  },
+  {
+    "card": 103601,
+    "name": "Air Shakur",
+    "outfit": "unsigned",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103601.png"
+  },
+  {
+    "card": 108701,
+    "name": "Aston Machan",
+    "outfit": "Flare",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/108701.png"
+  },
+  {
+    "card": 105301,
+    "name": "Bamboo Memory",
+    "outfit": "Iron Ambition",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105301.png"
+  },
+  {
+    "card": 102302,
+    "name": "Biwa Hayahide",
+    "outfit": "Rouge Caroler",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102302.png"
+  },
+  {
+    "card": 102301,
+    "name": "Biwa Hayahide",
+    "outfit": "pf. Winning Equation...",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102301.png"
+  },
+  {
+    "card": 109801,
+    "name": "Copano Rickey",
+    "outfit": "Eightfold☆Fortune",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/109801.png"
+  },
+  {
+    "card": 103801,
+    "name": "Curren Chan",
+    "outfit": "Fille Éclair",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103801.png"
+  },
+  {
+    "card": 103802,
+    "name": "Curren Chan",
+    "outfit": "Ma Chérie of the New Moon",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103802.png"
+  },
+  {
+    "card": 106501,
+    "name": "Daitaku Helios",
+    "outfit": "Fun☆Fun☆Party Night",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106501.png"
+  },
+  {
+    "card": 100902,
+    "name": "Daiwa Scarlet",
+    "outfit": "Nuit Étoilée de Scarlet",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100902.png"
+  },
+  {
+    "card": 100901,
+    "name": "Daiwa Scarlet",
+    "outfit": "Peak Blue",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100901.png"
+  },
+  {
+    "card": 103701,
+    "name": "Eishin Flash",
+    "outfit": "Meisterschaft",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103701.png"
+  },
+  {
+    "card": 103702,
+    "name": "Eishin Flash",
+    "outfit": "Precise Chocolatier",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103702.png"
+  },
+  {
+    "card": 101401,
+    "name": "El Condor Pasa",
+    "outfit": "El☆Número 1",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101401.png"
+  },
+  {
+    "card": 101402,
+    "name": "El Condor Pasa",
+    "outfit": "Kukulkan Warrior",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101402.png"
+  },
+  {
+    "card": 102201,
+    "name": "Fine Motion",
+    "outfit": "Noble Seamair",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102201.png"
+  },
+  {
+    "card": 102202,
+    "name": "Fine Motion",
+    "outfit": "Titania",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102202.png"
+  },
+  {
+    "card": 100501,
+    "name": "Fuji Kiseki",
+    "outfit": "Shooting Star Revue",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100501.png"
+  },
+  {
+    "card": 100502,
+    "name": "Fuji Kiseki",
+    "outfit": "Succès Étoilé",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100502.png"
+  },
+  {
+    "card": 104001,
+    "name": "Gold City",
+    "outfit": "Authentic / 1928",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104001.png"
+  },
+  {
+    "card": 104002,
+    "name": "Gold City",
+    "outfit": "Autumn Cosmos",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104002.png"
+  },
+  {
+    "card": 100702,
+    "name": "Gold Ship",
+    "outfit": "RUN! RUIN! LAUNCHER!",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100702.png"
+  },
+  {
+    "card": 100701,
+    "name": "Gold Ship",
+    "outfit": "Red Strife",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100701.png"
+  },
+  {
+    "card": 101102,
+    "name": "Grass Wonder",
+    "outfit": "Saintly Jade Cleric",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101102.png"
+  },
+  {
+    "card": 101101,
+    "name": "Grass Wonder",
+    "outfit": "Stone-Piercing Blue",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101101.png"
+  },
+  {
+    "card": 105201,
+    "name": "Haru Urara",
+    "outfit": "Bestest Prize ♪",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105201.png"
+  },
+  {
+    "card": 105202,
+    "name": "Haru Urara",
+    "outfit": "New Year ♪ New Urara!",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105202.png"
+  },
+  {
+    "card": 102801,
+    "name": "Hishi Akebono",
+    "outfit": "Buono ☆ Alla Moda",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102801.png"
+  },
+  {
+    "card": 101201,
+    "name": "Hishi Amazon",
+    "outfit": "Azure Amazon",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101201.png"
+  },
+  {
+    "card": 109901,
+    "name": "Hokko Tarumae",
+    "outfit": "Starry Lightship",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/109901.png"
+  },
+  {
+    "card": 103401,
+    "name": "Inari One",
+    "outfit": "Edomurasaki",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103401.png"
+  },
+  {
+    "card": 103402,
+    "name": "Inari One",
+    "outfit": "Golden Dream",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103402.png"
+  },
+  {
+    "card": 103101,
+    "name": "Ines Fujin",
+    "outfit": "Always Electrifying",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103101.png"
+  },
+  {
+    "card": 103102,
+    "name": "Ines Fujin",
+    "outfit": "Melt Your Heart",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103102.png"
+  },
+  {
+    "card": 103901,
+    "name": "Kawakami Princess",
+    "outfit": "Princess of Pink",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103901.png"
+  },
+  {
+    "card": 106102,
+    "name": "King Halo",
+    "outfit": "Cheerleader in Noble White",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106102.png"
+  },
+  {
+    "card": 106101,
+    "name": "King Halo",
+    "outfit": "King of Emeralds",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106101.png"
+  },
+  {
+    "card": 106802,
+    "name": "Kitasan Black",
+    "outfit": "Crane's Ambition",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106802.png"
+  },
+  {
+    "card": 106801,
+    "name": "Kitasan Black",
+    "outfit": "Gilded Shrine to Glory",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106801.png"
+  },
+  {
+    "card": 102501,
+    "name": "Manhattan Cafe",
+    "outfit": "Creeping Shadow",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102501.png"
+  },
+  {
+    "card": 100401,
+    "name": "Maruzensky",
+    "outfit": "Formula R",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100401.png"
+  },
+  {
+    "card": 100402,
+    "name": "Maruzensky",
+    "outfit": "Hot☆Summer Night",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100402.png"
+  },
+  {
+    "card": 105602,
+    "name": "Matikanefukukitaru",
+    "outfit": "Lucky Tidings",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105602.png"
+  },
+  {
+    "card": 105601,
+    "name": "Matikanefukukitaru",
+    "outfit": "Rising☆Fortune",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105601.png"
+  },
+  {
+    "card": 106201,
+    "name": "Matikanetannhauser",
+    "outfit": "Clippety-Tippety-Clop",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106201.png"
+  },
+  {
+    "card": 102401,
+    "name": "Mayano Top Gun",
+    "outfit": "Scramble☆Zone",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102401.png"
+  },
+  {
+    "card": 102402,
+    "name": "Mayano Top Gun",
+    "outfit": "Sunlight Bouquet",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102402.png"
+  },
+  {
+    "card": 105802,
+    "name": "Meisho Doto",
+    "outfit": "Dot-o'-Lantern",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105802.png"
+  },
+  {
+    "card": 105801,
+    "name": "Meisho Doto",
+    "outfit": "Turbulent Blue",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105801.png"
+  },
+  {
+    "card": 107101,
+    "name": "Mejiro Ardan",
+    "outfit": "Crystalline",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/107101.png"
+  },
+  {
+    "card": 107401,
+    "name": "Mejiro Bright",
+    "outfit": "Brunissage Line",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/107401.png"
+  },
+  {
+    "card": 105901,
+    "name": "Mejiro Dober",
+    "outfit": "Off the Line",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105901.png"
+  },
+  {
+    "card": 105902,
+    "name": "Mejiro Dober",
+    "outfit": "Sapphire Sojourn",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105902.png"
+  },
+  {
+    "card": 101302,
+    "name": "Mejiro McQueen",
+    "outfit": "End of the Skies",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101302.png"
+  },
+  {
+    "card": 101303,
+    "name": "Mejiro McQueen",
+    "outfit": "Fair Lady of the Waves",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101303.png"
+  },
+  {
+    "card": 101301,
+    "name": "Mejiro McQueen",
+    "outfit": "Frontline Elegance",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101301.png"
+  },
+  {
+    "card": 106401,
+    "name": "Mejiro Palmer",
+    "outfit": "Line Breakthrough",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106401.png"
+  },
+  {
+    "card": 102701,
+    "name": "Mejiro Ryan",
+    "outfit": "Down the Line",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102701.png"
+  },
+  {
+    "card": 102702,
+    "name": "Mejiro Ryan",
+    "outfit": "Marguerite Latte",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102702.png"
+  },
+  {
+    "card": 102602,
+    "name": "Mihono Bourbon",
+    "outfit": "CODE: ICING",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102602.png"
+  },
+  {
+    "card": 102601,
+    "name": "Mihono Bourbon",
+    "outfit": "MB-19890425",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102601.png"
+  },
+  {
+    "card": 104901,
+    "name": "Nakayama Festa",
+    "outfit": "Desperate Measures",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104901.png"
+  },
+  {
+    "card": 101601,
+    "name": "Narita Brian",
+    "outfit": "Maverick",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101601.png"
+  },
+  {
+    "card": 101602,
+    "name": "Narita Brian",
+    "outfit": "Ravenous Wolf",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101602.png"
+  },
+  {
+    "card": 105002,
+    "name": "Narita Taishin",
+    "outfit": "Difference Engineer",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105002.png"
+  },
+  {
+    "card": 105001,
+    "name": "Narita Taishin",
+    "outfit": "Nevertheless",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105001.png"
+  },
+  {
+    "card": 106001,
+    "name": "Nice Nature",
+    "outfit": "Poinsettia Ribbon",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106001.png"
+  },
+  {
+    "card": 106002,
+    "name": "Nice Nature",
+    "outfit": "Run & Win",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106002.png"
+  },
+  {
+    "card": 105101,
+    "name": "Nishino Flower",
+    "outfit": "Layered Petals",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/105101.png"
+  },
+  {
+    "card": 100602,
+    "name": "Oguri Cap",
+    "outfit": "Ashen Miracle",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100602.png"
+  },
+  {
+    "card": 100601,
+    "name": "Oguri Cap",
+    "outfit": "Starlight Beat",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100601.png"
+  },
+  {
+    "card": 103001,
+    "name": "Rice Shower",
+    "outfit": "Rosy Dreams",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103001.png"
+  },
+  {
+    "card": 103002,
+    "name": "Rice Shower",
+    "outfit": "Vampire Makeover!",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103002.png"
+  },
+  {
+    "card": 104101,
+    "name": "Sakura Bakushin O",
+    "outfit": "Blossom in Learning",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104101.png"
+  },
+  {
+    "card": 106901,
+    "name": "Sakura Chiyono O",
+    "outfit": "Strength in Full Bloom",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106901.png"
+  },
+  {
+    "card": 106702,
+    "name": "Satono Diamond",
+    "outfit": "Jade's Prosperity",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106702.png"
+  },
+  {
+    "card": 106701,
+    "name": "Satono Diamond",
+    "outfit": "Natural Brilliance",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106701.png"
+  },
+  {
+    "card": 104201,
+    "name": "Seeking the Pearl",
+    "outfit": "Rocket☆Star",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104201.png"
+  },
+  {
+    "card": 102001,
+    "name": "Seiun Sky",
+    "outfit": "Reeling in the Big One",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102001.png"
+  },
+  {
+    "card": 102002,
+    "name": "Seiun Sky",
+    "outfit": "Soirée des Chatons",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102002.png"
+  },
+  {
+    "card": 104301,
+    "name": "Shinko Windy",
+    "outfit": "Wicked Punk",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104301.png"
+  },
+  {
+    "card": 100201,
+    "name": "Silence Suzuka",
+    "outfit": "Innocent Silence",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100201.png"
+  },
+  {
+    "card": 104601,
+    "name": "Smart Falcon",
+    "outfit": "LOVE☆4EVER",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104601.png"
+  },
+  {
+    "card": 104602,
+    "name": "Smart Falcon",
+    "outfit": "Twilight Triumph",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104602.png"
+  },
+  {
+    "card": 100102,
+    "name": "Special Week",
+    "outfit": "Hopp'n♪Happy Heart",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100102.png"
+  },
+  {
+    "card": 100103,
+    "name": "Special Week",
+    "outfit": "Ruler of Japan",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100103.png"
+  },
+  {
+    "card": 100101,
+    "name": "Special Week",
+    "outfit": "Special Dreamer",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100101.png"
+  },
+  {
+    "card": 104502,
+    "name": "Super Creek",
+    "outfit": "Chiffon-Wrapped Mummy",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104502.png"
+  },
+  {
+    "card": 104501,
+    "name": "Super Creek",
+    "outfit": "Murmuring Stream",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104501.png"
+  },
+  {
+    "card": 104401,
+    "name": "Sweep Tosho",
+    "outfit": "Platanus Witch",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104401.png"
+  },
+  {
+    "card": 101702,
+    "name": "Symboli Rudolf",
+    "outfit": "Archer by Moonlight",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101702.png"
+  },
+  {
+    "card": 101701,
+    "name": "Symboli Rudolf",
+    "outfit": "Emperor's Path",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101701.png"
+  },
+  {
+    "card": 101502,
+    "name": "T.M. Opera O",
+    "outfit": "New Year, Same Radiance!",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101502.png"
+  },
+  {
+    "card": 101501,
+    "name": "T.M. Opera O",
+    "outfit": "O Sole Suo!",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101501.png"
+  },
+  {
+    "card": 101002,
+    "name": "Taiki Shuttle",
+    "outfit": "Bubblegum☆Memories",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101002.png"
+  },
+  {
+    "card": 101001,
+    "name": "Taiki Shuttle",
+    "outfit": "Wild Frontier",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/101001.png"
+  },
+  {
+    "card": 102101,
+    "name": "Tamamo Cross",
+    "outfit": "Fast as Lightning",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102101.png"
+  },
+  {
+    "card": 102102,
+    "name": "Tamamo Cross",
+    "outfit": "Raging Thunder",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102102.png"
+  },
+  {
+    "card": 100302,
+    "name": "Tokai Teio",
+    "outfit": "Beyond the Horizon",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100302.png"
+  },
+  {
+    "card": 100301,
+    "name": "Tokai Teio",
+    "outfit": "Peak Joy",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100301.png"
+  },
+  {
+    "card": 104801,
+    "name": "Tosen Jordan",
+    "outfit": "Jokester ☆ Vibes",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104801.png"
+  },
+  {
+    "card": 100802,
+    "name": "Vodka",
+    "outfit": "Fiery Aqua Vitae",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100802.png"
+  },
+  {
+    "card": 100801,
+    "name": "Vodka",
+    "outfit": "Wild Top Gear",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100801.png"
+  },
+  {
+    "card": 103502,
+    "name": "Winning Ticket",
+    "outfit": "Dream Deliverer",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103502.png"
+  },
+  {
+    "card": 103501,
+    "name": "Winning Ticket",
+    "outfit": "Get to Winning!",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/103501.png"
+  },
+  {
+    "card": 110001,
+    "name": "Wonder Acute",
+    "outfit": "Butterfly Sting",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/110001.png"
+  },
+  {
+    "card": 107201,
+    "name": "Yaeno Muteki",
+    "outfit": "Blazed Head, Covered Fists",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/107201.png"
+  },
+  {
+    "card": 107801,
+    "name": "Yamanin Zephyr",
+    "outfit": "Fluttertail Spirit",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/107801.png"
+  },
+  {
+    "card": 102901,
+    "name": "Yukino Bijin",
+    "outfit": "Darl'n Snowflake",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/102901.png"
+  },
+  {
+    "card": 104701,
+    "name": "Zenno Rob Roy",
+    "outfit": "Heroic Author",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104701.png"
+  }
+]

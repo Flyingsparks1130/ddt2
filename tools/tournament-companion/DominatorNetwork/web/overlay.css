@@ -3,12 +3,12 @@
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent!important}
 [hidden]{display:none!important}
 #panel{position:absolute;left:12px;top:12px;width:400px;transform-origin:top left;background:rgba(20,13,20,var(--opacity,1));border:1px solid #8d2b43;border-top:3px solid #f3325f;border-radius:7px;overflow:hidden;color:#fff2ed;box-shadow:3px 5px 16px #0005}
-header{height:166px;position:relative;padding:12px 15px;background:linear-gradient(110deg,#76162d,#250c1c);overflow:hidden}
+header{height:150px;position:relative;padding:12px 15px;background:linear-gradient(110deg,#76162d,#250c1c);overflow:hidden}
 header>*{position:relative}
 .figure{position:absolute;width:174px;height:auto;right:-9px;top:-43px;pointer-events:none}
 .header-shade{position:absolute;inset:0;background:linear-gradient(90deg,#63172c 0%,#591429eb 47%,#230d2100 85%),linear-gradient(0deg,#140d14 0%,transparent 45%)}
 .eyebrow{color:#fba4b8;font-size:9px;letter-spacing:2px}
-h1{font-size:21px;line-height:24px;height:48px;margin:8px 0 5px;width:246px;overflow:hidden;font-weight:800;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow-wrap:anywhere}
+h1{font-size:20px;line-height:22px;height:44px;margin:6px 0 4px;width:246px;overflow:hidden;font-weight:800;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow-wrap:anywhere}
 #matchup{font-size:12px;font-weight:650;background:#160c13ad;padding:4px 6px;margin-left:-4px;border-radius:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .round-line{display:flex;align-items:center;gap:10px;margin-top:9px;font-size:10px;color:#e6c7b5}
 .round-line b{display:block;padding:3px 9px;background:#892440;border:1px solid #b13755;border-radius:3px;color:#ffda9c;max-width:115px;overflow:hidden;text-overflow:ellipsis}
@@ -18,7 +18,7 @@ h1{font-size:21px;line-height:24px;height:48px;margin:8px 0 5px;width:246px;over
 .columns{height:20px;display:flex;background:#28151f;align-items:center;color:#c598a7;font-size:8px;padding:0 14px}
 .columns span:nth-child(2){margin-left:58px}
 .columns span:nth-child(2){font-size:8px;letter-spacing:.15px}
-.race-info{height:48px;padding:6px 12px;background:#28121f;border-top:1px solid #793146;color:#f4d6c9;font-size:11px}
+.race-info{height:42px;padding:6px 12px;background:#28121f;border-top:1px solid #793146;color:#f4d6c9;font-size:11px}
 .race-line{display:flex;align-items:center;gap:7px;min-width:0;height:17px}
 #race-track{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:750;color:#fff0e5;font-size:12px}
 #race-distance,#race-surface{flex:none;font-weight:700;font-variant-numeric:tabular-nums}
@@ -28,9 +28,9 @@ h1{font-size:21px;line-height:24px;height:48px;margin:8px 0 5px;width:246px;over
 #runners{position:relative}
 .runner,.empty-row{height:var(--row-height,73px);position:absolute;left:5px;right:5px;top:0;border-radius:4px;overflow:hidden}
 .runner{background:#21151d;border-left:3px solid transparent;will-change:transform;transition:transform var(--motion,320ms) cubic-bezier(.22,.75,.28,1)}
-.runner[data-place="3"]{background:#392131}
-.runner[data-place="2"]{background:#51293e}
-.runner[data-place="1"]{background:#71354c}
+.runner[data-place="3"]{background:#341c27}
+.runner[data-place="2"]{background:#432230}
+.runner[data-place="1"]{background:#54283b}
 .runner.picked{border-left-color:#ff7897}
 .rank{position:absolute;left:6px;top:13px;width:31px;height:34px;display:grid;place-items:center;border:1px solid #764052;border-radius:5px;background:#291822;font-weight:800;font-size:21px;line-height:1;color:#fff2ed}
 .runner[data-place="1"] .rank{border-color:#d78b96;color:#ffe1b2}
@@ -39,21 +39,21 @@ h1{font-size:21px;line-height:24px;height:48px;margin:8px 0 5px;width:246px;over
 .portrait-wrap{position:absolute;left:44px;top:11px;width:38px;height:38px;border-radius:5px;background:#452739}
 .portrait{width:100%;height:100%;object-fit:contain}
 .fallback{display:grid;place-items:center;color:#eec5ce;height:100%;font-size:13px}
-.identity-stack{position:absolute;left:89px;right:9px;top:5px}
-.identity{font-size:12.5px;line-height:14px;overflow-wrap:anywhere}
+.identity-stack{position:absolute;left:87px;right:122px;top:5px}
+.identity{font-size:14px;line-height:16px;overflow-wrap:anywhere}
 .name{font-weight:750;color:#fff2ed}
-.variant{color:#edc5b1;font-size:11px}
-.trainer{margin-top:1px;font-size:10.5px;line-height:12px;color:#ddbecb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.metrics{position:absolute;left:89px;right:9px;bottom:5px;height:17px;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.variant{display:block;color:#d8b3b8;font-size:10px;line-height:12px}
+.trainer{margin-top:2px;font-size:11px;line-height:13px;color:#ddbecb;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.metrics{position:absolute;right:7px;top:9px;width:107px;display:grid;grid-template-columns:20px 20px 1fr;align-items:start;gap:5px 4px;white-space:nowrap}
 .gate,.style{flex:none;width:20px;height:17px;display:grid;place-items:center;border-radius:3px;font-weight:800;font-size:11px;line-height:1}
 .gate{color:#ead5dc;background:#1a111acc;border:1px solid #79616b}
 .style{color:var(--style);background:color-mix(in srgb,var(--style) 15%,#151018);border:1px solid color-mix(in srgb,var(--style) 65%,transparent)}
-.numbers{display:flex;align-items:center;gap:8px;min-width:0;flex:1;text-align:right;font-variant-numeric:tabular-nums}
+.numbers{display:block;min-width:0;text-align:right;font-variant-numeric:tabular-nums}
 .gap{min-width:46px;display:block;font-size:10px;line-height:14px;font-weight:700;color:#f1c4be;white-space:nowrap}
 .runner[data-place="1"] .gap{color:#ffe1ad}
 .speed{display:block;font-size:10px;line-height:13px;color:#c8b0bd;white-space:nowrap}
 .speed::after{content:' km/h';font-size:7px;color:#b29aa8}
-.lamps{flex:none;display:flex;gap:4px;margin-left:auto}
+.lamps{grid-column:1/-1;display:flex;justify-content:flex-end;gap:8px}
 .lamp{width:17px;height:13px;display:flex;align-items:center;justify-content:center;color:#967f8b;opacity:.25;filter:none}
 .lamp svg{width:14px;height:12px;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .lamp.active{color:var(--lamp);opacity:1;animation:dashboard 1.1s ease-in-out infinite;filter:drop-shadow(0 0 3px var(--lamp))}
@@ -67,8 +67,8 @@ h1{font-size:21px;line-height:24px;height:48px;margin:8px 0 5px;width:246px;over
 .compact .rank{top:10px}
 .compact .portrait-wrap{width:32px;height:32px;top:11px;left:47px}
 .compact .identity-stack{top:4px}
-.compact .identity{font-size:12px;line-height:13px}
-.compact .variant{font-size:10.5px}
+.compact .identity{font-size:13px;line-height:14px}
+.compact .variant{font-size:9.5px;line-height:11px}
 .compact .trainer{margin-top:1px;font-size:10px;line-height:11px}
 .compact .metrics{bottom:4px}
 .compact .empty-pos{top:10px}
