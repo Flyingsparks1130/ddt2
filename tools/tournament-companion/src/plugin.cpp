@@ -40,7 +40,7 @@ extern "C" __declspec(dllexport) int hachimi_init_v3(GetApi api,int version){
     wchar_t path[32768];GetModuleFileNameW(ownModule,path,32768);baseDir=path;
     baseDir=baseDir.substr(0,baseDir.find_last_of(L"\\/"))+L"\\DominatorNetwork";
     CreateDirectoryW(baseDir.c_str(),nullptr);
-    logLine("Dominator OBS 0.6.0 initializing; read-only telemetry, DDT2 operations and optional game preview.");
+    logLine("Dominator OBS 0.6.2 initializing; read-only telemetry, DDT2 operations and optional game preview.");
     auto resolve=reinterpret_cast<void*(*)(const char*)>(api("il2cpp_resolve_symbol"));
     if(!resolve)return 0;
     domainGet=reinterpret_cast<decltype(domainGet)>(resolve("il2cpp_domain_get"));

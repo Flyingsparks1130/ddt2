@@ -72,7 +72,7 @@ async function watchTick(){if(watchBusy||!store?.state.watch.enabled)return;watc
    catch(e){watchNotice=`Waiting for a complete race file: ${path.basename(file.file)} (${e.message})`;if(Date.now()-known.seen>15000)known.done=true;}
   }watchBaseline=false;
  }catch(e){watchNotice=e.message;}finally{watchBusy=false;}}
-function opsState(){const state=store.state,bundle=publicBundle(state);return {version:'0.6.1',revision:state.revision,tournament:state.tournament,matches:state.matches,site:state.site||null,series:allSeries(state),corrections:state.corrections||[],manualHeats:state.manualHeats||[],activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
+function opsState(){const state=store.state,bundle=publicBundle(state);return {version:'0.6.2',revision:state.revision,tournament:state.tournament,matches:state.matches,site:state.site||null,series:allSeries(state),corrections:state.corrections||[],manualHeats:state.manualHeats||[],activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
  races:state.races.map(({id,filename,heatId,status,importedAt,runners,voidReason})=>({id,filename,heatId,status,importedAt,count:runners.length,voidReason})),
  watch:state.watch,watchNotice,github:state.github,publication:publicationPreview(state,bundle,!!process.env.DOMINATOR_GITHUB_TOKEN),publications:state.publications.slice(-10).reverse(),
  standings:bundle.standings,audit:state.audit.slice(-30).reverse(),locked:state.races.some(r=>r.status==='approved'),bridge:{connected:!!bridge,active:!!bridge?.active,count:bridge?.runners?.length||0,version:bridge?.version||null},overlayNotice};}
@@ -152,6 +152,6 @@ server.on('error',error=>{if(error.code==='EADDRINUSE'){console.log('Tournament 
 // Bind first: a second game launch must not open or mutate a second copy of the store.
 await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
 store=await openStore(dataDir,config.tournament);
-await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.1',startedAt:new Date().toISOString()}));
+await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.2',startedAt:new Date().toISOString()}));
 await refreshBridge();setInterval(refreshBridge,100);setInterval(watchTick,2000);
-console.log(`DDT2 tournament companion 0.6.1: ${origin} (bridge ${bridgePort})`);
+console.log(`DDT2 tournament companion 0.6.2: ${origin} (bridge ${bridgePort})`);

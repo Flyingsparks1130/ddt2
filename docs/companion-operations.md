@@ -29,3 +29,5 @@ Missing feeds are normal before first publication. Malformed or temporarily unav
 Add `?demo=1` for clearly labelled samples. Sample output cannot enter scoring. The desk also controls the independent DominatorNetwork in-game preview; F8 toggles it. Hachimi and horseACT are unchanged.
 
 The current scene sizes and operator flow are documented in [Companion 0.6.1](companion-release-0.6.1.md).
+The matching in-game race preview and DLL update instructions are in
+[Companion 0.6.2](companion-release-0.6.2.md).
