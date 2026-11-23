@@ -1,0 +1,158 @@
+/* DDT2 spectator program. The stage carries the poster art; fixtures and rosters sit on muted wine-colored panels. */
+:root {
+  --program-ink: #efdcd1;
+  --program-muted: #d2bab2;
+  --program-card: #39282e;
+  --program-rule: #624950;
+  --program-surface: #221a20;
+  --gold: #edcf89;
+  --line: #c6a87d44;
+}
+body { background: #171218; }
+body::before {
+  background: radial-gradient(ellipse 90% 450px at 90% 0%, #9e1928 0%, transparent 85%), linear-gradient(165deg,#46111a,#191419 570px);
+  background-repeat: no-repeat;
+  position: absolute;
+  min-height: 100vh;
+}
+.season-header,.site-header,.dt-header { background: #181219f5; }
+.ddt-header-inner,.ddt-footer-inner,.season-main { max-width: 1380px; }
+.ddt-nav a { font-size: 14px; }
+.season-heading { min-height: 208px; max-width: 73%; padding-block: 38px; }
+.season-heading h1 { font-size: clamp(44px,5.2vw,76px); letter-spacing: -.015em; }
+.season-heading > p:last-of-type { max-width: 56ch; font-size: 15px; margin-top: 12px; color: #eed7c9; }
+body.season-app:not([data-section=home]) .season-scene { height: 224px; mask-image: linear-gradient(#000 65%,transparent); }
+body.season-app:not([data-section=home]) .season-character-stage { width: 260px; height: 365px; right: max(6%,calc((100vw - 1220px)/2)); top: -10px; }
+body.season-app:not([data-section=home]) .season-scene-word { font-size: 190px; }
+.season-app:not([data-section=home]) .season-heart { display:none; }
+.season-home-hero { min-height: clamp(470px,67vh,660px); }
+body[data-section=home] .season-character-stage { height: clamp(510px,68vh,690px); }
+.season-button { background: #e8c786; border-color: #f6d994; color: #301722; border-radius: 4px; box-shadow: none; }
+.season-text-link { font-size: 14px; }
+.season-section { padding-top: clamp(24px,3vw,42px); }
+.season-entry,.season-stat-panel,.matchday-hub,.guide-walkthrough,.guide-score-layout,.guide-invitation,.matchday-entrance,.matchday-lineup {
+  background: var(--program-surface); border-color: var(--line); border-radius: 8px;
+}
+.season-entry { min-height: 0; padding: 24px 56px 24px 22px; }
+.season-entry svg { position: static; width: 32px; height: 32px; margin-bottom: 18px; }
+.season-entry h3 { margin-top: 0; }
+.season-entry p { font-size: 14px; max-width: 38ch; }
+.season-entry:hover { transform: translateY(-2px); }
+.season-rules-grid .season-stat-panel > p,.season-rules-grid li { font-size: 15px; line-height: 1.65; }
+.season-stat-empty { display: flex; align-items: center; gap: 10px; padding: 10px 0 0; }
+.season-stat-empty > span { font-size: 18px; }
+.season-stat-empty p { margin: 0; }
+.season-table-wrap tbody tr:nth-child(even) { background: #fff5dd06; }
+.season-metrics { background: transparent; border-inline: 0; }
+.season-metric { padding: 16px 20px; }
+.season-metric strong { font-size: 36px; }
+.matchday-follow,.matchday-share { border-radius: 4px; min-height: 44px; }
+.season-match-grid .season-match { border-radius: 6px; background: var(--program-surface); }
+.season-match-grid .season-match-sides > section { min-height: 0; padding: 16px; }
+.season-match-grid .season-team-label { display: flex; align-items: center; overflow-wrap: anywhere; }
+.season-match-grid .season-mini-umas:empty { display: none; }
+.season-match-grid .season-match-bottom { font-size: 12px; }
+
+/* The directory is a list of teams, with each roster readable at a glance. */
+.season-toolbar { padding-block: 12px; margin-bottom: 14px; }
+.season-search input { min-height: 44px; border-radius: 4px; font-size: 16px; }
+.season-club-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+.matchday-club-card {
+  display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start;
+  background: var(--program-card); color: var(--program-ink); border: 0; border-radius: 7px;
+  box-shadow: inset 3px 0 #ad6264;
+}
+.matchday-club-card:has([aria-pressed=true]) { box-shadow: inset 3px 0 #d7ad6d; }
+.matchday-club-card .season-club { color: inherit; min-width: 0; padding: 16px 0 16px 20px; }
+.matchday-club-card .season-club:hover { transform: none; box-shadow: none; }
+.matchday-club-card .season-club > header { padding: 0; gap: 10px; border: 0; background: none; }
+.matchday-club-card .season-club h2 { color: var(--program-ink); font-size: 28px; }
+.matchday-club-card .season-club-arrow { display:none; }
+.matchday-club-card .season-club:hover h2 { text-decoration: underline; text-underline-offset: 4px; }
+.matchday-club-card .season-crest { width: 34px; height: 38px; }
+.matchday-club-card .team-crest { width: 34px; height: 38px; }
+.matchday-club-card .season-team-roster { padding: 10px 0 0; }
+.matchday-club-card .season-team-roster ul { display: flex; gap: 2px 0; flex-wrap: wrap; }
+.matchday-club-card .season-team-roster li { color: var(--program-muted); font-size: 14px; line-height: 1.6; border: 0; padding: 0; }
+.matchday-club-card .season-team-roster li:not(:last-child)::after { content: "·"; margin-inline: 6px; color: #b28c74; }
+.matchday-club-card .matchday-club-actions { padding: 13px 12px 0 8px; }
+.matchday-club-card .matchday-follow { color: #ddc6a3; border-color: #795d55; background: transparent; padding-inline: 10px; }
+.matchday-club-card .matchday-follow:is(:hover,[aria-pressed=true]) { color: #f4d5a0; background: #57343a; }
+.matchday-club-card :focus-visible,.draw-panel .season-match:focus-visible { outline: 3px solid #edc680; outline-offset: 1px; }
+.profile-grid { display: grid; grid-template-columns: minmax(210px,1fr) minmax(0,2fr); gap: 18px 28px; }
+.profile-grid .season-team-section { min-width: 0; padding: 0; }
+.profile-grid h2 { font-size: 28px; margin-bottom: 12px; }
+.profile-roster { grid-row: span 2; }
+.profile-lineup { grid-column: 2; }
+.profile-roster .season-team-roster { background: var(--program-card); border: 0; border-radius: 6px; padding: 4px 20px; }
+.profile-roster li { color: var(--program-ink); border-color: var(--program-rule); font-size: 16px; }
+.profile-fixtures .season-match-grid { grid-template-columns: repeat(auto-fit,minmax(min(100%,240px),1fr)); }
+.profile-lineup .season-no-data { padding: 15px 0; background: none; border: 0; border-top: 1px solid var(--line); }
+body[data-section=club] .matchday-club-toolbar { padding-bottom: 16px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+
+/* A single sheet for the complete elimination draw. */
+.draw-panel { background: #201a20; border: 1px solid #604b49; border-radius: 8px; }
+.draw-panel .season-bracket-scroll { padding: clamp(12px,1.6vw,22px); }
+.draw-panel .matchday-bracket-board { gap: clamp(16px,2vw,32px); }
+.draw-panel .season-bracket-round header { padding-block: 0 8px; border-bottom-color: #a38865; }
+.draw-panel .season-bracket-round h2 { font-size: clamp(20px,2vw,28px); color: #f4dfb8; }
+.draw-fixtures { gap: 10px; }
+.draw-panel .season-bracket-round .season-match {
+  background: var(--program-card); color: var(--program-ink); border: 1px solid #76565a;
+  border-radius: 5px; box-shadow: 0 2px 5px #13090d30;
+}
+.draw-panel .season-bracket-round:last-child .season-match { background: #443037; border-color: #ab8861; }
+.draw-panel .season-match-meta { color: #dec39d; background: #271d22; border-color: #695057; padding: 5px 10px; }
+.draw-panel .season-match-meta span:last-child { color: #dec39d; }
+.draw-panel .season-match-sides > section { min-height: 31px; padding: 4px 10px; }
+.draw-panel .season-match-sides > section:last-child { border-color: #74565d77; }
+.draw-panel .season-team-label { color: var(--program-ink); font-size: clamp(17px,1.55vw,21px); }
+.draw-panel [data-club-id=""] .season-team-label { color: var(--program-muted); font-size: 13px; }
+.draw-panel .season-score { color: #e1bd91; }
+.draw-panel .season-match.is-club-path { outline: 2px solid #f4ca76; outline-offset: 2px; }
+.draw-panel .draw-connector { stroke: #b79776; stroke-width: 1.6; }
+.draw-toolbar .matchday-path-tools select { min-height: 44px; border-radius: 4px; font-size: 16px; }
+
+@media (max-width: 900px) { .season-club-grid { grid-template-columns: 1fr; } }
+@media (max-width: 800px) {
+  .draw-panel { border: 0; background: transparent; }
+  .draw-panel .season-bracket-scroll { padding: 0; }
+  .draw-panel .season-bracket-round { scroll-margin-top: 125px; }
+  .draw-panel .draw-fixtures { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .draw-panel .season-team-label { font-size: 19px; }
+  .draw-jumps { background: #30232a; border-radius: 5px; }
+  .ddt-nav a { font-size: 12px; }
+}
+@media (max-width: 600px) {
+  .season-heading { min-height: 142px; max-width: 72%; padding-block: 20px; }
+  .season-heading h1 { font-size: clamp(32px,8.8vw,46px); }
+  .season-heading > p:last-of-type { font-size: 13px; margin-top: 8px; }
+  body.season-app:not([data-section=home]) .season-scene { height: 150px; }
+  body.season-app:not([data-section=home]) .season-character-stage { right: -16px; width: 34vw; top: 0; height: 198px; }
+  body[data-section=home] .season-character-stage { width: 54vw; height: 320px; right: -4vw; top: 16px; }
+  .season-home-hero { min-height: 345px; padding-block: 32px 16px; }
+  .season-home-copy { max-width: 100%; }
+  .season-title-art { font-size: 30vw; width: max-content; }
+  .season-home-hero h1 { max-width: 60%; font-size: 32px; }
+  .season-home-actions { flex-wrap: wrap; gap: 6px 16px; margin-top: 16px; }
+  .season-home-actions .season-text-link { font-size: 12px; }
+  .season-scene-word { display: none; }
+  .season-toolbar { gap: 6px; }
+  .profile-grid { grid-template-columns: 1fr; gap: 24px; }
+  .profile-roster,.profile-lineup { grid-area: auto; }
+  .draw-toolbar { row-gap: 4px; }
+  .draw-toolbar .matchday-path-tools { flex: 1 1 185px; }
+  .draw-toolbar .matchday-path-summary { width: auto; }
+  .draw-panel .draw-fixtures { grid-template-columns: 1fr; }
+  .draw-panel .season-match-sides > section { min-height: 33px; }
+  .season-entry { min-height: 0; }
+}
+
+
+.season-heading h1 .team-crest { display: inline-block; }
+.season-match-grid .season-vs { top: 50%; transform: translate(-50%,-50%); font-size: 14px; }
+.season-match-grid .season-match-sides > section:last-child { padding-left: 22px; }
+@media (max-width: 600px) {
+  .matchday-contender,.matchday-contender > div { min-width: 0; max-width: 100%; }
+  .matchday-contender a,.matchday-contender > div > span { overflow-wrap: anywhere; font-size: clamp(18px,5.5vw,27px); }
+}
