@@ -36,3 +36,12 @@ export function suggestedPlayer(row,players,lineup,rows){
  const matchingOutfit=players.filter(player=>lineup?.[player.id]===row.card);
  return matchingOutfit.length===1?matchingOutfit[0].id:'';
 }
+
+export function reservePlayers(selects){
+ const used=new Set(selects.map(select=>select.value).filter(Boolean));
+ for(const select of selects){
+  for(const option of select.options){
+   option.disabled=!!option.value&&option.value!==select.value&&used.has(option.value);
+  }
+ }
+}

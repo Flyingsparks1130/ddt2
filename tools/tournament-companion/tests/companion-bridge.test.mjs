@@ -25,7 +25,7 @@ test('native bridge and companion preserve the OBS feed and synchronize operator
   const bridge=run(path.join(project,'ServerTest.exe'),[root,String(bridgePort),'--race-fixture']);
   run(process.execPath,[path.join(project,'DominatorNetwork/companion/app.mjs'),'--port',String(port),'--bridge-port',String(bridgePort),'--root',root,'--data',path.join(temp,'data')]);
   const live=await waitFor(async()=>{const r=await fetch(base+'/api/state');return r.ok?await r.json():null;});
-  assert.equal(live.version,'0.6.4');assert.equal(live.active,true);assert.equal(live.runners.length,1);assert.equal(live.runners[0].variant,'Ashen Miracle');assert.equal(live.runners[0].lights.stamina,true);assert.equal(live.raceInfo.track,'Nakayama');assert.equal(live.config.scale,.85);
+  assert.equal(live.version,'0.6.5');assert.equal(live.active,true);assert.equal(live.runners.length,1);assert.equal(live.runners[0].variant,'Ashen Miracle');assert.equal(live.runners[0].lights.stamina,true);assert.equal(live.raceInfo.track,'Nakayama');assert.equal(live.config.scale,.85);
   for(const name of ['overlay.html','overlay.js','overlay.css','model.js']){const url=name==='overlay.html'?'/overlay':'/'+name;assert.equal(await(await fetch(base+url)).text(),await readFile(path.join(project,'DominatorNetwork/web',name),'utf8'));}
   await post('setup',{name:'Test Championship',players:[{id:'a',name:'Player A',gameName:'A',team:'Red'}],rules:null});
   await post('match',{name:'Red vs Blue',round:'Round 2',stage:'SF',heats:1,playerIds:['a']});

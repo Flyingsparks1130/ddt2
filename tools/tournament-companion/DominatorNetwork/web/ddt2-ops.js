@@ -1,9 +1,13 @@
+import {reservePlayers} from './model.js';
 const $=id=>document.getElementById(id),make=(tag,value,cls)=>{const e=document.createElement(tag);if(value!=null)e.textContent=value;if(cls)e.className=cls;return e;};
 let state=null,lastRevision=-1,source=null,busy=false,review=null;
+export const outfitCatalog=fetch('/api/ops/uma-catalog').then(r=>{
+ if(!r.ok)throw Error('Uma list unavailable.');return r.json();
+}).catch(()=>[]);
 const tab=(id,label)=>`<button class="tab" data-tab="${id}">${label}</button>`;
 document.querySelector('nav[aria-label="Workspace"]').insertAdjacentHTML('beforeend',tab('roster','Teams & bracket')+tab('corrections','Manual corrections')+tab('previews','OBS & in-game preview'));
 document.querySelector('footer').textContent='DDT2 tournament companion · Approve locally, then publish separately.';
-document.querySelector('.eyebrow').textContent='DDT2 / TOURNAMENT OPERATIONS';$('version').textContent='COMPANION 0.6.4';
+document.querySelector('.eyebrow').textContent='DDT2 / TOURNAMENT OPERATIONS';$('version').textContent='COMPANION 0.6.5';
 document.querySelector('.shell').insertAdjacentHTML('beforeend',`
 <section class="view" id="roster" hidden><section class="card"><div class="card-heading"><div><p class="eyebrow">DDT2 CONNECTION</p><h2>Teams, players & published bracket</h2></div><span class="badge" id="site-status">Not connected</span></div><p id="site-summary" class="help"></p><div class="actions"><button id="site-preview">Check DDT2 for updates</button><button class="quiet" id="site-offline">Use offline bracket</button><button id="site-import" class="secondary" disabled>Import reviewed update</button></div><p class="help" id="site-preview-text">Check the draw before importing matchups.</p></section><section class="card" id="site-bracket" aria-label="Tournament bracket" hidden></section><section class="card"><h2>Team Roster</h2><div class="fields two"><label>Search teams or players<input type="search" id="roster-search" placeholder="Team or player name"></label><label>Team<select id="roster-team"></select></label></div><div id="team-roster"></div></section></section>
 <section class="view" id="corrections" hidden><div class="correction-banner"><b>Manual fallback</b><p>Stage a correction, check the preview, then approve it. Approved changes update local overlays. Publishing still requires a separate review. Original race files stay intact.</p></div><div class="setup-grid"><form id="correction-form" class="card"><h2>Series scores & outcome</h2><label>Series<select id="correction-match"></select></label><label>Change<select id="correction-kind"><option value="score">Set static team scores</option><option value="automatic">Return to calculated scores</option><option value="outcome">Confirm series winner</option><option value="reopen">Reopen series / clear outcome</option></select></label><div class="fields two" id="score-inputs"><label><span id="score-label-a">Team A</span><input id="manual-score-a" type="number" min="0" max="10000" value="0"></label><label><span id="score-label-b">Team B</span><input id="manual-score-b" type="number" min="0" max="10000" value="0"></label></div><label id="winner-input" hidden>Winner<select id="manual-winner"></select></label><label>Reason<input id="correction-reason" maxlength="500" required placeholder="Why this correction or outcome is correct"></label><p class="help">Static scores stay fixed until you approve “Return to calculated scores”. Confirming a winner is separate from approving an individual race.</p><button>Stage correction for review</button></form>
@@ -14,7 +18,7 @@ document.querySelector('.shell').insertAdjacentHTML('beforeend',`
 <dialog id="correction-dialog"><div class="card-heading"><h2>Approve reviewed change</h2><button type="button" class="quiet" id="close-correction">Close</button></div><pre id="correction-preview"></pre><p id="correction-problems" class="problems"></p><label>Approving operator<input id="correction-operator" maxlength="80" required></label><label class="check"><input id="correction-confirm" type="checkbox">I checked the teams and scores. Any race shown here has finished on the broadcast.</label><button id="approve-correction" disabled>Approve locally</button><p class="help">This does not publish to GitHub.</p></dialog>`);
 document.querySelector('.shell').append(document.querySelector('footer'));
 document.querySelector('#show .primary').insertAdjacentHTML('afterbegin','<section class="card" id="series-card"><p class="eyebrow">CURRENT SERIES</p><h2 id="series-title">Select a matchup</h2><div id="series-score" class="series-score"></div><p id="series-state" class="help"></p><div id="series-races" class="series-races"></div><button id="review-outcome" class="secondary">Review series outcome / corrections</button></section>');
-document.querySelector('#setup .setup-grid').insertAdjacentHTML('beforeend',`<form class="card" id="course-form"><h2>Drafted Tracks</h2><p class="help" id="course-match">Choose a matchup on the Race Desk.</p><label>Race slot<select id="course-heat"></select></label><div class="fields three"><label>Track<select id="course-name"></select></label><label>Surface<select id="course-surface"></select></label><label>Distance<select id="course-distance"></select></label></div><button disabled>Save drafted track</button></form>`);
+$('drafted-tracks').insertAdjacentHTML('afterend',`<details class="operator-details" id="course-editor" hidden><summary>Edit drafted track</summary><form class="card" id="course-form"><h2>Drafted Tracks</h2><p class="help" id="course-match">Choose a matchup on the Race Desk.</p><label>Race slot<select id="course-heat"></select></label><div class="fields three"><label>Track<select id="course-name"></select></label><label>Surface<select id="course-surface"></select></label><label>Distance<select id="course-distance"></select></label></div><button disabled>Save drafted track</button></form></details>`);
 for(const [key,route] of [['race','overlay'],['matchup','matchup'],['scoreboard','scoreboard']])$(key+'-source').textContent=location.origin+'/'+route;
 const message=(text,error=false)=>{$('notice').hidden=false;$('notice').textContent=text;$('notice').classList.toggle('error',error);};
 async function api(route,body){const r=await fetch('/api/ops/'+route,body===undefined?{cache:'no-store'}:{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({...body,revision:state.revision})});const data=await r.json();if(!r.ok)throw Error(data.error||'Operation failed');return data;}
@@ -24,7 +28,9 @@ document.querySelector('nav[aria-label="Workspace"]').addEventListener('click',e
 function options(select,rows,pick){const old=select.value;select.replaceChildren(...rows.map(r=>{const o=make('option',r.name);o.value=r.id;return o;}));if(rows.some(r=>r.id===old))select.value=old;else if(rows.some(r=>r.id===pick))select.value=pick;}
 function current(){return state?.series.find(s=>s.races.some(r=>r.heatId===state.activeHeatId))||state?.series.find(s=>state.matches.find(m=>m.id===s.id)?.heats.some(h=>h.id===state.activeHeatId));}
 function correctionFields(){const s=state?.series.find(s=>s.id===$('correction-match').value),kind=$('correction-kind').value;$('score-inputs').hidden=kind!=='score';$('winner-input').hidden=kind!=='outcome';if(!s)return;for(const [i,key] of ['a','b'].entries()){$('score-label-'+key).textContent=s.teams[i].name;$('manual-score-'+key).value=s.teams[i].points;}options($('manual-winner'),s.teams,s.leaderId);}
-function heatPlayers(){const m=state.matches.find(m=>m.heats.some(h=>h.id===$('manual-heat').value));const rows=state.tournament.players.filter(p=>m?.playerIds.includes(p.id));for(const key of ['first','second','third'])options($('manual-'+key),[{id:'',name:'Select registered finisher'},...rows.map(p=>({id:p.id,name:p.name+' · '+p.team}))]);}
+function heatPlayers(){const m=state.matches.find(m=>m.heats.some(h=>h.id===$('manual-heat').value));const rows=state.tournament.players.filter(p=>m?.playerIds.includes(p.id));for(const key of ['first','second','third'])options($('manual-'+key),[{id:'',name:'Select registered finisher'},...rows.map(p=>({id:p.id,name:p.name+' · '+p.team}))]);reservePlayers(podiumFields);}
+const podiumFields=['first','second','third'].map(place=>$('manual-'+place));
+for(const field of podiumFields)field.addEventListener('change',()=>reservePlayers(podiumFields));
 let courses=[];
 function choices(select, rows, value, placeholder) {
  select.replaceChildren(new Option(placeholder,''),...rows.map(([id,label])=>new Option(label,String(id))));
@@ -47,6 +53,7 @@ export function syncDraftedTracks(match,deskHeat){
  choices($('course-heat'),slots.map(h=>[h.id,slotLabel(h)]),slots.some(h=>h.id===selected)?selected:deskHeat,'Choose a race');
  $('course-match').textContent=match?.name||'Choose a matchup on the Race Desk.';
  courseFields();
+ $('course-editor').hidden=!match;
  const list=$('drafted-tracks');list.hidden=!match;list.replaceChildren();
  if(!match)return;
  list.append(make('h3','Drafted Tracks'));
@@ -56,7 +63,7 @@ export function syncDraftedTracks(match,deskHeat){
   const course=h.trackName||courses.find(c=>c.id===expected.trackId)?.name;
   const details=[course,expected.distance?expected.distance+' m':'',{1:'Turf',2:'Dirt'}[expected.surface]].filter(Boolean).join(' · ');
   item.append(make('strong',slotLabel(h)),make('span',details||'Choose track'));
-  item.onclick=()=>{chooseTab('setup');$('course-heat').value=h.id;courseFields();$('course-name').focus();};
+  item.onclick=()=>{$('course-editor').open=true;$('course-heat').value=h.id;courseFields();$('course-name').focus();};
   list.append(item);
  }
 }

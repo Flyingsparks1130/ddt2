@@ -1,5 +1,5 @@
-import {courseCatalogReady,syncDraftedTracks} from './ddt2-ops.js';
-import {raceLabels,suggestedPlayer} from './model.js';
+import {courseCatalogReady,syncDraftedTracks,outfitCatalog} from './ddt2-ops.js';
+import {raceLabels,suggestedPlayer,reservePlayers} from './model.js';
 const $=id=>document.getElementById(id);
 let state=null,reviewData=null,selectedRace=null,publication=null,busy=false,setupLoaded=false,lastRenderedRevision=-1;
 const node=(tag,text,className)=>{const el=document.createElement(tag);if(text!=null)el.textContent=text;if(className)el.className=className;return el;};
@@ -35,7 +35,7 @@ function standings(id,rows){const target=$(id);target.replaceChildren();if(!rows
 function render(){if(!state)return;const active=findHeat(state.activeHeatId),approved=state.races.filter(r=>r.status==='approved').length+(state.manualHeats||[]).filter(r=>r.status==='approved').length,pending=state.races.filter(r=>r.status==='pending').length;
  document.dispatchEvent(new CustomEvent('opsstate',{detail:state}));
  $('bridge').textContent=state.bridge.connected?(state.bridge.active?`Game connected · ${state.bridge.count} runners`:'Game connected · Waiting'):'Game offline · Operations available';$('bridge').className='badge'+(state.bridge.connected?' live':'');
- $('active-title').textContent=active?.match.name||'No heat selected';$('active-subtitle').textContent=active?`${active.match.stage} · ${active.match.round} · Heat ${active.heat.number}`:(state.matches.length?'Choose a match and race below.':'Open Match Setup to create a matchup.');
+ $('active-title').textContent=active?.match.name||'No heat selected';$('active-subtitle').textContent=active?`${active.match.stage} · ${active.match.round} · Heat ${active.heat.number}`:(state.matches.length?'Choose a match and race below.':'Import the published bracket in Teams & connection.');
  $('format-label').textContent=state.tournament.rules?'Points by finishing position':'To be decided';$('format-detail').textContent=state.tournament.rules?`${state.tournament.rules.points.join(' / ')} · ${state.tournament.rules.tiebreak==='shared'?'Shared ties':'Countback ties'}`:'Scoring and approval wait for configured rules.';
  $('counts').textContent=`${approved} approved`;$('queue-count').textContent=`${pending} awaiting review`;$('armed').textContent=state.armedHeatId?'Waiting for the next race':'Not armed';$('armed').className='badge'+(state.armedHeatId?' warning':'');$('disarm').hidden=!state.armedHeatId;$('arm').disabled=!active||!state.watch.enabled||!!state.armedHeatId;
  $('sync').textContent=state.overlayNotice||'Use this race updates your broadcast scenes. Capture next race waits for one new horseACT file.';
@@ -52,28 +52,40 @@ function render(){if(!state)return;const active=findHeat(state.activeHeatId),app
  $('publications').replaceChildren();for(const entry of state.publications){const el=node('div',null,'audit-item');el.append(node('strong',`${entry.target.owner}/${entry.target.repo}`),node('small',time(entry.at)),node('p',entry.commit?`Commit ${entry.commit.slice(0,12)}`:'Existing matching publication confirmed'));$('publications').append(el);}if(!state.publications.length)$('publications').textContent='Nothing has been sent to GitHub.';
 }
 async function refresh(){try{state=await api('state');render();}catch(e){notice('Companion connection unavailable: '+e.message,true);}}
-let reviewRevision=0;
+let reviewRevision=0,outfits=new Map();
 function reviewRoster(){
  const heatId=$('assign-heat').value;
  const {match,heat}=findHeat(heatId)||{};
  const players=state.tournament.players.filter(p=>match?.playerIds.includes(p.id));
- return {heatId,match,players,lineup:heat?.lineup};
+ return {heatId,match,players,lineup:match?.lineup||heat?.lineup};
 }
 function renderReviewRows(){
  const {race,review}=reviewData,{match,players,heatId,lineup}=reviewRoster();
  const pending=race.status==='pending';
  $('race-rows').replaceChildren();
+ const chosen=new Map(),reserved=new Set(),suggestions=new Map();
+ for(const row of review.rows){
+  const saved=heatId===race.heatId&&race.mapping?.[row.index];
+  if(players.some(p=>p.id===saved)&&!reserved.has(saved)){
+   chosen.set(row.index,saved);reserved.add(saved);
+  }else{
+   const id=suggestedPlayer(row,players,lineup,review.rows);
+   if(id){const candidates=suggestions.get(id)||[];candidates.push(row.index);suggestions.set(id,candidates);}
+  }
+ }
+ for(const [id,indices] of suggestions){
+  if(!reserved.has(id)&&indices.length===1)chosen.set(indices[0],id);
+ }
  for(const row of review.rows){
   const tr=node('tr'),identity=node('td',row.name);
-  identity.append(node('small',row.card?'Card '+row.card+' · Gate '+row.gate:'Gate '+row.gate),node('small',row.trainer||'Name missing from capture'));
+  identity.append(node('small',[outfits.get(row.card)?.outfit,'Gate '+row.gate].filter(Boolean).join(' · ')),node('small',row.trainer||'Name missing from capture'));
   const who=node('td');
   if(pending){
    const select=node('select');select.dataset.runner=String(row.index);
    select.setAttribute('aria-label','Participant for gate '+row.gate);
    select.add(new Option(match?'Choose player':'Choose a match first',''));
    for(const player of players)select.add(new Option(player.name+(player.team?' · '+player.team:''),player.id));
-   const saved=heatId===race.heatId&&race.mapping?.[row.index];
-   select.value=saved||suggestedPlayer(row,players,lineup,review.rows);select.disabled=!players.length;
+   select.value=chosen.get(row.index)||'';select.disabled=!players.length;
    who.append(select);
   }else who.textContent=row.playerName||'—';
   tr.append(node('td',row.rank,'numeric'),identity,who,node('td',Number(row.finishTime).toFixed(3),'numeric'),node('td',row.points??'—','numeric'));
@@ -85,6 +97,7 @@ function reviewStatus(){
  const {race,review}=reviewData,{match,players,heatId,lineup}=reviewRoster();
  const pending=race.status==='pending',ddt=state.tournament.id==='ddt2';
  const selectors=[...$('race-rows').querySelectorAll('select')];
+ reservePlayers(selectors);
  const picked=selectors.filter(s=>s.value),unique=new Set(picked.map(s=>s.value)).size;
  const wrongSize=ddt&&race.runners.length!==10;
  const complete=!!match&&picked.length===selectors.length&&(!ddt||(unique===10&&players.length===10&&!wrongSize));
@@ -109,7 +122,8 @@ function reviewStatus(){
 }
 async function openReview(raceId){
  reviewRevision=state.revision;
- const [detail,courses]=await Promise.all([api('race/'+raceId),courseCatalogReady]);
+ const [detail,courses,catalog]=await Promise.all([api('race/'+raceId),courseCatalogReady,outfitCatalog]);
+ outfits=new Map(catalog.map(uma=>[uma.card,uma]));
  reviewData=detail;selectedRace=raceId;
  const {race,review}=detail,track=review.track;
  const course=track.name?.trim()||courses.find(c=>c.id===Number(track.id))?.name;

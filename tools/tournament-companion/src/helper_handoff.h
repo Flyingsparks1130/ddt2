@@ -68,7 +68,7 @@ static DWORD listenerOwner(unsigned short port) {
 
 static bool previousHelper(const nlohmann::json& state) {
     return state.is_object() && state.contains("version") &&
-           (state["version"] == "0.6.2" || state["version"] == "0.6.3");
+           (state["version"] == "0.6.2" || state["version"] == "0.6.3" || state["version"] == "0.6.4");
 }
 
 static bool idleLegacyDesk(const nlohmann::json& state) {

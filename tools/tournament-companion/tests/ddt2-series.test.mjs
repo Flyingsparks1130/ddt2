@@ -23,7 +23,7 @@ assert.equal(s.tournament.players.length,60);assert.equal(s.github.repo,'ddt2');
  assert.deepEqual(reset.matches.map(x=>x.id),s.matches.map(x=>x.id));
  assert.equal(reset.series.find(x=>x.id===m.id).raceCount,0);
  assert.deepEqual(reset.series.find(x=>x.id===m.id).teams.map(t=>t.points),[0,0]);
- assert.deepEqual(reset.matches.find(x=>x.id===m.id).heats[0].lineup,Object.fromEntries(entries.map(e=>[e.playerId,e.card])));
+ assert.deepEqual(reset.matches.find(x=>x.id===m.id).lineup,Object.fromEntries(entries.map(e=>[e.playerId,e.card])));
  const secondPreview=await get('ddt2-preview?offline=1');
  await post('ddt2-sync',{sourceHash:secondPreview.hash});
  await post('select',{heatId:s.matches.find(match=>match.teamIds.includes('dominion')).heats[0].id});
@@ -40,7 +40,7 @@ test('legacy hidden fixtures return once and unofficial matches retire with thei
  const {s,m}=setup(),other=s.matches.find(row=>row!==m);
  m.deskDeletedAt='old';m.heats[0].trackName='Kyoto';
  s.matches.push({...m,id:'local',siteMatchId:null,deskDeletedAt:null,heats:[{id:'local-heat',number:1}]});
- s.races.push({id:'old',status:'approved',heatId:m.heats[0].id,mapping:{0:'player'},approval:{result:{match:{id:m.id}}}});
+ s.races.push({id:'old',status:'approved',heatId:m.heats[0].id,mapping:{0:'player'},approval:{result:{match:{id:m.id},heat:{number:1},rows:[]}}});
  s.manualHeats.push({id:'prior',matchId:m.id,status:'approved'},{id:'other',matchId:other.id,status:'pending'});
  s.corrections.push({matchId:m.id,kind:'outcome',status:'approved'},{matchId:m.id,kind:'score',status:'pending'});
  s.activeHeatId=m.heats[2].id;

@@ -1,6 +1,23 @@
 import {digest,requireThat,text,id,heatFor} from './domain.mjs';
 const stamp=()=>new Date().toISOString();
+export function matchLineup(state,match){
+ const lineup={};
+ // Old desks saved selections separately on each race. Retain the first known outfit per player.
+ if(match.lineup)Object.assign(lineup,match.lineup);
+ else for(const heat of match.heats){
+  for(const [player,card] of Object.entries(heat.lineup||{}))if(card)lineup[player]??=card;
+ }
+ // A confirmed capture identifies the actual outfit, including when the desk had no selection.
+ const recorded={};
+ const results=state.races.filter(r=>r.status==='approved'&&r.approval.result.match.id===match.id)
+  .map(r=>r.approval.result).sort((a,b)=>a.heat.number-b.heat.number);
+ for(const result of results){
+  for(const row of result.rows)if(row.playerId&&row.card)recorded[row.playerId]??=row.card;
+ }
+ return {...lineup,...recorded};
+}
 export function resetMatch(state,match){
+ match.lineup=matchLineup(state,match);
  const heats=new Set(match.heats.map(h=>h.id));
  for(const race of state.races){
   if(!heats.has(race.heatId))continue;

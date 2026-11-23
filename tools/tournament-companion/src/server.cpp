@@ -47,7 +47,7 @@ std::string stateJson(){
     RaceSnapshot snap;{std::lock_guard<std::mutex> lock(stateMutex);snap=raceState;}
     Json cfg;unsigned long long rev;{std::lock_guard<std::mutex> lock(configMutex);cfg=config;rev=revision;}
     auto age=snap.stamp?GetTickCount64()-snap.stamp:999999;
-    Json result={{"version","0.6.4"},{"active",snap.active&&age<2000},{"ageMs",age},{"paused",snap.paused},{"raceId",std::to_string(snap.identity)},{"time",snap.time},{"course",snap.course},{"config",cfg},{"revision",rev},{"runners",Json::array()}};
+    Json result={{"version","0.6.5"},{"active",snap.active&&age<2000},{"ageMs",age},{"paused",snap.paused},{"raceId",std::to_string(snap.identity)},{"time",snap.time},{"course",snap.course},{"config",cfg},{"revision",rev},{"runners",Json::array()}};
     result["raceInfo"]={{"trackId",snap.trackId},{"track",snap.trackName},{"distance",snap.course},{"surface",snap.groundType},{"going",snap.groundCondition},{"weather",snap.weather},{"season",snap.season}};
     if(!result["active"].get<bool>())return result.dump();
     for(auto& r:snap.runners){
