@@ -1,4 +1,5 @@
 import {readFile} from 'node:fs/promises';
+import seed from './ddt2-seed.json' with {type:'json'};
 import {digest,requireThat,text} from './domain.mjs';
 
 export const destination={owner:'Flyingsparks1130',repo:'ddt2',branch:'main',file:'data/companion/approved-results.json'};
@@ -34,9 +35,14 @@ export async function sourcePreview(offline=false,fetcher=fetch){
  else{
   const get=async url=>{const r=await fetcher(url,{headers:{Accept:'application/vnd.github+json','User-Agent':'DDT2-Companion'},signal:AbortSignal.timeout(12000),redirect:'error'});requireThat(r.ok,`DDT2 download failed (${r.status}). Use the bundled roster while offline.`,502);const body=await r.text();requireThat(body.length<5*1024*1024,'Published DDT2 data is too large.');return JSON.parse(body);};
   const ref=await get('https://api.github.com/repos/Flyingsparks1130/ddt2/git/ref/heads/main');const commit=ref.object?.sha;requireThat(/^[a-f0-9]{40}$/.test(commit),'GitHub returned an invalid revision.');
-  const [tournament,index]=await Promise.all([get(base+commit+'/Dominator%20Tournament/tournament.json'),get(base+commit+'/data/tournament-index.json')]);source={commit,tournament,index};
+  const [tournament,index,event]=await Promise.all([get(base+commit+'/Dominator%20Tournament/tournament.json'),get(base+commit+'/data/tournament-index.json'),get(base+commit+'/config/event.json')]);source={commit,tournament,index,teamArtwork:event.team_artwork||{}};
  }
  validateSource(source);return {source,hash:digest(source),offline,teamCount:source.tournament.teams.length,playerCount:source.tournament.teams.reduce((n,t)=>n+t.members.length,0),matchCount:source.tournament.matches.length};
+}
+export function representativeCard(team, tournamentId) {
+ if (tournamentId !== 'ddt2') return null;
+ if (Object.hasOwn(team, 'representativeCard')) return team.representativeCard;
+ return seed.teamArtwork[team.id]?.card || null;
 }
 export function importDDT2(state,source){
  validateSource(source);
@@ -49,7 +55,7 @@ export function importDDT2(state,source){
  }
  const inUse=new Set(state.matches.flatMap(m=>m.playerIds));
  for(const prior of old)if(!players.some(p=>p.id===prior.id)&&inUse.has(prior.id))players.push({...prior,retired:true});
- state.tournament={...state.tournament,id:'ddt2',name:'DDT2 · Dominator Draft Tournament',teams:t.teams.map(t=>({id:t.id,name:t.name})),players,rules:{points:[4,2,1],tiebreak:'shared',aggregation:'sum',unlistedPlaces:0},seriesFormat:{standardRaces:6,maxRaces:7,target:25,entries:10,playersPerTeam:5}};
+ state.tournament={...state.tournament,id:'ddt2',name:'DDT2 · Dominator Draft Tournament',teams:t.teams.map(team=>({id:team.id,name:team.name,representativeCard:(source.teamArtwork??seed.teamArtwork)[team.id]?.card||null})),players,rules:{points:[4,2,1],tiebreak:'shared',aggregation:'sum',unlistedPlaces:0},seriesFormat:{standardRaces:6,maxRaces:7,target:25,entries:10,playersPerTeam:5}};
  state.github={...destination};state.corrections||=[];state.manualHeats||=[];
  const generated=source.index.matches||[];const imported=[];const deferred=[];
  for(const raw of t.matches){

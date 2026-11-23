@@ -8,6 +8,7 @@
     "allocation": "To be announced"
   },
   "team_artwork": {
+    "dominion": { "card": 104603 },
     "dominance": { "card": 111501 },
     "dominare": { "card": 106502 },
     "dominant-h": { "card": 106401 },
