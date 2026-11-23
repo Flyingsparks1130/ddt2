@@ -184,7 +184,9 @@ body:has(.team-art-backdrop) .season-character-stage { visibility: hidden; }
   width: .9em;
   height: .9em;
 }
-.team-crest.profile-uma-icon {
+.draw-panel .season-team-label .profile-uma-icon,
+img.team-crest.profile-uma-icon {
+  height: auto;
   border-radius: 50%;
   aspect-ratio: 1;
   border: 1px solid #c39b73;
