@@ -203,3 +203,10 @@ img.team-crest.profile-uma-icon {
   font-size: clamp(19px, 2.1vw, 30px);
   font-weight: normal;
 }
+
+.season-build-grid .season-build{display:flex;flex-direction:column;min-width:0}
+.season-build-grid .season-build h3{margin-top:auto}
+.season-mini-umas .uma-art-placeholder,.season-club-umas .uma-art-placeholder{display:none}
+.season-mini-umas:not(:has(.uma-art)),.season-club-umas:not(:has(.uma-art)){display:none}
+.draw-panel .season-mini-umas .uma-art{height:100%}
+.draft-track-list{padding-inline-start:2rem;margin-block:.75rem}.draft-track-list li{padding:.45rem .25rem;border-bottom:1px solid var(--line)}

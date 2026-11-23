@@ -38,3 +38,5 @@
 .cp-audit summary{cursor:pointer}
 .cp-audit li{margin:12px 0;line-height:1.5}
 @media(max-width:760px){.cp-summary,.cp-standings{grid-template-columns:1fr}.cp-summary{gap:10px}.cp-stat{padding:18px}.cp-stat strong{font-size:23px}.cp-panel{padding:18px}.cp-page .page-head h1{font-size:34px}}
+
+.cp-runner-portrait{width:42px;height:42px;object-fit:contain;vertical-align:middle}.cp-name small{display:block}

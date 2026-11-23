@@ -7,7 +7,7 @@ const data={event:{id:'ddt2',prize:{count:6}},index:{id:'ddt2',teams,rounds:[{id
 assert.equal(M.featured(data.index),null);
 data.index.matches=[match('pending','awaiting_opponent'),match('next','ready'),match('active','in_progress')];
 assert.equal(M.featured(data.index).match.id,'active');
-assert.equal(M.featured(data.index).label,'Latest results');
+assert.equal(M.featured(data.index).label,'In progress');
 assert.equal(M.featured(data.index,'c'),null);
 data.index.matches[2].winner_id='a';
 assert.equal(M.featured(data.index).match.id,'next','A recorded winner takes precedence over a stale status');

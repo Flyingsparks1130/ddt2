@@ -39,7 +39,7 @@
   function featured(index, clubId) {
     const matches = (index.matches || []).filter(m => !clubId || belongs(m, clubId));
     const active = matches.filter(m => !ended(m) && m.status === 'in_progress');
-    if (active.length) return {match:active[0], label:'Latest results', activeCount:0};
+    if (active.length) return {match:active[0], label:'In progress'+(active[0].companion_series?.raceCount?' · After Race '+active[0].companion_series.raceCount:''), activeCount:active.length};
     const next = matches.find(m => !ended(m) && m.status === 'ready');
     if (next) return {match:next, label:clubId ? 'Your next match' : 'Upcoming match', activeCount:0};
     const review = matches.find(m => !ended(m) && m.status === 'needs_review');
@@ -105,7 +105,7 @@
     const chosen = players.find(p => identity(p) === selected.get(key)) || players[0];
     const panelId = `build-${encodeURIComponent(key)}`;
     return `<section class="matchday-lineup" data-lineup-group="${esc(key)}"><header><a href="team.html?id=${encodeURIComponent(team.id)}">${esc(team.name)}</a>${followButton(d, team.id)}</header>
-      ${players.length ? `<div class="matchday-picker" role="group" aria-label="${esc(team.name)} lineup">${players.map((p,i) => `<button type="button" data-runner="${i}" aria-pressed="${p===chosen}" aria-controls="${panelId}" aria-label="View ${esc(p.uma || p.name)}${p.display_name?' · '+esc(p.display_name):''}">${figure(p)}<span>${esc(p.uma || p.name)}</span></button>`).join('')}</div><div class="matchday-build" id="${panelId}" aria-live="polite" aria-atomic="true">${detail(chosen,d)}</div>` : '<div class="matchday-lineup-empty"><span aria-hidden="true">◇</span><h3>Lineup Not Announced</h3><p>Published Umas and builds will appear here.</p></div>'}
+      ${players.length ? `<div class="matchday-picker" role="group" aria-label="${esc(team.name)} lineup">${players.map((p,i) => `<button type="button" data-runner="${i}" aria-pressed="${p===chosen}" aria-controls="${panelId}" aria-label="View ${esc(p.uma || p.name)}${p.display_name?' · '+esc(p.display_name):''}">${figure(p)}<span>${esc(p.display_name || p.owner || p.uma || p.name)}</span></button>`).join('')}</div><div class="matchday-build" id="${panelId}" aria-live="polite" aria-atomic="true">${detail(chosen,d)}</div>` : '<div class="matchday-lineup-empty"><span aria-hidden="true">◇</span><h3>Lineup Not Announced</h3><p>Published Umas and builds will appear here.</p></div>'}
     </section>`;
   }
   function lineups(d, m, clubId) {

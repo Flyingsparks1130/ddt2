@@ -85,7 +85,7 @@ function opsState(){
  const state=store.state,bundle=publicBundle(state);
  const {matches,races}=state;
  const trainerNames=[...new Set(races.flatMap(r=>r.runners.map(entry=>entry.trainer)).filter(Boolean))].sort();
- return {version:'0.6.6',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
+ return {version:'0.6.7',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
  races:races.map(({id,filename,heatId,status,importedAt,runners,voidReason})=>({id,filename,heatId,status,importedAt,count:runners.length,voidReason})),
  watch:state.watch,watchNotice,github:state.github,publication:publicationPreview(state,bundle,!!process.env.DOMINATOR_GITHUB_TOKEN),publications:state.publications.slice(-10).reverse(),
  standings:bundle.standings,audit:state.audit.slice(-30).reverse(),locked:state.races.some(r=>r.status==='approved'),bridge:{connected:!!bridge,active:!!bridge?.active,count:bridge?.runners?.length||0,version:bridge?.version||null},overlayNotice};}
@@ -124,15 +124,31 @@ const result=await store.transaction(async state=>{checkRevision(state,body);
   else if(route==='arm'){requireThat(state.activeHeatId,'Select a heat first.');const problems=[];checkSeriesRace(state,{heatId:state.activeHeatId},problems);requireThat(!problems.length,problems.join(' '));requireThat(state.watch.enabled&&state.watch.folder,'Enable the horseACT watch folder first.');requireThat(!state.races.some(r=>r.heatId===state.activeHeatId&&r.status==='approved'),'This heat already has an approved result.');if(watchBaseline||watchSignature!==state.watch.folder){const files=await scanFiles(state.watch.folder);watchKnown=new Map(files.map(f=>[f.file,{sig:`${f.size}:${f.mtime}`,done:true}]));watchBaseline=false;watchSignature=state.watch.folder;}state.armedHeatId=state.activeHeatId;audit(state,'heat.armed',{heatId:state.activeHeatId});}
   else if(route==='disarm'){state.armedHeatId=null;}
   else if(route==='highlight'){
-   const race=state.races.find(r=>r.id===body.raceId&&r.heatId&&r.status!=='void');
-   requireThat(race?.runners.some(r=>r.index===body.index),'Select a runner from an assigned capture.');
+   const race=state.races.find(r=>r.id===body.raceId&&r.status!=='void');
+   requireThat(race?.runners.some(r=>r.index===body.index),'Select a runner from an imported capture.');
    state.highlight={raceId:race.id,index:body.index};
   }
   else if(route==='watch'){const folder=String(body.folder||'').trim();requireThat(!body.enabled||path.isAbsolute(folder),'Choose an absolute Saved races folder path.');if(folder){const item=await stat(folder);requireThat(item.isDirectory(),'The watch path must be a folder.');}
    state.watch={folder,enabled:!!body.enabled};watchSignature='';watchBaseline=true;state.armedHeatId=null;audit(state,'watch.configured',{enabled:state.watch.enabled});}
   else {
    const race=state.races.find(r=>r.id===body.raceId);requireThat(race,'Race not found.',404);
-   if(route==='assign'){requireThat(race.status==='pending','Only pending results can be reassigned.');heatFor(state,body.heatId);race.heatId=body.heatId;race.mapping={};audit(state,'race.assigned',{raceId:race.id,heatId:race.heatId});}
+   if(route==='revise'){
+    requireThat(race.status==='approved'&&body.broadcastFinished===true,'Confirm the finalized race correction.');
+    const operator=text(body.operator,'Operator name',80);
+    const next={...race,heatId:body.heatId,mapping:body.mapping,status:'pending'};
+    const {match}=heatFor(state,next.heatId);
+    requireThat(next.mapping&&typeof next.mapping==='object'&&Object.entries(next.mapping).every(([key,pid])=>race.runners.some(r=>String(r.index)===key)&&match.playerIds.includes(pid)),'Invalid player assignment.');
+    if(next.heatId!==race.heatId){
+     const old=heatFor(state,race.heatId);
+     requireThat(!seriesSummary(state,old.match).races.some(r=>r.number>old.heat.number),'Correct later races before moving this race.');
+    }
+    const review=reviewRace(state,next);requireThat(review.canApprove,review.problems.join(' '));
+    const before=race.approval;
+    race.mapping=next.mapping;race.heatId=next.heatId;
+    race.approval={operator,at:new Date().toISOString(),result:{raceId:race.id,match:review.match,heat:review.heat,track:review.track,rows:review.rows,rules:review.rules}};
+    audit(state,'race.revised',{raceId:race.id,operator,previousHeat:before.result.heat.id,previousPlayers:before.result.rows.map(r=>r.playerId)});
+   }
+   else if(route==='assign'){requireThat(race.status==='pending','Only pending results can be reassigned.');heatFor(state,body.heatId);race.heatId=body.heatId;race.mapping={};audit(state,'race.assigned',{raceId:race.id,heatId:race.heatId});}
    else if(route==='map'){requireThat(race.status==='pending'&&race.heatId,'Assign the pending race to a heat first.');const {match}=heatFor(state,race.heatId);requireThat(body.mapping&&typeof body.mapping==='object'&&!Array.isArray(body.mapping),'Participant mapping is invalid.');const mapping={};for(const [index,pid] of Object.entries(body.mapping)){requireThat(race.runners.some(r=>String(r.index)===index)&&match.playerIds.includes(pid),'Participant mapping is invalid.');mapping[index]=pid;}if(state.tournament.id==='ddt2')requireThat(new Set(Object.values(mapping)).size===Object.keys(mapping).length,'Each player can be assigned to only one gate.');race.mapping=mapping;audit(state,'race.mapped',{raceId:race.id});}
    else if(route==='approve'){requireThat(race.status==='pending','Only pending results can be approved.');const review=reviewRace(state,race);requireThat(body.reviewHash===review.hash,'The score review changed. Review it again before approval.',409);requireThat(review.canApprove,review.problems.join(' '));requireThat(body.broadcastFinished===true,'Confirm that the broadcast race has finished before approving.');
     const operator=text(body.operator,'Operator name',80);race.status='approved';race.approval={at:new Date().toISOString(),operator,result:{raceId:race.id,match:review.match,heat:review.heat,track:review.track,rows:review.rows,rules:review.rules}};audit(state,'race.approved',{raceId:race.id,heatId:race.heatId,operator});}
@@ -145,7 +161,7 @@ const result=await store.transaction(async state=>{checkRevision(state,body);
  return result;
 }
 const staticFiles={'/race-result':'feature.html','/uma-highlight':'feature.html','/feature.js':'feature.js','/feature.css':'feature.css','/desk-scenes.js':'desk-scenes.js','/stinger.webm':'ddt2-stinger.webm','/':'ops.html','/ops.js':'ops.js','/ops.css':'ops.css','/ddt2-ops.js':'ddt2-ops.js','/ddt2-ops.css':'ddt2-ops.css','/broadcast':'settings.html','/settings':'settings.html','/settings.js':'settings.js','/settings.css':'settings.css','/overlay':'overlay.html','/overlay.js':'overlay.js','/overlay.css':'overlay.css','/ddt2-race.css':'ddt2-race.css','/model.js':'model.js','/matchup':'intermission.html','/scoreboard':'intermission.html','/intermission.css':'intermission.css','/intermission.js':'intermission.js','/matchup.css':'matchup.css','/matchup.js':'matchup.js','/operator-flow.js':'operator-flow.js','/operator-flow.css':'operator-flow.css'};
-const mime={'.webm':'video/webm','.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.svg':'image/svg+xml','.ttf':'font/ttf'};
+const mime={'.webp':'image/webp','.webm':'video/webm','.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.svg':'image/svg+xml','.ttf':'font/ttf'};
 const server=http.createServer(async(req,res)=>{try{
  requireThat(store,'The companion is starting. Please try again shortly.',503);
  requireThat(req.headers.host===`127.0.0.1:${port}`,'Use the local 127.0.0.1 address.',403);
@@ -175,7 +191,9 @@ const server=http.createServer(async(req,res)=>{try{
  if(route==='/api/ops/export')return response(res,200,publicBundle(store.state),'application/json; charset=utf-8',{'Content-Disposition':'attachment; filename="tournament-approved.json"'});
  if(route.startsWith('/api/ops/race/')){const race=store.state.races.find(r=>r.id===route.slice('/api/ops/race/'.length));requireThat(race,'Race not found.',404);return response(res,200,{race,review:race.status==='approved'?{...race.approval.result,problems:[],canApprove:false}:reviewRace(store.state,race)});}
  let file=staticFiles[route]?path.join(root,'web',staticFiles[route]):null;
- if(/^\/assets\/cards\/\d{6}\.png$/.test(route)||route==='/assets/gentildonna.png')file=path.join(root,route.slice(1));
+ if(/^\/assets\/racewear\/\d{6}\.webp$/.test(route))file=path.join(root,route.slice(1));
+ else if(/^\/assets\/icons\/(?:skills\/\d+|stats\/(?:speed|stamina|power|guts|wit))\.webp$/.test(route))file=path.join(root,route.slice(1));
+ else if(/^\/assets\/cards\/\d{6}\.png$/.test(route)||route==='/assets/gentildonna.png')file=path.join(root,route.slice(1));
  if(/^\/assets\/ddt2\/(?:crests\/)?[a-z0-9-]+\.(?:png|svg|ttf)$/.test(route))file=path.join(root,route.slice(1));
  requireThat(file,'Not found.',404);return response(res,200,await readFile(file),mime[path.extname(file)]||'application/octet-stream');
  }catch(e){if(!res.headersSent)response(res,e.status||500,{error:e.code==='ENOENT'?'File or folder was not found.':e.message||'Operation failed.'});else res.end();}});
@@ -186,6 +204,6 @@ await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
 const opened=await openStore(dataDir,config.tournament);
 if(needsMatchRecovery(opened.state))await opened.transaction(recoverMatches);
 store=opened;
-await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.6',startedAt:new Date().toISOString()}));
+await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.7',startedAt:new Date().toISOString()}));
 await refreshBridge();setInterval(refreshBridge,100);setInterval(watchTick,2000);
-console.log(`DDT2 tournament companion 0.6.6: ${origin} (bridge ${bridgePort})`);
+console.log(`DDT2 tournament companion 0.6.7: ${origin} (bridge ${bridgePort})`);

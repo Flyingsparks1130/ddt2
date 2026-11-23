@@ -1,4 +1,4 @@
-DDT2 OPERATIONS — COMPANION 0.6.6
+DDT2 OPERATIONS — COMPANION 0.6.7
 
 1. Open http://127.0.0.1:27840/. In Teams & connection, check the published DDT2
    source, review it, then import. The bundled fallback has 12 teams and 60
@@ -8,8 +8,7 @@ DDT2 OPERATIONS — COMPANION 0.6.6
    can also be mapped gate by gate during race review.
 3. On Race Desk, choose a bracket match. Open Match Lineup and choose one Uma
    and outfit per trainer. Save the lineup once for all six races and the tiebreaker.
-4. Under Drafted Tracks, select each race slot to set its course, surface and distance.
-   Select the race and click Use this race to update the broadcast scenes.
+4. Under On Air, select the match and race. Click Broadcast This Race to switch the overlays.
 5. Choose your own horseACT Saved races folder and enable watching. Existing
    files are ignored at watcher startup; import an older file manually.
    Capture next race attaches the next new valid export to the selected heat.
@@ -21,12 +20,12 @@ DDT2 OPERATIONS — COMPANION 0.6.6
 7. Reaching 25 blocks further race approvals but does not declare a winner.
    Confirm the series outcome separately after review. A score/race change
    invalidates an earlier outcome confirmation. No automatic bracket advance.
-8. In Race Review, choose a finalized race to inspect its order and points. Broadcast This Race changes the live race selection.
-9. In Player Spotlight, choose an assigned capture and runner and click Show on broadcast.
-10. Download the match ZIP under Export Match. Send the ZIP to the organizer. The organizer reviews and publishes at https://flyingsparks1130.github.io/ddt2/organizer-import.html.
+8. In Race Review, choose a finalized race and select Edit result to correct player assignments. Confirm the correction to update the existing race. Broadcast This Race changes the live race selection.
+9. In Uma Spotlight, import a race JSON or select an imported file. Choose a runner and click Show on broadcast. The selection persists across races.
+10. Download the match ZIP under Export Match. Send the ZIP to the organizer. The owner uploads the ZIP at https://github.com/Flyingsparks1130/ddt2/upload/main/imports and runs Import approved match in GitHub Actions using the ZIP filename.
 
 OBS SOURCES
-Use http://127.0.0.1:27840/overlay for the live tracker. The /matchup, /scoreboard, /race-result and /uma-highlight sources use 1920 x 1080. Download the stinger from Broadcast scenes, add an OBS Stinger transition, and choose a time of 500 ms. Select that transition for scene changes.
+Use http://127.0.0.1:27840/overlay for the live tracker. The /matchup, /scoreboard, /race-result and /uma-highlight sources use 1920 x 1080. Download the stinger from Broadcast scenes, add an OBS Stinger transition, and choose a time of 850 ms. Select that transition for scene changes.
 
 LOCAL STATE
 %LOCALAPPDATA%/DominatorTournament/tournament.json stores this PC's event.
@@ -44,11 +43,10 @@ approved static override without rewriting the per-race progression.
 The last approved race supplies three podium cards and that race's 4/2/1.
 Pending results never appear. Add ?demo=1 to either URL to preview samples.
 Remove ?demo=1 for broadcast. Preview mode never edits tournament state.
-Full-body art uses the pinned public Uma artwork repository; local portraits
-are the fallback. Exact outfit names come from the English game catalog.
+The Helper bundles full-body art and portraits for offline use. Exact outfit names come from the English game catalog.
 
 MATCH MANAGEMENT
 DDT2 uses the published bracket. Select a match and choose Reset match to clear its results and winner. The same fixture, teams, drafted tracks, and lineups remain available. Captured races can be reviewed again. Resetting a match does not publish changes.
 
 UPDATING AN OPEN DESK
-If an earlier Helper is still running after 0.6.6 is installed, save any pending edits and open the Tournament Helper shortcut. Choose Yes to switch versions. The launcher checks the running desk again before switching. The game and saved tournament stay in place.
+If an earlier Helper is still running after 0.6.7 is installed, save any pending edits and open the Tournament Helper shortcut. Choose Yes to switch versions. The launcher checks the running desk again before switching. The game and saved tournament stay in place.

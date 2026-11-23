@@ -27,7 +27,7 @@ lineups.innerHTML='<div class="card-heading"><h2 id="lineup-team-names">Match Li
 const lineupPanel=details('Match Lineup',lineups);
 $('match-select').closest('.card').after(lineupPanel);
 $('select-heat').textContent='Broadcast This Race';$('arm').textContent='Capture next race';$('disarm').textContent='Cancel capture';$('approve').textContent='Approve race result';$('review-outcome').textContent='Confirm series outcome';
-$('match-select').closest('.card').querySelector('h2').textContent='Choose the next race';$('sync').textContent='Broadcast This Race updates your broadcast scenes. Capture next race waits for one new horseACT file.';
+$('match-select').closest('.card').querySelector('h2').textContent='On Air';$('sync').textContent='Choose a past or upcoming race, then select Broadcast This Race. Capture next race waits for one new horseACT file.';
 $('review-card').querySelector('h2').textContent='Check the result';$('review-empty').textContent='Choose a captured race above. Check its players and points after the broadcast finishes.';
 function fold(node,label){const wrapper=details(label);node.before(wrapper);wrapper.append(node);}
 fold($('publication-json'),'Inspect the export JSON');

@@ -1,7 +1,7 @@
 'use strict';
 siteHeader(''); siteFooter();
 const contract = CompanionContract;
-let teamArtwork;
+let teamArtwork, runnerPortraits={};
 const byId = id => document.getElementById(id);
 const localTools = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 byId('local-preview').hidden = !localTools;
@@ -117,15 +117,20 @@ function renderMatches() {
         <p class="cp-meta">${esc([r.match.round,r.match.stage].filter(Boolean).join(' · '))}</p><p class="cp-meta">${esc(contract.course(r.track))}</p></div>
         <div class="cp-meta">Approved ${esc(new Date(r.approvedAt).toLocaleString())}<br>By ${esc(r.operator)}</div></div>
         <div class="cp-uma-gallery">${[...r.rows].sort((a,b)=>a.rank-b.rank).map(row=>`<article class="cp-uma-entry"><span>PLACE ${row.rank} · ${esc(row.points)} POINTS</span>${window.UmaRaceArt?.figure(row)||''}<strong>${esc(row.name)}</strong><p>${esc(row.playerName)} · ${esc(row.team||'Unassigned')}</p></article>`).join('')}</div>
-        ${table(['Place','Uma','Player','Team','Gate','Time (s)','Points'], [...r.rows].sort((a,b) => a.rank-b.rank).map(row => `
-          <tr><td>${row.rank}</td><td class="cp-name">${esc(row.name)}${row.card ? `<div class="cp-meta">Card ${row.card}</div>` : ''}</td>
-          <td>${esc(row.playerName)}</td><td>${window.DDT2Matchday?.teamCrest(row.team,teamArtwork) || ''}${esc(row.team || '—')}</td><td>${row.gate}</td><td>${row.finishTime.toFixed(3)}</td><td>${esc(row.points)}</td></tr>`).join(''))}
+        ${table(['Place','Portrait','Player','Umamusume','Team','Time','Points'], [...r.rows].sort((a,b) => a.rank-b.rank).map(row => {
+          const variant=window.UmaRaceArt?.resolve(row);
+          const image=variant&&Number.isInteger(Number(row.card))&&runnerPortraits[row.card];
+          const millis=Math.round(row.finishTime*1000);
+          const finish=Math.floor(millis/60000)+':'+String(Math.floor(millis/1000)%60).padStart(2,'0')+'.'+String(millis%1000).padStart(3,'0');
+          return `<tr><td>${row.rank}</td><td>${image?`<img class="cp-runner-portrait" src="${esc(image)}" alt="">`:''}</td><td>${esc(row.playerName)}</td><td class="cp-name">${esc(variant?.character_name||row.name)}<small class="cp-meta">${esc(variant?.outfit_name||'')}</small></td><td>${window.DDT2Matchday?.teamCrest(row.teamId||row.team,teamArtwork) || ''}${esc(row.team||'—')}</td><td>${finish}</td><td>${esc(row.points)}</td></tr>`;
+        }).join(''))}
         <details class="cp-audit"><summary>Result details</summary><p>Race ${esc(r.raceId)} · Heat ${esc(r.heat.id)}</p>
           <p>Points by place: ${r.rules.points.map(esc).join(', ')} · ${esc(r.rules.tiebreak)} ties</p><p>Fingerprint: ${esc(r.fingerprint)}</p></details>
       </section>`).join('') : '<section class="cp-panel"><h2>No Race Results Yet</h2><p class="cp-meta">Results will appear after the first race.</p></section>'}`;
   window.UmaRaceArt?.attachAll();
 }
 if (window.DDT2Matchday) {
+  fetch('assets/race-labels.json').then(r=>r.json()).then(labels=>{runnerPortraits=labels.portraits||{};if(current)renderMatches();}).catch(()=>{});
   fetch('config/event.json').then(response=>response.ok?response.json():null).then(event=>{
     teamArtwork=event?.team_artwork;
     if(current && teamArtwork)renderMatches();

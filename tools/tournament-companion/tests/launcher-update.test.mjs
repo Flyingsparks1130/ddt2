@@ -11,7 +11,7 @@ import {promisify} from 'node:util';
 test('the Windows launcher retires only the confirmed, idle Helper from its own folder', {timeout:20000}, async () => {
     const temp = await mkdtemp(path.join(tmpdir(), 'helper-launch-test-'));
     const runtime = path.join(temp, 'node.exe');
-    const fixture = "const http=require('node:http');const server=http.createServer((req,res)=>res.end(JSON.stringify({version:'0.6.5',revision:25,tournament:{},activeHeatId:'selected-race',armedHeatId:null,bridge:{active:false}})));server.listen(0,'127.0.0.1',()=>process.send(server.address().port));";
+    const fixture = "const http=require('node:http');const server=http.createServer((req,res)=>res.end(JSON.stringify({version:'0.6.6',revision:25,tournament:{},activeHeatId:'selected-race',armedHeatId:null,bridge:{active:false}})));server.listen(0,'127.0.0.1',()=>process.send(server.address().port));";
     const testExe = fileURLToPath(new URL('../HelperHandoffTest.exe', import.meta.url));
     let child;
     try {

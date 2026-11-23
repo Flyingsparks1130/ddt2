@@ -7,7 +7,7 @@ export const outfitCatalog=fetch('/api/ops/uma-catalog').then(r=>{
 const tab=(id,label)=>`<button class="tab" data-tab="${id}">${label}</button>`;
 document.querySelector('nav[aria-label="Workspace"]').insertAdjacentHTML('beforeend',tab('roster','Teams & bracket')+tab('corrections','Manual corrections')+tab('previews','OBS & in-game preview'));
 document.querySelector('footer').textContent='DDT2 tournament companion · Approve locally, then publish separately.';
-document.querySelector('.eyebrow').textContent='DDT2 / TOURNAMENT OPERATIONS';$('version').textContent='COMPANION 0.6.5';
+document.querySelector('.eyebrow').textContent='DDT2 / TOURNAMENT OPERATIONS';$('version').textContent='COMPANION 0.6.7';
 document.querySelector('.shell').insertAdjacentHTML('beforeend',`
 <section class="view" id="roster" hidden><section class="card"><div class="card-heading"><div><p class="eyebrow">DDT2 CONNECTION</p><h2>Teams, players & published bracket</h2></div><span class="badge" id="site-status">Not connected</span></div><p id="site-summary" class="help"></p><div class="actions"><button id="site-preview">Check DDT2 for updates</button><button class="quiet" id="site-offline">Use offline bracket</button><button id="site-import" class="secondary" disabled>Import reviewed update</button></div><p class="help" id="site-preview-text">Check the draw before importing matchups.</p></section><section class="card" id="site-bracket" aria-label="Tournament bracket" hidden></section><section class="card"><h2>Team Roster</h2><div class="fields two"><label>Search teams or players<input type="search" id="roster-search" placeholder="Team or player name"></label><label>Team<select id="roster-team"></select></label></div><div id="team-roster"></div></section></section>
 <section class="view" id="corrections" hidden><div class="correction-banner"><b>Manual fallback</b><p>Stage a correction, check the preview, then approve it. Approved changes update local overlays. Publishing still requires a separate review. Original race files stay intact.</p></div><div class="setup-grid"><form id="correction-form" class="card"><h2>Series scores & outcome</h2><label>Series<select id="correction-match"></select></label><label>Change<select id="correction-kind"><option value="score">Set static team scores</option><option value="automatic">Return to calculated scores</option><option value="outcome">Confirm series winner</option><option value="reopen">Reopen series / clear outcome</option></select></label><div class="fields two" id="score-inputs"><label><span id="score-label-a">Team A</span><input id="manual-score-a" type="number" min="0" max="10000" value="0"></label><label><span id="score-label-b">Team B</span><input id="manual-score-b" type="number" min="0" max="10000" value="0"></label></div><label id="winner-input" hidden>Winner<select id="manual-winner"></select></label><label>Reason<input id="correction-reason" maxlength="500" required placeholder="Why this correction or outcome is correct"></label><p class="help">Static scores stay fixed until you approve “Return to calculated scores”. Confirming a winner is separate from approving an individual race.</p><button>Stage correction for review</button></form>
@@ -18,7 +18,6 @@ document.querySelector('.shell').insertAdjacentHTML('beforeend',`
 <dialog id="correction-dialog"><div class="card-heading"><h2>Approve reviewed change</h2><button type="button" class="quiet" id="close-correction">Close</button></div><pre id="correction-preview"></pre><p id="correction-problems" class="problems"></p><label>Approving operator<input id="correction-operator" maxlength="80" required></label><label class="check"><input id="correction-confirm" type="checkbox">I checked the teams and scores. Any race shown here has finished on the broadcast.</label><button id="approve-correction" disabled>Approve locally</button><p class="help">This does not publish to GitHub.</p></dialog>`);
 document.querySelector('.shell').append(document.querySelector('footer'));
 document.querySelector('#show .primary').insertAdjacentHTML('afterbegin','<section class="card" id="series-card"><p class="eyebrow">CURRENT SERIES</p><h2 id="series-title">Select a matchup</h2><div id="series-score" class="series-score"></div><p id="series-state" class="help"></p><div id="series-races" class="series-races"></div><button id="review-outcome" class="secondary">Review series outcome / corrections</button></section>');
-$('drafted-tracks').insertAdjacentHTML('afterend',`<details class="operator-details" id="course-editor" hidden><summary>Edit drafted track</summary><form class="card" id="course-form"><h2>Drafted Tracks</h2><p class="help" id="course-match">Choose a matchup on the Race Desk.</p><label>Race slot<select id="course-heat"></select></label><div class="fields three"><label>Track<select id="course-name"></select></label><label>Surface<select id="course-surface"></select></label><label>Distance<select id="course-distance"></select></label></div><button disabled>Save drafted track</button></form></details>`);
 for(const [key,route] of [['race','overlay'],['matchup','matchup'],['scoreboard','scoreboard']])$(key+'-source').textContent=location.origin+'/'+route;
 const message=(text,error=false)=>{$('notice').hidden=false;$('notice').textContent=text;$('notice').classList.toggle('error',error);};
 async function api(route,body){const r=await fetch('/api/ops/'+route,body===undefined?{cache:'no-store'}:{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({...body,revision:state.revision})});const data=await r.json();if(!r.ok)throw Error(data.error||'Operation failed');return data;}
@@ -31,65 +30,13 @@ function correctionFields(){const s=state?.series.find(s=>s.id===$('correction-m
 function heatPlayers(){const m=state.matches.find(m=>m.heats.some(h=>h.id===$('manual-heat').value));const rows=state.tournament.players.filter(p=>m?.playerIds.includes(p.id));for(const key of ['first','second','third'])options($('manual-'+key),[{id:'',name:'Select registered finisher'},...rows.map(p=>({id:p.id,name:p.name+' · '+p.team}))]);reservePlayers(podiumFields);}
 const podiumFields=['first','second','third'].map(place=>$('manual-'+place));
 for(const field of podiumFields)field.addEventListener('change',()=>reservePlayers(podiumFields));
-let courses=[];
 function choices(select, rows, value, placeholder) {
  select.replaceChildren(new Option(placeholder,''),...rows.map(([id,label])=>new Option(label,String(id))));
  select.value=String(value||'');
 }
-function courseVariants(surface,distance) {
- const course=courses.find(c=>String(c.id)===$('course-name').value);
- const surfaces=Object.keys(course?.surfaces||{});
- choices($('course-surface'),surfaces.map(s=>[s,s==='1'?'Turf':'Dirt']),surface,'Any surface');
- const distances=course?.surfaces[$('course-surface').value]||[...new Set(Object.values(course?.surfaces||{}).flat())].sort((a,b)=>a-b);
- choices($('course-distance'),distances.map(d=>[d,d+' m']),distance,'Any distance');
-}
-let lastDeskHeat='';
-export function syncDraftedTracks(match,deskHeat){
- if(!state)return;
- const slots=match?.heats||[];
- const slotLabel=h=>h.tiebreaker?'Tiebreaker':'Race '+h.number;
- const selected=deskHeat!==lastDeskHeat?deskHeat:$('course-heat').value;
- lastDeskHeat=deskHeat;
- choices($('course-heat'),slots.map(h=>[h.id,slotLabel(h)]),slots.some(h=>h.id===selected)?selected:deskHeat,'Choose a race');
- $('course-match').textContent=match?.name||'Choose a matchup on the Race Desk.';
- courseFields();
- $('course-editor').hidden=!match;
- const list=$('drafted-tracks');list.hidden=!match;list.replaceChildren();
- if(!match)return;
- list.append(make('h3','Drafted Tracks'));
- for(const h of slots){
-  const item=make('button',null,'quiet draft-slot');item.type='button';
-  const expected=h.expected||{};
-  const course=h.trackName||courses.find(c=>c.id===expected.trackId)?.name;
-  const details=[course,expected.distance?expected.distance+' m':'',{1:'Turf',2:'Dirt'}[expected.surface]].filter(Boolean).join(' · ');
-  item.append(make('strong',slotLabel(h)),make('span',details||'Choose track'));
-  item.onclick=()=>{$('course-editor').open=true;$('course-heat').value=h.id;courseFields();$('course-name').focus();};
-  list.append(item);
- }
-}
-function courseFields(){
- const heat=state?.matches.flatMap(m=>m.heats).find(h=>h.id===$('course-heat').value);
- const expected=heat?.expected||{};
- const track=courses.find(c=>c.id===expected.trackId||(!expected.trackId&&c.name===heat?.trackName));
- const select=$('course-name');
- choices(select,courses.map(c=>[c.id,c.name]),track?.id,'Choose a track');
- courseVariants(expected.surface,expected.distance);
- // Preserve previously saved courses that predate the bundled game catalog.
- if(heat&&(expected.trackId||heat.trackName)&&!track){
-  select.add(new Option(heat.trackName||'Saved track','saved',true,true));
- }
- for(const [field,value,label] of [['surface',expected.surface,expected.surface===1?'Turf':'Dirt'],['distance',expected.distance,expected.distance+' m']]){
-  const el=$('course-'+field);
-  if(value&&!el.value)el.add(new Option(label,String(value),true,true));
- }
- $('course-form').querySelector('button').disabled=!courses.length||!heat;
-}
-$('course-name').onchange=()=>courseVariants(null,null);
-$('course-surface').onchange=()=>courseVariants($('course-surface').value,null);
 export const courseCatalogReady=fetch('/api/ops/courses').then(r=>{if(!r.ok)throw Error();return r.json();}).then(rows=>{
- courses=rows;
  choices($('expected-track'),rows.map(c=>[c.id,c.name]),null,'Any track');
- courseFields();return rows;
+ return rows;
 }).catch(()=>{message('Course list unavailable. Reload the desk to try again.',true);return [];});
 function showRoster(){
  if(!state)return;
@@ -134,20 +81,22 @@ function render(next){state=next;$('preview-bridge').textContent=state.bridge.co
 document.addEventListener('opsstate',e=>render(e.detail));
 for(const [button,offline] of [['site-preview',false],['site-offline',true]])$(button).onclick=()=>act(async()=>{source=await api('ddt2-preview'+(offline?'?offline=1':''));showBracket(source.bracket);$('site-preview-text').textContent=`${offline?'Offline bracket':'Published bracket'} · ${source.teamCount} teams · ${source.matchCount} matches`;$('site-import').disabled=false;});
 $('site-import').onclick=()=>act(async()=>{const r=await api('ddt2-sync',{sourceHash:source.hash});$('site-import').disabled=true;message(`Imported · ${r.addedMatches} new matches · ${r.deferredMatches} awaiting opponents`);});
-$('correction-match').onchange=correctionFields;$('correction-kind').onchange=correctionFields;$('manual-heat').onchange=heatPlayers;$('course-heat').onchange=courseFields;
+$('correction-match').onchange=correctionFields;$('correction-kind').onchange=correctionFields;$('manual-heat').onchange=heatPlayers;
 $('correction-form').onsubmit=e=>{e.preventDefault();act(async()=>{const s=state.series.find(s=>s.id===$('correction-match').value);if(!s)throw Error('Select a series first.');const result=await api('correction-draft',{matchId:s.id,kind:$('correction-kind').value,reason:$('correction-reason').value,winnerId:$('manual-winner').value,scores:Object.fromEntries(s.teams.map((t,i)=>[t.id,Number($('manual-score-'+['a','b'][i]).value)]))});state=await api('state');await openReview('correction',result.id);});};
-$('manual-heat-form').onsubmit=e=>{e.preventDefault();act(async()=>{const result=await api('manual-draft',{heatId:$('manual-heat').value,podium:['first','second','third'].map(k=>$('manual-'+k).value),trackName:$('manual-track').value,reason:$('manual-reason').value});state=await api('state');await openReview('manual',result.id);});};
+let editingPodium=null;
+document.addEventListener('editmanual',e=>{
+ const record=state.manualHeats.find(r=>r.id===e.detail&&r.status==='approved');if(!record)return;
+ chooseTab('corrections');editingPodium=record.id;$('manual-heat').value=record.heatId;heatPlayers();
+ podiumFields.forEach((field,i)=>field.value=record.rows[i].playerId);reservePlayers(podiumFields);
+ $('manual-track').value=record.trackName||'';$('manual-reason').value='';$('manual-heat-form').scrollIntoView();
+});
+$('manual-heat').addEventListener('change',()=>editingPodium=null);
+$('manual-heat-form').onsubmit=e=>{e.preventDefault();act(async()=>{const result=await api('manual-draft',{replaces:editingPodium,heatId:$('manual-heat').value,podium:['first','second','third'].map(k=>$('manual-'+k).value),trackName:$('manual-track').value,reason:$('manual-reason').value});state=await api('state');editingPodium=null;await openReview('manual',result.id);});};
 async function openReview(kind,id){const data=await api(kind+'/'+id);review={kind,id,...data};const payload=data.correction?{series:data.current.name,change:data.correction.kind,currentScores:data.current.teams.map(t=>({id:t.id,team:t.name,points:t.points})),newScores:data.correction.scores||null,winner:data.current.teams.find(t=>t.id===data.correction.winnerId)?.name||null,reason:data.correction.reason}:{podium:data.manual.rows,reason:data.manual.reason};$('correction-preview').textContent=JSON.stringify(payload,null,2);$('correction-problems').textContent=(data.problems||[]).join(' ');$('correction-confirm').checked=false;$('approve-correction').disabled=true;$('correction-dialog').showModal();}
 function reviewReady(){$('approve-correction').disabled=!review||!$('correction-confirm').checked||!$('correction-operator').value.trim()||!!review.problems?.length;}
 $('correction-confirm').onchange=reviewReady;$('correction-operator').oninput=reviewReady;$('close-correction').onclick=()=>$('correction-dialog').close();
 $('approve-correction').onclick=()=>act(async()=>{await api(review.kind==='manual'?'manual-approve':'correction-approve',{manualId:review.id,correctionId:review.id,reviewHash:review.hash,operator:$('correction-operator').value,confirm:true,broadcastFinished:true});$('correction-dialog').close();message('Approved locally. Review publication separately before sending to DDT2.');});
 $('review-outcome').onclick=()=>{chooseTab('corrections');const s=current();if(s)$('correction-match').value=s.id;$('correction-kind').value='outcome';correctionFields();if(s?.leaderId)$('manual-winner').value=s.leaderId;};
-$('course-form').onsubmit=e=>{e.preventDefault();act(async()=>{
- const heat=state.matches.flatMap(m=>m.heats).find(h=>h.id===$('course-heat').value);
- const track=courses.find(c=>String(c.id)===$('course-name').value),saved=$('course-name').value==='saved';
- await api('heat-course',{heatId:heat.id,trackName:saved?heat.trackName:track?.name||'',trackId:saved?heat.expected.trackId:track?.id||0,distance:Number($('course-distance').value),surface:Number($('course-surface').value)});
- message('Drafted track saved.');
-});};
 let previewURL='/matchup?demo=1';function framePreview(){const u=new URL(previewURL,location.origin);if($('preview-live').checked)u.searchParams.delete('demo');$('obs-preview').src=u.pathname+u.search;$('obs-preview').classList.toggle('race-preview',u.pathname==='/overlay');}
 for(const b of document.querySelectorAll('.preview-source'))b.onclick=()=>{previewURL=b.dataset.url;framePreview();};$('preview-live').onchange=framePreview;
 $('game-preview-form').onsubmit=e=>{e.preventDefault();act(async()=>{await api('game-preview',Object.fromEntries(['enabled','demo','x','y','scale','opacity'].map(k=>[k,['enabled','demo'].includes(k)?$('game-preview-'+k).checked:Number($('game-preview-'+k).value)])));message('In-game preview settings saved. F8 toggles the independent plugin drawing.');});};
