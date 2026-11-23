@@ -19,7 +19,7 @@ class UpcomingEventTests(unittest.TestCase):
         self.assertEqual(index['eliminated'], [])
         self.assertEqual(index['club_rosters'], index['team_rosters'])
         self.assertEqual([team['name'] for team in index['teams']],
-                         ['Dominator', 'Dominare', 'Domineer', 'Dominium', 'DomiMoon', 'Dominance', 'Domimommy', 'Dominacion', 'Dominant H', 'Dominate', 'Dominion', 'Dominante'])
+                         ['Dominator', 'Dominare', 'Domineer', 'Dominium', 'Domimoon', 'Dominance', 'Domimommy', 'Dominacion', 'Dominant H', 'Dominate', 'Dominion', 'Dominante'])
         self.assertEqual(len(index['team_rosters']), 12)
         for team in index['teams']:
             roster = index['team_rosters'][team['id']]
@@ -33,9 +33,10 @@ class UpcomingEventTests(unittest.TestCase):
         self.assertEqual(control['revision'], 0)
         for key in ('decisions', 'race_overrides', 'roster', 'audit'):
             self.assertFalse(control[key], key)
-        self.assertEqual(index['matches'], [])
-        self.assertEqual(index['rounds'], [])
-        self.assertFalse(index['published'])
+        self.assertTrue(index['published'])
+        self.assertEqual([r['name'] for r in index['rounds']], ['R1', 'R2/QF', 'SF', 'GF'])
+        self.assertEqual([m['status'] for m in index['matches']], ['ready'] * 4 + ['awaiting_opponent'] * 7)
+        self.assertEqual([[s.get('team') or s['winner_of'] for s in m['sources']] for m in index['matches']], [['dominate', 'dominare'], ['domimommy', 'dominion'], ['dominante', 'domimoon'], ['dominium', 'domineer'], ['dominance', 'r1-m1'], ['r1-m2', 'dominacion'], ['dominant-h', 'r1-m3'], ['r1-m4', 'dominator'], ['r2-m1', 'r2-m2'], ['r2-m3', 'r2-m4'], ['r3-m1', 'r3-m2']])
         self.assertEqual(index['prize']['count'], 6)
         for match in index['matches']:
             for key in ('winner_id', 'scores', 'draft', 'reported_results', 'races', 'lineup', 'player_points'):
@@ -64,6 +65,7 @@ class RegistrationTests(unittest.TestCase):
         self.root = Path(self.tmp.name)
         (self.root / ARCHIVE).mkdir()
         self.config = json.loads((ROOT / ARCHIVE / 'tournament.json').read_text(encoding='utf-8'))
+        self.config.update(published=False, rounds=[], matches=[])
         self.config['teams'] = [{'id': 'a', 'name': 'Team A', 'members': [{'display_name': 'Player A'}]}]
         self.control = {'revision': 0, 'decisions': {}, 'race_overrides': {}, 'roster': {}, 'audit': []}
 

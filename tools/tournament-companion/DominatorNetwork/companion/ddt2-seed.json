@@ -1,12 +1,33 @@
 {
-  "commit": "ed78e9cb717719d000218f1c55f63f2e935e48eb",
+  "commit": "a5a92b72e03223a5061b85ecce3f07d2847dc3cd",
   "tournament": {
     "schema_version": 1,
     "id": "ddt2",
     "name": "DDT2 · Dominator Draft Tournament",
-    "published": false,
-    "source_note": "Twelve teams have registered full rosters. The bracket, rounds, matches and drafts have not been confirmed.",
-    "rounds": [],
+    "published": true,
+    "source_note": "Confirmed DDT2 single-elimination draw. Match times are pending.",
+    "rounds": [
+      {
+        "id": "R1",
+        "name": "R1",
+        "order": 1
+      },
+      {
+        "id": "R2",
+        "name": "R2/QF",
+        "order": 2
+      },
+      {
+        "id": "R3",
+        "name": "SF",
+        "order": 3
+      },
+      {
+        "id": "R4",
+        "name": "GF",
+        "order": 4
+      }
+    ],
     "teams": [
       {
         "id": "dominator",
@@ -94,7 +115,7 @@
       },
       {
         "id": "domimoon",
-        "name": "DomiMoon",
+        "name": "Domimoon",
         "members": [
           {
             "display_name": "Moon"
@@ -273,7 +294,151 @@
       "players_per_team": 5,
       "auto_finalize": false
     },
-    "matches": [],
+    "matches": [
+      {
+        "id": "r1-m1",
+        "round": "R1",
+        "slot": 1,
+        "sources": [
+          {
+            "team": "dominate"
+          },
+          {
+            "team": "dominare"
+          }
+        ]
+      },
+      {
+        "id": "r1-m2",
+        "round": "R1",
+        "slot": 2,
+        "sources": [
+          {
+            "team": "domimommy"
+          },
+          {
+            "team": "dominion"
+          }
+        ]
+      },
+      {
+        "id": "r1-m3",
+        "round": "R1",
+        "slot": 3,
+        "sources": [
+          {
+            "team": "dominante"
+          },
+          {
+            "team": "domimoon"
+          }
+        ]
+      },
+      {
+        "id": "r1-m4",
+        "round": "R1",
+        "slot": 4,
+        "sources": [
+          {
+            "team": "dominium"
+          },
+          {
+            "team": "domineer"
+          }
+        ]
+      },
+      {
+        "id": "r2-m1",
+        "round": "R2",
+        "slot": 1,
+        "sources": [
+          {
+            "team": "dominance"
+          },
+          {
+            "winner_of": "r1-m1"
+          }
+        ]
+      },
+      {
+        "id": "r2-m2",
+        "round": "R2",
+        "slot": 2,
+        "sources": [
+          {
+            "winner_of": "r1-m2"
+          },
+          {
+            "team": "dominacion"
+          }
+        ]
+      },
+      {
+        "id": "r2-m3",
+        "round": "R2",
+        "slot": 3,
+        "sources": [
+          {
+            "team": "dominant-h"
+          },
+          {
+            "winner_of": "r1-m3"
+          }
+        ]
+      },
+      {
+        "id": "r2-m4",
+        "round": "R2",
+        "slot": 4,
+        "sources": [
+          {
+            "winner_of": "r1-m4"
+          },
+          {
+            "team": "dominator"
+          }
+        ]
+      },
+      {
+        "id": "r3-m1",
+        "round": "R3",
+        "slot": 1,
+        "sources": [
+          {
+            "winner_of": "r2-m1"
+          },
+          {
+            "winner_of": "r2-m2"
+          }
+        ]
+      },
+      {
+        "id": "r3-m2",
+        "round": "R3",
+        "slot": 2,
+        "sources": [
+          {
+            "winner_of": "r2-m3"
+          },
+          {
+            "winner_of": "r2-m4"
+          }
+        ]
+      },
+      {
+        "id": "r4-m1",
+        "round": "R4",
+        "slot": 1,
+        "sources": [
+          {
+            "winner_of": "r3-m1"
+          },
+          {
+            "winner_of": "r3-m2"
+          }
+        ]
+      }
+    ],
     "event_status": "preparation",
     "prize": {
       "count": 6,
@@ -283,12 +448,33 @@
   },
   "index": {
     "schema_version": 1,
-    "generated_at": "2026-11-18T01:11:22Z",
+    "generated_at": "2026-11-23T12:26:53Z",
     "id": "ddt2",
     "name": "DDT2 · Dominator Draft Tournament",
-    "published": false,
+    "published": true,
     "revision": 0,
-    "rounds": [],
+    "rounds": [
+      {
+        "id": "R1",
+        "name": "R1",
+        "order": 1
+      },
+      {
+        "id": "R2",
+        "name": "R2/QF",
+        "order": 2
+      },
+      {
+        "id": "R3",
+        "name": "SF",
+        "order": 3
+      },
+      {
+        "id": "R4",
+        "name": "GF",
+        "order": 4
+      }
+    ],
     "teams": [
       {
         "id": "dominator",
@@ -376,7 +562,7 @@
       },
       {
         "id": "domimoon",
-        "name": "DomiMoon",
+        "name": "Domimoon",
         "members": [
           {
             "display_name": "Moon"
@@ -555,7 +741,776 @@
       "players_per_team": 5,
       "auto_finalize": false
     },
-    "matches": [],
+    "matches": [
+      {
+        "id": "r1-m1",
+        "round": "R1",
+        "slot": 1,
+        "sources": [
+          {
+            "team": "dominate"
+          },
+          {
+            "team": "dominare"
+          }
+        ],
+        "participants": [
+          {
+            "id": "dominate",
+            "name": "Dominate",
+            "members": [
+              {
+                "display_name": "POP"
+              },
+              {
+                "display_name": "Reyov"
+              },
+              {
+                "display_name": "Sacrell"
+              },
+              {
+                "display_name": "Pjoes"
+              },
+              {
+                "display_name": "Juqi"
+              }
+            ]
+          },
+          {
+            "id": "dominare",
+            "name": "Dominare",
+            "members": [
+              {
+                "display_name": "SunioBunio"
+              },
+              {
+                "display_name": "McGee"
+              },
+              {
+                "display_name": "Bloodvvolf"
+              },
+              {
+                "display_name": "Azure"
+              },
+              {
+                "display_name": "AngelicVixen"
+              }
+            ]
+          }
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "ready",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r1-m2",
+        "round": "R1",
+        "slot": 2,
+        "sources": [
+          {
+            "team": "domimommy"
+          },
+          {
+            "team": "dominion"
+          }
+        ],
+        "participants": [
+          {
+            "id": "domimommy",
+            "name": "Domimommy",
+            "members": [
+              {
+                "display_name": "Emperor"
+              },
+              {
+                "display_name": "CR7"
+              },
+              {
+                "display_name": "Mor Mas"
+              },
+              {
+                "display_name": "Khinus"
+              },
+              {
+                "display_name": "Renfield"
+              }
+            ]
+          },
+          {
+            "id": "dominion",
+            "name": "Dominion",
+            "members": [
+              {
+                "display_name": "Flareon"
+              },
+              {
+                "display_name": "axdzcs"
+              },
+              {
+                "display_name": "Zangona"
+              },
+              {
+                "display_name": "Beep"
+              },
+              {
+                "display_name": "muuchan"
+              }
+            ]
+          }
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "ready",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r1-m3",
+        "round": "R1",
+        "slot": 3,
+        "sources": [
+          {
+            "team": "dominante"
+          },
+          {
+            "team": "domimoon"
+          }
+        ],
+        "participants": [
+          {
+            "id": "dominante",
+            "name": "Dominante",
+            "members": [
+              {
+                "display_name": "Bloop"
+              },
+              {
+                "display_name": "Dinomar"
+              },
+              {
+                "display_name": "ReginL"
+              },
+              {
+                "display_name": "eile"
+              },
+              {
+                "display_name": "Raven621"
+              }
+            ]
+          },
+          {
+            "id": "domimoon",
+            "name": "Domimoon",
+            "members": [
+              {
+                "display_name": "Moon"
+              },
+              {
+                "display_name": "Kamie"
+              },
+              {
+                "display_name": "Eibaman"
+              },
+              {
+                "display_name": "IceColaa"
+              },
+              {
+                "display_name": "GallCho"
+              }
+            ]
+          }
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "ready",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r1-m4",
+        "round": "R1",
+        "slot": 4,
+        "sources": [
+          {
+            "team": "dominium"
+          },
+          {
+            "team": "domineer"
+          }
+        ],
+        "participants": [
+          {
+            "id": "dominium",
+            "name": "Dominium",
+            "members": [
+              {
+                "display_name": "Yokka"
+              },
+              {
+                "display_name": "Ramnek"
+              },
+              {
+                "display_name": "NakedGhostie"
+              },
+              {
+                "display_name": "Nir"
+              },
+              {
+                "display_name": "Tomomo"
+              }
+            ]
+          },
+          {
+            "id": "domineer",
+            "name": "Domineer",
+            "members": [
+              {
+                "display_name": "Stayk"
+              },
+              {
+                "display_name": "Bean"
+              },
+              {
+                "display_name": "ABG"
+              },
+              {
+                "display_name": "Sonic"
+              },
+              {
+                "display_name": "JUNI"
+              }
+            ]
+          }
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "ready",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r2-m1",
+        "round": "R2",
+        "slot": 1,
+        "sources": [
+          {
+            "team": "dominance"
+          },
+          {
+            "winner_of": "r1-m1"
+          }
+        ],
+        "participants": [
+          {
+            "id": "dominance",
+            "name": "Dominance",
+            "members": [
+              {
+                "display_name": "Essential"
+              },
+              {
+                "display_name": "WCH"
+              },
+              {
+                "display_name": "Fabino"
+              },
+              {
+                "display_name": "Iviers"
+              },
+              {
+                "display_name": "Raykini"
+              }
+            ]
+          },
+          null
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "awaiting_opponent",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r2-m2",
+        "round": "R2",
+        "slot": 2,
+        "sources": [
+          {
+            "winner_of": "r1-m2"
+          },
+          {
+            "team": "dominacion"
+          }
+        ],
+        "participants": [
+          null,
+          {
+            "id": "dominacion",
+            "name": "Dominacion",
+            "members": [
+              {
+                "display_name": "Snowy"
+              },
+              {
+                "display_name": "wata"
+              },
+              {
+                "display_name": "mikeluigi64"
+              },
+              {
+                "display_name": "Yumi"
+              },
+              {
+                "display_name": "raine"
+              }
+            ]
+          }
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "awaiting_opponent",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r2-m3",
+        "round": "R2",
+        "slot": 3,
+        "sources": [
+          {
+            "team": "dominant-h"
+          },
+          {
+            "winner_of": "r1-m3"
+          }
+        ],
+        "participants": [
+          {
+            "id": "dominant-h",
+            "name": "Dominant H",
+            "members": [
+              {
+                "display_name": "Fizzle"
+              },
+              {
+                "display_name": "Flyingsparkz"
+              },
+              {
+                "display_name": "Reeces Puffs"
+              },
+              {
+                "display_name": "JeryDream"
+              },
+              {
+                "display_name": "Kitasan"
+              }
+            ]
+          },
+          null
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "awaiting_opponent",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r2-m4",
+        "round": "R2",
+        "slot": 4,
+        "sources": [
+          {
+            "winner_of": "r1-m4"
+          },
+          {
+            "team": "dominator"
+          }
+        ],
+        "participants": [
+          null,
+          {
+            "id": "dominator",
+            "name": "Dominator",
+            "members": [
+              {
+                "display_name": "Flo"
+              },
+              {
+                "display_name": "PKHR"
+              },
+              {
+                "display_name": "Mayday"
+              },
+              {
+                "display_name": "Zen"
+              },
+              {
+                "display_name": "Cynical"
+              }
+            ]
+          }
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "awaiting_opponent",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r3-m1",
+        "round": "R3",
+        "slot": 1,
+        "sources": [
+          {
+            "winner_of": "r2-m1"
+          },
+          {
+            "winner_of": "r2-m2"
+          }
+        ],
+        "participants": [
+          null,
+          null
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "awaiting_opponent",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r3-m2",
+        "round": "R3",
+        "slot": 2,
+        "sources": [
+          {
+            "winner_of": "r2-m3"
+          },
+          {
+            "winner_of": "r2-m4"
+          }
+        ],
+        "participants": [
+          null,
+          null
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "awaiting_opponent",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      },
+      {
+        "id": "r4-m1",
+        "round": "R4",
+        "slot": 1,
+        "sources": [
+          {
+            "winner_of": "r3-m1"
+          },
+          {
+            "winner_of": "r3-m2"
+          }
+        ],
+        "participants": [
+          null,
+          null
+        ],
+        "winner_id": null,
+        "loser_id": null,
+        "status": "awaiting_opponent",
+        "manual_scores": null,
+        "decision_reason": null,
+        "source": "race_files",
+        "races": [],
+        "draft": null,
+        "draft_path": null,
+        "draft_has_content": false,
+        "reported_results": null,
+        "report_path": null,
+        "computed_scores": null,
+        "scores": null,
+        "score_only": false,
+        "report_score_mismatch": false,
+        "needs_review": false,
+        "target_reached": [],
+        "draft_lineup": [],
+        "draft_uma_actions": {
+          "uma_pre_bans": [],
+          "uma_picks": [],
+          "uma_bans": [],
+          "uma_additions": [],
+          "benched_umas": [],
+          "uma_selections": []
+        },
+        "lineup": [],
+        "lineup_source": "draft",
+        "player_points": [],
+        "player_points_recorded": false
+      }
+    ],
     "warnings": [],
     "eliminated": [],
     "champion_id": null,

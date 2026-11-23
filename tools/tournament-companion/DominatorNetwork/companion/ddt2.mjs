@@ -3,6 +3,19 @@ import {digest,requireThat,text} from './domain.mjs';
 
 export const destination={owner:'Flyingsparks1130',repo:'ddt2',branch:'main',file:'data/companion/approved-results.json'};
 const base='https://raw.githubusercontent.com/Flyingsparks1130/ddt2/';
+export const bracketStages = Object.freeze({R1:'R1', R2:'R2/QF', R3:'SF', R4:'GF'});
+export function bracketPreview(source) {
+ const teams = new Map(source.tournament.teams.map(t => [t.id, t.name]));
+ const matches = new Map(source.index.matches.map(m => [m.id, m]));
+ return Object.entries(bracketStages).map(([id, name]) => ({
+  name, matches: source.tournament.matches.filter(m => m.round === id).map(m => ({
+   id: m.id, sides: m.sources.map((side, i) => {
+    const team = matches.get(m.id)?.participants?.[i]?.id || side.team;
+    return teams.get(team) || 'Winner of ' + side.winner_of.toUpperCase();
+   })
+  }))
+ }));
+}
 export function validateSource(source){
  const t=source?.tournament;
  requireThat(t?.id==='ddt2'&&Array.isArray(t.teams)&&Array.isArray(t.matches)&&Array.isArray(t.rounds),'The source is not the DDT2 tournament.');
@@ -29,7 +42,7 @@ export function importDDT2(state,source){
  validateSource(source);
  requireThat(state.tournament.id==='ddt2'||(!state.matches.length&&!state.races.length&&!state.publications.length),'This desk contains another tournament. Preserve it before connecting DDT2.');
  const t=source.tournament,old=state.tournament.players,players=[];
- if(state.matches.length)for(const team of state.tournament.teams||[])requireThat(t.teams.some(t=>t.id===team.id&&t.name===team.name),'A team identity changed on DDT2. Review the existing series before replacing the roster.');
+ if(state.matches.length)for(const team of state.tournament.teams||[])requireThat(t.teams.some(t=>t.id===team.id&&t.name.toLowerCase()===team.name.toLowerCase()),'A team identity changed on DDT2. Review the existing series before replacing the roster.');
  for(const team of t.teams)for(const member of team.members){
   const sourceKey=team.id+':'+member.display_name.toLowerCase();const prior=old.find(p=>p.sourceKey===sourceKey);
   players.push({...prior,id:prior?.id||'ddt2-'+digest(sourceKey).slice(0,20),sourceKey,name:member.display_name,gameName:prior?.gameName||'',team:team.name,teamId:team.id});
@@ -47,9 +60,9 @@ export function importDDT2(state,source){
   if(found){requireThat(JSON.stringify(found.teamIds)===JSON.stringify(teamIds),`Published participants changed for ${found.name}. Review that series before syncing.`);continue;}
   const matchId='ddt2-'+raw.id;requireThat(/^[\w-]{1,80}$/.test(matchId),'Published match ID is invalid.');
   const round=t.rounds.find(r=>r.id===raw.round);
-  const match={id:matchId,siteMatchId:raw.id,siteRoundId:raw.round,name:teamIds.map(id=>t.teams.find(t=>t.id===id).name).join(' vs '),round:round?.name||raw.round,stage:raw.round,teamIds,playerIds:players.filter(p=>teamIds.includes(p.teamId)&&!p.retired).map(p=>p.id),expected:{},heats:Array.from({length:7},(_,i)=>({id:matchId+'-race-'+(i+1),number:i+1,tiebreaker:i===6,expected:{}}))};
+  const match={id:matchId,siteMatchId:raw.id,siteRoundId:raw.round,name:teamIds.map(id=>t.teams.find(t=>t.id===id).name).join(' vs '),round:round?.name||raw.round,stage:bracketStages[raw.round],teamIds,playerIds:players.filter(p=>teamIds.includes(p.teamId)&&!p.retired).map(p=>p.id),expected:{},heats:Array.from({length:7},(_,i)=>({id:matchId+'-race-'+(i+1),number:i+1,tiebreaker:i===6,expected:{}}))};
   requireThat(match.playerIds.length===10,'A published match does not have ten registered players.');state.matches.push(match);imported.push(match.id);
  }
- state.site={repository:'Flyingsparks1130/ddt2',commit:source.commit,syncedAt:new Date().toISOString(),pendingMatchIds:deferred,bracketPublished:!!t.published};
+ state.site={repository:'Flyingsparks1130/ddt2',commit:source.commit,syncedAt:new Date().toISOString(),bracket:bracketPreview(source),pendingMatchIds:deferred,bracketPublished:!!t.published};
  return {teams:t.teams.length,players:players.length,addedMatches:imported.length,deferredMatches:deferred.length};
 }
