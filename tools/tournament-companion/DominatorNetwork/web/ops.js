@@ -1,4 +1,4 @@
-import {courseCatalogReady} from './ddt2-ops.js';
+import {courseCatalogReady,syncDraftedTracks} from './ddt2-ops.js';
 import {raceLabels,suggestedPlayer} from './model.js';
 const $=id=>document.getElementById(id);
 let state=null,reviewData=null,selectedRace=null,publication=null,busy=false,setupLoaded=false,lastRenderedRevision=-1;
@@ -27,7 +27,13 @@ $('delete-match').addEventListener('click',()=>{
  if(!confirm('Delete '+match.name+' from this desk? Its saved results stay in the tournament record.'))return;
  action(async()=>{await api('delete-match',{matchId:match.id,confirm:true,revision});notice('Match removed from this desk.');});
 });
-function updateHeats(){const old=$('heat-select').value;const match=state.matches.find(m=>m.id===$('match-select').value);$('heat-select').replaceChildren();for(const h of match?.heats||[]){const approved=state.races.some(r=>r.heatId===h.id&&r.status==='approved')||(state.manualHeats||[]).some(r=>r.heatId===h.id&&r.status==='approved');const o=node('option',`${h.number===7?'Tiebreaker':'Race '+h.number}${approved?' · Approved':''}`);o.value=h.id;$('heat-select').append(o);}if(match?.heats.some(h=>h.id===old))$('heat-select').value=old;else if(match?.heats.some(h=>h.id===state.activeHeatId))$('heat-select').value=state.activeHeatId;$('select-heat').disabled=!match;$('delete-match').disabled=!state.canDeleteMatch||!match||match.heats.some(h=>h.id===state.armedHeatId);}
+function updateHeats(){const old=$('heat-select').value;const match=state.matches.find(m=>m.id===$('match-select').value);$('heat-select').replaceChildren();for(const h of match?.heats||[]){const approved=state.races.some(r=>r.heatId===h.id&&r.status==='approved')||(state.manualHeats||[]).some(r=>r.heatId===h.id&&r.status==='approved');const o=node('option',`${h.number===7?'Tiebreaker':'Race '+h.number}${approved?' · Approved':''}`);o.value=h.id;$('heat-select').append(o);}if(match?.heats.some(h=>h.id===old))$('heat-select').value=old;else if(match?.heats.some(h=>h.id===state.activeHeatId))$('heat-select').value=state.activeHeatId;$('select-heat').disabled=!match;$('delete-match').disabled=!state.canDeleteMatch||!match||match.heats.some(h=>h.id===state.armedHeatId);syncDeskSelection();}
+function syncDeskSelection(){
+ const match=state.matches.find(m=>m.id===$('match-select').value);
+ syncDraftedTracks(match,$('heat-select').value);
+ document.dispatchEvent(new Event('deskselection'));
+}
+$('heat-select').addEventListener('change',syncDeskSelection);
 function setup(){if(setupLoaded)return;const t=state.tournament;$('tournament-name').value=t.name;$('points').value=t.rules?.points.join(', ')||'';$('tiebreak').value=t.rules?.tiebreak||'shared';$('participants').value=t.players.map(p=>`${p.name} | ${p.gameName} | ${p.team}`).join('\n');$('watch-folder').value=state.watch.folder||state.suggestedWatchFolder||'';$('watch-enabled').checked=state.watch.enabled;for(const key of ['owner','repo','branch','file'])$('github-'+key).value=state.github[key];setupLoaded=true;}
 function standings(id,rows){const target=$(id);target.replaceChildren();if(!rows.length){target.textContent=id==='team-standings'?'No team scores yet.':'No approved scores yet.';return;}for(const row of rows){const el=node('div',null,'standings-row');el.append(node('span',row.rank),node('b',row.name),node('span',`${row.points} pts`));target.append(el);}}
 function render(){if(!state)return;const active=findHeat(state.activeHeatId),approved=state.races.filter(r=>r.status==='approved').length+(state.manualHeats||[]).filter(r=>r.status==='approved').length,pending=state.races.filter(r=>r.status==='pending').length;
