@@ -11,6 +11,14 @@ for(const [key,view] of Object.entries(UI.views)){
 assert.match(UI.views.home(data),/>6<\/strong>/);assert.match(UI.views.rules(data),/>6<\/strong>/);
 assert.equal((UI.views.bracket(data).match(/data-match-id=/g)||[]).length,11);
 assert.match(UI.views.bracket(data),/Grand Final/);
+const palmerPortrait='src="assets/runners/106401.webp"';
+for (const view of ['clubs','tracks','bracket']) {
+ assert.ok(UI.views[view](data).includes(palmerPortrait),view+' shows the assigned portrait');
+}
+const profileFor=id=>UI.views.club({...data,params:new URLSearchParams({id})});
+assert.ok(profileFor('dominant-h').includes(palmerPortrait));
+assert.ok(!profileFor('domineer').includes(palmerPortrait));
+
 assert.match(UI.views.stats(data),/Team Standings/);assert.match(UI.views.stats(data),/No data recorded/);
 const teamList=UI.views.clubs(data);
 assert(!/Roster full|season-roster-status|5\/5/.test(teamList));

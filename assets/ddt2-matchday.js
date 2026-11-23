@@ -26,9 +26,12 @@
     dominion: 'M11 11h4v4h3v-4h4v4h3v-4h4v8l-3 2 1 8H13l1-8-3-2Z',
     dominante: 'M20 9l3 7 7 4-7 3-3 8-3-8-7-3 7-4Z'
   }));
-  function teamCrest(id) {
+  function teamCrest(id,teamArtwork) {
     if (!id) return '';
     const key = String(id).trim().toLowerCase().replace(/ +/g, '-');
+    const card=teamArtwork?.[key]?.card;
+    if(Number.isInteger(card) && card>0)
+      return `<img class="team-crest profile-uma-icon" src="assets/runners/${card}.webp" alt="">`;
     const charge = charges.get(key) || 'M13 19h14v3H13Z';
     return `<svg class="team-crest" aria-hidden="true" focusable="false" viewBox="0 0 40 42"><path fill="#600d20" stroke="#ebce86" stroke-width="1.8" d="M3 6 20 2l17 4v13c0 9-8 16-17 21C11 35 3 28 3 19Z"/><path fill="#f7dea3" fill-rule="evenodd" d="${charge}"/></svg>`;
   }
@@ -168,7 +171,7 @@
     const round=d.index.rounds.find(r=>r.id===m.round);
     return `<section class="matchday-entrance" data-match-entrance="${esc(m.round+':'+m.id)}" aria-label="Match score"><p class="matchday-entrance-round">${esc(round?.name || m.round)} <span>${esc(m.id.toUpperCase())}</span></p><div class="matchday-faceoff">${[0,1].map(i=>{
       const t=m.participants?.[i];
-      return `<div class="matchday-contender"><span class="matchday-club-mark" aria-hidden="true">${teamCrest(t?.id) || '—'}</span><div>${t?`<a href="team.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:'<span>Opponent to be confirmed</span>'}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div><strong>${esc(m.scores?.[t?.id] ?? '—')}</strong></div>`;
+      return `<div class="matchday-contender"><span class="matchday-club-mark" aria-hidden="true">${teamCrest(t?.id,d.event.team_artwork) || '—'}</span><div>${t?`<a href="team.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:'<span>Opponent to be confirmed</span>'}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div><strong>${esc(m.scores?.[t?.id] ?? '—')}</strong></div>`;
     }).join('<span class="matchday-faceoff-vs" aria-hidden="true">VS</span>')}</div></section>`;
   }
   function present(root,d,{enter=false}={}) {
