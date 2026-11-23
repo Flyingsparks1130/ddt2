@@ -11,7 +11,7 @@ if($LASTEXITCODE -ne 0){throw 'OBS bridge build failed'}
 if($LASTEXITCODE -ne 0){throw 'Telemetry test build failed'}
 & $Zig c++ @taskFlags -municode "$taskRoot\src\server_test_host.cpp" "$taskRoot\src\server.cpp" -lws2_32 -o "$taskRoot\ServerTest.exe"
 if($LASTEXITCODE -ne 0){throw 'Server test build failed'}
-& $Zig c++ @taskFlags -municode -mwindows "$taskRoot\src\companion_launcher.cpp" -lshell32 -o "$taskRoot\DominatorNetwork\companion\Start Tournament Companion.exe"
+& $Zig c++ @taskFlags -municode -mwindows "$taskRoot\src\companion_launcher.cpp" -lwinhttp -lshell32 -o "$taskRoot\DominatorNetwork\companion\Start Tournament Companion.exe"
 if($LASTEXITCODE -ne 0){throw 'Companion launcher build failed'}
 & $Zig c++ @taskFlags -municode "$taskRoot\src\preview_test.cpp" "$taskRoot\src\preview_scene.cpp" "$taskRoot\vendor\imgui\imgui.cpp" "$taskRoot\vendor\imgui\imgui_draw.cpp" "$taskRoot\vendor\imgui\imgui_widgets.cpp" "$taskRoot\vendor\imgui\imgui_tables.cpp" "$taskRoot\vendor\imgui\backends\imgui_impl_dx11.cpp" -ld3d11 -ldxgi -ld3dcompiler -lwindowscodecs -lole32 -luuid -o "$taskRoot\PreviewTest.exe"
 if($LASTEXITCODE -ne 0){throw 'Off-screen preview test build failed'}
