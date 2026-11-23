@@ -4,7 +4,7 @@ import {digest,requireThat,text} from './domain.mjs';
 
 export const destination={owner:'Flyingsparks1130',repo:'ddt2',branch:'main',file:'data/companion/approved-results.json'};
 const base='https://raw.githubusercontent.com/Flyingsparks1130/ddt2/';
-export const bracketStages = Object.freeze({R1:'R1', R2:'R2/QF', R3:'SF', R4:'GF'});
+export const bracketStages = Object.freeze({R1:'Round 1', R2:'Round 2 / Quarterfinals', R3:'Semifinals', R4:'Grand Final'});
 export function bracketPreview(source) {
  const teams = new Map(source.tournament.teams.map(t => [t.id, t.name]));
  const matches = new Map(source.index.matches.map(m => [m.id, m]));
@@ -33,9 +33,11 @@ export async function sourcePreview(offline=false,fetcher=fetch){
  let source;
  if(offline)source=JSON.parse(await readFile(new URL('./ddt2-seed.json',import.meta.url),'utf8'));
  else{
-  const get=async url=>{const r=await fetcher(url,{headers:{Accept:'application/vnd.github+json','User-Agent':'DDT2-Companion'},signal:AbortSignal.timeout(12000),redirect:'error'});requireThat(r.ok,`DDT2 download failed (${r.status}). Use the bundled roster while offline.`,502);const body=await r.text();requireThat(body.length<5*1024*1024,'Published DDT2 data is too large.');return JSON.parse(body);};
+  const get=async (url,optional=false)=>{const r=await fetcher(url,{headers:{Accept:'application/vnd.github+json','User-Agent':'DDT2-Companion'},signal:AbortSignal.timeout(12000),redirect:'error'});if(optional&&r.status===404)return null;requireThat(r.ok,`DDT2 download failed (${r.status}). Use the bundled roster while offline.`,502);const body=await r.text();requireThat(body.length<5*1024*1024,'Published DDT2 data is too large.');return JSON.parse(body);};
   const ref=await get('https://api.github.com/repos/Flyingsparks1130/ddt2/git/ref/heads/main');const commit=ref.object?.sha;requireThat(/^[a-f0-9]{40}$/.test(commit),'GitHub returned an invalid revision.');
-  const [tournament,index,event]=await Promise.all([get(base+commit+'/Dominator%20Tournament/tournament.json'),get(base+commit+'/data/tournament-index.json'),get(base+commit+'/config/event.json')]);source={commit,tournament,index,teamArtwork:event.team_artwork||{}};
+  const [tournament,index,event]=await Promise.all([get(base+commit+'/Dominator%20Tournament/tournament.json'),get(base+commit+'/data/tournament-index.json'),get(base+commit+'/config/event.json')]);const bracket=await get(base+commit+'/data/companion/bracket-slots.json',true);
+  if(bracket)for(const m of index.matches){const ids=bracket[m.id];if(ids)m.participants=m.participants.map((team,i)=>team||tournament.teams.find(t=>t.id===ids[i])||null);}
+  source={commit,tournament,index,teamArtwork:event.team_artwork||{}};
  }
  validateSource(source);return {source,hash:digest(source),offline,teamCount:source.tournament.teams.length,playerCount:source.tournament.teams.reduce((n,t)=>n+t.members.length,0),matchCount:source.tournament.matches.length};
 }

@@ -63,7 +63,7 @@ test('operations integration: scoring, approval gate, duplicate/rerun safety, wa
   const duplicate=await post('import',{race:fixture(),filename:'renamed.json',heatId:heats[1].id});assert(duplicate.duplicate);assert.equal(duplicate.id,first.id);
   const rerun=await post('import',{race:fixture(2),filename:'rerun.json',heatId:heats[0].id});detail=await get('race/'+rerun.id);assert(detail.review.problems.some(p=>p.includes('already has')));assert.equal((await get('export')).results.length,1);
   await post('setup',{name:'Changed',players,rules:{points:[99],tiebreak:'shared'}},400);
-  const publication=await get('publication');await post('publish',{hash:publication.hash,targetHash:publication.targetHash},400);assert.equal((await get('state')).publications.length,0);
+  const publication=await get('publication');await post('publish',{hash:publication.hash,targetHash:publication.targetHash},410);assert.equal((await get('state')).publications.length,0);
   await post('void',{raceId:first.id,reason:'Rerun ordered'});detail=await get('race/'+rerun.id);await post('approve',{raceId:rerun.id,reviewHash:detail.review.hash,broadcastFinished:true,operator:'Ops'});assert.equal((await get('export')).results[0].raceId,rerun.id);
   await post('select',{heatId:heats[1].id});await writeFile(path.join(watch,'historical.json'),JSON.stringify(fixture(3)));await post('watch',{folder:watch,enabled:true});await post('arm');
   await writeFile(path.join(watch,'new.json'),'{');await delay(2300);await writeFile(path.join(watch,'new.json'),JSON.stringify(fixture(4)));

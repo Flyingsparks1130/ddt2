@@ -28,12 +28,33 @@
   }
   for(const result of bundle.results)ensure(raceIds.has(result.raceId),'An approved DDT2 race is missing from its series.');return series;
  }
- function apply(index,bundle){validate(bundle);const result=JSON.parse(JSON.stringify(index));for(const s of bundle.series.matches){if(!s.siteMatchId)continue;const m=result.matches.find(m=>m.id===s.siteMatchId&&m.round===s.siteRoundId);if(!m)continue;const teamIds=(m.participants||[]).filter(Boolean).map(t=>t.id);if(teamIds.length!==2||!s.teams.every(t=>teamIds.includes(t.id)))continue;
+ function apply(index,bundle){validate(bundle);const result=JSON.parse(JSON.stringify(index));for(const m of [...result.matches].sort((a,b)=>a.round.localeCompare(b.round))){
+   for(const [i,side] of (m.sources||[]).entries()){
+    if(!side.winner_of||m.participants[i])continue;
+    const parent=result.matches.find(p=>p.id===side.winner_of);
+    if(parent?.winner_id)m.participants[i]=result.teams.find(t=>t.id===parent.winner_id)||null;
+   }
+   if(m.status==='awaiting_opponent'&&m.participants.every(Boolean))m.status='ready';
+   const s=bundle.series.matches.find(s=>s.siteMatchId===m.id&&s.siteRoundId===m.round);
+   if(!s)continue;const teamIds=(m.participants||[]).filter(Boolean).map(t=>t.id);if(teamIds.length!==2||!s.teams.every(t=>teamIds.includes(t.id)))continue;
    /* Existing organizer decisions are not overwritten by another input source. */
    const officialScores=m.scores||{},hasOfficialScores=Object.values(officialScores).some(n=>Number(n)!==0);
    if((m.winner_id&&m.winner_id!==s.winnerId)||(hasOfficialScores&&s.teams.some(t=>Number(officialScores[t.id]||0)!==t.points))||(m.reported_results?.races?.length)){m.companion_conflict=true;continue;}
    m.scores=Object.fromEntries(s.teams.map(t=>[t.id,t.points]));m.companion_series=s;m.winner_id=s.winnerId;m.loser_id=s.winnerId?s.teams.find(t=>t.id!==s.winnerId).id:null;
-   const recorded=bundle.results.filter(r=>r.match.id===s.id);m.reported_results={...(m.reported_results||{}),races:s.races.map(r=>{if(r.manual)return {number:r.number,track:'Manually verified podium',source:'manual',podium:r.rows.map(p=>({place:p.rank,points:p.points,display_name:p.playerName,team_id:p.teamId,uma:'Not supplied'}))};const race=recorded.find(x=>x.raceId===r.id);return {number:r.number,track:race.track.name||`${race.track.distance} m`,source:'horseACT',podium:race.rows.filter(p=>p.rank<=3).map(p=>({place:p.rank,points:p.points,display_name:p.playerName,team_id:p.teamId,uma:p.name,card_id:p.card}))};})};
+   m.status=s.winnerId?'complete':s.raceCount?'in_progress':m.status;
+   const finalRound=m.round==='R4';if(finalRound&&s.winnerId)result.champion_id=s.winnerId;
+   if(m.loser_id&&result.eliminated&&!result.eliminated.includes(m.loser_id))result.eliminated.push(m.loser_id);
+   const recorded=bundle.results.filter(r=>r.match.id===s.id);if(recorded.length){
+    const players=new Map((m.lineup||[]).map(p=>[p.team_id+'|'+p.display_name,p]));
+    for(const r of recorded)for(const row of r.rows){const key=row.teamId+'|'+row.playerName;if(!players.has(key)){
+     const build=s.builds?.[row.playerId]||{};
+     players.set(key,{team_id:row.teamId,display_name:row.playerName,uma:row.name,card_id:row.card,benched:false,
+      running_style:['','Front Runner','Pace Chaser','Late Surger','End Closer'][row.style],support:build.support,
+      stats:Object.fromEntries(Object.entries(build.stats||{}).map(([label,value])=>[label==='Wit'?'wisdom':label.toLowerCase(),value]))});
+    }}
+    m.lineup=[...players.values()];
+   }
+   m.reported_results={...(m.reported_results||{}),races:s.races.map(r=>{if(r.manual)return {number:r.number,track:'Manually verified podium',source:'manual',podium:r.rows.map(p=>({place:p.rank,points:p.points,display_name:p.playerName,team_id:p.teamId,uma:'Not supplied'}))};const race=recorded.find(x=>x.raceId===r.id);return {number:r.number,track:[race.track.name,race.track.distance+'m',({1:'Turf',2:'Dirt'})[race.track.surface]].filter(Boolean).join(' · '),source:'horseACT',podium:race.rows.filter(p=>p.rank<=3).map(p=>({place:p.rank,points:p.points,display_name:p.playerName,team_id:p.teamId,uma:p.name,card_id:p.card}))};})};
   }return result;
  }
  return {validate,apply};

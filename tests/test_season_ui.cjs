@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs');
 const UI=require('../assets/ddt2-app.js');
 const data={index:require('../data/tournament-index.json'),stats:require('../data/tournament-statistics.json'),event:require('../config/event.json'),params:new URLSearchParams()};
-assert.deepEqual(data.index.teams.map(t=>t.name),['Dominator','Dominare','Domineer','Dominium','Domimoon','Dominance','Domimommy','Dominacion','Dominant H','Dominate','Dominion','Dominante']);assert.deepEqual(data.index.rounds.map(r=>r.name),['R1','R2/QF','SF','GF']);assert.equal(data.index.matches.length,11);
+assert.deepEqual(data.index.teams.map(t=>t.name),['Dominator','Dominare','Domineer','Dominium','Domimoon','Dominance','Domimommy','Dominacion','Dominant H','Dominate','Dominion','Dominante']);assert.deepEqual(data.index.rounds.map(r=>r.name),['Round 1', 'Round 2 / Quarterfinals', 'Semifinals', 'Grand Final']);assert.equal(data.index.matches.length,11);
 for(const [key,view] of Object.entries(UI.views)){
  const html=view(data);assert(!/undefined|NaN/.test(html),key);assert(!/Dominator Player|Domichill|Trophy room|Award/i.test(html),key);
  assert(/<h1/.test(html),key);
@@ -19,7 +19,7 @@ const profileFor=id=>UI.views.club({...data,params:new URLSearchParams({id})});
 assert.ok(profileFor('dominant-h').includes(palmerPortrait));
 assert.ok(!profileFor('domineer').includes(palmerPortrait));
 
-assert.match(UI.views.stats(data),/Team Standings/);assert.match(UI.views.stats(data),/No data recorded/);
+assert.match(UI.views.stats(data),/Team Standings/);assert.match(UI.views.stats({...data,stats:{statistics:{}}}),/No data recorded/);
 const teamList=UI.views.clubs(data);
 assert(!/Roster full|season-roster-status|5\/5/.test(teamList));
 assert.equal((teamList.match(/<li>/g)||[]).length,60);

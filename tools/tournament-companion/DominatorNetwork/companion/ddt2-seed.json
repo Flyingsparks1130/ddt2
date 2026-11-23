@@ -9,22 +9,22 @@
     "rounds": [
       {
         "id": "R1",
-        "name": "R1",
+        "name": "Round 1",
         "order": 1
       },
       {
         "id": "R2",
-        "name": "R2/QF",
+        "name": "Round 2 / Quarterfinals",
         "order": 2
       },
       {
         "id": "R3",
-        "name": "SF",
+        "name": "Semifinals",
         "order": 3
       },
       {
         "id": "R4",
-        "name": "GF",
+        "name": "Grand Final",
         "order": 4
       }
     ],
@@ -456,22 +456,22 @@
     "rounds": [
       {
         "id": "R1",
-        "name": "R1",
+        "name": "Round 1",
         "order": 1
       },
       {
         "id": "R2",
-        "name": "R2/QF",
+        "name": "Round 2 / Quarterfinals",
         "order": 2
       },
       {
         "id": "R3",
-        "name": "SF",
+        "name": "Semifinals",
         "order": 3
       },
       {
         "id": "R4",
-        "name": "GF",
+        "name": "Grand Final",
         "order": 4
       }
     ],

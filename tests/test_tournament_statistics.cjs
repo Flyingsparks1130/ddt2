@@ -10,7 +10,7 @@ stats=S.compute({matches:[match,{...match,id:'later',races:[{id:'later'}]}]},{r:
 assert.deepEqual([1400,1401,1800,1801,2400,2401].map(S.distanceType),['Sprint','Mile','Mile','Medium','Medium','Long']);assert.equal(S.trackKey('Tokyo 1600m · Turf · Summer'),S.trackKey('Tokyo 1600m · Turf · Winter'));
 assert.deepEqual(S.ranking(new Map([['a',3],['b',3],['c',1]])).map(r=>r.rank),[1,1,3]);
 const dist=S.distribution([100,200,300,400,null]);assert.equal(dist.n,4);assert.equal(dist.median,250);assert.equal(dist.q1,175);assert.equal(dist.q3,325);assert.equal(dist.bins.reduce((n,b)=>n+b.count,0),4);
-const snapshot=JSON.parse(fs.readFileSync('data/tournament-statistics.json')),empty=snapshot.statistics;
+const snapshot=JSON.parse(fs.readFileSync('data/tournament-statistics.json')),empty=S.compute({matches:[]},{},{});
 assert.equal(snapshot.standings,null);
 for(const [key,value] of Object.entries(empty.coverage))if(key!=='matches')assert.equal(value,0,key);
 for(const key of ['support','skills','fielded','veto','preban'])assert.deepEqual(empty[key],[]);

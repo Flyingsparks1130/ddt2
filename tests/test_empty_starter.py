@@ -34,7 +34,7 @@ class UpcomingEventTests(unittest.TestCase):
         for key in ('decisions', 'race_overrides', 'roster', 'audit'):
             self.assertFalse(control[key], key)
         self.assertTrue(index['published'])
-        self.assertEqual([r['name'] for r in index['rounds']], ['R1', 'R2/QF', 'SF', 'GF'])
+        self.assertEqual([r['name'] for r in index['rounds']], ['Round 1', 'Round 2 / Quarterfinals', 'Semifinals', 'Grand Final'])
         self.assertEqual([m['status'] for m in index['matches']], ['ready'] * 4 + ['awaiting_opponent'] * 7)
         self.assertEqual([[s.get('team') or s['winner_of'] for s in m['sources']] for m in index['matches']], [['dominate', 'dominare'], ['domimommy', 'dominion'], ['dominante', 'domimoon'], ['dominium', 'domineer'], ['dominance', 'r1-m1'], ['r1-m2', 'dominacion'], ['dominant-h', 'r1-m3'], ['r1-m4', 'dominator'], ['r2-m1', 'r2-m2'], ['r2-m3', 'r2-m4'], ['r3-m1', 'r3-m2']])
         self.assertEqual(index['prize']['count'], 6)
