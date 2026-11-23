@@ -12,22 +12,18 @@ function findHeat(heatId){for(const match of state.matches){const heat=match.hea
 function matchOptions(){
  const select=$('match-select'),old=select.value,active=findHeat(state.activeHeatId);
  select.replaceChildren(new Option('Select a match',''));
- for(const [official,label] of [[true,'Published bracket'],[false,'Local matches']]){
-  const group=document.createElement('optgroup');group.label=label;
-  for(const match of state.matches.filter(m=>Boolean(m.siteMatchId)===official))group.append(new Option(match.name,match.id));
-  if(group.children.length)select.append(group);
- }
+ for(const match of state.matches)select.add(new Option(match.name,match.id));
  select.value=state.matches.some(m=>m.id===old)?old:active?.match.id||'';
  updateHeats();
 }
-$('delete-match').addEventListener('click',()=>{
+$('reset-match').addEventListener('click',()=>{
  const match=state.matches.find(m=>m.id===$('match-select').value);
  if(!match)return;
  const revision=state.revision;
- if(!confirm('Delete '+match.name+' from this desk? Its saved results stay in the tournament record.'))return;
- action(async()=>{await api('delete-match',{matchId:match.id,confirm:true,revision});notice('Match removed from this desk.');});
+ if(!confirm('Reset '+match.name+' to 0–0 and clear its race results and winner? The teams, tracks and lineups stay in place.'))return;
+ action(async()=>{await api('reset-match',{matchId:match.id,confirm:true,revision});$('heat-select').value=match.heats[0]?.id||'';notice('Match reset to 0–0.');});
 });
-function updateHeats(){const old=$('heat-select').value;const match=state.matches.find(m=>m.id===$('match-select').value);$('heat-select').replaceChildren();for(const h of match?.heats||[]){const approved=state.races.some(r=>r.heatId===h.id&&r.status==='approved')||(state.manualHeats||[]).some(r=>r.heatId===h.id&&r.status==='approved');const o=node('option',`${h.number===7?'Tiebreaker':'Race '+h.number}${approved?' · Approved':''}`);o.value=h.id;$('heat-select').append(o);}if(match?.heats.some(h=>h.id===old))$('heat-select').value=old;else if(match?.heats.some(h=>h.id===state.activeHeatId))$('heat-select').value=state.activeHeatId;$('select-heat').disabled=!match;$('delete-match').disabled=!state.canDeleteMatch||!match||match.heats.some(h=>h.id===state.armedHeatId);syncDeskSelection();}
+function updateHeats(){const old=$('heat-select').value;const match=state.matches.find(m=>m.id===$('match-select').value);$('heat-select').replaceChildren();for(const h of match?.heats||[]){const approved=state.races.some(r=>r.heatId===h.id&&r.status==='approved')||(state.manualHeats||[]).some(r=>r.heatId===h.id&&r.status==='approved');const o=node('option',`${h.number===7?'Tiebreaker':'Race '+h.number}${approved?' · Approved':''}`);o.value=h.id;$('heat-select').append(o);}if(match?.heats.some(h=>h.id===old))$('heat-select').value=old;else if(match?.heats.some(h=>h.id===state.activeHeatId))$('heat-select').value=state.activeHeatId;$('select-heat').disabled=!match;$('reset-match').disabled=!state.canResetMatch||!match||match.heats.some(h=>h.id===state.armedHeatId);syncDeskSelection();}
 function syncDeskSelection(){
  const match=state.matches.find(m=>m.id===$('match-select').value);
  syncDraftedTracks(match,$('heat-select').value);

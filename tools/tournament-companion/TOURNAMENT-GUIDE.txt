@@ -1,4 +1,4 @@
-DDT2 OPERATIONS — COMPANION 0.6.3
+DDT2 OPERATIONS — COMPANION 0.6.4
 
 1. Open http://127.0.0.1:27840/. In Teams & connection, check the published DDT2
    source, review it, then import. The bundled fallback has 12 teams and 60
@@ -44,7 +44,7 @@ repository, GitHub currently requires a classic token (public_repo for this
 public repository). Do not share the owner's token with other operators.
 Operators without repository access can approve locally and export results
 for the owner to publish. The proposed private operator-key publishing service
-is not implemented in 0.6.3. Private ZIP distribution alone grants no access.
+is not implemented in 0.6.4. Private ZIP distribution alone grants no access.
 Set DOMINATOR_GITHUB_TOKEN in the companion process environment before launch.
 For example, use Windows Environment Variables to set a user variable, then
 reopen the launcher from a fresh sign-in so it inherits that environment.
@@ -83,7 +83,7 @@ Full-body art uses the pinned public Uma artwork repository; local portraits
 are the fallback. Exact outfit names come from the English game catalog.
 
 MATCH MANAGEMENT
-Published bracket matches and locally created matches are grouped separately in Race Desk. Select a match and choose Delete match to remove it from this desk. Cancel capture first if the match is armed. Approved results stay in the tournament record. Each operator manages their own desk.
+DDT2 uses the published bracket. Select a match and choose Reset match to clear its results and winner. The same fixture, teams, drafted tracks, and lineups remain available. Captured races can be reviewed again. Resetting a match does not publish changes.
 
 UPDATING AN OPEN DESK
-If 0.6.2 is still running after 0.6.3 is installed, save any pending edits and open the Tournament Helper shortcut. Choose Yes to switch versions. The launcher checks the running desk again before switching. The game and saved tournament stay in place.
+If 0.6.2 or 0.6.3 is still running after 0.6.4 is installed, save any pending edits and open the Tournament Helper shortcut. Choose Yes to switch versions. The launcher checks the running desk again before switching. The game and saved tournament stay in place.

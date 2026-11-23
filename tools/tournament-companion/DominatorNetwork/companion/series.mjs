@@ -1,5 +1,40 @@
 import {digest,requireThat,text,id,heatFor} from './domain.mjs';
 const stamp=()=>new Date().toISOString();
+export function resetMatch(state,match){
+ const heats=new Set(match.heats.map(h=>h.id));
+ for(const race of state.races){
+  if(!heats.has(race.heatId))continue;
+  if(race.approval){
+   (race.previousApprovals||=[]).push(race.approval);
+   delete race.approval;
+  }
+  if(race.status==='approved')race.status='pending';
+  race.heatId=null;
+  race.mapping={};
+ }
+ for(const record of [...(state.manualHeats||[]),...(state.corrections||[])]){
+  if(record.matchId===match.id && ['approved','pending'].includes(record.status))record.status='reset';
+ }
+ if(heats.has(state.armedHeatId))state.armedHeatId=null;
+ if(heats.has(state.activeHeatId))state.activeHeatId=match.heats[0]?.id||null;
+ delete match.deskDeletedAt;
+}
+export function needsMatchRecovery(state){
+ return state.matches.some(m=>m.deskDeletedAt || (state.tournament.id==='ddt2'&&!m.siteMatchId));
+}
+export function recoverMatches(state){
+ for(const match of [...state.matches]){
+  const local=state.tournament.id==='ddt2'&&!match.siteMatchId;
+  if(!local&&!match.deskDeletedAt)continue;
+  resetMatch(state,match);
+  if(local){
+   (state.retiredMatches||=[]).push(match);
+   state.matches=state.matches.filter(m=>m!==match);
+   if(match.heats.some(h=>h.id===state.activeHeatId))state.activeHeatId=null;
+  }
+  state.audit.push({at:stamp(),action:local?'match.retired':'match.restored',detail:{matchId:match.id,name:match.name}});
+ }
+}
 export function seriesRows(state,match){
  const automatic=state.races.filter(r=>r.status==='approved'&&r.approval.result.match.id===match.id).map(r=>({id:r.id,heatId:r.heatId,number:r.approval.result.heat.number,manual:false,rows:r.approval.result.rows}));
  const manual=(state.manualHeats||[]).filter(r=>r.status==='approved'&&r.matchId===match.id).map(r=>({id:r.id,heatId:r.heatId,number:heatFor(state,r.heatId).heat.number,manual:true,rows:r.rows,reason:r.reason,operator:r.approval.operator,approvedAt:r.approval.at}));
