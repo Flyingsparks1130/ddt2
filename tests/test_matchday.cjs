@@ -55,7 +55,8 @@ console.log('Matchday: published status, follow persistence, event isolation, mi
  assert.match(M.bracketTools(d),/<option value="a" selected>/);
  assert(!M.entrance(d,first).includes('<small>Winner</small>'),'Scores cannot imply a winner');
  assert.match(M.entrance(d,{...first,winner_id:'b'}),/<small>Winner<\/small>/);
- assert.match(M.entrance(d,unresolved),/Opponent to be confirmed/);
+ assert.match(M.entrance(d,unresolved),/Winner of NEXT/);
+ assert.equal((M.entrance(d,unresolved).match(/class="matchday-club-mark"/g)||[]).length,1);
  assert(!/undefined|NaN/.test(M.entrance(d,unresolved)));
  const classes=()=>({values:new Set(),toggle(k,v){v?this.values.add(k):this.values.delete(k);}});
  const cards=[first,next,unresolved].map((m,i)=>({dataset:{matchId:m.id},classList:classes(),
