@@ -144,3 +144,46 @@
 @media(max-width:850px){.matchday-build{grid-template-columns:minmax(170px,1fr) minmax(0,1fr)}.matchday-build-art .uma-art{height:430px}.matchday-build-info h3{font-size:40px}.matchday-picker button{max-width:none}}
 @media(max-width:600px){.matchday-build,.matchday-lineups.is-single .matchday-build{grid-template-columns:minmax(100px,.85fr) minmax(0,1.15fr);padding:16px 12px 24px;gap:10px;min-height:400px}.matchday-build-art .uma-art,.matchday-build-art .uma-art-placeholder,.matchday-lineups.is-single .matchday-build-art .uma-art{height:340px}.matchday-build-info{padding-top:8px}.matchday-build-info h3{font-size:29px}.matchday-picker{padding:12px;gap:6px}.matchday-picker button{flex-basis:75px}.matchday-entrance{padding:16px 16px 24px}.matchday-faceoff{gap:12px;grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr)}.matchday-contender,.matchday-contender:last-child{flex-direction:column;text-align:center;gap:12px;align-self:stretch}.matchday-contender>strong{font-size:48px}.matchday-contender a,.matchday-contender>div>span{font-size:29px}.matchday-club-mark{width:42px;height:50px;font-size:26px}.matchday-faceoff-vs{font-size:20px}.matchday-path-tools{padding:16px;gap:12px}.matchday-path-summary{margin-left:0;width:100%}.matchday-path-tools select{flex:1;min-width:0}.matchday-bracket-board{gap:36px}.season-bracket-scroll{padding:18px}.matchday-bracket-board .season-bracket-round{width:270px;flex-basis:270px}}
 @media(prefers-reduced-motion:reduce){.matchday-entrance.is-entering *{animation:none!important}.matchday-bracket-board .season-match{transition:none}}
+
+/* Tournament draw */
+.draw-toolbar {display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 16px}
+.draw-toolbar .matchday-path-tools {padding:0;border:0;background:none}
+.draw-toolbar .matchday-path-summary:empty {display:none}
+.draw-jumps {display:none}
+.draw-panel {border-radius:6px;background:linear-gradient(110deg,#21090d,#370b13 70%,#47121a)}
+.draw-panel .season-bracket-scroll {padding:clamp(14px,2vw,28px)}
+.draw-panel .matchday-bracket-board {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;gap:clamp(16px,2vw,32px)}
+.draw-panel .season-bracket-round {width:auto;min-width:0;gap:14px;justify-content:flex-start;scroll-margin-top:110px}
+.draw-panel .season-bracket-round header {padding:0 0 12px;border-bottom:1px solid #986b4e}
+.draw-panel .season-bracket-round h2 {font:700 clamp(20px,2vw,29px)/1.15 var(--display);color:#ffebbf}
+.draw-fixtures {display:grid;grid-auto-rows:1fr;align-items:center;gap:12px;flex:1}
+.draw-panel .season-match {border-radius:4px;border-color:#785046;background:linear-gradient(120deg,#38151a,#2c1015);color:var(--paper)}
+.draw-panel .season-match:is(:hover,:focus-visible),.draw-panel .season-match.is-club-path {border-color:var(--gold)}
+.draw-panel .season-match-meta {padding:7px 11px;font-size:10px;line-height:1.3;letter-spacing:.05em;border-color:#ffffff19;color:#e4c796;background:#16090c55}
+.draw-panel .season-match-sides {display:block}
+.draw-panel .season-match-sides>section {display:flex;align-items:center;justify-content:space-between;gap:5px;width:auto;min-height:37px;padding:6px 11px}
+.draw-panel .season-match-sides>section:last-child {border-top:1px solid #ffffff16}
+.draw-panel .season-team-label {display:flex;align-items:center;gap:7px;font-size:clamp(17px,1.6vw,22px);line-height:1.1;min-width:0;overflow-wrap:anywhere}
+.draw-panel .season-team-label .team-crest {width:20px;height:22px;margin:0}
+.draw-panel [data-club-id=""] .season-team-label {font:normal 13px/1.3 Arial,sans-serif;color:#dec5ba}
+.draw-panel .season-score {position:static;font:700 17px/1 var(--display);color:#e1c28c}
+.draw-panel .season-vs,.draw-panel .season-match-bottom,.draw-panel .season-mini-umas:empty {display:none}
+.draw-panel .season-mini-umas:not(:empty) {height:34px;max-width:26%;margin:0}
+.draw-panel .season-mini-umas .uma-art {height:38px;margin:0}
+.draw-panel .draw-connector {stroke:#b28b64;stroke-width:1.25;filter:none}
+.draw-panel .confirmed-path {stroke:#f2cf78;stroke-width:2.25}
+.draw-panel .season-bracket-round:last-child .season-match {border-color:#b89155;background:linear-gradient(120deg,#51262b,#34151a)}
+.draw-panel+.matchday-hub {margin-top:24px}
+@media (max-width:800px) {
+ .draw-jumps {display:flex;gap:4px;padding:4px;background:#23090d;border:1px solid var(--line);border-radius:4px;margin-bottom:12px}
+ .draw-jumps a {flex:1;text-align:center;padding:12px 0;color:var(--gold);font-weight:bold}
+ .draw-jumps a:is(:hover,:focus-visible) {background:#51212a}
+ .draw-panel .matchday-bracket-board {display:flex;flex-direction:column;gap:26px;min-width:0}
+ .draw-panel .season-bracket-round {flex:auto;width:100%;gap:10px}
+ .draw-panel .draw-fixtures {gap:8px}
+ .draw-panel .matchday-path-lines {display:none}
+ .draw-panel .season-match-sides>section {min-height:36px}
+ .draw-panel .season-team-label {font-size:19px}
+ .draw-toolbar .matchday-path-tools {flex-wrap:wrap;gap:8px}
+ .draw-toolbar .matchday-path-tools select {font-size:16px}
+}

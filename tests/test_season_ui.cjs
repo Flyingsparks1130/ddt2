@@ -4,12 +4,13 @@ const UI=require('../assets/ddt2-app.js');
 const data={index:require('../data/tournament-index.json'),stats:require('../data/tournament-statistics.json'),event:require('../config/event.json'),params:new URLSearchParams()};
 assert.deepEqual(data.index.teams.map(t=>t.name),['Dominator','Dominare','Domineer','Dominium','Domimoon','Dominance','Domimommy','Dominacion','Dominant H','Dominate','Dominion','Dominante']);assert.deepEqual(data.index.rounds.map(r=>r.name),['R1','R2/QF','SF','GF']);assert.equal(data.index.matches.length,11);
 for(const [key,view] of Object.entries(UI.views)){
- const html=view(data);assert(!/undefined|NaN/.test(html),key);assert(!/Dominator Player|Domichill|Quarterfinals|Semifinals|Trophy room|Award/i.test(html),key);
+ const html=view(data);assert(!/undefined|NaN/.test(html),key);assert(!/Dominator Player|Domichill|Trophy room|Award/i.test(html),key);
  assert(/<h1/.test(html),key);
  assert(!/\bclubs?\b/i.test(html.replace(/<[^>]*>/g,'')),key+' uses team wording');
 }
 assert.match(UI.views.home(data),/>6<\/strong>/);assert.match(UI.views.rules(data),/>6<\/strong>/);
-assert.match(UI.views.bracket(data),/Published/);
+assert.equal((UI.views.bracket(data).match(/data-match-id=/g)||[]).length,11);
+assert.match(UI.views.bracket(data),/Grand Final/);
 assert.match(UI.views.stats(data),/Team Standings/);assert.match(UI.views.stats(data),/No data recorded/);
 const teamList=UI.views.clubs(data);
 assert(!/Roster full|season-roster-status|5\/5/.test(teamList));

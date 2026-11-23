@@ -47,8 +47,8 @@ console.log('Matchday: published status, follow persistence, event isolation, mi
 
 // A club route includes actual published participants, never a projected winner.
 {
- const first=match('opening','in_progress',{scores:{a:99,b:0}}),next=match('next','ready',{round:'R2',participants:[teams[0],teams[2]]});
- const unresolved=match('unresolved','awaiting_opponent',{round:'R3',participants:[null,teams[2]]});
+ const first=match('opening','in_progress',{scores:{a:99,b:0}}),next=match('next','ready',{round:'R2',sources:[{winner_of:'opening'},{team:'c'}],participants:[teams[0],teams[2]]});
+ const unresolved=match('unresolved','awaiting_opponent',{round:'R3',sources:[{winner_of:'next'},{team:'c'}],participants:[null,teams[2]]});
  const d={...data,favorite:'a',index:{...data.index,rounds:[{id:'R1'},{id:'R2'},{id:'R3'}],matches:[unresolved,next,first]}};
  assert.deepEqual(M.pathMatches(d.index,'a').map(m=>m.id),['opening','next']);
  assert.deepEqual(M.pathMatches(d.index,'missing'),[]);
@@ -66,9 +66,9 @@ console.log('Matchday: published status, follow persistence, event isolation, mi
  const summary={innerHTML:''},root={querySelector:s=>s==='.matchday-bracket-board'?board:summary};
  M.paintBracket(root,d);
  assert(cards[0].classList.values.has('is-club-path'));assert(cards[1].classList.values.has('is-club-path'));assert(!cards[2].classList.values.has('is-club-path'));
- assert.equal((svg.innerHTML.match(/<path /g)||[]).length,1,'Only confirmed appearances are connected');
+ assert.equal((svg.innerHTML.match(/<path /g)||[]).length,2);assert.equal((svg.innerHTML.match(/confirmed-path/g)||[]).length,1);
  assert.match(summary.innerHTML,/2 published fixtures/);
- d.bracketClub='';M.paintBracket(root,d);assert.equal(svg.innerHTML,'');assert.equal(board.dataset.hasClub,'false');
+ d.bracketClub='';M.paintBracket(root,d);assert.equal((svg.innerHTML.match(/draw-connector/g)||[]).length,2);assert.equal(board.dataset.hasClub,'false');
  assert(cards.every(c=>!c.classList.values.has('is-club-path')),'All clubs clears the route');
  console.log('Club path: published appearances, round order, follow default, unknown opponents and no inferred advancement passed.');
 }

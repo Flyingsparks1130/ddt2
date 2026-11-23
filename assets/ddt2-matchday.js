@@ -120,7 +120,7 @@
   }
   const pathClub = d => d.index.teams.some(t => t.id === (d.bracketClub ?? d.favorite)) ? (d.bracketClub ?? d.favorite) : '';
   function pathSummary(d, id) {
-    if (!id) return 'Choose a team to highlight its fixtures.';
+    if (!id) return '';
     const matches = pathMatches(d.index,id), upcoming = matches.find(m => !ended(m) && ['ready','in_progress'].includes(m.status));
     return `${matches.length} published ${matches.length===1?'fixture':'fixtures'}${upcoming ? ` <a href="${esc(url(upcoming))}">${upcoming.status==='ready'?'Next match':'Latest results'} ↗</a>` : ''}`;
   }
@@ -136,21 +136,29 @@
     const cards = [...board.querySelectorAll('[data-match-id]')];
     cards.forEach(card => {
       card.classList.toggle('is-club-path',ids.has(card.dataset.matchId));
-      card.querySelectorAll('[data-club-id]').forEach(side => side.classList.toggle('is-path-team',side.dataset.clubId===id));
+      card.querySelectorAll('[data-club-id]').forEach(side => side.classList.toggle('is-path-team',Boolean(id) && side.dataset.clubId===id));
     });
     const summary=root.querySelector('.matchday-path-summary');
     if(summary) summary.innerHTML=pathSummary(d,id);
     const svg=board.querySelector('.matchday-path-lines'), origin=board.getBoundingClientRect();
     const stops=pathMatches(d.index,id).map(m=>cards.find(c=>c.dataset.matchId===m.id)).filter(Boolean);
     svg.setAttribute('viewBox',`0 0 ${board.scrollWidth} ${board.scrollHeight}`);
-    svg.innerHTML=stops.slice(1).map((card,i)=>{
-      const a=stops[i].getBoundingClientRect(),b=card.getBoundingClientRect();
-      // Only join published appearances in successive columns; no projected advancement.
-      if(b.left<a.right) return '';
-      const x=a.right-origin.left,y=a.top+a.height/2-origin.top,xx=b.left-origin.left,yy=b.top+b.height/2-origin.top,mid=(x+xx)/2;
-      return `<path d="M${x},${y} C${mid},${y} ${mid},${yy} ${xx},${yy}" pathLength="1"/>`;
-    }).join('');
-    if(animate && motion()) svg.querySelectorAll('path').forEach(p=>p.animate([{strokeDashoffset:1},{strokeDashoffset:0}],{duration:650,easing:ease}));
+    const positions = new Map(cards.map(card => [card.dataset.matchId, card.getBoundingClientRect()]));
+    const edges = [];
+    for (const match of d.index.matches) {
+      const to = positions.get(match.id);
+      if (!to) continue;
+      for (const source of match.sources || []) {
+        const from = positions.get(source.winner_of);
+        if (!from || to.left <= from.right) continue;
+        const x = from.right - origin.left, end = to.left - origin.left;
+        const y = from.top + from.height / 2 - origin.top, target = to.top + to.height / 2 - origin.top;
+        const active = ids.has(match.id) && ids.has(source.winner_of);
+        edges.push(`<path class="${active ? 'confirmed-path' : 'draw-connector'}" d="M${x},${y} H${(x + end)/2} V${target} H${end}" pathLength="1"/>`);
+      }
+    }
+    svg.innerHTML = edges.join('');
+    if(animate && motion()) svg.querySelectorAll('.confirmed-path').forEach(p=>p.animate([{strokeDashoffset:1},{strokeDashoffset:0}],{duration:650,easing:ease}));
     if(animate && id) {
       const focusMatch=pathMatches(d.index,id).find(m=>!ended(m)&&['ready','in_progress'].includes(m.status));
       (cards.find(c=>c.dataset.matchId===focusMatch?.id)||stops[0])?.scrollIntoView({behavior:motion()?'smooth':'instant',block:'nearest',inline:'center'});
