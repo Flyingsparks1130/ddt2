@@ -5,18 +5,19 @@ function fit(){$('canvas').style.transform=`scale(${Math.min(innerWidth/1920,inn
 addEventListener('resize',fit);fit();
 function crest(id){return /^[a-z0-9-]+$/.test(id||'')?`/assets/ddt2/crests/${id}.svg`:'/assets/ddt2/crown.svg';}
 function crestImage(id){const image=make('img');image.src=crest(id);image.alt='';image.onerror=()=>{image.onerror=null;image.src='/assets/ddt2/crown.svg';};return image;}
+function teamPortrait(team, onMissing) {
+ const card=team.representative?.card;
+ if(!Number.isInteger(card)||card<=0)return null;
+ const image=make('img');
+ image.alt=[team.representative.name,team.representative.outfit].filter(Boolean).join(' · ');
+ image.onerror=()=>onMissing(image);
+ image.src=`/assets/cards/${card}.png`;
+ return image;
+}
 function teamHeading(key,team){
  const portrait=$('portrait-'+key);
- const uma=team.representative;
- portrait.replaceChildren();
- portrait.hidden=!uma;
- if(uma){
-  const image=make('img');
-  image.alt=[uma.name,uma.outfit].filter(Boolean).join(' · ');
-  image.onerror=()=>{if(image.parentNode===portrait)portrait.hidden=true;};
-  image.src=`/assets/cards/${uma.card}.png`;
-  portrait.append(image);
- }
+ const image=teamPortrait(team,failed=>{if(failed.parentNode===portrait)portrait.hidden=true;});
+ portrait.replaceChildren(...(image?[image]:[]));portrait.hidden=!image;
  $('name-'+key).textContent=team.name;
  $('score-'+key).textContent=team.points;
 }
@@ -27,7 +28,7 @@ function show(data){const s=data.series;const next=JSON.stringify(data);if(signa
  $('event-title').textContent=data.tournament||'DOMINATOR DRAFT TOURNAMENT 2';$('round').textContent=s?`${s.stage} · ${s.round}`:'MATCHUP TO BE ANNOUNCED';$('status').textContent=s?.winnerId?`${s.teams.find(t=>t.id===s.winnerId)?.name||'TEAM'} · SERIES WINNER`:statusText[s?.status]||'SELECT A MATCHUP IN THE TOURNAMENT DESK';
  const teams=s?.teams||[{id:'',name:'Team A',points:0},{id:'',name:'Team B',points:0}];
  if(!scoreboard){for(const [i,key] of ['a','b'].entries()){const team=teams[i];teamHeading(key,team);$('players-'+key).replaceChildren(...(team.players||Array.from({length:5},()=>({name:'Player to be announced'}))).map((player,n)=>{const card=make('article',null,'player-card');card.style.setProperty('--delay',`${n*70}ms`);card.append(make('span',String(n+1).padStart(2,'0'),'slot-number'));if(player.uma)card.append(art(player.uma,'player-art'));else card.append(make('div',null,'empty-uma'));const info=make('div',null,'player-info');info.append(make('h2',player.name),make('div',player.uma?.name||'Uma to be announced','uma-name'),make('span',player.uma?.outfit||'','uma-outfit'));card.append(info);return card;}));}$('lineup-race').textContent=data.heat?`${data.heat.number===7?'TIEBREAKER':'RACE '+data.heat.number} LINEUP${data.heat.trackName?' · '+data.heat.trackName:''}`:'LINEUPS TO BE ANNOUNCED';}
- if(scoreboard){$('score-rows').replaceChildren(...teams.map(team=>{const tr=make('tr'),name=make('td',null,'team-cell'),group=make('div');group.append(crestImage(team.id),make('strong',team.name));name.append(group);tr.append(name);for(let n=1;n<=7;n++){const col=data.columns?.find(c=>c.number===n),cell=make('td',null,'score-cell'+(!col?.played?' unplayed':'')+(data.heat?.number===n?' current':''));cell.append(make('span',col?.played?col.cumulative[team.id]:'—','score-value'),make('span',col?.played?`+${col.points[team.id]} THIS RACE`:'','score-delta'));tr.append(cell);}const total=make('td',null,'score-total');total.append(make('span',team.points,'score-value'),make('span',s?.manualOverride?'OVERRIDE':'SERIES POINTS','score-delta'));tr.append(total);return tr;}));
+ if(scoreboard){$('score-rows').replaceChildren(...teams.map(team=>{const tr=make('tr'),name=make('td',null,'team-cell'),group=make('div');group.append(teamPortrait(team,image=>image.replaceWith(crestImage(team.id)))||crestImage(team.id),make('strong',team.name));name.append(group);tr.append(name);for(let n=1;n<=7;n++){const col=data.columns?.find(c=>c.number===n),cell=make('td',null,'score-cell'+(!col?.played?' unplayed':'')+(data.heat?.number===n?' current':''));cell.append(make('span',col?.played?col.cumulative[team.id]:'—','score-value'),make('span',col?.played?`+${col.points[team.id]} THIS RACE`:'','score-delta'));tr.append(cell);}const total=make('td',null,'score-total');total.append(make('span',team.points,'score-value'),make('span',s?.manualOverride?'OVERRIDE':'SERIES POINTS','score-delta'));tr.append(total);return tr;}));
   $('podium-title').textContent=data.previous?`${data.previous.number===7?'TIEBREAKER':'RACE '+data.previous.number} · TOP THREE`:'THE LAST RACE';$('podium-note').textContent=data.previous?(data.previous.manual?'MANUAL PODIUM · APPROVED':'APPROVED RESULT · POINTS FROM THIS RACE'):'Waiting for an approved result';
   $('podium').replaceChildren(...(data.previous?.podium||[null,null,null]).map((row,i)=>{const card=make('article',null,'finisher'+(!row?' placeholder':''));if(!row){card.textContent=['1ST · 4 POINTS','2ND · 2 POINTS','3RD · 1 POINT'][i];return card;}if(row.uma)card.append(art(row.uma));else card.append(make('span','?','no-art'));const info=make('div',null,'finish-info'),points=make('div','+'+row.points,'finish-points');points.append(make('small','POINTS'));info.append(make('span',['1ST PLACE','2ND PLACE','3RD PLACE'][row.rank-1],'finish-rank'),make('h3',row.playerName),make('div',row.team,'finish-team'),make('div',row.uma?`${row.uma.name} (${row.uma.outfit})`:'Uma not recorded','finish-uma'),points);card.append(info);return card;}));
   $('format').textContent=s?.manualOverride?'RACE COLUMNS SHOW RECORDED PROGRESSION':'FIRST TO 25 · 4 / 2 / 1';

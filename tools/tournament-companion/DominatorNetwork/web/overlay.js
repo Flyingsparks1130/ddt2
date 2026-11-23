@@ -18,11 +18,41 @@ function idleRows(total,row){
  if(idleCount!==total){clearRoster();idleCount=total;for(let i=0;i<total;i++){const el=document.createElement('div');el.className='empty-row';el.setAttribute('aria-hidden','true');el.innerHTML='<span class="empty-pos"></span><span class="empty-portrait"></span><span class="empty-name"></span><span class="empty-player"></span>';el.style.transform=`translateY(${i*row}px)`;$('runners').append(el);}}
  else [...$('runners').children].forEach((el,i)=>el.style.transform=`translateY(${i*row}px)`);
 }
+let broadcastSeries=null,headerKey='';
+function renderMatchup(label){
+ const teams=broadcastSeries?.teams||[];
+ const key=JSON.stringify([label,teams.map(t=>[t.id,t.name,t.representative?.card])]);
+ if(key===headerKey)return;
+ headerKey=key;
+ const heading=$('matchup');
+ heading.replaceChildren();
+ if(teams.length!==2){heading.textContent=label;return;}
+ for(const [i,team] of teams.entries()){
+  if(i)heading.append(document.createTextNode(' vs '));
+  const card=team.representative?.card;
+  if(Number.isInteger(card)&&card>0){
+   const img=document.createElement('img');img.className='team-portrait';
+   img.alt='';img.onerror=()=>img.remove();img.src='/assets/cards/'+card+'.png';heading.append(img);
+  }
+  heading.append(document.createTextNode(team.name));
+ }
+}
+async function pollMatchup(){
+ try{
+  const res=await fetch('/api/broadcast',{cache:'no-store',signal:AbortSignal.timeout(1500)});
+  // The standalone game bridge serves telemetry only.
+  if(res.status===404)return;
+  if(!res.ok)throw Error();
+  broadcastSeries=(await res.json()).series;
+ }catch{broadcastSeries=null;}
+ setTimeout(pollMatchup,2000);
+}
+if(!demo)pollMatchup();
 function header(cfg,frame){
  panel.style.left=panel.style.top=`${12*density}px`;panel.style.transform=`scale(${frame.scale*density})`;
  panel.classList.toggle('compact',!!cfg.compact);panel.style.setProperty('--motion',`${cfg.motion||320}ms`);panel.style.setProperty('--opacity',cfg.opacity??1);
  const title=cfg.tournament||'DOMINATOR NETWORK';$('title').textContent=title;$('title').title=title;
- $('matchup').textContent=cfg.matchup||'MATCHUP TBD';$('stage').textContent=cfg.stage||'TBD';$('round').textContent=cfg.round||'ROUND TBD';
+ renderMatchup(cfg.matchup||'MATCHUP TBD');$('stage').textContent=cfg.stage||'TBD';$('round').textContent=cfg.round||'ROUND TBD';
 }
 function draw(state,cfg,connected=true){
  const view=raceView(state,connected,lastCount);panel.hidden=!view.visible||cfg.enabled===false;if(panel.hidden)return;
