@@ -41,7 +41,7 @@ export function reservePlayers(selects){
  const used=new Set(selects.map(select=>select.value).filter(Boolean));
  for(const select of selects){
   for(const option of select.options){
-   option.disabled=!!option.value&&option.value!==select.value&&used.has(option.value);
+   option.hidden=option.disabled=!!option.value&&option.value!==select.value&&used.has(option.value);
   }
  }
 }

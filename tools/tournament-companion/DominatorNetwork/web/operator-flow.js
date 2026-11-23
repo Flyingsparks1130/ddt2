@@ -1,3 +1,4 @@
+import {setupScenes} from './desk-scenes.js';
 import {outfitCatalog} from './ddt2-ops.js';
 import './ops.js';
 const $=id=>document.getElementById(id),make=(tag,text,cls)=>{const e=document.createElement(tag);if(text!=null)e.textContent=text;if(cls)e.className=cls;return e;};
@@ -13,19 +14,20 @@ document.querySelector('header .eyebrow').textContent='DOMINATOR NETWORK';
 for(const a of document.querySelectorAll('.header-links a'))a.textContent=a.textContent.replace(' ↗','');
 const guide=make('section',null,'next-action');guide.innerHTML='<div><p class="eyebrow">YOUR NEXT STEP</p><h2 id="next-title">Connect your tournament</h2><p id="next-help"></p></div><button id="next-action">Open setup</button>';
 $('show').prepend(guide);
-const steps=make('div',null,'run-steps');steps.innerHTML='<span data-step="select">Choose a race</span><span data-step="capture">Capture</span><span data-step="review">Review & approve</span><span data-step="publish">Publish separately</span>';guide.after(steps);
+const steps=make('div',null,'run-steps');steps.innerHTML='<span data-step="select">Choose a race</span><span data-step="capture">Capture</span><span data-step="review">Review & approve</span><span data-step="publish">Export match</span>';guide.after(steps);
 const primary=document.querySelector('#show .primary'),aside=document.querySelector('#show aside');
 aside.prepend($('series-card'));
 const standings=$('player-standings').closest('section');$('history').append(details('Recorded-race standings',standings));
-const connection=details('Race capture & publishing connection',$('watch-form'),$('github-form'));connection.id='connection-settings';$('roster').prepend(connection);
+$('github-form').hidden=true;
+const connection=details('Race capture connection',$('watch-form'),$('github-form'));connection.id='connection-settings';$('roster').prepend(connection);
 $('roster').append(details('Other tournament formats',$('tournament-form'),$('match-form')));
 $('connection-forms').remove();
 const lineups=make('form',null,'card lineup-editor');lineups.id='lineup-form';
 lineups.innerHTML='<div class="card-heading"><h2 id="lineup-team-names">Match Lineup</h2><span class="badge" id="lineup-count"></span></div><datalist id="uma-options"></datalist><div id="lineup-players"></div><p id="lineup-help" class="help"></p><button id="save-lineup" disabled>Save lineup</button>';
 const lineupPanel=details('Match Lineup',lineups);
 $('match-select').closest('.card').after(lineupPanel);
-$('select-heat').textContent='Use this race';$('arm').textContent='Capture next race';$('disarm').textContent='Cancel capture';$('approve').textContent='Approve race result';$('review-outcome').textContent='Confirm series outcome';
-$('match-select').closest('.card').querySelector('h2').textContent='Choose the next race';$('sync').textContent='Use this race updates your broadcast scenes. Capture next race waits for one new horseACT file.';
+$('select-heat').textContent='Broadcast This Race';$('arm').textContent='Capture next race';$('disarm').textContent='Cancel capture';$('approve').textContent='Approve race result';$('review-outcome').textContent='Confirm series outcome';
+$('match-select').closest('.card').querySelector('h2').textContent='Choose the next race';$('sync').textContent='Broadcast This Race updates your broadcast scenes. Capture next race waits for one new horseACT file.';
 $('review-card').querySelector('h2').textContent='Check the result';$('review-empty').textContent='Choose a captured race above. Check its players and points after the broadcast finishes.';
 function fold(node,label){const wrapper=details(label);node.before(wrapper);wrapper.append(node);}
 fold($('publication-json'),'Inspect the export JSON');
@@ -35,7 +37,7 @@ function current(){return state?.matches.find(m=>m.heats.some(h=>h.id===state.ac
 function renderGuide(){const match=current(),series=state.series.find(s=>s.id===match?.id),pending=state.races.find(r=>r.status==='pending'&&r.heatId===state.activeHeatId);let title,help,action,label,step='select';
  if(state.tournament.id!=='ddt2'){title='Load the DDT2 teams';help='Import the published roster once, then choose your matchup.';label='Connect DDT2';action=()=>tab('roster');}
  else if(!state.matches.length){title='Load the bracket';help='Open Teams & connection to import the published matchups.';label='Open bracket';action=()=>tab('roster');}
- else if(!match){title='Choose the race you are running';help='Select a matchup and race below, then click Use this race.';label='Choose race';action=()=>$('match-select').focus();}
+ else if(!match){title='Choose the race you are running';help='Select a matchup and race below, then click Broadcast This Race.';label='Choose race';action=()=>$('match-select').focus();}
  else if(pending){step='review';title='A race is ready to review';help='Check the track and confirm the players. Approve the finishing order once the race ends on broadcast.';label='Review captured race';action=()=>{document.querySelector(`[data-race-id="${pending.id}"]`)?.click();$('review-card').scrollIntoView({behavior:'smooth',block:'start'});};}
  else if(series?.races.some(r=>r.heatId===state.activeHeatId)){
   const next=match.heats.find(h=>!series.races.some(r=>r.heatId===h.id));
@@ -49,7 +51,7 @@ function renderGuide(){const match=current(),series=state.series.find(s=>s.id===
     $('heat-select').value=next.id;$('select-heat').click();
    };
   }else{
-   step='publish';title=series.winnerId?'Series complete':'All races approved';help='Review the result before publishing to the site.';label='Review publication';action=()=>$('preview-publish').click();
+   step='publish';title=series.winnerId?'Series complete':'All races approved';help='Download the approved match for the organizer.';label='Export match ZIP';action=()=>$('export').click();
   }
  }
  else if(state.armedHeatId){step='capture';title='Waiting for the race file';help='Run the selected race. The next complete horseACT export will enter the review inbox. Nothing publishes automatically.';label='View matchup scene';action=()=>{tab('previews');$('preview-live').checked=true;$('preview-live').dispatchEvent(new Event('change'));document.querySelector('[data-url="/matchup?demo=1"]').click();};}
@@ -116,3 +118,5 @@ document.addEventListener('deskselection',()=>rebuildLineup());
 catalog=await outfitCatalog;
 $('uma-options').replaceChildren(...catalog.map(uma=>new Option(outfitLabel(uma),outfitLabel(uma))));
 try{render(await(await fetch('/api/ops/state')).json());rebuildLineup();}catch(e){note(e.message,true);}
+
+await setupScenes();

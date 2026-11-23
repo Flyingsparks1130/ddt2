@@ -28,3 +28,18 @@ test('the matchup lineup covers every race and keeps selections on the original 
  s.activeHeatId=other.heats[0].id;
  assert(broadcastState(s,{}).series.teams.every(team=>team.players.every(p=>!p.uma)));
 });
+
+
+test('spotlight reads recorded build fields and match ZIP preserves its single JSON payload',async()=>{
+ const {runnerBuild,packageZip}=await import('../DominatorNetwork/companion/production.mjs');
+ const {inflateRawSync,crc32}=await import('node:zlib');
+ const build=runnerBuild({raceParam:{rawSpeed:1104},responseHorseData:{proper_ground_turf:8,skill_array:[{skill_id:10071,level:2}]}});
+ assert.deepEqual(build.stats,{Speed:1104});assert.equal(build.aptitudes.Turf,'S');
+ assert.equal(build.skills[0].name,'Warning Shot!');assert.equal(build.skills[0].level,2);
+ assert.deepEqual(runnerBuild({}).aptitudes,{});
+ const bundle={schema:'fixture',build},zip=packageZip(bundle),nameLength=zip.readUInt16LE(26),start=30+nameLength;
+ assert.equal(zip.toString('utf8',30,start),'approved-results.json');
+ const plain=inflateRawSync(zip.subarray(start,start+zip.readUInt32LE(18)));
+ assert.deepEqual(JSON.parse(plain),bundle);assert.equal(crc32(plain),zip.readUInt32LE(14));
+ assert.equal(zip.readUInt32LE(zip.length-22),0x06054b50);
+});

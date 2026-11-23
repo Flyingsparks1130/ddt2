@@ -1,0 +1,8 @@
+
+#content{height:825px;padding-top:26px}#content h1{margin:0 0 22px;font-size:60px}#content table{width:100%;border-collapse:collapse;font-size:30px}
+#content th{color:#d6b9b2;font:600 19px sans-serif;text-align:left}#content td,#content th{padding:10px 20px;border-bottom:1px solid #49313a}
+#content tbody tr:nth-child(odd){background:#261821}#content tbody tr:first-child{color:#edce8e}
+#content .profile{display:grid;grid-template-columns:400px 1fr;gap:50px}.profile>img{width:100%;height:730px;object-fit:contain}
+.detail h2{font-size:33px;margin:24px 0 10px}.detail>p{font-size:28px;color:#dec2be}
+.values,.skills{display:flex;flex-wrap:wrap;gap:10px}.values span,.skills span{background:#30202a;border-top:2px solid #b95066;padding:12px 16px;font-size:26px}
+.values b{color:#f5d99a;margin-left:10px}.empty{font-size:34px;color:#c7b5b2}

@@ -52,7 +52,9 @@ function header(cfg,frame){
  panel.style.left=panel.style.top=`${12*density}px`;panel.style.transform=`scale(${frame.scale*density})`;
  panel.classList.toggle('compact',!!cfg.compact);panel.style.setProperty('--motion',`${cfg.motion||320}ms`);panel.style.setProperty('--opacity',cfg.opacity??1);
  const title=cfg.tournament||'DOMINATOR NETWORK';$('title').textContent=title;$('title').title=title;
- renderMatchup(cfg.matchup||'MATCHUP TBD');$('stage').textContent=cfg.stage||'TBD';$('round').textContent=cfg.round||'ROUND TBD';
+ renderMatchup(cfg.matchup||'MATCHUP TBD');const heat=String(cfg.round||'').match(/(?:heat|race)\s+(\d+)/i);
+ $('stage').textContent=heat?(Number(heat[1])===7?'Tiebreaker':'Race '+heat[1]):cfg.round||'Race pending';
+ $('round').hidden=true;
 }
 function draw(state,cfg,connected=true){
  const view=raceView(state,connected,lastCount);panel.hidden=!view.visible||cfg.enabled===false;if(panel.hidden)return;

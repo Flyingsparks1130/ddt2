@@ -84,3 +84,12 @@ footer{height:34px;padding:15px 11px 0;font-size:9px;color:#bb8b9d;position:rela
 
 
 #matchup .team-portrait{width:1.55em;height:1.55em;object-fit:contain;vertical-align:middle;margin-right:.25em}
+
+
+header{display:grid;align-content:start;grid-template-rows:auto auto auto auto;row-gap:5px;padding:12px 15px;height:150px}
+header h1{height:auto;line-height:1.03;margin:0;width:72%;font-size:21px}
+#matchup{justify-self:start;margin:0;max-width:100%;line-height:18px;padding:1px 6px}
+.round-line{margin:0}.round-line b{line-height:14px;padding:2px 6px}
+#live{left:auto;right:12px;bottom:8px;background:#201119;padding:2px 4px}
+.race-line{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:12px}
+.race-line span+span{border-left:1px solid #8a6575;padding-left:9px}.race-conditions{display:flex;gap:8px}

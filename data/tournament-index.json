@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-23T12:26:53Z",
+  "generated_at": "2026-11-23T18:02:35Z",
   "id": "ddt2",
   "name": "DDT2 · Dominator Draft Tournament",
   "published": true,
@@ -8,22 +8,22 @@
   "rounds": [
     {
       "id": "R1",
-      "name": "R1",
+      "name": "Round 1",
       "order": 1
     },
     {
       "id": "R2",
-      "name": "R2/QF",
+      "name": "Round 2 / Quarterfinals",
       "order": 2
     },
     {
       "id": "R3",
-      "name": "SF",
+      "name": "Semifinals",
       "order": 3
     },
     {
       "id": "R4",
-      "name": "GF",
+      "name": "Grand Final",
       "order": 4
     }
   ],

@@ -1,0 +1,57 @@
+name: Import approved match
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: ZIP from the DDT2 organizer import page (base64)
+        required: true
+        type: string
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: ddt2-match-imports
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.actor == github.repository_owner && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - name: Read the approved match ZIP
+        env:
+          PACKAGE: ${{ inputs.package }}
+        run: |
+          python - <<'PY'
+          import base64, io, os, pathlib, zipfile
+          with zipfile.ZipFile(io.BytesIO(base64.b64decode(os.environ['PACKAGE'], validate=True))) as archive:
+              if archive.namelist() != ['approved-results.json'] or archive.infolist()[0].file_size > 10_000_000:
+                  raise ValueError('Expected one approved match export')
+              pathlib.Path(os.environ['RUNNER_TEMP'], 'match.json').write_bytes(archive.read('approved-results.json'))
+          PY
+      - name: Merge match and validate site
+        run: |
+          node scripts/import_match.cjs "$RUNNER_TEMP/match.json"
+          node scripts/companion_bridge.cjs check
+          if git diff --quiet -- data/companion && ! git ls-files --others --exclude-standard data/companion | grep -q .; then
+            echo "UNCHANGED=true" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          python scripts/tournament_engine.py build
+          node scripts/build_public_stats.cjs
+          python scripts/tournament_engine.py site
+      - name: Publish approved data
+        if: env.UNCHANGED != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/companion/approved-results.json data/companion/bracket-slots.json data/tournament-statistics.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Import approved DDT2 match'
+            git push origin HEAD:main
+          fi
+          gh workflow run tournament-pages.yml --ref main

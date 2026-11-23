@@ -169,7 +169,7 @@
   }
   function entrance(d,m) {
     const round=d.index.rounds.find(r=>r.id===m.round);
-    return `<section class="matchday-entrance" data-match-entrance="${esc(m.round+':'+m.id)}" aria-label="Match score"><p class="matchday-entrance-round">${esc(round?.name || m.round)} <span>${esc(m.id.toUpperCase())}</span></p><div class="matchday-faceoff">${[0,1].map(i=>{
+    return `<section class="matchday-entrance" data-match-entrance="${esc(m.round+':'+m.id)}" aria-label="Match score"><p class="matchday-entrance-round">${esc(round?.name || m.round)} <span>${esc((m.slot?'Match '+m.slot:m.id.toUpperCase()))}</span></p><div class="matchday-faceoff">${[0,1].map(i=>{
       const t=m.participants?.[i];
       const source=m.sources?.[i]?.winner_of;
       const opponent=source?'Winner of '+String(source).toUpperCase():'Opponent to be confirmed';

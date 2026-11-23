@@ -5,10 +5,10 @@
   "published": true,
   "source_note": "Confirmed DDT2 single-elimination draw. Match times are pending.",
   "rounds": [
-    {"id": "R1", "name": "R1", "order": 1},
-    {"id": "R2", "name": "R2/QF", "order": 2},
-    {"id": "R3", "name": "SF", "order": 3},
-    {"id": "R4", "name": "GF", "order": 4}
+    {"id": "R1", "name": "Round 1", "order": 1},
+    {"id": "R2", "name": "Round 2 / Quarterfinals", "order": 2},
+    {"id": "R3", "name": "Semifinals", "order": 3},
+    {"id": "R4", "name": "Grand Final", "order": 4}
   ],
   "teams": [
     {
