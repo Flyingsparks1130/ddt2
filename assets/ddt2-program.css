@@ -156,3 +156,32 @@ body[data-section=club] .matchday-club-toolbar { padding-bottom: 16px; margin-bo
   .matchday-contender,.matchday-contender > div { min-width: 0; max-width: 100%; }
   .matchday-contender a,.matchday-contender > div > span { overflow-wrap: anywhere; font-size: clamp(18px,5.5vw,27px); }
 }
+
+/* The team's racewear is a backdrop on its profile. Keep the complete outfit in frame. */
+body:has(.team-art-heading) .season-character-stage { visibility: hidden; }
+.season-heading.team-art-heading {
+  isolation: isolate;
+  position: relative;
+  max-width: none;
+  min-height: clamp(225px, 25vw, 350px);
+  margin-bottom: 12px;
+}
+.team-art-heading h1 { position: relative; max-width: 56%; }
+.team-art-backdrop {
+  position: absolute;
+  inset: 0 2% 0 50%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 68%, #bb5f5540, transparent 68%);
+}
+.team-art-backdrop .uma-art, .team-art-backdrop img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.team-art-backdrop img { object-fit: contain; opacity: .92; }
+.team-art-backdrop .is-unavailable { visibility: hidden; }
+@media (max-width: 600px) {
+  .season-heading.team-art-heading { min-height: clamp(178px, 46vw, 240px); }
+  .team-art-backdrop { inset-inline: 53% 0; }
+}
