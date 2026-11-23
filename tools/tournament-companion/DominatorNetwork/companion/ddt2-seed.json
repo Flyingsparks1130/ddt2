@@ -2006,6 +2006,9 @@
     "event_status": "preparation"
   },
   "teamArtwork": {
+    "dominate": {
+      "card": 102003
+    },
     "dominion": {
       "card": 104603
     },
