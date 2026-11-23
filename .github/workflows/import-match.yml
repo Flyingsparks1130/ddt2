@@ -2,8 +2,8 @@ name: Import approved match
 on:
   workflow_dispatch:
     inputs:
-      package:
-        description: ZIP from the DDT2 organizer import page (base64)
+      filename:
+        description: Filename of the Helper ZIP uploaded to the imports folder
         required: true
         type: string
 permissions:
@@ -22,11 +22,16 @@ jobs:
           ref: main
       - name: Read the approved match ZIP
         env:
-          PACKAGE: ${{ inputs.package }}
+          FILENAME: ${{ inputs.filename }}
         run: |
           python - <<'PY'
-          import base64, io, os, pathlib, zipfile
-          with zipfile.ZipFile(io.BytesIO(base64.b64decode(os.environ['PACKAGE'], validate=True))) as archive:
+          import os, pathlib, zipfile
+          folder = pathlib.Path('imports').resolve()
+          name = os.environ['FILENAME']
+          path = (folder / name).resolve()
+          if path.parent != folder or name != path.name or path.suffix.lower() != '.zip':
+              raise ValueError('Choose a ZIP filename from imports/')
+          with zipfile.ZipFile(path) as archive:
               if archive.namelist() != ['approved-results.json'] or archive.infolist()[0].file_size > 10_000_000:
                   raise ValueError('Expected one approved match export')
               pathlib.Path(os.environ['RUNNER_TEMP'], 'match.json').write_bytes(archive.read('approved-results.json'))

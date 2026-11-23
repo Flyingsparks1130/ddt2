@@ -4308,5 +4308,9107 @@
     "category": "innate",
     "activate_lot": 0,
     "rarity": 1
+  },
+  "910211": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110341": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910341": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "900491": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202442": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "101001": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901001": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201383": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "1200041": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "1200051": {
+    "icon_id": 10041,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "110081": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910081": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110091": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910091": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100471": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900471": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110161": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910161": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110671": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910671": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110681": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910681": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202491": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202492": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "900991": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100651": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900651": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202511": {
+    "icon_id": 10054,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "1000013": {
+    "icon_id": 1010011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "110271": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910271": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110311": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910311": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201253": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201393": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202171": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100431": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900431": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "10661": {
+    "icon_id": 20013,
+    "rarity": 3,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900661": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100571": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900571": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100661": {
+    "icon_id": 20013,
+    "rarity": 4,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "202521": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202522": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202531": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202532": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210261": {
+    "icon_id": 20192,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210262": {
+    "icon_id": 20191,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210271": {
+    "icon_id": 20202,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210272": {
+    "icon_id": 20201,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210281": {
+    "icon_id": 20192,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210282": {
+    "icon_id": 20191,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100101111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100101211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100102111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100102211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100103111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100103211": {
+    "icon_id": 2010016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100201111": {
+    "icon_id": 20066,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100201211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100301111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100301211": {
+    "icon_id": 20056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100302111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100302211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100401211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100402111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100402211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100501211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100502111": {
+    "icon_id": 30056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "100502211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100601111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100601211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100602111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100602211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100701111": {
+    "icon_id": 20096,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100701211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100702111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100702211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100801111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100801211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100802111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100802211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100901111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100901211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100902111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100902211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101001111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101001211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101002111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101002211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101101111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "101101211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101102111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101102211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101201111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101201211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101301111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101301211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101302111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101302211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101303111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101303211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101401111": {
+    "icon_id": 20096,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101401211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101402111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101402211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101501211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101502111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101502211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101601111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101601211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101602111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101602211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101701111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "101701211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101702111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101702211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "101801111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "101801211": {
+    "icon_id": 20056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101802111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101802211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101901111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101901211": {
+    "icon_id": 20056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101902111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101902211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102001111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102001211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102002111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102002211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102101111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102101211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102102111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102102211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102201111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102201211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102202111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102202211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102301111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "102301211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "102302111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "102302211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102401111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "102401211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102402111": {
+    "icon_id": 30056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "102402211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "102501111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "102501211": {
+    "icon_id": 30056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "102601111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102601211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "102602111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102602211": {
+    "icon_id": 20066,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102701111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102701211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102702111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102702211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102801111": {
+    "icon_id": 20056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102801211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "102901111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102901211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103001111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103001211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "103002111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "103002211": {
+    "icon_id": 30056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "103101111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "103101211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103102111": {
+    "icon_id": 20066,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103102211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103201111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "103201211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "103301111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "103301211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103401211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "103402111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103402211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103501111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103501211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103502111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103502211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103601111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103601211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103701111": {
+    "icon_id": 20056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103701211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103702111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "103702211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103801111": {
+    "icon_id": 30076,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "103801211": {
+    "icon_id": 30016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "103802111": {
+    "icon_id": 30016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "103802211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103901111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103901211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104001111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "104001211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104002111": {
+    "icon_id": 30026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "104002211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "104101111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104101211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104201111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104201211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104301111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104301211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "104401111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "104401211": {
+    "icon_id": 30016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "104501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "104501211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "104502111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104502211": {
+    "icon_id": 30056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "104601111": {
+    "icon_id": 20056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104601211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104602111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104602211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104701111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "104701211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104801111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104801211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "104901111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104901211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "105001111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "105001211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105002111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105002211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105101111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105101211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105201111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "105201211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "105202111": {
+    "icon_id": 20056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105202211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105301111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105301211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105601111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "105601211": {
+    "icon_id": 10066,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "innate"
+  },
+  "105602111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105602211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105701111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105701211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105801111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105801211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "105802111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105802211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "105901111": {
+    "icon_id": 30056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "105901211": {
+    "icon_id": 10026,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "105902111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105902211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106001111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "106001211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "106002111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "106002211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106101111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106101211": {
+    "icon_id": 20096,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106102111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106102211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "106201111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "106201211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106401211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106501211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106601111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106601211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106701111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "106701211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "106702111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106702211": {
+    "icon_id": 30056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "106801111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106801211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106802111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106802211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106901111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106901211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "107101111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "107101211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107201111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107201211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107401111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "107401211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "107801111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107801211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108701111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108701211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109801111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109801211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "109901111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "109901211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110001111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110001211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100851": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900851": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202541": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202542": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202571": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108501211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100831": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900831": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202551": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202552": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202561": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202562": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108301111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108301211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110691": {
+    "icon_id": 20043,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910691": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110711": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910711": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202581": {
+    "icon_id": 20022,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "202582": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "106902111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106902211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107102111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "107102211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100761": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900761": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202591": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202592": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107601111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107601211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101051": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901051": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202601": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202602": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110501211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110411": {
+    "icon_id": 20043,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910411": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110621": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910621": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201602": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202612": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202622": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104102111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104102211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106202111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "106202211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101061": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901061": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202641": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202642": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "1300011": {
+    "icon_id": 1010021,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "1300021": {
+    "icon_id": 1010021,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "1300031": {
+    "icon_id": 1010031,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "1300041": {
+    "icon_id": 1010051,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "1300051": {
+    "icon_id": 1010031,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "1300061": {
+    "icon_id": 1010041,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "1300071": {
+    "icon_id": 1010051,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "110601111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "110601211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100841": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900841": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202651": {
+    "icon_id": 10012,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "202652": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "202661": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202662": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "1000014": {
+    "icon_id": 1010011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "108401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108401211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "110121": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910121": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110511": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910511": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201043": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101202111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101202211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105102111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105102211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100551": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900551": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105501211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110481": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910481": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110531": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910531": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "200184": {
+    "icon_id": 10012,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "202671": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202672": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202681": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202682": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104802111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104802211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105302111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105302211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101041": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901041": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110401111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110401211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100701": {
+    "icon_id": 20043,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900701": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107001111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107001211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110021": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910021": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110321": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910321": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202621": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202691": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202692": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202701": {
+    "icon_id": 10012,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "202702": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "100202111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100202211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103202111": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "103202211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100771": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900771": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202711": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202712": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202721": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202722": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202731": {
+    "icon_id": 10021,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "202732": {
+    "icon_id": 10021,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "202733": {
+    "icon_id": 10024,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "202734": {
+    "icon_id": 10022,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "210291": {
+    "icon_id": 20212,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210292": {
+    "icon_id": 20211,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107701111": {
+    "icon_id": 10036,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "107701211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120071": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920071": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "200164": {
+    "icon_id": 10032,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "100703111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100703211": {
+    "icon_id": 10036,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "120671": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920671": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106703111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106703211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100931": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900931": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201463": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "1000015": {
+    "icon_id": 1010011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "109301111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109301211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110361": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910361": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110831": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910831": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102001121": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103602111": {
+    "icon_id": 30056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "103602211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103702121": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "104401221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "104701121": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "108302111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108302211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100861": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900861": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202741": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202742": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108601111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108601211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110391": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910391": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120031": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920031": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202751": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202752": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100303111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100303211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "100601121": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "103401221": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "103902111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103902211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104601121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106701121": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "202761": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202762": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202772": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101071": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901071": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202792": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202802": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110701111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110701211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110641": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910641": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110741": {
+    "icon_id": 20023,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "recovery"
+  },
+  "910741": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "200204": {
+    "icon_id": 10012,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "100702221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101502121": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "102101121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105802121": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106402111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106402211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107402111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107402211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100881": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900881": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108801111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108801211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100891": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900891": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "1000016": {
+    "icon_id": 1010011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "108901111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108901211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120681": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920681": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202811": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202812": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202821": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202822": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "1400011": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "101201121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101901221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104301221": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "106803111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106803211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107201221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120601": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920601": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106003111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106003211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100911": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900911": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202831": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202832": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202842": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "109101111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109101211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110251": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910251": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110291": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910291": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "200973": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202851": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202852": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202861": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202862": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100502121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "102502111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102502211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102902111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102902211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103802121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "105101121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107801221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "10541": {
+    "icon_id": 20013,
+    "rarity": 3,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900541": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100541": {
+    "icon_id": 20013,
+    "rarity": 4,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "105401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105401211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "10631": {
+    "icon_id": 20013,
+    "rarity": 3,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900631": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100631": {
+    "icon_id": 20013,
+    "rarity": 4,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "101081": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901081": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202801": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202871": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202872": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202882": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202892": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "202902": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202912": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202922": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202932": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202942": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210301": {
+    "icon_id": 20222,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210302": {
+    "icon_id": 20221,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210311": {
+    "icon_id": 20231,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "407011": {
+    "icon_id": 20226,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "407021": {
+    "icon_id": 20226,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "407031": {
+    "icon_id": 20226,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "407041": {
+    "icon_id": 20226,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "407051": {
+    "icon_id": 20226,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "407061": {
+    "icon_id": 20226,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "407071": {
+    "icon_id": 20226,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106301111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "106301211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110801111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110801211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100801": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900801": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202951": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202952": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108001111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108001211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101091": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901091": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110901111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110901211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110651": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910651": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110851": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910851": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202961": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202962": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101402121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102202221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102901221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105902121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106502111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106502211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108502111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108502211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120351": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920351": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103503111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103503211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101021": {
+    "icon_id": 20023,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "recovery"
+  },
+  "901021": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "110201111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "110201211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110721": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910721": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120451": {
+    "icon_id": 20023,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "recovery"
+  },
+  "920451": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "202901": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202972": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102002121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104503111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104503211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106401221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107202111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107202211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110601121": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "120321": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920321": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202981": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202982": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103203111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103203211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100821": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900821": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108201111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108201211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110441": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910441": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120611": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920611": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201033": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202921": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202991": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "202992": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "202993": {
+    "icon_id": 10014,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "104402111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104402211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106103111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106103211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106202221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106901121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107001221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100941": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900941": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109401211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109401221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101191": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901191": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202791": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203001": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203002": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203011": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203012": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203021": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203022": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203031": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203032": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203041": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203042": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210321": {
+    "icon_id": 20242,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210322": {
+    "icon_id": 20241,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210331": {
+    "icon_id": 20251,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "408011": {
+    "icon_id": 20246,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "408021": {
+    "icon_id": 20256,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "408031": {
+    "icon_id": 20246,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "408041": {
+    "icon_id": 20246,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "408051": {
+    "icon_id": 20256,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "408061": {
+    "icon_id": 20256,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102801221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "111901111": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "111901211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120301": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920301": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201582": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203051": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203052": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103003111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103003211": {
+    "icon_id": 10026,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "101201": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901201": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201243": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203061": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203071": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112001111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112001211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110991": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910991": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120371": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920371": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "200034": {
+    "icon_id": 10022,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "202841": {
+    "icon_id": 20022,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "203081": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203082": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203092": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203093": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203102": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203103": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101902121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103703111": {
+    "icon_id": 10026,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "103703211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104602121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105202121": {
+    "icon_id": 20056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109902111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109902211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110001121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203111": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203112": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101161": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901161": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203121": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203122": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203132": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203141": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203142": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203151": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203152": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111601111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111601211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111601221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110471": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910471": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111051": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911051": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201313": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "201632": {
+    "icon_id": 10012,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "203161": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203162": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100501221": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "104001221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104702111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104702211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "105301121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110502111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110502211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "101101": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901101": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203171": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203172": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203181": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203182": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111001111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111001211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101211": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901211": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "300151": {
+    "icon_id": 10014,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "300161": {
+    "icon_id": 20045,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "112101111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112101211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110421": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910421": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120241": {
+    "icon_id": 20023,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "recovery"
+  },
+  "920241": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "203201": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203202": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203212": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203221": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203222": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203232": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "1000017": {
+    "icon_id": 1010011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "102102221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102403111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102403211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104202111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104202211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104802221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107102121": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101241": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901241": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203131": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203281": {
+    "icon_id": 10014,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "112401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112401211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120231": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920231": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202771": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203241": {
+    "icon_id": 20022,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "203242": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "203251": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203252": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203262": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203272": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203301": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203302": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203311": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203312": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210341": {
+    "icon_id": 20262,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210342": {
+    "icon_id": 20261,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "409011": {
+    "icon_id": 20276,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "409021": {
+    "icon_id": 20286,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "409031": {
+    "icon_id": 20266,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "409041": {
+    "icon_id": 20266,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "409051": {
+    "icon_id": 20266,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "409061": {
+    "icon_id": 20266,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100202121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102303111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102303211": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "105501121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105901121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "120501": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920501": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202881": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105003111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105003211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101111": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901111": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203322": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203331": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203332": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111101111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111101211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110331": {
+    "icon_id": 20043,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910331": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110771": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910771": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203341": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203342": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203351": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203352": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203362": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100303221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "103302111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103302211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103602121": {
+    "icon_id": 30056,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "107702111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "107702211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101171": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901171": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202931": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203411": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203412": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203421": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203422": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111701111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111701211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120111": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920111": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203371": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203372": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101103111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101103211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110571": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910571": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111041": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911041": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202971": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203381": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203382": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203391": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203392": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203402": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203432": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203442": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102602121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105702111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105702211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110402111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110402211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120041": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920041": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203452": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203461": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203462": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100403111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100403211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100791": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900791": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203471": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203472": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107901111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107901211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110781": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910781": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110871": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910871": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203481": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203482": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203491": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203492": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106103221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107802111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107802211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108702111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108702211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "10731": {
+    "icon_id": 20013,
+    "rarity": 3,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900731": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100731": {
+    "icon_id": 20013,
+    "rarity": 4,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "201323": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107301111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107301211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101151": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901151": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203101": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203431": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203501": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203502": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203511": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203512": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203522": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203532": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210351": {
+    "icon_id": 20292,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210352": {
+    "icon_id": 20291,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "410011": {
+    "icon_id": 20296,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "410021": {
+    "icon_id": 20296,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "410031": {
+    "icon_id": 20296,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "410041": {
+    "icon_id": 20306,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "410051": {
+    "icon_id": 20306,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "410061": {
+    "icon_id": 20296,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102902221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105102221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111501111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111501211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111501221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101311": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901311": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203541": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203542": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203552": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203562": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113101111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113101211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100961": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900961": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109601111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109601211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110841": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910841": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111071": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911071": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "200024": {
+    "icon_id": 10012,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "201183": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203091": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203571": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203572": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203582": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "1400021": {
+    "icon_id": 20043,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "103402221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108402111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108402211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110702111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110702211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110701": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910701": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203591": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203592": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107002111": {
+    "icon_id": 10036,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "107002211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101271": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901271": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112701111": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "112701211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110981": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910981": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120461": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920461": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202254": {
+    "icon_id": 10012,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "203601": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203602": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203611": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203612": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104603111": {
+    "icon_id": 20066,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104603211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109802111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109802211": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "109901221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100901": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900901": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109001111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109001211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101321": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901321": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203621": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203622": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203631": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203632": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113201111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113201211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110861": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910861": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111101": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911101": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106003221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108602111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108602211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111002111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111002211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101331": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901331": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203441": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203642": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113301111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113301211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120401": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920401": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203361": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203651": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203652": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203661": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203662": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203671": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203672": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210361": {
+    "icon_id": 20312,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210362": {
+    "icon_id": 20311,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "411011": {
+    "icon_id": 20316,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "411021": {
+    "icon_id": 20316,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "411031": {
+    "icon_id": 20316,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "411041": {
+    "icon_id": 20316,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "411051": {
+    "icon_id": 20316,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "411061": {
+    "icon_id": 20316,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101202221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102702221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104003111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104003211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120311": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920311": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203681": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203682": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103103111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103103211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101131": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901131": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111091": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "92111091": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203691": {
+    "icon_id": 10054,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "203721": {
+    "icon_id": 2010010,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110902111": {
+    "icon_id": 2010016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110902211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111301111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111301211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110881": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910881": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110891": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910891": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203702": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203711": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203712": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203731": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203732": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203741": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203742": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203751": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203752": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203762": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203772": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100902121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "108802111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108802211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108902111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108902211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110201221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110911": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910911": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109102111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109102211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100971": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900971": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203781": {
+    "icon_id": 10061,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "203791": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203792": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203801": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203802": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203812": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "203822": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203831": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203832": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203841": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203842": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203851": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203852": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203861": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203862": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109701111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109701211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109701221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110931": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910931": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111061": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911061": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203761": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203871": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203872": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203881": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203882": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203892": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203902": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102201121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "103902121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104402121": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109302111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109302211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110602111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110602211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100811": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900811": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203911": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203912": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203922": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203972": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203982": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108101111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108101211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100951": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900951": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203931": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203932": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109501211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110281": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910281": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110551": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910551": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203941": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203942": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203951": {
+    "icon_id": 10052,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "203952": {
+    "icon_id": 10051,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "203961": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203962": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102802111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102802211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105502111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105502211": {
+    "icon_id": 10056,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "108501121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120481": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920481": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203991": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203992": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104803111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104803211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100921": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900921": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204051": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204052": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109201111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109201211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110801": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910801": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203981": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204001": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204002": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210371": {
+    "icon_id": 20322,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210372": {
+    "icon_id": 20321,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "412011": {
+    "icon_id": 20326,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "412021": {
+    "icon_id": 20336,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "412031": {
+    "icon_id": 20326,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "412041": {
+    "icon_id": 20326,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "412051": {
+    "icon_id": 20326,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100401221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108002111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108002211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111001": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911001": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204092": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204101": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204102": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204111": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204112": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110002111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110002211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101141": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901141": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204061": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204062": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111401211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110491": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910491": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111191": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911191": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202891": {
+    "icon_id": 20022,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "204012": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101802221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104902111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104902211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109301121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111902111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111902211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120061": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920061": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204022": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204082": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100603111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100603211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100603221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101351": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "91101351": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204121": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204122": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113501211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113501221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110631": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910631": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110761": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910761": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204031": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204032": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204041": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204042": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204071": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204072": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204141": {
+    "icon_id": 10022,
+    "rarity": 2,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "204142": {
+    "icon_id": 10021,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "204162": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101701121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "debuff"
+  },
+  "105602121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106302111": {
+    "icon_id": 10066,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "106302211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107602111": {
+    "icon_id": 10026,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "107602211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111241": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911241": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203231": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204131": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204132": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112402111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112402211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101371": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901371": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "202611": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204021": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113701111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113701211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111021": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911021": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120101": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920101": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203701": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204151": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204152": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204161": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204172": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204202": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "100402121": {
+    "icon_id": 20026,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "101003111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101003211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110202111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110202211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110901121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "11031": {
+    "icon_id": 20013,
+    "rarity": 3,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901031": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101031": {
+    "icon_id": 20013,
+    "rarity": 4,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "204081": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110301111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110301211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101291": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901291": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204181": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204182": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204191": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204192": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204211": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204212": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204222": {
+    "icon_id": 20351,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204232": {
+    "icon_id": 10021,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "204233": {
+    "icon_id": 10021,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "204234": {
+    "icon_id": 10024,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "204242": {
+    "icon_id": 10021,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "204243": {
+    "icon_id": 10021,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "204244": {
+    "icon_id": 10024,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "210381": {
+    "icon_id": 20332,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210382": {
+    "icon_id": 20331,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "413011": {
+    "icon_id": 20346,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "413021": {
+    "icon_id": 20346,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "413031": {
+    "icon_id": 20346,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "413041": {
+    "icon_id": 20346,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "413051": {
+    "icon_id": 20346,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105701221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106801221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112901111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112901211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112901221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111321": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911321": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204301": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204302": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113202111": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113202211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101431": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901431": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204251": {
+    "icon_id": 10044,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "114301111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "114301211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110821": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910821": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120411": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920411": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204262": {
+    "icon_id": 2010011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204312": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204322": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100101311": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104103111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104103211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108202111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "108202211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109802221": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "101301": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901301": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204271": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204272": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204282": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204311": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204401": {
+    "icon_id": 10034,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "113001111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113001211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101181": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901181": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204421": {
+    "icon_id": 10034,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "111801111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111801211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110941": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910941": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120051": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920051": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203401": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204342": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204351": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204352": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204362": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204372": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100503111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100503211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109402111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "109402211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112001121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101121": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901121": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204331": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204332": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204412": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111201111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111201211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101361": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901361": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203321": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204452": {
+    "icon_id": 2010011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204453": {
+    "icon_id": 2010011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113601111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113601211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111161": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911161": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120251": {
+    "icon_id": 20023,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "recovery"
+  },
+  "920251": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "203561": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204171": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204292": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "204293": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "204381": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204382": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204431": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204432": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204442": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204462": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100301311": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102503111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102503211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107002121": {
+    "icon_id": 10036,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "111602111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111602211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101341": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901341": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "113401211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120771": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920771": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "203641": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204391": {
+    "icon_id": 20022,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "204392": {
+    "icon_id": 20021,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "recovery"
+  },
+  "204472": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210391": {
+    "icon_id": 20362,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210392": {
+    "icon_id": 20361,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "414011": {
+    "icon_id": 20366,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "414021": {
+    "icon_id": 20376,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "414031": {
+    "icon_id": 20366,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "414041": {
+    "icon_id": 20366,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "414051": {
+    "icon_id": 20366,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "414061": {
+    "icon_id": 20366,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107703111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107703211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111701121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120221": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920221": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102203111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102203211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101451": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901451": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204581": {
+    "icon_id": 20064,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "114501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "114501211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120201": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920201": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120741": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920741": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204481": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204482": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204492": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204501": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204502": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204541": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204542": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204552": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204562": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "100201311": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "102003111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102003211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "105003221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107403111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107403211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111131": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911131": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111302111": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "111302211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101411": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "91101411": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204511": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204512": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204521": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204522": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204531": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204532": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204571": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204572": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204591": {
+    "icon_id": 10054,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "204601": {
+    "icon_id": 20014,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "204611": {
+    "icon_id": 10054,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "debuff"
+  },
+  "204622": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204632": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204642": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204701": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204702": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "114101111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "114101211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "114101221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110431": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "910431": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111271": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911271": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204661": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204662": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204671": {
+    "icon_id": 20042,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204672": {
+    "icon_id": 20041,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204682": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104302111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104302211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "106902221": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112702111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "112702211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101491": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901491": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204691": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204692": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204711": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204712": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101401311": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104901311": {
+    "icon_id": 10016,
+    "rarity": 6,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "114901111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "114901211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101441": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "901441": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "114401111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "114401211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120171": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920171": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120181": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920181": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204721": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204722": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204792": {
+    "icon_id": 10011,
+    "rarity": 1,
+    "activate_lot": 0,
+    "category": "innate"
+  },
+  "101301311": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101703111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101703211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101803111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "101803211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110602121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "111081": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "911081": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204801": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204802": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110802111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "110802211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120091": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920091": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204731": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204732": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204741": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204742": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204751": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204752": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204762": {
+    "icon_id": 20351,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204811": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204812": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204892": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210401": {
+    "icon_id": 20382,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "210402": {
+    "icon_id": 20381,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "415011": {
+    "icon_id": 20386,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "415021": {
+    "icon_id": 20386,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "415031": {
+    "icon_id": 20386,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "415041": {
+    "icon_id": 20386,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "415051": {
+    "icon_id": 20386,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "415061": {
+    "icon_id": 20386,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100903111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100903211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "104503121": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "120291": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "920291": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204771": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204772": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102903111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "102903211": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "100751": {
+    "icon_id": 20013,
+    "rarity": 5,
+    "activate_lot": 0,
+    "category": "regular"
+  },
+  "900751": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204911": {
+    "icon_id": 20012,
+    "rarity": 2,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "204912": {
+    "icon_id": 20011,
+    "rarity": 1,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107501111": {
+    "icon_id": 20016,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107501211": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
+  },
+  "107501221": {
+    "icon_id": 20046,
+    "rarity": 6,
+    "activate_lot": 1,
+    "category": "regular"
   }
 }

@@ -77,10 +77,11 @@ export function allSeries(state){return state.matches.filter(m=>m.teamIds?.lengt
 export function checkSeriesRace(state,race,problems){
  const {match,heat}=heatFor(state,race.heatId);if(!match.teamIds?.length)return;
  const summary=seriesSummary(state,match);
- if(summary.winnerId)problems.push('This series is confirmed. Approve a reopen correction before adding a race.');
- if(summary.leaderId)problems.push('A team has reached 25. Confirm the outcome or correct the scores before adding a race.');
- if(summary.races.some(r=>r.heatId===race.heatId))problems.push('This race slot already has an approved result. Void it before a replacement.');
- if(heat.number!==summary.raceCount+1||!summary.consecutive)problems.push('Approve races in order within the series.');
+ const editing=summary.races.some(r=>r.id===race.id&&r.heatId===race.heatId);
+ if(!editing&&summary.winnerId)problems.push('This series is confirmed. Approve a reopen correction before adding a race.');
+ if(!editing&&(summary.leaderId))problems.push('A team has reached 25. Confirm the outcome or correct the scores before adding a race.');
+ if(!editing&&(summary.races.some(r=>r.heatId===race.heatId)))problems.push('This race slot already has an approved result. Void it before a replacement.');
+ if(!editing&&(heat.number!==summary.raceCount+1||!summary.consecutive))problems.push('Approve races in order within the series.');
  if(race.runners&&race.runners.length!==10)problems.push('DDT2 needs ten runners, one per registered player.');
  if(race.runners){const mapped=race.runners.map(r=>race.mapping?.[r.index]||state.tournament.players.find(p=>p.gameName&&p.gameName===r.trainer&&match.playerIds.includes(p.id))?.id);if(new Set(mapped.filter(Boolean)).size!==10)problems.push('Assign each of the ten runners to a different registered player.');}
  const expected=heat.expected||{};
@@ -98,7 +99,13 @@ export function correctionReview(state,correction){return {correction,hash:diges
 export function approveCorrection(state,body){const c=state.corrections?.find(c=>c.id===body.correctionId);requireThat(c?.status==='pending','Choose a pending correction.');const review=correctionReview(state,c);requireThat(body.reviewHash===review.hash&&c.baseKey===review.current.scoreKey,'Scores changed. Discard and review a new correction.',409);requireThat(body.confirm===true,'Confirm the correction after checking both teams.');c.status='approved';c.approval={operator:text(body.operator,'Approving operator',80),at:stamp()};return c;}
 export function draftManualHeat(state,body){
  const {match,heat}=heatFor(state,body.heatId);requireThat(match.teamIds?.length===2,'Select a DDT2 series race.');requireThat(Array.isArray(body.podium)&&body.podium.length===3&&new Set(body.podium).size===3&&body.podium.every(pid=>match.playerIds.includes(pid)),'Select three different registered finishers.');
- const manual={id:id(),matchId:match.id,heatId:heat.id,status:'pending',reason:text(body.reason,'Manual result reason',500),trackName:String(body.trackName||'').trim().slice(0,120),rows:body.podium.map((pid,i)=>{const p=state.tournament.players.find(p=>p.id===pid);return {rank:i+1,playerId:p.id,playerName:p.name,teamId:p.teamId,team:p.team,points:[4,2,1][i]};}),createdAt:stamp()};(state.manualHeats||=[]).push(manual);return manual;
+ const prior=body.replaces?state.manualHeats?.find(r=>r.id===body.replaces&&r.status==='approved'&&r.heatId===heat.id):null;
+ requireThat(!body.replaces||prior,'This podium has changed. Open it again.',409);
+ const manual={id:id(),...(prior?{replaces:prior.id,previousHash:digest(prior)}:{}),matchId:match.id,heatId:heat.id,status:'pending',reason:text(body.reason,'Manual result reason',500),trackName:String(body.trackName||'').trim().slice(0,120),rows:body.podium.map((pid,i)=>{const p=state.tournament.players.find(p=>p.id===pid);return {rank:i+1,playerId:p.id,playerName:p.name,teamId:p.teamId,team:p.team,points:[4,2,1][i]};}),createdAt:stamp()};(state.manualHeats||=[]).push(manual);return manual;
 }
-export function manualReview(state,manual){const problems=[];checkSeriesRace(state,{heatId:manual.heatId},problems);return {manual,problems,hash:digest({manual,revision:state.revision})};}
-export function approveManual(state,body){const m=state.manualHeats?.find(m=>m.id===body.manualId);requireThat(m?.status==='pending','Choose a pending manual result.');const review=manualReview(state,m);requireThat(body.reviewHash===review.hash,'Manual result changed. Review it again.',409);requireThat(review.problems.length===0,review.problems.join(' '));requireThat(body.broadcastFinished===true,'Confirm that this race has finished on the broadcast.');m.status='approved';m.approval={operator:text(body.operator,'Approving operator',80),at:stamp()};return m;}
+export function manualReview(state,manual){const problems=[];checkSeriesRace(state,{heatId:manual.heatId,id:manual.replaces},problems);if(manual.replaces&&digest(state.manualHeats.find(r=>r.id===manual.replaces)||null)!==manual.previousHash)problems.push('Podium changed. Review the latest version.');return {manual,problems,hash:digest({manual,revision:state.revision})};}
+export function approveManual(state,body){const m=state.manualHeats?.find(m=>m.id===body.manualId);requireThat(m?.status==='pending','Choose a pending manual result.');const review=manualReview(state,m);requireThat(body.reviewHash===review.hash,'Manual result changed. Review it again.',409);requireThat(review.problems.length===0,review.problems.join(' '));requireThat(body.broadcastFinished===true,'Confirm that this race has finished on the broadcast.');m.status='approved';m.approval={operator:text(body.operator,'Approving operator',80),at:stamp()};if(m.replaces){
+  const previous=state.manualHeats.find(r=>r.id===m.replaces);
+  Object.assign(previous,{rows:m.rows,reason:m.reason,trackName:m.trackName,approval:m.approval});
+  m.status='applied';return previous;
+ }return m;}

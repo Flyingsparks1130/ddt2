@@ -1,6 +1,8 @@
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {crc32,deflateRawSync} from 'node:zlib';
+import skillIcons from '../assets/skill-icons.json' with {type:'json'};
+import {representativeCard} from './ddt2.mjs';
 import skills from '../assets/skill-names.json' with {type:'json'};
 import {heatFor,requireThat,totals} from './domain.mjs';
 import {seriesRows} from './series.mjs';
@@ -41,7 +43,11 @@ export function runnerBuild(h={}){
   const grade=r['proper_'+key]??c[camel];if(Number.isInteger(grade)&&grade>=1&&grade<=8)aptitudes[label]='GFEDCBAS'[grade-1];
  }
  const list=r.skill_array??c.skillArray??[];
- return {stats,aptitudes,support:(c.supportCardArray||[]).map(s=>({id:s.supportCardId??s.support_card_id??s.id})).filter(s=>Number.isInteger(s.id)),skills:list.map(s=>({id:s.skill_id??s.skillId,name:skills[s.skill_id??s.skillId]||s.name||('Skill '+(s.skill_id??s.skillId)),level:s.level??s.skill_level??null}))};
+ return {stats,aptitudes,support:(c.supportCardArray||[]).map(s=>({id:s.supportCardId??s.support_card_id??s.id})).filter(s=>Number.isInteger(s.id)),skills:list.map(s=>{
+  const id=s.skill_id??s.skillId;
+  const [icon,rarity]=skillIcons[id]||[];
+  return {id,name:skills[id]||s.name||('Skill '+id),level:s.level??s.skill_level??null,icon,rarity};
+ })};
 }
 
 export function finalized(state,heatId){
@@ -50,17 +56,17 @@ export function finalized(state,heatId){
  const race=seriesRows(state,match).find(r=>r.heatId===heatId);
  if(!race)return null;
  return {match:match.name,round:roundName(match),race:raceName(heat.number),manual:race.manual,
-  rows:race.rows.map(r=>({...r,uma:umaFor(r.card||match.lineup?.[r.playerId],r.name)}))};
+  rows:race.rows.map(r=>({...r,uma:umaFor(r.card||match.lineup?.[r.playerId],r.name),
+   teamCard:representativeCard(state.tournament.teams?.find(t=>t.id===r.teamId)||{},state.tournament.id)}))};
 }
 export async function highlight(state,directory,choice){
  if(!choice)return null;
  const race=state.races.find(r=>r.id===choice.raceId&&r.status!=='void');
  const row=race?.runners.find(r=>r.index===choice.index);
- if(!race||!row||!race.heatId||!/^([0-9a-f]{64})$/.test(race.fingerprint))return null;
- const {match,heat}=heatFor(state,race.heatId);
+ if(!race||!row||!/^([0-9a-f]{64})$/.test(race.fingerprint))return null;
  const raw=JSON.parse(await readFile(path.join(directory,'raw',race.fingerprint+'.json'),'utf8'));
  const player=state.tournament.players.find(p=>p.id===race.mapping?.[row.index]);
- return {match:match.name,round:roundName(match),race:raceName(heat.number),player:player?.name||row.trainer,team:player?.team,
+ return {player:player?.name||row.trainer,team:player?.team,
   uma:umaFor(row.card,row.name)||{name:row.name},...runnerBuild(raw.raceHorse[row.index])};
 }
 

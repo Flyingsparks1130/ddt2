@@ -1,4 +1,4 @@
-import {courseCatalogReady,syncDraftedTracks,outfitCatalog} from './ddt2-ops.js';
+import {courseCatalogReady,outfitCatalog} from './ddt2-ops.js';
 import {raceLabels,suggestedPlayer,reservePlayers} from './model.js';
 const $=id=>document.getElementById(id);
 let state=null,reviewData=null,selectedRace=null,publication=null,busy=false,setupLoaded=false,lastRenderedRevision=-1;
@@ -26,7 +26,7 @@ $('reset-match').addEventListener('click',()=>{
 function updateHeats(){const old=$('heat-select').value;const match=state.matches.find(m=>m.id===$('match-select').value);$('heat-select').replaceChildren();for(const h of match?.heats||[]){const approved=state.races.some(r=>r.heatId===h.id&&r.status==='approved')||(state.manualHeats||[]).some(r=>r.heatId===h.id&&r.status==='approved');const o=node('option',`${h.number===7?'Tiebreaker':'Race '+h.number}${approved?' · Approved':''}`);o.value=h.id;$('heat-select').append(o);}if(match?.heats.some(h=>h.id===old))$('heat-select').value=old;else if(match?.heats.some(h=>h.id===state.activeHeatId))$('heat-select').value=state.activeHeatId;$('select-heat').disabled=!match;$('reset-match').disabled=!state.canResetMatch||!match||match.heats.some(h=>h.id===state.armedHeatId);syncDeskSelection();}
 function syncDeskSelection(){
  const match=state.matches.find(m=>m.id===$('match-select').value);
- syncDraftedTracks(match,$('heat-select').value);
+
  document.dispatchEvent(new Event('deskselection'));
 }
 $('heat-select').addEventListener('change',syncDeskSelection);
@@ -60,11 +60,11 @@ function reviewRoster(){
 }
 function renderReviewRows(){
  const {race,review}=reviewData,{match,players,heatId,lineup}=reviewRoster();
- const pending=race.status==='pending';
+ const pending=race.status!=='void';
  $('race-rows').replaceChildren();
  const chosen=new Map(),reserved=new Set(),suggestions=new Map();
  for(const row of review.rows){
-  const saved=heatId===race.heatId&&race.mapping?.[row.index];
+  const saved=heatId===race.heatId&&(race.mapping?.[row.index]||row.playerId);
   if(players.some(p=>p.id===saved)&&!reserved.has(saved)){
    chosen.set(row.index,saved);reserved.add(saved);
   }else{
@@ -94,7 +94,7 @@ function renderReviewRows(){
 }
 function reviewStatus(){
  const {race,review}=reviewData,{match,players,heatId,lineup}=reviewRoster();
- const pending=race.status==='pending',ddt=state.tournament.id==='ddt2';
+ const pending=race.status!=='void',ddt=state.tournament.id==='ddt2';
  const selectors=[...$('race-rows').querySelectorAll('select')];
  reservePlayers(selectors);
  const picked=selectors.filter(s=>s.value),unique=new Set(picked.map(s=>s.value)).size;
@@ -110,13 +110,17 @@ function reviewStatus(){
   else status=picked.length+' of '+selectors.length+' players selected. '+(complete?'Check the names, then confirm.':'Choose a player for each remaining gate.');
  }
  $('roster-status').textContent=status;
- $('save-mapping').hidden=!pending;$('save-mapping').disabled=!match||(ddt&&!complete)||saved;
+ $('save-mapping').hidden=!pending||race.status==='approved';$('save-mapping').disabled=!match||(ddt&&!complete)||saved;
  $('save-mapping').textContent=ddt?'Confirm players':'Save participant assignments';
  $('assign').hidden=ddt||!pending;$('assign').disabled=!match||heatId===race.heatId;
  const problems=review.problems.filter(p=>!pending||(!p.startsWith('Assign gate ')&&!p.startsWith('Missing participant:')&&p!=='Assign this race to a match and heat.'&&p!=='DDT2 needs ten runners, one per registered player.'&&p!=='Assign each of the ten runners to a different registered player.'));
  $('review-problems').replaceChildren(...(heatId===race.heatId?problems:[]).map(p=>node('li',p)));
  if(race.voidReason)$('review-problems').append(node('li','Voided: '+race.voidReason));
  const reviewedMapping=selectors.every((select,i)=>select.value===(review.rows[i]?.playerId||''));
+ if(race.status==='approved'){
+  $('roster-status').textContent='Check the assignments and confirm to replace this result.';
+  return complete;
+ }
  return pending&&(ddt?saved:heatId===race.heatId&&reviewedMapping)&&review.canApprove;
 }
 async function openReview(raceId){
@@ -127,10 +131,11 @@ async function openReview(raceId){
  const {race,review}=detail,track=review.track;
  const course=track.name?.trim()||courses.find(c=>c.id===Number(track.id))?.name;
  const labels=raceLabels({...track,track:course,trackId:track.id});
+ $('approve').textContent=race.status==='approved'?'Save race correction':'Approve race result';
  $('review-title').textContent=race.filename;$('review-status').textContent=race.status;
  $('review-track').textContent=[labels.track,labels.distance,labels.surface,track.going&&labels.going,track.weather&&labels.weather,track.season&&labels.season].filter(Boolean).join(' · ');
  $('review-empty').hidden=true;$('review-content').hidden=false;
- const pending=race.status==='pending';
+ const pending=race.status!=='void';
  heatOptions($('assign-heat'),race.heatId||(pending&&($('heat-select').value||state.activeHeatId)));
  $('assign-heat').disabled=!pending;$('approval-form').hidden=!pending;
  $('void').disabled=race.status==='void';$('void-reason').value='';$('broadcast-finished').checked=false;$('approve').disabled=true;
@@ -162,7 +167,9 @@ $('save-mapping').addEventListener('click',()=>action(async()=>{
 function approvalReady(){$('approve').disabled=!reviewData||!reviewStatus()||!$('broadcast-finished').checked||!$('operator').value.trim();}
 $('broadcast-finished').addEventListener('change',approvalReady);$('operator').addEventListener('input',approvalReady);
 $('race-rows').addEventListener('change',()=>{$('broadcast-finished').checked=false;$('approve').disabled=true;reviewStatus();});
-$('approve').addEventListener('click',()=>action(async()=>{await api('approve',{raceId:selectedRace,reviewHash:reviewData.review.hash,operator:$('operator').value,broadcastFinished:$('broadcast-finished').checked});await refresh();await openReview(selectedRace);notice('Result approved. Local standings updated; nothing has been sent to GitHub.');}));
+$('approve').addEventListener('click',()=>action(async()=>{const corrected=reviewData.race.status==='approved';
+ const mapping=Object.fromEntries([...$('race-rows').querySelectorAll('select')].filter(s=>s.value).map(s=>[s.dataset.runner,s.value]));
+ await api(corrected?'revise':'approve',{raceId:selectedRace,revision:reviewRevision,heatId:$('assign-heat').value,mapping,reviewHash:reviewData.review.hash,operator:$('operator').value,broadcastFinished:$('broadcast-finished').checked});await refresh();await openReview(selectedRace);notice('Result approved. Local standings updated; nothing has been sent to GitHub.');}));
 $('void').addEventListener('click',()=>action(async()=>{await api('void',{raceId:selectedRace,reason:$('void-reason').value});await refresh();await openReview(selectedRace);notice('Race voided. Local standings recalculated. Publish again if the old result was already online.');}));
 $('preview-publish').addEventListener('click',()=>action(async()=>{publication=await api('publication');$('publication-description').textContent=`${publication.approvedCount} recorded races and ${publication.manualCount||0} manual races. Approved static scores and outcomes are included. Pending changes are excluded.`;$('publication-destination').textContent=Object.values(publication.target).every(Boolean)?`${publication.target.owner}/${publication.target.repo} · ${publication.target.branch} · ${publication.target.file}`:'GitHub destination not configured';$('publication-json').textContent=JSON.stringify(publication.bundle,null,2);$('publication-blocked').textContent=publication.reason||'';$('publish').disabled=!publication.ready||publication.alreadyPublished;$('publication-dialog').showModal();}));
 $('close-publication').addEventListener('click',()=>$('publication-dialog').close());

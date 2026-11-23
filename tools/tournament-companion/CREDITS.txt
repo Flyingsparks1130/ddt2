@@ -41,3 +41,5 @@ https://github.com/mstorsjo/llvm-mingw/releases/tag/20261006
 Dear ImGui is used for the optional independent in-game preview.
 See vendor/imgui/LICENSE.txt (included as IMGUI-LICENSE.txt in the release).
 DDT2 artwork credits: DominatorNetwork/assets/ddt2/CREDITS.txt.
+
+Uma portraits, character art and skill and stat icons © Cygames. Racewear renders and skill reference data from GameTora (https://gametora.com/umamusume).
