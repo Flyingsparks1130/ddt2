@@ -35,7 +35,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Off-screen preview tests failed' }
           ./TelemetryTest.exe
           if ($LASTEXITCODE -ne 0) { throw 'Telemetry tests failed' }
-          & "$env:RUNNER_TEMP/node.exe" --test tests/companion.test.mjs tests/ddt2-series.test.mjs tests/companion-bridge.test.mjs tests/broadcast.test.mjs tests/launcher-update.test.mjs
+          & "$env:RUNNER_TEMP/node.exe" --test tests/companion.test.mjs tests/ddt2-series.test.mjs tests/companion-bridge.test.mjs tests/broadcast.test.mjs tests/launcher-update.test.mjs tests/match-email.test.mjs
           if ($LASTEXITCODE -ne 0) { throw 'Companion tests failed' }
           & "$env:RUNNER_TEMP/node.exe" tests/web-0.4.2.mjs
           if ($LASTEXITCODE -ne 0) { throw 'Overlay tests failed' }

@@ -3,6 +3,31 @@ const $=id=>document.getElementById(id);
 const panel=document.createElement('section');panel.className='card';panel.innerHTML='<h2>Race Review</h2><label>Finalized race<select id="past-race"></select></label><div id="past-order"></div><h2>Uma Spotlight</h2><label>Import race JSON<input id="spotlight-file" type="file" accept=".json"></label><label>Imported file<select id="capture-source"></select></label><label>Runner<select id="highlight-runner"></select></label><button id="take-highlight">Show on broadcast</button><span role="status" id="highlight-status"></span>';
 document.querySelector('.publish-card').before(panel);
 let state,signature='',reviewRequest=0,runnerRequest=0;
+let emailConnected=false;
+const pendingMail=new Set(), mailStatus=new Map();
+function drawMail(){
+ const id=$('match-select').value;
+ const series=state?.series.find(row=>row.id===id);
+ $('email-match').disabled=!emailConnected||pendingMail.has(id)||!(series&&(series.raceCount||series.manualOverride||series.decision));
+ $('email-status').textContent=mailStatus.get(id)||'';
+}
+function mailRequest(route,body){return json('/api/ops/'+route,{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify(body)});}
+$('email-connect').onsubmit=async event=>{
+ event.preventDefault();const form=event.currentTarget,button=form.querySelector('button');button.disabled=true;
+ try {await mailRequest('email-settings',{url:form.elements.url.value.trim(),key:form.elements.key.value.trim()});
+  emailConnected=true;form.reset();$('email-connection').textContent='Sender connected.';drawMail();
+ }catch(error){$('email-connection').textContent=error.message;}finally{button.disabled=false;}
+};
+$('email-match').onclick=async()=>{
+ const id=$('match-select').value;if(!id||pendingMail.has(id))return;
+ pendingMail.add(id);mailStatus.set(id,'Sending match…');drawMail();
+ try{const result=await mailRequest('email-match',{matchId:id});
+  mailStatus.set(id,result.alreadySent?'This export was already sent.':'Match sent to the organizer.');
+ }catch(error){mailStatus.set(id,error.message);}finally{pendingMail.delete(id);drawMail();}
+};
+json('/api/ops/email-settings').then(result=>{emailConnected=result.configured;
+ $('email-connection').textContent=emailConnected?'Sender connected.':'Connect the sender on this PC.';drawMail();
+}).catch(error=>{$('email-connection').textContent=error.message;});
 const fill=(sel,rows,placeholder)=>{const previous=sel.value;sel.replaceChildren(new Option(placeholder,''),...rows.map(([id,label])=>new Option(label,id)));if(rows.some(([id])=>id===previous))sel.value=previous;};
 async function showReview(){const id=$('past-race').value,request=++reviewRequest,target=$('past-order');target.replaceChildren();if(!id)return;
  try{const result=await json('/api/ops/finalized?heat='+encodeURIComponent(id));if(request!==reviewRequest||!result)return;
@@ -27,6 +52,7 @@ function draw(){if(!state)return;const id=$('match-select').value,key=id+'|'+sta
  if(!old||old!==$('capture-source').value)runners();showReview();
  const allowed=series&&(series.raceCount||series.manualOverride||series.decision);$('export').hidden=!allowed;
  $('export').href='/api/ops/match-zip?match='+encodeURIComponent(id);$('publish-status').textContent=allowed?match.name:'Finalize a race to export this match.';
+ drawMail();
 }
 $('spotlight-file').onchange=async e=>{
  const file=e.target.files[0];if(!file)return;
