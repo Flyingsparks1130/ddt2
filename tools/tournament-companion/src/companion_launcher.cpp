@@ -1,42 +1,4 @@
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <shellapi.h>
-#include <winhttp.h>
-#include <string>
-
-enum class Desk { ready, unavailable, other };
-
-static Desk probe(HINTERNET connection) {
-    HINTERNET request = WinHttpOpenRequest(connection, L"GET", L"/api/ops/state", nullptr,
-                                           WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, 0);
-    if (!request) return Desk::unavailable;
-    DWORD policy = WINHTTP_OPTION_REDIRECT_POLICY_NEVER;
-    WinHttpSetOption(request, WINHTTP_OPTION_REDIRECT_POLICY, &policy, sizeof(policy));
-    Desk result = Desk::unavailable;
-    if (WinHttpSendRequest(request, WINHTTP_NO_ADDITIONAL_HEADERS, 0, nullptr, 0, 0, 0) &&
-        WinHttpReceiveResponse(request, nullptr)) {
-        DWORD status = 0, size = sizeof(status);
-        WinHttpQueryHeaders(request, WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER,
-                            WINHTTP_HEADER_NAME_BY_INDEX, &status, &size, WINHTTP_NO_HEADER_INDEX);
-        if (status != 200) {
-            WinHttpCloseHandle(request);
-            return status == 503 ? Desk::unavailable : Desk::other;
-        }
-        char buffer[512];
-        std::string prefix;
-        DWORD count = 0;
-        while (prefix.size() < sizeof(buffer) &&
-               WinHttpReadData(request, buffer, sizeof(buffer) - static_cast<DWORD>(prefix.size()), &count) && count) {
-            prefix.append(buffer, count);
-            if (prefix.find("\"tournament\":") != std::string::npos) break;
-        }
-        result = prefix.rfind("{\"version\":", 0) == 0 &&
-                 prefix.find("\"revision\":") != std::string::npos &&
-                 prefix.find("\"tournament\":") != std::string::npos ? Desk::ready : Desk::other;
-    }
-    WinHttpCloseHandle(request);
-    return result;
-}
+#include "helper_handoff.h"
 
 static int fail(const wchar_t* message, bool quiet) {
     if (!quiet) MessageBoxW(nullptr, message, L"DDT2 Tournament Helper", MB_OK | MB_ICONERROR);
@@ -50,17 +12,35 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR args, int) {
     WinHttpSetTimeouts(session, 500, 500, 1500, 2500);
     HINTERNET connection = WinHttpConnect(session, L"127.0.0.1", 27840, 0);
     if (!connection) return fail(L"Windows could not connect to the local desk.", quiet);
+    nlohmann::json initial;
     Desk state = probe(connection);
     bool portWasOccupied = false;
+    wchar_t path[32768];
+    DWORD length = GetModuleFileNameW(nullptr, path, 32768);
+    if (!length || length >= 32768) return fail(L"Windows could not locate the Helper folder.", quiet);
+    std::wstring directory(path, length);
+    directory.resize(directory.find_last_of(L"\\/"));
+    auto node = directory + L"\\node.exe", script = directory + L"\\app.mjs";
+    if (GetFileAttributesW(script.c_str()) == INVALID_FILE_ATTRIBUTES)
+        return fail(L"The Helper is missing app.mjs. Restore it in the companion folder.", quiet);
+    bool switching = false;
+    if (!quiet && state == Desk::ready && probe(connection, &initial) == Desk::ready && initial["version"] == "0.6.2") {
+        if (idleLegacyDesk(initial)) {
+            int choice = MessageBoxW(nullptr, L"Helper 0.6.3 is installed. The Race Desk is still running 0.6.2.\n\n"
+                                      L"Save any unfinished edits before switching. Switch to 0.6.3 now?",
+                                      L"Update Tournament Helper", MB_YESNO | MB_ICONQUESTION);
+            if (choice == IDYES) {
+                if (!retireLegacyDesk(connection, 27840, node, initial))
+                    return fail(L"The desk changed or Windows could not verify its process. Open the shortcut again when the desk is idle.", quiet);
+                switching = true;
+                state = Desk::unavailable;
+            }
+        } else {
+            MessageBoxW(nullptr, L"The current race desk is in use. Open the shortcut after the session to switch versions.",
+                        L"Tournament Helper", MB_OK | MB_ICONINFORMATION);
+        }
+    }
     if (state == Desk::unavailable) {
-        wchar_t path[32768];
-        DWORD length = GetModuleFileNameW(nullptr, path, 32768);
-        if (!length || length >= 32768) return fail(L"Windows could not locate the Helper folder.", quiet);
-        std::wstring directory(path, length);
-        directory.resize(directory.find_last_of(L"\\/"));
-        auto node = directory + L"\\node.exe", script = directory + L"\\app.mjs";
-        if (GetFileAttributesW(script.c_str()) == INVALID_FILE_ATTRIBUTES)
-            return fail(L"The Helper is missing app.mjs. Restore it in the companion folder.", quiet);
         std::wstring command = L"\"" + node + L"\" \"" + script + L"\"";
         STARTUPINFOW startup{}; startup.cb = sizeof(startup);
         PROCESS_INFORMATION child{};
@@ -81,6 +61,12 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR args, int) {
             }
         } while (GetTickCount64() < deadline);
         CloseHandle(child.hProcess);
+    }
+    if (switching) {
+        nlohmann::json loaded;
+        if (state != Desk::ready || probe(connection, &loaded) != Desk::ready ||
+            loaded["version"] != "0.6.3")
+            return fail(L"Windows did not confirm Helper 0.6.3. Reopen the shortcut to check again.", quiet);
     }
     WinHttpCloseHandle(connection);
     WinHttpCloseHandle(session);
