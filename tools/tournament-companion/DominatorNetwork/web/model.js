@@ -22,3 +22,17 @@ export function sampleRace(t,count=18,testLamp=''){
  runners.sort((a,b)=>b.distance-a.distance);runners.forEach((r,i)=>r.rank=i+1);
  return {active:true,demo:true,raceId:`sample-${count}`,time:testLamp==='lateStart'||testLamp==='all'?3:t%60,course:1600,raceInfo:{track:'Nakayama',distance:1600,surface:1,going:2,weather:2,season:4},runners};
 }
+
+function playerKey(value){
+ return String(value||'').normalize('NFKC').trim().replace(/^@+/,'').trim().toLowerCase();
+}
+export function suggestedPlayer(row,players,lineup,rows){
+ const captured=playerKey(row.trainer);
+ if(captured){
+  const matches=players.filter(p=>[p.name,p.gameName].some(name=>playerKey(name)===captured));
+  return matches.length===1?matches[0].id:'';
+ }
+ if(!row.card||rows.filter(r=>r.card===row.card).length!==1)return '';
+ const matchingOutfit=players.filter(player=>lineup?.[player.id]===row.card);
+ return matchingOutfit.length===1?matchingOutfit[0].id:'';
+}

@@ -56,11 +56,11 @@ function courseFields(){
 }
 $('course-name').onchange=()=>courseVariants(null,null);
 $('course-surface').onchange=()=>courseVariants($('course-surface').value,null);
-fetch('/api/ops/courses').then(r=>{if(!r.ok)throw Error();return r.json();}).then(rows=>{
+export const courseCatalogReady=fetch('/api/ops/courses').then(r=>{if(!r.ok)throw Error();return r.json();}).then(rows=>{
  courses=rows;
  choices($('expected-track'),rows.map(c=>[c.id,c.name]),null,'Any track');
- courseFields();
-}).catch(()=>message('Course list unavailable. Reload the desk to try again.',true));
+ courseFields();return rows;
+}).catch(()=>{message('Course list unavailable. Reload the desk to try again.',true);return [];});
 function showRoster(){
  if(!state)return;
  const players=state.tournament.players.filter(p=>!p.retired);
@@ -112,7 +112,7 @@ async function openReview(kind,id){const data=await api(kind+'/'+id);review={kin
 function reviewReady(){$('approve-correction').disabled=!review||!$('correction-confirm').checked||!$('correction-operator').value.trim()||!!review.problems?.length;}
 $('correction-confirm').onchange=reviewReady;$('correction-operator').oninput=reviewReady;$('close-correction').onclick=()=>$('correction-dialog').close();
 $('approve-correction').onclick=()=>act(async()=>{await api(review.kind==='manual'?'manual-approve':'correction-approve',{manualId:review.id,correctionId:review.id,reviewHash:review.hash,operator:$('correction-operator').value,confirm:true,broadcastFinished:true});$('correction-dialog').close();message('Approved locally. Review publication separately before sending to DDT2.');});
-$('review-outcome').onclick=()=>{chooseTab('corrections');const s=current();if(s)$('correction-match').value=s.id;$('correction-kind').value='outcome';correctionFields();};
+$('review-outcome').onclick=()=>{chooseTab('corrections');const s=current();if(s)$('correction-match').value=s.id;$('correction-kind').value='outcome';correctionFields();if(s?.leaderId)$('manual-winner').value=s.leaderId;};
 $('course-form').onsubmit=e=>{e.preventDefault();act(async()=>{
  const heat=state.matches.flatMap(m=>m.heats).find(h=>h.id===$('course-heat').value);
  const track=courses.find(c=>String(c.id)===$('course-name').value),saved=$('course-name').value==='saved';

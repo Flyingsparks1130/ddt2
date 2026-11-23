@@ -30,14 +30,28 @@ fold($('publication-json'),'Inspect the export JSON');
 const correctionData=$('correction-preview'),reviewSummary=make('div',null,'correction-summary');reviewSummary.id='correction-summary';correctionData.before(reviewSummary);fold(correctionData,'Inspect correction data');
 new MutationObserver(()=>{let data;try{data=JSON.parse(correctionData.textContent);}catch{return;}reviewSummary.replaceChildren();if(data.series)reviewSummary.append(make('h3',data.series));const names={score:'Set team scores',automatic:'Use calculated scores',outcome:'Confirm the series winner',reopen:'Reopen the series'};if(data.change)reviewSummary.append(make('p',names[data.change]||data.change));if(data.currentScores){const list=make('div',null,'correction-scores');for(const [i,row] of data.currentScores.entries()){const cell=make('div');cell.append(make('span',row.team),make('strong',row.points+' points now'));if(data.newScores){const entry=data.newScores[row.id];cell.append(make('b',entry+' points after approval'));}list.append(cell);}reviewSummary.append(list);}if(data.winner)reviewSummary.append(make('p','Winner: '+data.winner,'outcome-winner'));if(data.podium)for(const row of data.podium)reviewSummary.append(make('p',`${row.rank}. ${row.playerName} · ${row.points} points`));if(data.reason)reviewSummary.append(make('p','Reason: '+data.reason,'help'));}).observe(correctionData,{childList:true,characterData:true,subtree:true});
 function current(){return state?.matches.find(m=>m.heats.some(h=>h.id===state.activeHeatId));}
-function renderGuide(){const match=current(),series=state.series.find(s=>s.id===match?.id),pending=state.races.find(r=>r.status==='pending'&&(r.heatId===state.activeHeatId||!r.heatId));let title,help,action,label,step='select';
+function renderGuide(){const match=current(),series=state.series.find(s=>s.id===match?.id),pending=state.races.find(r=>r.status==='pending'&&r.heatId===state.activeHeatId);let title,help,action,label,step='select';
  if(state.tournament.id!=='ddt2'){title='Load the DDT2 teams';help='Import the published roster once, then choose your matchup.';label='Connect DDT2';action=()=>tab('roster');}
- else if(!state.matches.length){title='Create your first matchup';help='The teams are loaded. Choose two teams, then add their Umas and drafted tracks.';label='Create matchup';action=()=>tab('setup');}
+ else if(!state.matches.length){title='Load the bracket';help='Open Teams & connection to import the published matchups.';label='Open bracket';action=()=>tab('roster');}
  else if(!match){title='Choose the race you are running';help='Select a matchup and race below, then click Use this race.';label='Choose race';action=()=>$('match-select').focus();}
- else if(pending){step='review';title='A race is ready to review';help='Wait for the race to finish on the broadcast, then check the entrants and points. Approval is local.';label='Review captured race';action=()=>{document.querySelector(`[data-race-id="${pending.id}"]`)?.click();$('review-card').scrollIntoView({behavior:'smooth',block:'start'});};}
- else if(series?.races.some(r=>r.heatId===state.activeHeatId)){step='publish';title=series.winnerId?'Series outcome confirmed':'Race approved';help=series.status==='awaiting-confirmation'?'The target has been reached. Confirm the series outcome separately before publishing.':'The scoreboard now shows the approved race and its podium. Review publication or select the next race.';label=series.status==='awaiting-confirmation'?'Confirm outcome':'Review publication';action=()=>$(series.status==='awaiting-confirmation'?'review-outcome':'preview-publish').click();}
+ else if(pending){step='review';title='A race is ready to review';help='Check the track and confirm the players. Approve the finishing order once the race ends on broadcast.';label='Review captured race';action=()=>{document.querySelector(`[data-race-id="${pending.id}"]`)?.click();$('review-card').scrollIntoView({behavior:'smooth',block:'start'});};}
+ else if(series?.races.some(r=>r.heatId===state.activeHeatId)){
+  const next=match.heats.find(h=>!series.races.some(r=>r.heatId===h.id));
+  if(series.leaderId&&!series.winnerId){
+   step='review';title='Confirm the series winner';help='Check the final score before recording the outcome.';label='Confirm outcome';action=()=>$('review-outcome').click();
+  }else if(next&&!series.winnerId){
+   const raceName=next.tiebreaker?'the tiebreaker':'Race '+next.number;
+   title='Ready for '+raceName;help='The approved result is on the scoreboard.';label='Use '+raceName;
+   action=()=>{
+    $('match-select').value=match.id;$('match-select').dispatchEvent(new Event('change'));
+    $('heat-select').value=next.id;$('select-heat').click();
+   };
+  }else{
+   step='publish';title=series.winnerId?'Series complete':'All races approved';help='Review the result before publishing to the site.';label='Review publication';action=()=>$('preview-publish').click();
+  }
+ }
  else if(state.armedHeatId){step='capture';title='Waiting for the race file';help='Run the selected race. The next complete horseACT export will enter the review inbox. Nothing publishes automatically.';label='View matchup scene';action=()=>{tab('previews');$('preview-live').checked=true;$('preview-live').dispatchEvent(new Event('change'));document.querySelector('[data-url="/matchup?demo=1"]').click();};}
- else if(!state.watch.enabled){step='capture';title='Connect your race folder';help='Choose your horseACT Saved races folder, or import a race JSON using the inbox below.';label='Set race folder';action=()=>{tab('roster');connection.open=true;$('watch-folder').focus();};}
+ else if(!state.watch.enabled){step='capture';title='Import the race result';help='Choose the horseACT JSON for this race. For automatic capture, connect the Saved races folder in Teams & connection.';label='Import horseACT JSON';action=()=>$('race-file').click();}
  else{step='capture';title='Ready to capture the next race';help='Check the selected matchup and lineup, then start capture before the race. One file will be attached to this race.';label='Capture next race';action=()=>$('arm').click();}
  $('next-title').textContent=title;$('next-help').textContent=help;$('next-action').textContent=label;$('next-action').onclick=action;for(const el of steps.children)el.classList.toggle('current',el.dataset.step===step);
 }
