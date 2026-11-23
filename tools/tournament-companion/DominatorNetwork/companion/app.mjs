@@ -6,9 +6,9 @@ import {readFile,stat,readdir,mkdir,writeFile} from 'node:fs/promises';
 import {initialState,InputError,requireThat,id,text,cleanName,digest,rulesFrom,playersFrom,heatFor,readRace,reviewRace as baseReview,publicBundle as baseBundle} from './domain.mjs';
 import {openStore,atomicWrite} from './store.mjs';
 import {targetFrom,publicationPreview,publishBundle} from './github.mjs';
-import {sourcePreview,importDDT2,bracketPreview,bracketStages} from './ddt2.mjs';
+import {sourcePreview,importDDT2,bracketPreview} from './ddt2.mjs';
 import {broadcastState,saveLineup,umaCatalog} from './broadcast.mjs';
-import {allSeries,seriesSummary,checkSeriesRace,draftCorrection,correctionReview,approveCorrection,draftManualHeat,manualReview,approveManual} from './series.mjs';
+import {resetMatch,needsMatchRecovery,recoverMatches,allSeries,seriesSummary,checkSeriesRace,draftCorrection,correctionReview,approveCorrection,draftManualHeat,manualReview,approveManual} from './series.mjs';
 
 function reviewRace(state,race){const review=baseReview(state,race);if(race.heatId)checkSeriesRace(state,race,review.problems);review.problems=[...new Set(review.problems)];review.canApprove=review.problems.length===0&&race.status==='pending';review.hash=digest({review,revision:state.revision});return review;}
 function publicBundle(state){const bundle=baseBundle(state);if(state.tournament.seriesFormat)bundle.series={schema:'ddt2-series/v1',teams:state.tournament.teams,matches:allSeries(state),sourceCommit:state.site?.commit||null};return bundle;}
@@ -74,13 +74,9 @@ async function watchTick(){if(watchBusy||!store?.state.watch.enabled)return;watc
  }catch(e){watchNotice=e.message;}finally{watchBusy=false;}}
 function opsState(){
  const state=store.state,bundle=publicBundle(state);
- const matches=state.matches.filter(m=>!m.deskDeletedAt);
- const deleted=new Set(state.matches.filter(m=>m.deskDeletedAt).map(m=>m.id));
- const deletedHeats=new Set(state.matches.filter(m=>m.deskDeletedAt).flatMap(m=>m.heats.map(h=>h.id)));
- const races=state.races.filter(r=>!deletedHeats.has(r.heatId));
- matches.sort((a,b)=>Number(Boolean(b.siteMatchId))-Number(Boolean(a.siteMatchId)));
+ const {matches,races}=state;
  const trainerNames=[...new Set(races.flatMap(r=>r.runners.map(entry=>entry.trainer)).filter(Boolean))].sort();
- return {version:'0.6.3',revision:state.revision,tournament:state.tournament,trainerNames,canDeleteMatch:true,matches,site:state.site||null,series:allSeries(state).filter(m=>!deleted.has(m.id)),corrections:(state.corrections||[]).filter(c=>!deleted.has(c.matchId)),manualHeats:(state.manualHeats||[]).filter(h=>!deleted.has(h.matchId)),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
+ return {version:'0.6.4',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matches,site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
  races:races.map(({id,filename,heatId,status,importedAt,runners,voidReason})=>({id,filename,heatId,status,importedAt,count:runners.length,voidReason})),
  watch:state.watch,watchNotice,github:state.github,publication:publicationPreview(state,bundle,!!process.env.DOMINATOR_GITHUB_TOKEN),publications:state.publications.slice(-10).reverse(),
  standings:bundle.standings,audit:state.audit.slice(-30).reverse(),locked:state.races.some(r=>r.status==='approved'),bridge:{connected:!!bridge,active:!!bridge?.active,count:bridge?.runners?.length||0,version:bridge?.version||null},overlayNotice};}
@@ -92,22 +88,20 @@ async function mutate(route,body){
   requireThat(preview.ready,preview.reason||'GitHub is not connected.');requireThat(bundle.results.length>0||bundle.series?.matches.some(m=>m.raceCount||m.manualOverride||m.decision)||state.publications.length>0,'There are no approved results to publish.');
   const result=await publishBundle(state.github,bundle,process.env.DOMINATOR_GITHUB_TOKEN);const receipt={...result,target:state.github,at:new Date().toISOString()};state.publications.push(receipt);audit(state,'github.published',{hash:result.hash,commit:result.commit});return receipt;});
  const result=await store.transaction(async state=>{checkRevision(state,body);
-  if(route==='delete-match'){
-   const match=state.matches.find(m=>m.id===body.matchId && !m.deskDeletedAt);
-   requireThat(match,'Match is no longer on this desk.',404);
-   requireThat(body.confirm===true,'Confirm which match to delete.');
-   const heats=new Set(match.heats.map(h=>h.id));
-   requireThat(!heats.has(state.armedHeatId),'Cancel capture before deleting this match.',409);
-   const wasActive=heats.has(state.activeHeatId);
-   if(wasActive)state.activeHeatId=null;
-   match.deskDeletedAt=new Date().toISOString();
-   audit(state,'match.deleted',{matchId:match.id,name:match.name});
-   return {id:match.id,wasActive};
+  if(route==='reset-match'){
+   const match=state.matches.find(m=>m.id===body.matchId);
+   requireThat(match,'Match not found.',404);
+   requireThat(body.confirm===true,'Confirm the score reset.');
+   requireThat(!match.heats.some(h=>h.id===state.armedHeatId),'Cancel capture before resetting this match.',409);
+   resetMatch(state,match);
+   audit(state,'match.reset',{matchId:match.id,name:match.name});
+   return {id:match.id};
   }
+  if(route==='delete-match')throw new InputError('Refresh the Race Desk and choose Reset match.',409);
   if(route==='ddt2-sync'){requireThat(sourceCache&&body.sourceHash===sourceCache.hash,'Refresh the DDT2 import preview first.',409);const result=importDDT2(state,sourceCache.source);audit(state,'ddt2.synchronized',{...result,commit:sourceCache.source.commit});return result;}
   else if(route==='lineup'){const result=saveLineup(state,body);audit(state,'heat.lineup',result);return result;}
   else if(route==='player-alias'){const p=state.tournament.players.find(p=>p.id===body.playerId);requireThat(p,'Player not found.');const name=cleanName(String(body.gameName||'')).slice(0,120);requireThat(!name||!state.tournament.players.some(x=>x.id!==p.id&&x.gameName===name),'That in-game name is already assigned to another player.');p.gameName=name;audit(state,'player.alias',{playerId:p.id,name});}
-  else if(route==='series-match'){requireThat(state.tournament.id==='ddt2','Connect DDT2 first.');const stage=Object.values(bracketStages).find(name=>name===body.stage);requireThat(stage,'Choose a DDT2 bracket round.');const ids=body.teamIds;requireThat(Array.isArray(ids)&&ids.length===2&&ids[0]!==ids[1]&&ids.every(tid=>state.tournament.teams.some(t=>t.id===tid)),'Choose two different registered teams.');const matchId=id();const playerIds=state.tournament.players.filter(p=>ids.includes(p.teamId)&&!p.retired).map(p=>p.id);requireThat(playerIds.length===10,'Each team must have five players.');const match={id:matchId,name:ids.map(tid=>state.tournament.teams.find(t=>t.id===tid).name).join(' vs '),teamIds:ids,playerIds,round:stage,stage,expected:{},heats:Array.from({length:7},(_,i)=>({id:id(),number:i+1,tiebreaker:i===6,expected:{}}))};state.matches.push(match);audit(state,'series.created',{matchId});return {id:matchId};}
+  else if(route==='series-match')throw new InputError('DDT2 matchups come from the published bracket.',409);
   else if(route==='heat-course'){const {heat}=heatFor(state,body.heatId);requireThat(!state.races.some(r=>r.status==='approved'&&r.heatId===heat.id)&&!(state.manualHeats||[]).some(r=>r.status==='approved'&&r.heatId===heat.id),'An approved race already uses this track slot.');heat.trackName=String(body.trackName||'').trim().slice(0,120);heat.expected={};for(const key of ['distance','surface','trackId']){const value=Number(body[key]||0);requireThat(Number.isInteger(value)&&value>=0,'Course checks must be whole numbers.');heat.expected[key]=value;}audit(state,'heat.course',{heatId:heat.id,trackName:heat.trackName});}
   else if(route==='correction-draft'){const c=draftCorrection(state,body);audit(state,'correction.drafted',{id:c.id,kind:c.kind,reason:c.reason});return {id:c.id};}
   else if(route==='correction-approve'){const c=approveCorrection(state,body);audit(state,'correction.approved',{id:c.id,kind:c.kind,operator:c.approval.operator,reason:c.reason});}
@@ -117,7 +111,7 @@ async function mutate(route,body){
   else if(route==='manual-void'){const m=state.manualHeats?.find(m=>m.id===body.manualId);requireThat(m&&m.status!=='void','Manual result not found.');m.status='void';m.voidReason=text(body.reason,'Void reason',500);audit(state,'manual.voided',{id:m.id,reason:m.voidReason});}
   else if(route==='setup'){requireThat(state.tournament.id!=='ddt2','DDT2 uses the published roster and rules. Edit in-game aliases in the Teams tab.');writable(state);state.tournament.name=text(body.name,'Tournament name',120);state.tournament.rules=rulesFrom(body.rules);const players=playersFrom(body.players||[]);
    const referenced=new Set(state.matches.flatMap(m=>m.playerIds));requireThat([...referenced].every(pid=>players.some(p=>p.id===pid)),'A participant is already used by a match. Keep their in-game name; display names and team names can still be updated.');state.tournament.players=players;audit(state,'tournament.configured',{rules:state.tournament.rules,players:players.length});}
-  else if(route==='match'){requireThat(state.tournament.id!=='ddt2','Create a DDT2 series using the two registered teams.');requireThat(state.matches.length<256,'Maximum 256 matches.');const selected=body.playerIds||[];requireThat(selected.length>0&&new Set(selected).size===selected.length&&selected.every(pid=>state.tournament.players.some(p=>p.id===pid)),'Choose registered participants for this match.');
+  else if(route==='match'){requireThat(state.tournament.id!=='ddt2','DDT2 matchups come from the published bracket.');requireThat(state.matches.length<256,'Maximum 256 matches.');const selected=body.playerIds||[];requireThat(selected.length>0&&new Set(selected).size===selected.length&&selected.every(pid=>state.tournament.players.some(p=>p.id===pid)),'Choose registered participants for this match.');
    const count=Number(body.heats);requireThat(Number.isInteger(count)&&count>=1&&count<=64,'Choose 1–64 heats.');const expected={};for(const key of ['distance','surface','trackId']){const value=Number(body.expected?.[key]||0);requireThat(Number.isInteger(value)&&value>=0,'Course constraints must be whole numbers.');expected[key]=value;}
    const match={id:id(),name:text(body.name,'Match name'),round:text(body.round,'Round',60),stage:text(body.stage,'Stage',30),playerIds:selected,expected,heats:Array.from({length:count},(_,i)=>({id:id(),number:i+1}))};state.matches.push(match);audit(state,'match.created',{matchId:match.id});return {id:match.id};}
   else if(route==='select'){const {match}=heatFor(state,body.heatId);requireThat(!match.deskDeletedAt,'This match was deleted from the desk.',409);state.activeHeatId=body.heatId;state.armedHeatId=null;audit(state,'heat.selected',{heatId:body.heatId});}
@@ -137,10 +131,7 @@ async function mutate(route,body){
   }
   return {ok:true};
  });
- if(route==='delete-match' && result.wasActive && !store.state.activeHeatId){
-  try{await saveConfig({...config,matchup:'Select a match',round:'',stage:''});}catch(e){overlayNotice=e.message;}
- }
- if(['select','setup','ddt2-sync'].includes(route)){try{if(store.state.activeHeatId)await syncActive();else if(route==='ddt2-sync')await saveConfig({...config,tournament:store.state.tournament.name,matchup:store.state.site?.bracketPublished?'Select a match':'BRACKET TO BE ANNOUNCED',stage:'DDT2',round:'FIRST TO 25'});}catch(e){overlayNotice=`Match saved; header update needs attention: ${e.message}`;}}
+ if(['reset-match','select','setup','ddt2-sync'].includes(route)){try{if(store.state.activeHeatId)await syncActive();else if(route==='ddt2-sync')await saveConfig({...config,tournament:store.state.tournament.name,matchup:store.state.site?.bracketPublished?'Select a match':'BRACKET TO BE ANNOUNCED',stage:'DDT2',round:'FIRST TO 25'});}catch(e){overlayNotice=`Match saved; header update needs attention: ${e.message}`;}}
  return result;
 }
 const staticFiles={'/':'ops.html','/ops.js':'ops.js','/ops.css':'ops.css','/ddt2-ops.js':'ddt2-ops.js','/ddt2-ops.css':'ddt2-ops.css','/broadcast':'settings.html','/settings':'settings.html','/settings.js':'settings.js','/settings.css':'settings.css','/overlay':'overlay.html','/overlay.js':'overlay.js','/overlay.css':'overlay.css','/ddt2-race.css':'ddt2-race.css','/model.js':'model.js','/matchup':'intermission.html','/scoreboard':'intermission.html','/intermission.css':'intermission.css','/intermission.js':'intermission.js','/matchup.css':'matchup.css','/matchup.js':'matchup.js','/operator-flow.js':'operator-flow.js','/operator-flow.css':'operator-flow.css'};
@@ -175,7 +166,9 @@ server.requestTimeout=20000;server.headersTimeout=10000;
 server.on('error',error=>{if(error.code==='EADDRINUSE'){console.log('Tournament companion is already running, or its port is occupied.');process.exit(0);}console.error(error.message);process.exit(1);});
 // Bind first: a second game launch must not open or mutate a second copy of the store.
 await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
-store=await openStore(dataDir,config.tournament);
-await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.3',startedAt:new Date().toISOString()}));
+const opened=await openStore(dataDir,config.tournament);
+if(needsMatchRecovery(opened.state))await opened.transaction(recoverMatches);
+store=opened;
+await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.4',startedAt:new Date().toISOString()}));
 await refreshBridge();setInterval(refreshBridge,100);setInterval(watchTick,2000);
-console.log(`DDT2 tournament companion 0.6.3: ${origin} (bridge ${bridgePort})`);
+console.log(`DDT2 tournament companion 0.6.4: ${origin} (bridge ${bridgePort})`);

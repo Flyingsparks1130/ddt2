@@ -66,8 +66,13 @@ static DWORD listenerOwner(unsigned short port) {
     return 0;
 }
 
+static bool previousHelper(const nlohmann::json& state) {
+    return state.is_object() && state.contains("version") &&
+           (state["version"] == "0.6.2" || state["version"] == "0.6.3");
+}
+
 static bool idleLegacyDesk(const nlohmann::json& state) {
-    return state.is_object() && state.contains("version") && state["version"] == "0.6.2" &&
+    return previousHelper(state) &&
            state.contains("activeHeatId") && state["activeHeatId"].is_null() &&
            state.contains("armedHeatId") && state["armedHeatId"].is_null() &&
            state.contains("bridge") && state["bridge"].is_object() &&
