@@ -3,9 +3,9 @@ let state=null,lastRevision=-1,source=null,busy=false,review=null;
 const tab=(id,label)=>`<button class="tab" data-tab="${id}">${label}</button>`;
 document.querySelector('nav[aria-label="Workspace"]').insertAdjacentHTML('beforeend',tab('roster','Teams & bracket')+tab('corrections','Manual corrections')+tab('previews','OBS & in-game preview'));
 document.querySelector('footer').textContent='DDT2 tournament companion · Approve locally, then publish separately.';
-document.querySelector('.eyebrow').textContent='DDT2 / TOURNAMENT OPERATIONS';$('version').textContent='COMPANION 0.6.2';
+document.querySelector('.eyebrow').textContent='DDT2 / TOURNAMENT OPERATIONS';$('version').textContent='COMPANION 0.6.3';
 document.querySelector('.shell').insertAdjacentHTML('beforeend',`
-<section class="view" id="roster" hidden><section class="card"><div class="card-heading"><div><p class="eyebrow">DDT2 CONNECTION</p><h2>Teams, players & published bracket</h2></div><span class="badge" id="site-status">Not connected</span></div><p id="site-summary" class="help"></p><div class="actions"><button id="site-preview">Check DDT2 for updates</button><button class="quiet" id="site-offline">Use offline bracket</button><button id="site-import" class="secondary" disabled>Import reviewed update</button></div><p class="help" id="site-preview-text">Check the draw before importing matchups.</p></section><section class="card" id="site-bracket" aria-label="Tournament bracket" hidden></section><div id="team-roster" class="roster-grid"></div><form id="series-form" class="card"><h2>Set up a series manually</h2><p class="help">For tournament matches, import the published draw.</p><div class="fields two"><label>Team A<select id="series-a"></select></label><label>Team B<select id="series-b"></select></label><label>Round<select id="series-stage" required><option>R1</option><option>R2/QF</option><option>SF</option><option>GF</option></select></label></div><button>Create seven-race series</button></form></section>
+<section class="view" id="roster" hidden><section class="card"><div class="card-heading"><div><p class="eyebrow">DDT2 CONNECTION</p><h2>Teams, players & published bracket</h2></div><span class="badge" id="site-status">Not connected</span></div><p id="site-summary" class="help"></p><div class="actions"><button id="site-preview">Check DDT2 for updates</button><button class="quiet" id="site-offline">Use offline bracket</button><button id="site-import" class="secondary" disabled>Import reviewed update</button></div><p class="help" id="site-preview-text">Check the draw before importing matchups.</p></section><section class="card" id="site-bracket" aria-label="Tournament bracket" hidden></section><section class="card"><h2>Team Roster</h2><div class="fields two"><label>Search teams or players<input type="search" id="roster-search" placeholder="Team or player name"></label><label>Team<select id="roster-team"></select></label></div><div id="team-roster"></div></section><form id="series-form" class="card"><h2>Set up a series manually</h2><p class="help">For tournament matches, import the published draw.</p><div class="fields two"><label>Team A<select id="series-a"></select></label><label>Team B<select id="series-b"></select></label><label>Round<select id="series-stage" required><option>R1</option><option>R2/QF</option><option>SF</option><option>GF</option></select></label></div><button>Create seven-race series</button></form></section>
 <section class="view" id="corrections" hidden><div class="correction-banner"><b>Manual fallback</b><p>Stage a correction, check the preview, then approve it. Approved changes update local overlays. Publishing still requires a separate review. Original race files stay intact.</p></div><div class="setup-grid"><form id="correction-form" class="card"><h2>Series scores & outcome</h2><label>Series<select id="correction-match"></select></label><label>Change<select id="correction-kind"><option value="score">Set static team scores</option><option value="automatic">Return to calculated scores</option><option value="outcome">Confirm series winner</option><option value="reopen">Reopen series / clear outcome</option></select></label><div class="fields two" id="score-inputs"><label><span id="score-label-a">Team A</span><input id="manual-score-a" type="number" min="0" max="10000" value="0"></label><label><span id="score-label-b">Team B</span><input id="manual-score-b" type="number" min="0" max="10000" value="0"></label></div><label id="winner-input" hidden>Winner<select id="manual-winner"></select></label><label>Reason<input id="correction-reason" maxlength="500" required placeholder="Why this correction or outcome is correct"></label><p class="help">Static scores stay fixed until you approve “Return to calculated scores”. Confirming a winner is separate from approving an individual race.</p><button>Stage correction for review</button></form>
 <form id="manual-heat-form" class="card"><h2>Enter a missing race manually</h2><p class="help">Use the verified podium if capture failed. This is identified as a manual result; it does not invent a horseACT file, race time or telemetry.</p><label>Race slot<select id="manual-heat"></select></label><label>1st place · 4 points<select id="manual-first" required></select></label><label>2nd place · 2 points<select id="manual-second" required></select></label><label>3rd place · 1 point<select id="manual-third" required></select></label><label>Track label<input id="manual-track" maxlength="120" placeholder="Optional track label"></label><label>Reason<input id="manual-reason" maxlength="500" required placeholder="Capture failed; podium checked on results screen"></label><button>Stage manual podium</button></form>
 <section class="card"><h2>Corrections awaiting review</h2><div id="correction-queue"></div></section><section class="card"><h2>Manual race results</h2><div id="manual-queue"></div></section></div></section>
@@ -14,7 +14,7 @@ document.querySelector('.shell').insertAdjacentHTML('beforeend',`
 <dialog id="correction-dialog"><div class="card-heading"><h2>Approve reviewed change</h2><button type="button" class="quiet" id="close-correction">Close</button></div><pre id="correction-preview"></pre><p id="correction-problems" class="problems"></p><label>Approving operator<input id="correction-operator" maxlength="80" required></label><label class="check"><input id="correction-confirm" type="checkbox">I checked the teams and scores. Any race shown here has finished on the broadcast.</label><button id="approve-correction" disabled>Approve locally</button><p class="help">This does not publish to GitHub.</p></dialog>`);
 document.querySelector('.shell').append(document.querySelector('footer'));
 document.querySelector('#show .primary').insertAdjacentHTML('afterbegin','<section class="card" id="series-card"><p class="eyebrow">CURRENT SERIES</p><h2 id="series-title">Select a matchup</h2><div id="series-score" class="series-score"></div><p id="series-state" class="help"></p><div id="series-races" class="series-races"></div><button id="review-outcome" class="secondary">Review series outcome / corrections</button></section>');
-document.querySelector('#setup .setup-grid').insertAdjacentHTML('beforeend',`<form class="card" id="course-form"><h2>Drafted track for a race</h2><label>Race slot<select id="course-heat"></select></label><label>Track label<input id="course-name" maxlength="120"></label><div class="fields three"><label>Distance (m)<input id="course-distance" type="number" min="0"></label><label>Surface<select id="course-surface"><option value="0">Any / unknown</option><option value="1">Turf</option><option value="2">Dirt</option></select></label><label>Track ID<input id="course-track" type="number" min="0"></label></div><button>Save drafted track</button></form>`);
+document.querySelector('#setup .setup-grid').insertAdjacentHTML('beforeend',`<form class="card" id="course-form"><h2>Drafted Track</h2><label>Race slot<select id="course-heat"></select></label><div class="fields three"><label>Track<select id="course-name"></select></label><label>Surface<select id="course-surface"></select></label><label>Distance<select id="course-distance"></select></label></div><button disabled>Save drafted track</button></form>`);
 for(const [key,route] of [['race','overlay'],['matchup','matchup'],['scoreboard','scoreboard']])$(key+'-source').textContent=location.origin+'/'+route;
 const message=(text,error=false)=>{$('notice').hidden=false;$('notice').textContent=text;$('notice').classList.toggle('error',error);};
 async function api(route,body){const r=await fetch('/api/ops/'+route,body===undefined?{cache:'no-store'}:{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({...body,revision:state.revision})});const data=await r.json();if(!r.ok)throw Error(data.error||'Operation failed');return data;}
@@ -25,7 +25,61 @@ function options(select,rows,pick){const old=select.value;select.replaceChildren
 function current(){return state?.series.find(s=>s.races.some(r=>r.heatId===state.activeHeatId))||state?.series.find(s=>state.matches.find(m=>m.id===s.id)?.heats.some(h=>h.id===state.activeHeatId));}
 function correctionFields(){const s=state?.series.find(s=>s.id===$('correction-match').value),kind=$('correction-kind').value;$('score-inputs').hidden=kind!=='score';$('winner-input').hidden=kind!=='outcome';if(!s)return;for(const [i,key] of ['a','b'].entries()){$('score-label-'+key).textContent=s.teams[i].name;$('manual-score-'+key).value=s.teams[i].points;}options($('manual-winner'),s.teams,s.leaderId);}
 function heatPlayers(){const m=state.matches.find(m=>m.heats.some(h=>h.id===$('manual-heat').value));const rows=state.tournament.players.filter(p=>m?.playerIds.includes(p.id));for(const key of ['first','second','third'])options($('manual-'+key),[{id:'',name:'Select registered finisher'},...rows.map(p=>({id:p.id,name:p.name+' · '+p.team}))]);}
-function courseFields(){const h=state.matches.flatMap(m=>m.heats).find(h=>h.id===$('course-heat').value);$('course-name').value=h?.trackName||'';for(const [k,key] of [['distance','distance'],['surface','surface'],['track','trackId']])$('course-'+k).value=h?.expected?.[key]||0;}
+let courses=[];
+function choices(select, rows, value, placeholder) {
+ select.replaceChildren(new Option(placeholder,''),...rows.map(([id,label])=>new Option(label,String(id))));
+ select.value=String(value||'');
+}
+function courseVariants(surface,distance) {
+ const course=courses.find(c=>String(c.id)===$('course-name').value);
+ const surfaces=Object.keys(course?.surfaces||{});
+ choices($('course-surface'),surfaces.map(s=>[s,s==='1'?'Turf':'Dirt']),surface,'Any surface');
+ const distances=course?.surfaces[$('course-surface').value]||[...new Set(Object.values(course?.surfaces||{}).flat())].sort((a,b)=>a-b);
+ choices($('course-distance'),distances.map(d=>[d,d+' m']),distance,'Any distance');
+}
+function courseFields(){
+ const heat=state?.matches.flatMap(m=>m.heats).find(h=>h.id===$('course-heat').value);
+ const expected=heat?.expected||{};
+ const track=courses.find(c=>c.id===expected.trackId||(!expected.trackId&&c.name===heat?.trackName));
+ const select=$('course-name');
+ choices(select,courses.map(c=>[c.id,c.name]),track?.id,'Choose a track');
+ courseVariants(expected.surface,expected.distance);
+ // Preserve previously saved courses that predate the bundled game catalog.
+ if(heat&&(expected.trackId||heat.trackName)&&!track){
+  select.add(new Option(heat.trackName||'Saved track','saved',true,true));
+ }
+ for(const [field,value,label] of [['surface',expected.surface,expected.surface===1?'Turf':'Dirt'],['distance',expected.distance,expected.distance+' m']]){
+  const el=$('course-'+field);
+  if(value&&!el.value)el.add(new Option(label,String(value),true,true));
+ }
+ $('course-form').querySelector('button').disabled=!courses.length||!heat;
+}
+$('course-name').onchange=()=>courseVariants(null,null);
+$('course-surface').onchange=()=>courseVariants($('course-surface').value,null);
+fetch('/api/ops/courses').then(r=>{if(!r.ok)throw Error();return r.json();}).then(rows=>{
+ courses=rows;
+ choices($('expected-track'),rows.map(c=>[c.id,c.name]),null,'Any track');
+ courseFields();
+}).catch(()=>message('Course list unavailable. Reload the desk to try again.',true));
+function showRoster(){
+ if(!state)return;
+ const players=state.tournament.players.filter(p=>!p.retired);
+ const search=$('roster-search').value.trim().toLowerCase(),select=$('roster-team');
+ const teams=(state.tournament.teams||[]).filter(t=>t.name.toLowerCase().includes(search)||players.some(p=>p.teamId===t.id&&p.name.toLowerCase().includes(search)));
+ const teamId=teams.some(t=>t.id===select.value)?select.value:teams[0]?.id;
+ choices(select,teams.map(t=>[t.id,t.name]),teamId,'Choose a team');
+ const roster=$('team-roster');roster.replaceChildren();
+ if(!teams.length){roster.textContent='No teams found.';return;}
+ const names=[...new Set([...players.map(p=>p.name),...players.map(p=>p.gameName),...(state.trainerNames||[])].filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+ for(const player of players.filter(p=>p.teamId===teamId)){
+  const row=make('div',null,'roster-player'),label=make('label',player.name),alias=make('select'),button=make('button','Save','quiet');
+  choices(alias,names.map(n=>[n,n]),player.gameName,'Choose in-game name');
+  alias.setAttribute('aria-label','In-game name for '+player.name);
+  button.type='button';button.onclick=()=>act(async()=>{await api('player-alias',{playerId:player.id,gameName:alias.value});message('In-game name saved.');});
+  label.append(alias);row.append(label,button);roster.append(row);
+ }
+}
+$('roster-search').oninput=showRoster;$('roster-team').onchange=showRoster;
 function showBracket(rounds) {
  const panel = $('site-bracket');
  panel.hidden = !rounds?.some(round => round.matches.length);
@@ -37,10 +91,10 @@ function showBracket(rounds) {
  }));
 }
 const statusNames={'not-started':'Ready · 4 / 2 / 1 points per race. First to 25.','in-progress':'Series in progress. One race does not decide the series.','awaiting-confirmation':'25 reached. Review and confirm the series winner.','tiebreaker-required':'Six races complete. Run the reserved tiebreaker track.','manual-score':'Static manual scores are active. Return to calculated scores when resolved.','confirmed':'Series winner confirmed. No automatic bracket advancement.','outcome-needs-review':'Scores changed after confirmation. The old outcome is withheld until reviewed.'};
-function render(next){state=next;$('preview-bridge').textContent=state.bridge.connected?`Game bridge ${state.bridge.version} connected.`:'Start Umamusume to see the in-game preview. The saved toggle applies when the updated plugin loads.';if(lastRevision===state.revision)return;lastRevision=state.revision;
+function render(next){state=next;$('preview-bridge').textContent=state.bridge.connected?`Game bridge ${state.bridge.version} connected.`:'Start Umamusume to see the in-game preview. The saved toggle applies when the updated plugin loads.';$('version').textContent='COMPANION '+state.version;if(lastRevision===state.revision)return;lastRevision=state.revision;
  showBracket(source?.bracket || state.site?.bracket);
  const connected=state.tournament.id==='ddt2',teams=state.tournament.teams||[];$('site-status').textContent=connected?'DDT2 connected':'Not connected';$('site-summary').textContent=connected?`${teams.length} teams · ${state.tournament.players.length} players · ${state.matches.length} local series. Source ${state.site?.commit?.slice(0,8)||'—'}. ${state.site?.pendingMatchIds?.length||0} matchups awaiting confirmed participants.`:'Connect the published DDT2 roster to this desk.';
- $('team-roster').replaceChildren(...teams.map(t=>{const c=make('section',null,'card roster-card'),head=make('h2',t.name);c.append(head);for(const p of state.tournament.players.filter(p=>p.teamId===t.id&&!p.retired)){const row=make('div',null,'roster-player'),label=make('label',p.name),input=make('input'),save=make('button','Save','quiet');input.value=p.gameName||'';input.placeholder='In-game name · not mapped';input.maxLength=120;input.setAttribute('aria-label','In-game name for '+p.name);label.append(input);save.type='button';save.addEventListener('click',()=>act(async()=>{await api('player-alias',{playerId:p.id,gameName:input.value});message('In-game alias saved. Approved results remain unchanged.');}));row.append(label,save);c.append(row);}return c;}));
+ showRoster();
  options($('series-a'),teams);options($('series-b'),teams,teams[1]?.id);$('series-form').hidden=!connected;$('match-form').hidden=connected;$('tournament-form').hidden=connected;
  options($('correction-match'),state.series,current()?.id);correctionFields();const heats=state.matches.flatMap(m=>m.heats.map(h=>({id:h.id,name:`${m.name} · Race ${h.number}${h.tiebreaker?' · Tiebreaker':''}`})));options($('manual-heat'),heats,state.activeHeatId);options($('course-heat'),heats,state.activeHeatId);heatPlayers();courseFields();
  const s=current();$('series-title').textContent=s?.name||'Select a matchup';$('series-score').replaceChildren(...(s?.teams||[]).map(t=>{const el=make('div');el.append(make('span',t.name),make('strong',t.points));return el;}));$('series-state').textContent=s?`${statusNames[s.status]} ${s.raceCount} approved races.`:'Import the published bracket, or set up a local series in Teams & bracket.';$('series-races').replaceChildren(...Array.from({length:s?7:0},(_,i)=>{const r=s.races.find(r=>r.number===i+1);return make('span',`${i===6?'TB':'R'+(i+1)} ${r?(r.manual?'Manual':'✓'):'—'}`,r?'done':'');}));
@@ -59,7 +113,12 @@ function reviewReady(){$('approve-correction').disabled=!review||!$('correction-
 $('correction-confirm').onchange=reviewReady;$('correction-operator').oninput=reviewReady;$('close-correction').onclick=()=>$('correction-dialog').close();
 $('approve-correction').onclick=()=>act(async()=>{await api(review.kind==='manual'?'manual-approve':'correction-approve',{manualId:review.id,correctionId:review.id,reviewHash:review.hash,operator:$('correction-operator').value,confirm:true,broadcastFinished:true});$('correction-dialog').close();message('Approved locally. Review publication separately before sending to DDT2.');});
 $('review-outcome').onclick=()=>{chooseTab('corrections');const s=current();if(s)$('correction-match').value=s.id;$('correction-kind').value='outcome';correctionFields();};
-$('course-form').onsubmit=e=>{e.preventDefault();act(async()=>{await api('heat-course',{heatId:$('course-heat').value,trackName:$('course-name').value,distance:Number($('course-distance').value),surface:Number($('course-surface').value),trackId:Number($('course-track').value)});message('Drafted course saved for this race slot.');});};
+$('course-form').onsubmit=e=>{e.preventDefault();act(async()=>{
+ const heat=state.matches.flatMap(m=>m.heats).find(h=>h.id===$('course-heat').value);
+ const track=courses.find(c=>String(c.id)===$('course-name').value),saved=$('course-name').value==='saved';
+ await api('heat-course',{heatId:heat.id,trackName:saved?heat.trackName:track?.name||'',trackId:saved?heat.expected.trackId:track?.id||0,distance:Number($('course-distance').value),surface:Number($('course-surface').value)});
+ message('Drafted track saved.');
+});};
 let previewURL='/matchup?demo=1';function framePreview(){const u=new URL(previewURL,location.origin);if($('preview-live').checked)u.searchParams.delete('demo');$('obs-preview').src=u.pathname+u.search;$('obs-preview').classList.toggle('race-preview',u.pathname==='/overlay');}
 for(const b of document.querySelectorAll('.preview-source'))b.onclick=()=>{previewURL=b.dataset.url;framePreview();};$('preview-live').onchange=framePreview;
 $('game-preview-form').onsubmit=e=>{e.preventDefault();act(async()=>{await api('game-preview',Object.fromEntries(['enabled','demo','x','y','scale','opacity'].map(k=>[k,['enabled','demo'].includes(k)?$('game-preview-'+k).checked:Number($('game-preview-'+k).value)])));message('In-game preview settings saved. F8 toggles the independent plugin drawing.');});};

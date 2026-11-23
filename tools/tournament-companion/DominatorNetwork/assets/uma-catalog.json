@@ -694,5 +694,41 @@
     "name": "Zenno Rob Roy",
     "outfit": "Heroic Author",
     "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104701.png"
+  },
+  {
+    "card": 104603,
+    "name": "Smart Falcon",
+    "outfit": "Luminous ☆ Twirler",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/104603.png"
+  },
+  {
+    "card": 111501,
+    "name": "Orfevre",
+    "outfit": "Total Dominion",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/111501.png"
+  },
+  {
+    "card": 106502,
+    "name": "Daitaku Helios",
+    "outfit": "Joyful Jamboree!",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/106502.png"
+  },
+  {
+    "card": 100403,
+    "name": "Maruzensky",
+    "outfit": "Auspicious Maiden of Divine Speed",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/100403.png"
+  },
+  {
+    "card": 107602,
+    "name": "Sakura Laurel",
+    "outfit": "Nouvelle Pousse",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/107602.png"
+  },
+  {
+    "card": 111601,
+    "name": "Gentildonna",
+    "outfit": "Regina dei Fiori",
+    "art": "https://raw.githubusercontent.com/Flyingsparks1130/uma-race-art/82f9fc0876103ac2378ded370065e5838cdff2c5/assets/racewear/111601.png"
   }
 ]

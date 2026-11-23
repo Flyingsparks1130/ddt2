@@ -1,5 +1,6 @@
 import {heatFor,requireThat} from './domain.mjs';
 import {seriesRows,seriesSummary} from './series.mjs';
+import {representativeCard} from './ddt2.mjs';
 import catalog from '../assets/uma-catalog.json' with {type:'json'};
 
 export const umaCatalog=catalog;
@@ -28,7 +29,9 @@ export function broadcastState(state,config,connected=false) {
  if(!active?.match.teamIds?.length)return base;
  const {match,heat}=active,summary=seriesSummary(state,match),races=seriesRows(state,match);
  const recorded=races.find(r=>r.heatId===heat.id);
- const teams=summary.teams.map(team=>({...team,players:team.players.map(player=>{
+ const teams=summary.teams.map(team=>({...team,
+  representative:umaFor(representativeCard(state.tournament.teams.find(t=>t.id===team.id)||team,state.tournament.id)),
+  players:team.players.map(player=>{
   const row=recorded?.rows.find(r=>r.playerId===player.id);
   const card=row?.card||heat.lineup?.[player.id];
   return {...player,uma:umaFor(card,row?.name),lineupSource:row?.card?'approved':card?'selected':'unknown'};

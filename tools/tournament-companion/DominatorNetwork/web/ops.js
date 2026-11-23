@@ -3,18 +3,35 @@ let state=null,reviewData=null,selectedRace=null,publication=null,busy=false,set
 const node=(tag,text,className)=>{const el=document.createElement(tag);if(text!=null)el.textContent=text;if(className)el.className=className;return el;};
 const notice=(message,error=false)=>{$('notice').hidden=false;$('notice').textContent=message;$('notice').classList.toggle('error',error);};
 const time=iso=>new Date(iso).toLocaleString();
-async function api(route,body){const options=body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({...body,revision:state?.revision})};const res=await fetch('/api/ops/'+route,{...options,cache:'no-store'});const data=await res.json();if(!res.ok)throw Error(data.error||'Operation failed');return data;}
+async function api(route,body){const options=body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({revision:state?.revision,...body})};const res=await fetch('/api/ops/'+route,{...options,cache:'no-store'});const data=await res.json();if(!res.ok)throw Error(data.error||'Operation failed');return data;}
 async function action(fn){if(busy)return;busy=true;try{await fn();await refresh();}catch(e){notice(e.message,true);await refresh();}finally{busy=false;}}
 function heatOptions(select,current){select.replaceChildren(node('option','Select a heat'));select.firstChild.value='';for(const match of state.matches)for(const heat of match.heats){const option=node('option',`${match.name} · ${match.round} · Heat ${heat.number}`);option.value=heat.id;select.append(option);}select.value=current||'';}
 function findHeat(heatId){for(const match of state.matches){const heat=match.heats.find(h=>h.id===heatId);if(heat)return {match,heat};}return null;}
-function matchOptions(){const old=$('match-select').value,active=findHeat(state.activeHeatId);$('match-select').replaceChildren(node('option','Select a match'));$('match-select').firstChild.value='';for(const m of state.matches){const o=node('option',m.name);o.value=m.id;$('match-select').append(o);}if(state.matches.some(m=>m.id===old))$('match-select').value=old;else $('match-select').value=active?.match.id||'';updateHeats();}
-function updateHeats(){const old=$('heat-select').value;const match=state.matches.find(m=>m.id===$('match-select').value);$('heat-select').replaceChildren();for(const h of match?.heats||[]){const approved=state.races.some(r=>r.heatId===h.id&&r.status==='approved')||(state.manualHeats||[]).some(r=>r.heatId===h.id&&r.status==='approved');const o=node('option',`${h.number===7?'Tiebreaker':'Race '+h.number}${approved?' · Approved':''}`);o.value=h.id;$('heat-select').append(o);}if(match?.heats.some(h=>h.id===old))$('heat-select').value=old;else if(match?.heats.some(h=>h.id===state.activeHeatId))$('heat-select').value=state.activeHeatId;$('select-heat').disabled=!match;}
+function matchOptions(){
+ const select=$('match-select'),old=select.value,active=findHeat(state.activeHeatId);
+ select.replaceChildren(new Option('Select a match',''));
+ for(const [official,label] of [[true,'Published bracket'],[false,'Local matches']]){
+  const group=document.createElement('optgroup');group.label=label;
+  for(const match of state.matches.filter(m=>Boolean(m.siteMatchId)===official))group.append(new Option(match.name,match.id));
+  if(group.children.length)select.append(group);
+ }
+ select.value=state.matches.some(m=>m.id===old)?old:active?.match.id||'';
+ updateHeats();
+}
+$('delete-match').addEventListener('click',()=>{
+ const match=state.matches.find(m=>m.id===$('match-select').value);
+ if(!match)return;
+ const revision=state.revision;
+ if(!confirm('Delete '+match.name+' from this desk? Its saved results stay in the tournament record.'))return;
+ action(async()=>{await api('delete-match',{matchId:match.id,confirm:true,revision});notice('Match removed from this desk.');});
+});
+function updateHeats(){const old=$('heat-select').value;const match=state.matches.find(m=>m.id===$('match-select').value);$('heat-select').replaceChildren();for(const h of match?.heats||[]){const approved=state.races.some(r=>r.heatId===h.id&&r.status==='approved')||(state.manualHeats||[]).some(r=>r.heatId===h.id&&r.status==='approved');const o=node('option',`${h.number===7?'Tiebreaker':'Race '+h.number}${approved?' · Approved':''}`);o.value=h.id;$('heat-select').append(o);}if(match?.heats.some(h=>h.id===old))$('heat-select').value=old;else if(match?.heats.some(h=>h.id===state.activeHeatId))$('heat-select').value=state.activeHeatId;$('select-heat').disabled=!match;$('delete-match').disabled=!state.canDeleteMatch||!match||match.heats.some(h=>h.id===state.armedHeatId);}
 function setup(){if(setupLoaded)return;const t=state.tournament;$('tournament-name').value=t.name;$('points').value=t.rules?.points.join(', ')||'';$('tiebreak').value=t.rules?.tiebreak||'shared';$('participants').value=t.players.map(p=>`${p.name} | ${p.gameName} | ${p.team}`).join('\n');$('watch-folder').value=state.watch.folder||state.suggestedWatchFolder||'';$('watch-enabled').checked=state.watch.enabled;for(const key of ['owner','repo','branch','file'])$('github-'+key).value=state.github[key];setupLoaded=true;}
 function standings(id,rows){const target=$(id);target.replaceChildren();if(!rows.length){target.textContent=id==='team-standings'?'No team scores yet.':'No approved scores yet.';return;}for(const row of rows){const el=node('div',null,'standings-row');el.append(node('span',row.rank),node('b',row.name),node('span',`${row.points} pts`));target.append(el);}}
 function render(){if(!state)return;const active=findHeat(state.activeHeatId),approved=state.races.filter(r=>r.status==='approved').length+(state.manualHeats||[]).filter(r=>r.status==='approved').length,pending=state.races.filter(r=>r.status==='pending').length;
  document.dispatchEvent(new CustomEvent('opsstate',{detail:state}));
  $('bridge').textContent=state.bridge.connected?(state.bridge.active?`Game connected · ${state.bridge.count} runners`:'Game connected · Waiting'):'Game offline · Operations available';$('bridge').className='badge'+(state.bridge.connected?' live':'');
- $('active-title').textContent=active?.match.name||'No heat selected';$('active-subtitle').textContent=active?`${active.match.stage} · ${active.match.round} · Heat ${active.heat.number}`:(state.tournament.id==='ddt2'?'Open Match setup to create your matchup.':'Open Match setup to create your matchup.');
+ $('active-title').textContent=active?.match.name||'No heat selected';$('active-subtitle').textContent=active?`${active.match.stage} · ${active.match.round} · Heat ${active.heat.number}`:(state.matches.length?'Choose a match and race below.':'Open Match Setup to create a matchup.');
  $('format-label').textContent=state.tournament.rules?'Points by finishing position':'To be decided';$('format-detail').textContent=state.tournament.rules?`${state.tournament.rules.points.join(' / ')} · ${state.tournament.rules.tiebreak==='shared'?'Shared ties':'Countback ties'}`:'Scoring and approval wait for configured rules.';
  $('counts').textContent=`${approved} approved`;$('queue-count').textContent=`${pending} awaiting review`;$('armed').textContent=state.armedHeatId?'Waiting for the next race':'Not armed';$('armed').className='badge'+(state.armedHeatId?' warning':'');$('disarm').hidden=!state.armedHeatId;$('arm').disabled=!active||!state.watch.enabled||!!state.armedHeatId;
  $('sync').textContent=state.overlayNotice||'Use this race updates your broadcast scenes. Capture next race waits for one new horseACT file.';
