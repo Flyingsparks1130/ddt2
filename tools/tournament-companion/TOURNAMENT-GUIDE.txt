@@ -84,3 +84,6 @@ are the fallback. Exact outfit names come from the English game catalog.
 
 MATCH MANAGEMENT
 Published bracket matches and locally created matches are grouped separately in Race Desk. Select a match and choose Delete match to remove it from this desk. Cancel capture first if the match is armed. Approved results stay in the tournament record. Each operator manages their own desk.
+
+UPDATING AN OPEN DESK
+If 0.6.2 is still running after 0.6.3 is installed, save any pending edits and open the Tournament Helper shortcut. Choose Yes to switch versions. The launcher checks the running desk again before switching. The game and saved tournament stay in place.
