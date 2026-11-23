@@ -1,11 +1,11 @@
-DOMINATOR TOURNAMENT COMPANION 0.6.7 — WINDOWS x64
+DOMINATOR TOURNAMENT COMPANION 0.6.8 — WINDOWS x64
 
 For Steam Umamusume with a Hachimi build supporting plugin API v3 and
 hachimi_register_present_callback. horseACT remains a separate prerequisite
 for automatic race JSON capture. Neither dependency is bundled or modified.
 
 INSTALL / UPDATE
-1. Obtain Dominator-Tournament-0.6.7-win64.zip privately from the organizer.
+1. Obtain Dominator-Tournament-0.6.8-win64.zip privately from the organizer.
    Extract it outside your game folder. Public installer downloads are withdrawn.
 2. Close Umamusume and the existing Tournament Companion, if running.
 3. Run Install.cmd. Paste Steam > Umamusume > Manage > Browse local files.

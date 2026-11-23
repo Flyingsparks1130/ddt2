@@ -6,6 +6,7 @@ import {readFile,stat,readdir,mkdir,writeFile} from 'node:fs/promises';
 import {initialState,InputError,requireThat,id,text,cleanName,digest,rulesFrom,playersFrom,heatFor,readRace,reviewRace as baseReview,publicBundle as baseBundle} from './domain.mjs';
 import {roundName,finalized,highlight,packageZip,matchExport,enrichPackage} from './production.mjs';
 import {openStore,atomicWrite} from './store.mjs';
+import {matchEmail} from './match-email.mjs';
 import {publicationPreview} from './github.mjs';
 import {sourcePreview,importDDT2,bracketPreview} from './ddt2.mjs';
 import {broadcastState,saveLineup,umaCatalog} from './broadcast.mjs';
@@ -13,6 +14,14 @@ import {matchLineup,resetMatch,needsMatchRecovery,recoverMatches,allSeries,serie
 
 function reviewRace(state,race){const review=baseReview(state,race);if(race.heatId)checkSeriesRace(state,race,review.problems);review.problems=[...new Set(review.problems)];review.canApprove=review.problems.length===0&&race.status==='pending';review.hash=digest({review,revision:state.revision});return review;}
 function publicBundle(state){const bundle=baseBundle(state);if(state.tournament.seriesFormat)bundle.series={schema:'ddt2-series/v1',teams:state.tournament.teams,matches:allSeries(state),sourceCommit:state.site?.commit||null};return bundle;}
+async function matchAttachment(matchId) {
+ const bundle = matchExport(publicBundle(store.state), matchId);
+ const match = bundle.series.matches[0];
+ return {
+  filename: 'DDT2-' + match.siteMatchId + '.zip',
+  content: packageZip(await enrichPackage(bundle, dataDir))
+ };
+}
 
 const here=path.dirname(fileURLToPath(import.meta.url));
 const args=Object.fromEntries(process.argv.slice(2).map((v,i,a)=>v.startsWith('--')?[v.slice(2),a[i+1]]:null).filter(Boolean));
@@ -20,6 +29,7 @@ const port=Number(args.port||27840),bridgePort=Number(args['bridge-port']||27845
 const root=path.resolve(args.root||path.dirname(here));
 const dataDir=path.resolve(args.data||path.join(process.env.LOCALAPPDATA||path.join(os.homedir(),'AppData','Local'),'DominatorTournament'));
 const origin=`http://127.0.0.1:${port}`,bridgeOrigin=`http://127.0.0.1:${bridgePort}`;
+const email = matchEmail(dataDir, matchAttachment);
 const settingsPath=path.join(root,'obs-settings.json');
 const previewPath=path.join(root,'game-preview.json');
 const previewDefaults={enabled:false,demo:true,x:16,y:100,scale:1,opacity:1};
@@ -85,7 +95,7 @@ function opsState(){
  const state=store.state,bundle=publicBundle(state);
  const {matches,races}=state;
  const trainerNames=[...new Set(races.flatMap(r=>r.runners.map(entry=>entry.trainer)).filter(Boolean))].sort();
- return {version:'0.6.7',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
+ return {version:'0.6.8',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
  races:races.map(({id,filename,heatId,status,importedAt,runners,voidReason})=>({id,filename,heatId,status,importedAt,count:runners.length,voidReason})),
  watch:state.watch,watchNotice,github:state.github,publication:publicationPreview(state,bundle,!!process.env.DOMINATOR_GITHUB_TOKEN),publications:state.publications.slice(-10).reverse(),
  standings:bundle.standings,audit:state.audit.slice(-30).reverse(),locked:state.races.some(r=>r.status==='approved'),bridge:{connected:!!bridge,active:!!bridge?.active,count:bridge?.runners?.length||0,version:bridge?.version||null},overlayNotice};}
@@ -168,13 +178,17 @@ const server=http.createServer(async(req,res)=>{try{
  const url=new URL(req.url,origin),route=url.pathname;
  if(req.method==='POST'){requireThat(req.headers.origin===origin&&String(req.headers['content-type']||'').startsWith('application/json'),'Operations must come from this local console.',403);
   if(route==='/api/config'){requireThat(req.headers['x-dominator-settings']==='1','Invalid settings request.',403);return response(res,200,await saveConfig(await bodyOf(req)));}
-  requireThat(route.startsWith('/api/ops/')&&req.headers['x-dominator-ops']==='1','Invalid operation request.',403);return response(res,200,await mutate(route.slice('/api/ops/'.length),await bodyOf(req)));}
+  requireThat(route.startsWith('/api/ops/')&&req.headers['x-dominator-ops']==='1','Invalid operation request.',403);
+  if(route==='/api/ops/email-settings')return response(res,200,await email.configure(await bodyOf(req)));
+  if(route==='/api/ops/email-match')return response(res,200,await email.send((await bodyOf(req)).matchId));
+  return response(res,200,await mutate(route.slice('/api/ops/'.length),await bodyOf(req)));}
  requireThat(req.method==='GET','Method not allowed.',405);
  if(route==='/api/state'){if(!bridge)return response(res,503,{error:'Game bridge offline'});return response(res,200,{...bridge,config});}
  if(route==='/api/config')return response(res,200,config);
+ if(route==='/api/ops/email-settings')return response(res,200,await email.status());
  if(route==='/api/ops/match-zip'){
-  const bundle=matchExport(publicBundle(store.state),url.searchParams.get('match'));
-  return response(res,200,packageZip(await enrichPackage(bundle,dataDir)),'application/zip',{'Content-Disposition':'attachment; filename="DDT2-'+bundle.series.matches[0].siteMatchId+'.zip"'});
+  const attachment=await matchAttachment(url.searchParams.get('match'));
+  return response(res,200,attachment.content,'application/zip',{'Content-Disposition':'attachment; filename="'+attachment.filename+'"'});
  }
  if(route==='/api/ops/finalized')return response(res,200,finalized(store.state,url.searchParams.get('heat')));
  if(route==='/api/results')return response(res,200,finalized(store.state,store.state.activeHeatId));
@@ -204,6 +218,6 @@ await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
 const opened=await openStore(dataDir,config.tournament);
 if(needsMatchRecovery(opened.state))await opened.transaction(recoverMatches);
 store=opened;
-await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.7',startedAt:new Date().toISOString()}));
+await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.8',startedAt:new Date().toISOString()}));
 await refreshBridge();setInterval(refreshBridge,100);setInterval(watchTick,2000);
-console.log(`DDT2 tournament companion 0.6.7: ${origin} (bridge ${bridgePort})`);
+console.log(`DDT2 tournament companion 0.6.8: ${origin} (bridge ${bridgePort})`);
