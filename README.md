@@ -4,7 +4,7 @@
 
 [Operator guide](tools/tournament-companion/TOURNAMENT-GUIDE.txt) · [Private operator handoff](docs/private-operator-handoff.md) · [Site integration](docs/companion-operations.md)
 
-Dominator Draft Tournament 2 starts November 29, 2026. Twelve teams have registered five players each. The bracket, rounds and matchups remain unconfirmed; no drafts, builds or results have been submitted. The Rulebook includes the organizer's five-trainer draft format, Unity Cup build requirements and 4/2/1 scoring to 25 points. The prize pool is six Discord Nitro prizes; allocation and match times are to be announced.
+Dominator Draft Tournament 2 starts November 29, 2026. Twelve teams have registered five players each. The draw is confirmed. Four opening matches feed the quarterfinals, semifinals and grand final. Drafts, builds and results are pending. The Rulebook includes the organizer's five-trainer draft format, Unity Cup build requirements and 4/2/1 scoring to 25 points. The prize pool is six Discord Nitro prizes; allocation and match times are to be announced.
 
 ## Public interface
 
@@ -24,7 +24,7 @@ Home and Bracket prioritize the followed team's published match information. The
 - `data/tournament-index.json`: generated event index.
 - `data/tournament-statistics.json`: generated statistics; no awards.
 
-The organizer engine still validates a configured four-round elimination bracket. Confirm the next format before creating its structure. Engine tests use a separate synthetic fixture; no test fixture is published.
+The organizer engine still validates a configured four-round elimination bracket. The DDT2 draw uses four opening fixtures, four quarterfinals, two semifinals and one final. Engine tests use a separate synthetic fixture; no test fixture is published.
 
 ## Exact outfit images
 
