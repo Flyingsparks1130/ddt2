@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {raceView,podium,fit,renderDensity,styles,sampleRace,visibleLights} from '../DominatorNetwork/web/model.js';
+import {suggestedPlayer,raceView,podium,fit,renderDensity,styles,sampleRace,visibleLights} from '../DominatorNetwork/web/model.js';
 assert.deepEqual(raceView(null,false),{visible:false,live:false,count:18});
 assert.deepEqual(raceView({active:false,runners:[]},true),{visible:true,live:false,count:18});
 const race=sampleRace(3,9,'all');
@@ -19,3 +19,15 @@ const early=sampleRace(3,18,'all'),later=sampleRace(8,18,'all');
 assert(early.runners.some(r=>r.rank!==later.runners.find(n=>n.id===r.id).rank));
 for(const row of early.runners){assert(Object.values(visibleLights(row,3)).every(Boolean));assert.equal(visibleLights(row,7).lateStart,false);assert(Object.values(visibleLights({...row,finished:true},3)).every(v=>!v));}
 console.log('PASS: connected waiting panel, retained field size, offline hiding, podium ranks, style initials, equal-size high-density rendering, moving fixture and status expiry.');
+
+const roster=[{id:'a',name:'Flyingsparkz',gameName:''},{id:'b',name:'Bean',gameName:'Green'},{id:'c',name:'Sonic',gameName:''}];
+const named={trainer:' @FLYINGSPARKZ ',card:101};
+const missing={trainer:'',card:102};
+const lineup={a:101,b:102,c:103};
+assert.equal(suggestedPlayer(named,roster,lineup,[named]),'a');
+assert.equal(suggestedPlayer({...named,trainer:'green'},roster,lineup,[named]),'b');
+assert.equal(suggestedPlayer(missing,roster,lineup,[missing]),'b');
+assert.equal(suggestedPlayer(missing,roster,lineup,[missing,missing]),'');
+assert.equal(suggestedPlayer(missing,roster,{...lineup,c:102},[missing]),'');
+assert.equal(suggestedPlayer({...missing,card:0},roster,lineup,[missing]),'');
+assert.equal(suggestedPlayer(named,[...roster,{id:'d',gameName:'flyingsparkz'}],lineup,[named]),'');

@@ -1,3 +1,5 @@
+import {courseCatalogReady,syncDraftedTracks} from './ddt2-ops.js';
+import {raceLabels,suggestedPlayer} from './model.js';
 const $=id=>document.getElementById(id);
 let state=null,reviewData=null,selectedRace=null,publication=null,busy=false,setupLoaded=false,lastRenderedRevision=-1;
 const node=(tag,text,className)=>{const el=document.createElement(tag);if(text!=null)el.textContent=text;if(className)el.className=className;return el;};
@@ -5,7 +7,7 @@ const notice=(message,error=false)=>{$('notice').hidden=false;$('notice').textCo
 const time=iso=>new Date(iso).toLocaleString();
 async function api(route,body){const options=body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({revision:state?.revision,...body})};const res=await fetch('/api/ops/'+route,{...options,cache:'no-store'});const data=await res.json();if(!res.ok)throw Error(data.error||'Operation failed');return data;}
 async function action(fn){if(busy)return;busy=true;try{await fn();await refresh();}catch(e){notice(e.message,true);await refresh();}finally{busy=false;}}
-function heatOptions(select,current){select.replaceChildren(node('option','Select a heat'));select.firstChild.value='';for(const match of state.matches)for(const heat of match.heats){const option=node('option',`${match.name} · ${match.round} · Heat ${heat.number}`);option.value=heat.id;select.append(option);}select.value=current||'';}
+function heatOptions(select,current){select.replaceChildren(node('option','Select a heat'));select.firstChild.value='';for(const match of state.matches)for(const heat of match.heats){const option=node('option',`${match.name} · ${match.stage||match.round} · ${heat.tiebreaker?'Tiebreaker':'Race '+heat.number}`);option.value=heat.id;select.append(option);}select.value=current||'';}
 function findHeat(heatId){for(const match of state.matches){const heat=match.heats.find(h=>h.id===heatId);if(heat)return {match,heat};}return null;}
 function matchOptions(){
  const select=$('match-select'),old=select.value,active=findHeat(state.activeHeatId);
@@ -25,7 +27,13 @@ $('delete-match').addEventListener('click',()=>{
  if(!confirm('Delete '+match.name+' from this desk? Its saved results stay in the tournament record.'))return;
  action(async()=>{await api('delete-match',{matchId:match.id,confirm:true,revision});notice('Match removed from this desk.');});
 });
-function updateHeats(){const old=$('heat-select').value;const match=state.matches.find(m=>m.id===$('match-select').value);$('heat-select').replaceChildren();for(const h of match?.heats||[]){const approved=state.races.some(r=>r.heatId===h.id&&r.status==='approved')||(state.manualHeats||[]).some(r=>r.heatId===h.id&&r.status==='approved');const o=node('option',`${h.number===7?'Tiebreaker':'Race '+h.number}${approved?' · Approved':''}`);o.value=h.id;$('heat-select').append(o);}if(match?.heats.some(h=>h.id===old))$('heat-select').value=old;else if(match?.heats.some(h=>h.id===state.activeHeatId))$('heat-select').value=state.activeHeatId;$('select-heat').disabled=!match;$('delete-match').disabled=!state.canDeleteMatch||!match||match.heats.some(h=>h.id===state.armedHeatId);}
+function updateHeats(){const old=$('heat-select').value;const match=state.matches.find(m=>m.id===$('match-select').value);$('heat-select').replaceChildren();for(const h of match?.heats||[]){const approved=state.races.some(r=>r.heatId===h.id&&r.status==='approved')||(state.manualHeats||[]).some(r=>r.heatId===h.id&&r.status==='approved');const o=node('option',`${h.number===7?'Tiebreaker':'Race '+h.number}${approved?' · Approved':''}`);o.value=h.id;$('heat-select').append(o);}if(match?.heats.some(h=>h.id===old))$('heat-select').value=old;else if(match?.heats.some(h=>h.id===state.activeHeatId))$('heat-select').value=state.activeHeatId;$('select-heat').disabled=!match;$('delete-match').disabled=!state.canDeleteMatch||!match||match.heats.some(h=>h.id===state.armedHeatId);syncDeskSelection();}
+function syncDeskSelection(){
+ const match=state.matches.find(m=>m.id===$('match-select').value);
+ syncDraftedTracks(match,$('heat-select').value);
+ document.dispatchEvent(new Event('deskselection'));
+}
+$('heat-select').addEventListener('change',syncDeskSelection);
 function setup(){if(setupLoaded)return;const t=state.tournament;$('tournament-name').value=t.name;$('points').value=t.rules?.points.join(', ')||'';$('tiebreak').value=t.rules?.tiebreak||'shared';$('participants').value=t.players.map(p=>`${p.name} | ${p.gameName} | ${p.team}`).join('\n');$('watch-folder').value=state.watch.folder||state.suggestedWatchFolder||'';$('watch-enabled').checked=state.watch.enabled;for(const key of ['owner','repo','branch','file'])$('github-'+key).value=state.github[key];setupLoaded=true;}
 function standings(id,rows){const target=$(id);target.replaceChildren();if(!rows.length){target.textContent=id==='team-standings'?'No team scores yet.':'No approved scores yet.';return;}for(const row of rows){const el=node('div',null,'standings-row');el.append(node('span',row.rank),node('b',row.name),node('span',`${row.points} pts`));target.append(el);}}
 function render(){if(!state)return;const active=findHeat(state.activeHeatId),approved=state.races.filter(r=>r.status==='approved').length+(state.manualHeats||[]).filter(r=>r.status==='approved').length,pending=state.races.filter(r=>r.status==='pending').length;
@@ -48,17 +56,78 @@ function render(){if(!state)return;const active=findHeat(state.activeHeatId),app
  $('publications').replaceChildren();for(const entry of state.publications){const el=node('div',null,'audit-item');el.append(node('strong',`${entry.target.owner}/${entry.target.repo}`),node('small',time(entry.at)),node('p',entry.commit?`Commit ${entry.commit.slice(0,12)}`:'Existing matching publication confirmed'));$('publications').append(el);}if(!state.publications.length)$('publications').textContent='Nothing has been sent to GitHub.';
 }
 async function refresh(){try{state=await api('state');render();}catch(e){notice('Companion connection unavailable: '+e.message,true);}}
-async function openReview(raceId){reviewData=await api('race/'+raceId);selectedRace=raceId;const {race,review}=reviewData;$('review-empty').hidden=true;$('review-content').hidden=false;$('review-title').textContent=race.filename;$('review-status').textContent=race.status;
- const track=review.track;$('review-track').textContent=`${track.name||'Track '+track.id} · ${track.distance} m · ${{1:'Turf',2:'Dirt'}[track.surface]||'Unknown surface'} · ${review.heat?'Heat '+review.heat.number:'Unassigned'}`;
- heatOptions($('assign-heat'),race.heatId);$('assign').disabled=race.status!=='pending';$('assign-heat').disabled=race.status!=='pending';$('save-mapping').hidden=race.status!=='pending';$('approval-form').hidden=race.status!=='pending';$('void').disabled=race.status==='void';$('void-reason').value='';$('broadcast-finished').checked=false;$('approve').disabled=true;
- $('review-problems').replaceChildren(...review.problems.map(p=>node('li',p)));if(race.voidReason)$('review-problems').append(node('li','Voided: '+race.voidReason));
- const match=findHeat(race.heatId)?.match,players=state.tournament.players.filter(p=>match?.playerIds.includes(p.id));$('race-rows').replaceChildren();
- for(const row of review.rows){const tr=node('tr');tr.append(node('td',row.rank,'numeric'));const identity=node('td',row.name);identity.append(node('small',`Card ${row.card} · Gate ${row.gate}`),node('small',row.trainer||'No player name'));tr.append(identity);const who=node('td');
-  if(race.status==='pending'){const select=node('select');select.dataset.runner=String(row.index);select.setAttribute('aria-label',`Participant for gate ${row.gate}`);const unset=node('option','Assign participant');unset.value='';select.append(unset);for(const player of players){const option=node('option',player.name);option.value=player.id;select.append(option);}select.value=row.playerId||'';who.append(select);}
-  else who.textContent=row.playerName;tr.append(who,node('td',Number(row.finishTime).toFixed(3),'numeric'),node('td',row.points??'—','numeric'));$('race-rows').append(tr);
- }
- lastRenderedRevision=-1;render();$('review-card').scrollIntoView({behavior:'smooth',block:'start'});
+let reviewRevision=0;
+function reviewRoster(){
+ const heatId=$('assign-heat').value;
+ const {match,heat}=findHeat(heatId)||{};
+ const players=state.tournament.players.filter(p=>match?.playerIds.includes(p.id));
+ return {heatId,match,players,lineup:heat?.lineup};
 }
+function renderReviewRows(){
+ const {race,review}=reviewData,{match,players,heatId,lineup}=reviewRoster();
+ const pending=race.status==='pending';
+ $('race-rows').replaceChildren();
+ for(const row of review.rows){
+  const tr=node('tr'),identity=node('td',row.name);
+  identity.append(node('small',row.card?'Card '+row.card+' · Gate '+row.gate:'Gate '+row.gate),node('small',row.trainer||'Name missing from capture'));
+  const who=node('td');
+  if(pending){
+   const select=node('select');select.dataset.runner=String(row.index);
+   select.setAttribute('aria-label','Participant for gate '+row.gate);
+   select.add(new Option(match?'Choose player':'Choose a match first',''));
+   for(const player of players)select.add(new Option(player.name+(player.team?' · '+player.team:''),player.id));
+   const saved=heatId===race.heatId&&race.mapping?.[row.index];
+   select.value=saved||suggestedPlayer(row,players,lineup,review.rows);select.disabled=!players.length;
+   who.append(select);
+  }else who.textContent=row.playerName||'—';
+  tr.append(node('td',row.rank,'numeric'),identity,who,node('td',Number(row.finishTime).toFixed(3),'numeric'),node('td',row.points??'—','numeric'));
+  $('race-rows').append(tr);
+ }
+ reviewStatus();
+}
+function reviewStatus(){
+ const {race,review}=reviewData,{match,players,heatId,lineup}=reviewRoster();
+ const pending=race.status==='pending',ddt=state.tournament.id==='ddt2';
+ const selectors=[...$('race-rows').querySelectorAll('select')];
+ const picked=selectors.filter(s=>s.value),unique=new Set(picked.map(s=>s.value)).size;
+ const wrongSize=ddt&&race.runners.length!==10;
+ const complete=!!match&&picked.length===selectors.length&&(!ddt||(unique===10&&players.length===10&&!wrongSize));
+ const saved=!!match&&heatId===race.heatId&&complete&&selectors.every(s=>race.mapping?.[s.dataset.runner]===s.value);
+ let status='';
+ if(pending){
+  if(wrongSize)status='This capture has '+race.runners.length+' runners. A DDT2 result requires 10.';
+  else if(!match)status='Choose the match and race to load its players.';
+  else if(saved)status='Players confirmed. Check the order and points, enter your name, then approve once the race ends on broadcast.';
+  else if(unique<picked.length&&ddt)status='A player is selected twice. Choose a different player for one of those gates.';
+  else status=picked.length+' of '+selectors.length+' players selected. '+(complete?'Check the names, then confirm.':'Choose a player for each remaining gate.');
+ }
+ $('roster-status').textContent=status;
+ $('save-mapping').hidden=!pending;$('save-mapping').disabled=!match||(ddt&&!complete)||saved;
+ $('save-mapping').textContent=ddt?'Confirm players':'Save participant assignments';
+ $('assign').hidden=ddt||!pending;$('assign').disabled=!match||heatId===race.heatId;
+ const problems=review.problems.filter(p=>!pending||(!p.startsWith('Assign gate ')&&!p.startsWith('Missing participant:')&&p!=='Assign this race to a match and heat.'&&p!=='DDT2 needs ten runners, one per registered player.'&&p!=='Assign each of the ten runners to a different registered player.'));
+ $('review-problems').replaceChildren(...(heatId===race.heatId?problems:[]).map(p=>node('li',p)));
+ if(race.voidReason)$('review-problems').append(node('li','Voided: '+race.voidReason));
+ const reviewedMapping=selectors.every((select,i)=>select.value===(review.rows[i]?.playerId||''));
+ return pending&&(ddt?saved:heatId===race.heatId&&reviewedMapping)&&review.canApprove;
+}
+async function openReview(raceId){
+ reviewRevision=state.revision;
+ const [detail,courses]=await Promise.all([api('race/'+raceId),courseCatalogReady]);
+ reviewData=detail;selectedRace=raceId;
+ const {race,review}=detail,track=review.track;
+ const course=track.name?.trim()||courses.find(c=>c.id===Number(track.id))?.name;
+ const labels=raceLabels({...track,track:course,trackId:track.id});
+ $('review-title').textContent=race.filename;$('review-status').textContent=race.status;
+ $('review-track').textContent=[labels.track,labels.distance,labels.surface,track.going&&labels.going,track.weather&&labels.weather,track.season&&labels.season].filter(Boolean).join(' · ');
+ $('review-empty').hidden=true;$('review-content').hidden=false;
+ const pending=race.status==='pending';
+ heatOptions($('assign-heat'),race.heatId||(pending&&($('heat-select').value||state.activeHeatId)));
+ $('assign-heat').disabled=!pending;$('approval-form').hidden=!pending;
+ $('void').disabled=race.status==='void';$('void-reason').value='';$('broadcast-finished').checked=false;$('approve').disabled=true;
+ renderReviewRows();$('review-card').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('assign-heat').onchange=()=>{renderReviewRows();$('broadcast-finished').checked=false;$('approve').disabled=true;};
 for(const button of document.querySelectorAll('[data-tab]'))button.addEventListener('click',()=>{for(const view of document.querySelectorAll('.view'))view.hidden=view.id!==button.dataset.tab;for(const tab of document.querySelectorAll('.tab'))tab.classList.toggle('active',tab===button);});
 $('match-select').addEventListener('change',updateHeats);
 $('select-heat').addEventListener('click',()=>action(async()=>{await api('select',{heatId:$('heat-select').value});notice('Heat selected. The broadcast header is synchronized.');}));
@@ -70,10 +139,20 @@ $('match-form').addEventListener('submit',event=>{event.preventDefault();action(
 $('watch-form').addEventListener('submit',event=>{event.preventDefault();action(async()=>{await api('watch',{folder:$('watch-folder').value,enabled:$('watch-enabled').checked});notice('Race folder saved. Existing files will not be imported automatically.');});});
 $('github-form').addEventListener('submit',event=>{event.preventDefault();action(async()=>{await api('github',Object.fromEntries(['owner','repo','branch','file'].map(key=>[key,$('github-'+key).value])));notice('GitHub destination saved. No files were published.');});});
 $('assign').addEventListener('click',()=>action(async()=>{await api('assign',{raceId:selectedRace,heatId:$('assign-heat').value});await refresh();await openReview(selectedRace);}));
-$('save-mapping').addEventListener('click',()=>action(async()=>{const mapping=Object.fromEntries([...$('race-rows').querySelectorAll('select')].filter(s=>s.value).map(s=>[s.dataset.runner,s.value]));await api('map',{raceId:selectedRace,mapping});await refresh();await openReview(selectedRace);notice('Participant assignments saved. Review the calculated points.');}));
-function approvalReady(){$('approve').disabled=!reviewData?.review.canApprove||!$('broadcast-finished').checked||!$('operator').value.trim();}
+$('save-mapping').addEventListener('click',()=>action(async()=>{
+ const heatId=$('assign-heat').value,raceId=selectedRace;
+ if(state.revision!==reviewRevision)throw Error('The desk has changed. Reopen this capture before confirming the players.');
+ const mapping=Object.fromEntries([...$('race-rows').querySelectorAll('select')].filter(s=>s.value).map(s=>[s.dataset.runner,s.value]));
+ if(reviewData.race.heatId!==heatId){
+  await api('assign',{raceId,heatId,revision:reviewRevision});
+  reviewRevision++;reviewData.race.heatId=heatId;reviewData.race.mapping={};
+ }
+ await api('map',{raceId,mapping,revision:reviewRevision});
+ await refresh();await openReview(raceId);notice('Players saved. Check the points before approving.');
+}));
+function approvalReady(){$('approve').disabled=!reviewData||!reviewStatus()||!$('broadcast-finished').checked||!$('operator').value.trim();}
 $('broadcast-finished').addEventListener('change',approvalReady);$('operator').addEventListener('input',approvalReady);
-$('race-rows').addEventListener('change',()=>{$('approve').disabled=true;$('broadcast-finished').checked=false;reviewData.review.canApprove=false;notice('Save participant assignments before approving.');});
+$('race-rows').addEventListener('change',()=>{$('broadcast-finished').checked=false;$('approve').disabled=true;reviewStatus();});
 $('approve').addEventListener('click',()=>action(async()=>{await api('approve',{raceId:selectedRace,reviewHash:reviewData.review.hash,operator:$('operator').value,broadcastFinished:$('broadcast-finished').checked});await refresh();await openReview(selectedRace);notice('Result approved. Local standings updated; nothing has been sent to GitHub.');}));
 $('void').addEventListener('click',()=>action(async()=>{await api('void',{raceId:selectedRace,reason:$('void-reason').value});await refresh();await openReview(selectedRace);notice('Race voided. Local standings recalculated. Publish again if the old result was already online.');}));
 $('preview-publish').addEventListener('click',()=>action(async()=>{publication=await api('publication');$('publication-description').textContent=`${publication.approvedCount} recorded races and ${publication.manualCount||0} manual races. Approved static scores and outcomes are included. Pending changes are excluded.`;$('publication-destination').textContent=Object.values(publication.target).every(Boolean)?`${publication.target.owner}/${publication.target.repo} · ${publication.target.branch} · ${publication.target.file}`:'GitHub destination not configured';$('publication-json').textContent=JSON.stringify(publication.bundle,null,2);$('publication-blocked').textContent=publication.reason||'';$('publish').disabled=!publication.ready||publication.alreadyPublished;$('publication-dialog').showModal();}));
