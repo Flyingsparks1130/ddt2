@@ -82,3 +82,5 @@ footer{height:34px;padding:15px 11px 0;font-size:9px;color:#bb8b9d;position:rela
 @keyframes rank-down{0%,100%{background:#291822;border-color:#a4495f;color:#ffd9e1}50%{background:#b52b4a;border-color:#ff859b;color:#fff2ed;box-shadow:0 0 7px #ff426d80}}
 @media(prefers-reduced-motion:reduce){.lamp.active,.runner.rising .rank,.runner.falling .rank{animation:none}.runner{transition:none}.runner.rising .rank{background:#ad7720}.runner.falling .rank{background:#b52b4a}}
 
+
+#matchup .team-portrait{width:1.55em;height:1.55em;object-fit:contain;vertical-align:middle;margin-right:.25em}
