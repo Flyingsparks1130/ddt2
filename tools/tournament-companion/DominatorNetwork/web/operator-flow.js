@@ -1,12 +1,12 @@
-import './ddt2-ops.js';
+import {outfitCatalog} from './ddt2-ops.js';
 import './ops.js';
 const $=id=>document.getElementById(id),make=(tag,text,cls)=>{const e=document.createElement(tag);if(text!=null)e.textContent=text;if(cls)e.className=cls;return e;};
-let state,revision=-1,catalog=[],lineupHeat='',lineupRevision=-1,dirty=false;
+let state,revision=-1,catalog=[],lineupMatch='',lineupRevision=-1,dirty=false;
 function tab(id){document.querySelector(`[data-tab="${id}"]`)?.click();window.scrollTo({top:0,behavior:'smooth'});}
 function note(text,error=false){$('notice').textContent=text;$('notice').hidden=false;$('notice').classList.toggle('error',error);}
 function details(label,...nodes){const d=make('details',null,'operator-details');d.append(make('summary',label),...nodes);return d;}
 const nav=document.querySelector('nav[aria-label="Workspace"]');
-for(const [id,label] of [['show','Race desk'],['setup','Match setup'],['roster','Teams & connection'],['previews','Broadcast scenes'],['corrections','Corrections'],['history','Activity']]){const b=nav.querySelector(`[data-tab="${id}"]`);b.textContent=label;nav.append(b);}
+for(const [id,label] of [['show','Race desk'],['roster','Teams & connection'],['previews','Broadcast scenes'],['corrections','Corrections'],['history','Activity']]){const b=nav.querySelector(`[data-tab="${id}"]`);b.textContent=label;nav.append(b);}
 nav.append($('version'));
 document.querySelector('header h1').textContent='Tournament control';document.querySelector('header .muted').textContent='Prepare the matchup. Run the race. Approve the result.';
 document.querySelector('header .eyebrow').textContent='DOMINATOR NETWORK';
@@ -17,11 +17,13 @@ const steps=make('div',null,'run-steps');steps.innerHTML='<span data-step="selec
 const primary=document.querySelector('#show .primary'),aside=document.querySelector('#show aside');
 aside.prepend($('series-card'));
 const standings=$('player-standings').closest('section');$('history').append(details('Recorded-race standings',standings));
-const setup=document.querySelector('#setup .setup-grid');
 const connection=details('Race capture & publishing connection',$('watch-form'),$('github-form'));connection.id='connection-settings';$('roster').prepend(connection);
 $('roster').append(details('Other tournament formats',$('tournament-form'),$('match-form')));
-const lineups=make('form',null,'card lineup-editor');lineups.id='lineup-form';lineups.innerHTML='<div class="card-heading"><div><p class="eyebrow">BEFORE THE RACE</p><h2>Choose the Umas</h2></div><span class="badge" id="lineup-count">No race selected</span></div><p class="help">These exact outfits appear behind the players in the matchup scene. Approved race results supply their recorded outfits automatically.</p><label>Race lineup<select id="lineup-heat"></select></label><datalist id="uma-options"></datalist><div id="lineup-players"></div><p id="lineup-help" class="help">Choose a matchup on the Race Desk.</p><button id="save-lineup" disabled>Save lineup</button>';
-setup.append(lineups);
+$('connection-forms').remove();
+const lineups=make('form',null,'card lineup-editor');lineups.id='lineup-form';
+lineups.innerHTML='<div class="card-heading"><h2 id="lineup-team-names">Match Lineup</h2><span class="badge" id="lineup-count"></span></div><datalist id="uma-options"></datalist><div id="lineup-players"></div><p id="lineup-help" class="help"></p><button id="save-lineup" disabled>Save lineup</button>';
+const lineupPanel=details('Match Lineup',lineups);
+$('match-select').closest('.card').after(lineupPanel);
 $('select-heat').textContent='Use this race';$('arm').textContent='Capture next race';$('disarm').textContent='Cancel capture';$('approve').textContent='Approve race result';$('review-outcome').textContent='Confirm series outcome';
 $('match-select').closest('.card').querySelector('h2').textContent='Choose the next race';$('sync').textContent='Use this race updates your broadcast scenes. Capture next race waits for one new horseACT file.';
 $('review-card').querySelector('h2').textContent='Check the result';$('review-empty').textContent='Choose a captured race above. Check its players and points after the broadcast finishes.';
@@ -55,20 +57,62 @@ function renderGuide(){const match=current(),series=state.series.find(s=>s.id===
  else{step='capture';title='Ready to capture the next race';help='Check the selected matchup and lineup, then start capture before the race. One file will be attached to this race.';label='Capture next race';action=()=>$('arm').click();}
  $('next-title').textContent=title;$('next-help').textContent=help;$('next-action').textContent=label;$('next-action').onclick=action;for(const el of steps.children)el.classList.toggle('current',el.dataset.step===step);
 }
-let lastLineupDeskHeat='';
 function rebuildLineup(force=false){
  if(!state)return;
- const deskHeat=$('heat-select').value,changed=deskHeat!==lastLineupDeskHeat;
- if(dirty&&!force&&!changed)return;
- const old=changed?deskHeat:$('lineup-heat').value;lastLineupDeskHeat=deskHeat;
- const heats=state.matches.filter(m=>m.id===$('match-select').value).flatMap(m=>m.heats.map(h=>({m,h})));$('lineup-heat').replaceChildren(...heats.map(({m,h})=>{const o=make('option',`${m.name} · ${h.number===7?'Tiebreaker':'Race '+h.number}`);o.value=h.id;return o;}));if(heats.some(x=>x.h.id===old))$('lineup-heat').value=old;else if(heats.some(x=>x.h.id===deskHeat))$('lineup-heat').value=deskHeat;lineupHeat=$('lineup-heat').value;lineupRevision=state.revision;const target=heats.find(x=>x.h.id===lineupHeat);$('lineup-players').replaceChildren();if(!target){dirty=false;$('lineup-count').textContent='No race selected';$('lineup-help').textContent='Choose a matchup on the Race Desk.';$('save-lineup').disabled=true;return;}
- const {m,h}=target,approved=state.series.find(s=>s.id===m.id)?.races.some(r=>r.heatId===h.id);let count=0;
- for(const teamId of m.teamIds||[]){const group=make('section',null,'lineup-group');group.append(make('h3',state.tournament.teams.find(t=>t.id===teamId)?.name));for(const player of state.tournament.players.filter(p=>m.playerIds.includes(p.id)&&p.teamId===teamId)){const row=make('div',null,'lineup-player'),image=make('img'),label=make('label',player.name),input=make('input');input.setAttribute('list','uma-options');input.placeholder='Search Uma or outfit…';input.dataset.playerId=player.id;input.setAttribute('aria-label','Uma for '+player.name);const uma=catalog.find(c=>c.card===h.lineup?.[player.id]);input.value=uma?`${uma.name} (${uma.outfit})`:'';image.alt='';image.hidden=!uma;if(uma){image.src=`/assets/cards/${uma.card}.png`;count++;}image.onerror=()=>{image.hidden=true;};input.disabled=!!approved;input.oninput=()=>{dirty=true;const chosen=catalog.find(c=>`${c.name} (${c.outfit})`===input.value);image.hidden=!chosen;if(chosen)image.src=`/assets/cards/${chosen.card}.png`;};label.append(input);row.append(image,label);group.append(row);}$('lineup-players').append(group);}
- $('lineup-count').textContent=`${count} / ${m.playerIds.length} selected`;$('save-lineup').disabled=!!approved;$('lineup-help').textContent=approved?'This race is approved. Its recorded Uma outfits are used in the broadcast.':'Leave a player blank to show “Uma to be announced”. This changes the matchup artwork, never the scoring.';dirty=false;
+ const match=state.matches.find(m=>m.id===$('match-select').value);
+ lineupPanel.hidden=!match?.teamIds?.length;
+ if(!force&&dirty&&lineupMatch===match?.id)return;
+ dirty=false;lineupMatch=match?.id||'';lineupRevision=state.revision;
+ const target=$('lineup-players');target.replaceChildren();
+ if(lineupPanel.hidden)return;
+ $('lineup-team-names').textContent=match.name;
+ const started=state.series.some(s=>s.id===match.id&&s.raceCount>0);
+ const available=catalog.length>0&&state.matchLineups;
+ for(const teamId of match.teamIds){
+  const group=make('section',null,'lineup-group');
+  group.append(make('h3',state.tournament.teams.find(t=>t.id===teamId)?.name));
+  for(const player of state.tournament.players.filter(p=>p.teamId===teamId&&match.playerIds.includes(p.id))){
+   const row=make('div',null,'lineup-player'),image=make('img'),label=make('label',player.name),input=make('input');
+   input.setAttribute('list','uma-options');input.placeholder='Search Uma or outfit';input.dataset.playerId=player.id;
+   const card=match.lineup?.[player.id],uma=catalog.find(c=>c.card===card);
+   input.value=uma?outfitLabel(uma):card?'Recorded outfit':'';input.dataset.card=String(card||'');
+   input.disabled=!available||!!(started&&card);
+   image.alt='';image.hidden=!card;if(card)image.src='/assets/cards/'+card+'.png';
+   image.onerror=()=>{image.hidden=true;};
+   input.oninput=()=>{
+    dirty=true;const chosen=catalog.find(c=>outfitLabel(c)===input.value);
+    input.dataset.card=String(chosen?.card||'');image.hidden=!chosen;if(chosen)image.src='/assets/cards/'+chosen.card+'.png';
+    updateLineupCount(match.playerIds.length);
+   };
+   label.append(input);row.append(image,label);group.append(row);
+  }
+  target.append(group);
+ }
+ updateLineupCount(match.playerIds.length);
+ $('save-lineup').disabled=!available||!target.querySelector('input:enabled');
+ $('lineup-help').textContent=!state.matchLineups?'Open the desktop Helper shortcut to activate the update.':!catalog.length?'Uma list unavailable. Reload the desk.':'One Uma and outfit per trainer for the entire match.';
 }
-$('lineup-heat').onchange=()=>{dirty=false;rebuildLineup(true);};
-$('lineup-form').onsubmit=async e=>{e.preventDefault();const button=$('save-lineup');button.disabled=true;try{const entries=[...$('lineup-players').querySelectorAll('input')].map(input=>{const value=input.value.trim(),uma=catalog.find(c=>`${c.name} (${c.outfit})`===value);if(value&&!uma)throw Error('Choose a listed Uma and outfit for every filled player.');return {playerId:input.dataset.playerId,card:uma?.card??null};});const r=await fetch('/api/ops/lineup',{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({revision:lineupRevision,heatId:lineupHeat,entries})});const response=await r.json();if(!r.ok)throw Error(response.error);dirty=false;note('Lineup saved. The matchup scene now uses these exact outfits.');document.dispatchEvent(new Event('opsrefresh'));}catch(err){note(err.message,true);}finally{button.disabled=false;}};
+function outfitLabel(uma){return uma.name+' ('+uma.outfit+')';}
+function updateLineupCount(total){
+ const filled=[...$('lineup-players').querySelectorAll('input')].filter(input=>input.dataset.card).length;
+ $('lineup-count').textContent=filled+' / '+total;
+}
+lineups.onsubmit=async e=>{
+ e.preventDefault();const button=$('save-lineup');button.disabled=true;
+ try{
+  const entries=[...$('lineup-players').querySelectorAll('input')].map(input=>{
+   if(input.value.trim()&&!input.dataset.card)throw Error('Choose a listed Uma and outfit for each filled player.');
+   return {playerId:input.dataset.playerId,card:Number(input.dataset.card)||null};
+  });
+  const res=await fetch('/api/ops/lineup',{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({revision:lineupRevision,matchId:lineupMatch,entries})});
+  const result=await res.json();if(!res.ok)throw Error(result.error);
+  dirty=false;note('Match lineup saved.');document.dispatchEvent(new Event('opsrefresh'));
+ }catch(err){note(err.message,true);}
+ finally{button.disabled=false;}
+};
 function render(next){state=next;renderGuide();if(revision===state.revision)return;revision=state.revision;rebuildLineup();}
 document.addEventListener('opsstate',e=>render(e.detail));
 document.addEventListener('deskselection',()=>rebuildLineup());
-try{const response=await fetch('/api/ops/uma-catalog');if(!response.ok)throw Error('Uma list unavailable');catalog=await response.json();$('uma-options').replaceChildren(...catalog.map(uma=>{const o=make('option');o.value=`${uma.name} (${uma.outfit})`;return o;}));render(await(await fetch('/api/ops/state')).json());}catch(e){note(e.message,true);}
+catalog=await outfitCatalog;
+$('uma-options').replaceChildren(...catalog.map(uma=>new Option(outfitLabel(uma),outfitLabel(uma))));
+try{render(await(await fetch('/api/ops/state')).json());rebuildLineup();}catch(e){note(e.message,true);}
