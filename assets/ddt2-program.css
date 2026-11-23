@@ -156,3 +156,38 @@ body[data-section=club] .matchday-club-toolbar { padding-bottom: 16px; margin-bo
   .matchday-contender,.matchday-contender > div { min-width: 0; max-width: 100%; }
   .matchday-contender a,.matchday-contender > div > span { overflow-wrap: anywhere; font-size: clamp(18px,5.5vw,27px); }
 }
+
+/* A decorative layer behind the whole profile, independent of document layout. */
+body:has(.team-art-backdrop) .season-character-stage { visibility: hidden; }
+.team-art-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.team-art-backdrop .uma-art {
+  position: absolute;
+  inset: 4vh 0 0;
+}
+.team-art-backdrop img {
+  position: absolute;
+  left: 66%;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  transform: translateX(-50%);
+  opacity: .56;
+}
+.team-art-backdrop .is-unavailable { visibility: hidden; }
+.season-heading h1 .profile-uma-icon {
+  width: .9em;
+  height: .9em;
+  border-radius: 50%;
+  border: 1px solid #c39b73;
+  background: #5e3443;
+  object-fit: contain;
+}
+@media (max-width: 600px) {
+  .team-art-backdrop img { left: 56%; opacity: .38; }
+}

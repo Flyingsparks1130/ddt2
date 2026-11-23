@@ -67,9 +67,17 @@
   </article>`;
  }
  function clubs(d){return head('Teams')+`<div class="season-toolbar"><p><b>${d.index.teams.length}</b> confirmed teams</p><label class="season-search"><span>Search teams</span><input id="season-club-search" aria-label="Search teams or trainers" type="search" placeholder="Team or player name" ${d.index.teams.length?'':'disabled'}></label></div><div id="season-club-list" class="season-club-grid">${d.index.teams.length?directoryCards(d):`<div class="season-workspace">${state('clubs','Teams to Be Announced','Participating teams and their lineups will be published after registration is confirmed.')}</div>`}</div>`;}
+ function teamHeading(d,team) {
+  const title=Matchday.teamCrest(team.id)+esc(team.name);
+  const assignment=d.event.team_artwork?.[team.id];
+  const card=assignment?.card ?? (d.params.get('preview')==='team-uma' ? assignment?.preview_card : null);
+  if(!card || !global.UmaRaceArt?.resolve({card_id:card}))return head(title);
+  const portrait=`<img class="team-crest profile-uma-icon" src="assets/runners/${encodeURIComponent(card)}.webp" alt="">`;
+  return `<div class="team-art-backdrop" aria-hidden="true">${art({card_id:card})}</div>`+head(portrait+esc(team.name));
+ }
  function club(d){const c=d.index.teams.find(c=>c.id===d.params.get('id'));if(!c)return head('Team Details','The requested team is not registered for DDT2.')+`<div class="season-workspace">${state('clubs','Team Not Available','See the current list of confirmed participants.')}<a class="season-empty-link" href="teams.html">View teams →</a></div>`;const r=record(d,c.id);
   const fixtures=d.index.matches.filter(m=>m.participants.some(t=>t?.id===c.id));
-  return head(Matchday.teamCrest(c.id)+esc(c.name))
+  return teamHeading(d,c)
    + `<div class="matchday-club-toolbar"><a class="season-text-link" href="teams.html">← All teams</a>${Matchday.followButton(d,c.id)}<p role="status">${d.followNotice||''}</p></div>
     <div class="profile-grid"><section class="season-section season-team-section profile-roster"><h2>Team Roster</h2>${roster(d,c.id,false)}</section>
     <section class="season-section season-team-section profile-fixtures"><h2>Matches</h2>${fixtures.length?`<div class="season-match-grid">${fixtures.map(m=>match(m)).join('')}</div>`:'<p class="season-no-data">The draw is pending.</p>'}</section>
