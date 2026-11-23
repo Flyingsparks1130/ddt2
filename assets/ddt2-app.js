@@ -72,7 +72,8 @@
   const assignment=d.event.team_artwork?.[team.id];
   const card=assignment?.card ?? (d.params.get('preview')==='team-uma' ? assignment?.preview_card : null);
   if(!card || !global.UmaRaceArt?.resolve({card_id:card}))return head(title);
-  return `<section class="season-heading team-art-heading"><div class="team-art-backdrop" aria-hidden="true">${art({card_id:card})}</div><h1 tabindex="-1">${title}</h1></section>`;
+  const portrait=`<img class="team-crest profile-uma-icon" src="assets/runners/${encodeURIComponent(card)}.webp" alt="">`;
+  return `<div class="team-art-backdrop" aria-hidden="true">${art({card_id:card})}</div>`+head(portrait+esc(team.name));
  }
  function club(d){const c=d.index.teams.find(c=>c.id===d.params.get('id'));if(!c)return head('Team Details','The requested team is not registered for DDT2.')+`<div class="season-workspace">${state('clubs','Team Not Available','See the current list of confirmed participants.')}<a class="season-empty-link" href="teams.html">View teams →</a></div>`;const r=record(d,c.id);
   const fixtures=d.index.matches.filter(m=>m.participants.some(t=>t?.id===c.id));
