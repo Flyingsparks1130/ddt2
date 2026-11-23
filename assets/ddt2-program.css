@@ -194,3 +194,10 @@ body:has(.team-art-backdrop) .season-character-stage { visibility: hidden; }
 @media (max-width: 600px) {
   .team-art-backdrop img { left: 56%; opacity: .38; }
 }
+
+.matchday-faceoff .matchday-club-mark:has(.profile-uma-icon) { height: auto; aspect-ratio: 1; }
+.matchday-contender > div > .pending-opponent {
+  color: var(--program-muted);
+  font-size: clamp(19px, 2.1vw, 30px);
+  font-weight: normal;
+}

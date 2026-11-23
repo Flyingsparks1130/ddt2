@@ -1,6 +1,7 @@
 'use strict';
 siteHeader(''); siteFooter();
 const contract = CompanionContract;
+let teamArtwork;
 const byId = id => document.getElementById(id);
 const localTools = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 byId('local-preview').hidden = !localTools;
@@ -93,7 +94,7 @@ function table(headers, rows) {
 }
 function standingTable(entries, label) {
   return `<section class="cp-panel"><h2>${esc(label)}</h2>${entries.length ? table(['Rank','Name','Points','Uma entries'], entries.map(e =>
-    `<tr><td>${e.rank}</td><th scope="row" class="cp-name">${label === 'Team Standings' ? window.DDT2Matchday?.teamCrest(e.name) || '' : ''}${esc(e.name)}</th><td>${esc(e.points)}</td><td>${e.entries}</td></tr>`).join('')) : '<p class="cp-meta">No scored entries in this selection.</p>'}</section>`;
+    `<tr><td>${e.rank}</td><th scope="row" class="cp-name">${label === 'Team Standings' ? window.DDT2Matchday?.teamCrest(e.name,teamArtwork) || '' : ''}${esc(e.name)}</th><td>${esc(e.points)}</td><td>${e.entries}</td></tr>`).join('')) : '<p class="cp-meta">No scored entries in this selection.</p>'}</section>`;
 }
 function renderMatches() {
   if (!current) return;
@@ -118,11 +119,17 @@ function renderMatches() {
         <div class="cp-uma-gallery">${[...r.rows].sort((a,b)=>a.rank-b.rank).map(row=>`<article class="cp-uma-entry"><span>PLACE ${row.rank} · ${esc(row.points)} POINTS</span>${window.UmaRaceArt?.figure(row)||''}<strong>${esc(row.name)}</strong><p>${esc(row.playerName)} · ${esc(row.team||'Unassigned')}</p></article>`).join('')}</div>
         ${table(['Place','Uma','Player','Team','Gate','Time (s)','Points'], [...r.rows].sort((a,b) => a.rank-b.rank).map(row => `
           <tr><td>${row.rank}</td><td class="cp-name">${esc(row.name)}${row.card ? `<div class="cp-meta">Card ${row.card}</div>` : ''}</td>
-          <td>${esc(row.playerName)}</td><td>${window.DDT2Matchday?.teamCrest(row.team) || ''}${esc(row.team || '—')}</td><td>${row.gate}</td><td>${row.finishTime.toFixed(3)}</td><td>${esc(row.points)}</td></tr>`).join(''))}
+          <td>${esc(row.playerName)}</td><td>${window.DDT2Matchday?.teamCrest(row.team,teamArtwork) || ''}${esc(row.team || '—')}</td><td>${row.gate}</td><td>${row.finishTime.toFixed(3)}</td><td>${esc(row.points)}</td></tr>`).join(''))}
         <details class="cp-audit"><summary>Result details</summary><p>Race ${esc(r.raceId)} · Heat ${esc(r.heat.id)}</p>
           <p>Points by place: ${r.rules.points.map(esc).join(', ')} · ${esc(r.rules.tiebreak)} ties</p><p>Fingerprint: ${esc(r.fingerprint)}</p></details>
       </section>`).join('') : '<section class="cp-panel"><h2>No Race Results Yet</h2><p class="cp-meta">Results will appear after the first race.</p></section>'}`;
   window.UmaRaceArt?.attachAll();
+}
+if (window.DDT2Matchday) {
+  fetch('config/event.json').then(response=>response.ok?response.json():null).then(event=>{
+    teamArtwork=event?.team_artwork;
+    if(current && teamArtwork)renderMatches();
+  }).catch(()=>{});
 }
 window.UmaRaceArt?.load().then(()=>{if(current)renderMatches();});
 byId('refresh').addEventListener('click', published);

@@ -171,7 +171,12 @@
     const round=d.index.rounds.find(r=>r.id===m.round);
     return `<section class="matchday-entrance" data-match-entrance="${esc(m.round+':'+m.id)}" aria-label="Match score"><p class="matchday-entrance-round">${esc(round?.name || m.round)} <span>${esc(m.id.toUpperCase())}</span></p><div class="matchday-faceoff">${[0,1].map(i=>{
       const t=m.participants?.[i];
-      return `<div class="matchday-contender"><span class="matchday-club-mark" aria-hidden="true">${teamCrest(t?.id,d.event.team_artwork) || '—'}</span><div>${t?`<a href="team.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:'<span>Opponent to be confirmed</span>'}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div><strong>${esc(m.scores?.[t?.id] ?? '—')}</strong></div>`;
+      const source=m.sources?.[i]?.winner_of;
+      const opponent=source?'Winner of '+String(source).toUpperCase():'Opponent to be confirmed';
+      const mark=t?`<span class="matchday-club-mark" aria-hidden="true">${teamCrest(t.id,d.event.team_artwork)}</span>`:'';
+      const name=t?`<a href="team.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:`<span class="pending-opponent">${esc(opponent)}</span>`;
+      const score=t?m.scores?.[t.id]:null;
+      return `<div class="matchday-contender">${mark}<div>${name}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div>${score!=null?`<strong>${esc(score)}</strong>`:''}</div>`;
     }).join('<span class="matchday-faceoff-vs" aria-hidden="true">VS</span>')}</div></section>`;
   }
   function present(root,d,{enter=false}={}) {
