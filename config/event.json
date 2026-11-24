@@ -23,5 +23,8 @@
   },
   "registration": "Not announced",
   "start_date": "2026-11-29",
+  "round_schedule": {
+    "R1": { "draft": "2026-11-29", "races": "2026-11-30" }
+  },
   "schedule": "Match times to be announced"
 }
