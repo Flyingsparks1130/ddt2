@@ -8,3 +8,5 @@
 - Crown, flourishes and interface symbols: original SVG artwork.
 
 This is an unofficial community competition. All character rights remain with their owners.
+
+Support-card illustrations © Cygames, sourced from [GameTora](https://gametora.com/umamusume/supports). Stats thumbnails are bundled in `assets/supports/stats-*.webp`. The `thumbnail` field in `assets/support-cards.json` identifies the sheet, column and row for each card ID on a six-column, four-row sheet.

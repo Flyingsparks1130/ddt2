@@ -18,8 +18,16 @@ function compute(index,docs,catalogues={}){
  const grades=Object.fromEntries(gradeKeys.map(k=>[k,{S:0,A:0,B:0,lower:0,unknown:0}]));
  const active=Object.fromEntries(['distance','style','surface'].map(k=>[k,{S:0,A:0,B:0,lower:0,unknown:0}]));
  const grade=(target,v)=>target[v==='S'?'S':v==='A'?'A':v==='B'?'B':/^[C-G]$/.test(v)?'lower':'unknown']++;
+ const appearances=new Map(), runnerImages=new Map();
  let races=0,starts=0,draftMatches=0,pickMatches=0,fieldedSlots=0,rosterMatches=0,deckBuilds=0,skillBuilds=0;
  for(const m of index.matches){
+  const ran=new Set();
+  const countRunner=(name,card)=>{
+   if(!name||name==='Not supplied')return;
+   ran.add(name);
+   if(!runnerImages.has(name)&&Number.isInteger(Number(card))&&Number(card)>0)
+    runnerImages.set(name,`assets/runners/${Number(card)}.webp`);
+  };
   const d=m.draft||{};
   if(m.draft_has_content)draftMatches++;
   for(const x of d.uma_bans||[])add(veto,x.uma);
@@ -30,15 +38,18 @@ function compute(index,docs,catalogues={}){
   if(d.roster?.length){rosterMatches++;for(const x of d.roster)if(x.benched===false){add(fielded,x.uma);fieldedSlots++;}}
   // Reported results are authoritative here; never add exported races to the same match.
   const played=m.reported_results?.races;
+  for(const heat of played||[])for(const runner of heat.podium||[])countRunner(runner.uma,runner.card_id||runner.variant_id);
   const courses=played?.length?played.map(r=>({track:r.track,key:r.number})):m.races.map(r=>({track:r.race_folder,course:r.course,key:r.id}));
-  const reported=new Set();for(const r of courses){if(reported.has(r.key))continue;reported.add(r.key);const metres=r.course?.distance_m||Number(String(r.track).match(/(\d{3,4})m/)?.[1]);if(metres){add(dist,distanceType(metres));add(surface,r.course?.surface||(/dirt/i.test(r.track)?'Dirt':'Turf'));races++;}}
+  const reported=new Set();for(const r of courses){if(reported.has(r.key))continue;reported.add(r.key);const metres=r.course?.distance_m||Number(String(r.track).replace(/,/g,'').match(/(\d{3,4})\s*m\b/i)?.[1]);if(metres){add(dist,distanceType(metres));add(surface,r.course?.surface||(/dirt/i.test(r.track)?'Dirt':'Turf'));races++;}}
   for(const f of m.races){const r=docs[f.id];if(!r?.scoring_verified)continue;const hash=r.raw_sha256||r.content_hash||r.id;if(seenRaces.has(hash))continue;seenRaces.add(hash);
    for(const row of r.results||[]){if(!row.eligible||!row.team_id||!row.owner)continue;starts++;
+    countRunner(row.uma,row.variant_id);
     grade(active.distance,row.aptitudes?.distance);grade(active.surface,row.aptitudes?.surface);grade(active.style,row.aptitudes?.[['','front','pace','late','end'][row.running_style_code]]);
     const fingerprint=row.build_fingerprint||JSON.stringify([row.variant_id,row.stats,row.skills,row.running_style_code,row.support]);
     const key=[m.id,row.team_id,row.owner.trim().toLowerCase().replace(/^@/,''),fingerprint].join('|');if(!builds.has(key))builds.set(key,row);
    }
   }
+  for(const name of ran)add(appearances,name);
  }
  for(const b of builds.values()){
   for(const k of gradeKeys)grade(grades[k],b.aptitudes?.[k]);
@@ -47,7 +58,8 @@ function compute(index,docs,catalogues={}){
  }
  const uma=name=>({name,image:portraits[name]?.portrait||null});
  const out={schema_version:1,coverage:{matches:index.matches.length,draft_matches:draftMatches,pick_matches:pickMatches,roster_matches:rosterMatches,reported_races:races,verified_races:seenRaces.size,starts,builds:builds.size,deck_builds:deckBuilds,skill_builds:skillBuilds,fielded_slots:fieldedSlots},
-  support:ranking(support,id=>({name:supports[id]?.name||'Support card '+id,image:`assets/supports/${id}.webp`,rarity:Number(id)>=30000?'SSR':Number(id)>=20000?'SR':'R'})),
+  umas_ran:ranking(appearances,name=>({name,image:portraits[name]?.portrait||runnerImages.get(name)||null})),
+  support:ranking(support,id=>({name:supports[id]?.name||'Support card '+id,image:`assets/supports/${id}.webp`,thumbnail:supports[id]?.thumbnail,rarity:Number(id)>=30000?'SSR':Number(id)>=20000?'SR':'R'})),
   skills:ranking(skill,id=>({name:skills[id]?.name||'Skill '+id,image:skillMeta[id]?.icon_id?`assets/icons/skills/${skillMeta[id].icon_id}.webp`:null})),
   fielded:ranking(fielded,uma),veto:ranking(veto,uma),preban:ranking(preban,uma),track_picks:ranking(picks),track_vetoes:ranking(trackVeto),distance:ranking(dist),surface:ranking(surface),aptitudes:grades,active_aptitudes:active,
   distributions:Object.fromEntries(['speed','stamina','power','guts','wisdom'].map(k=>[k,distribution([...builds.values()].map(b=>b.stats?.[k]))]))};
