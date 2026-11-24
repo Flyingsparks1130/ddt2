@@ -10,6 +10,20 @@ stats=S.compute({matches:[match,{...match,id:'later',races:[{id:'later'}]}]},{r:
 const sameCharacter={...row,team_id:'b',owner:'Bob',variant_id:100102};
 const duplicatedUma=S.compute({matches:[match]},{r:{...race,results:[row,sameCharacter]},second:{...race,raw_sha256:'second'}});
 assert.deepEqual(duplicatedUma.umas_ran.map(r=>[r.name,r.count]),[['Uma',1]]);
+// Keep one matchup count per character. Repeated heats never outweigh another outfit's matchups.
+const appearances=(cards,defaultPortrait)=>{
+ const matches=cards.map((ids,i)=>({...match,id:'m'+i,races:ids.map((_,j)=>({id:i+'-'+j})),reported_results:null}));
+ const docs=Object.fromEntries(cards.flatMap((ids,i)=>ids.map((id,j)=>{
+  const key=i+'-'+j;
+  return [key,{...race,raw_sha256:key,results:[{...row,variant_id:id}]}];
+ })));
+ return S.compute({matches},docs,{portraits:{Uma:{portrait:defaultPortrait}}}).umas_ran[0];
+};
+const original='assets/runners/105801.webp',halloween='assets/runners/105802.webp';
+assert.equal(appearances([[105802,105802]],original).image,halloween);
+assert.equal(appearances([[105801,105801,105801],[105802],[105802]],original).image,halloween);
+assert.equal(appearances([[105802],[105801]],original).image,original);
+assert.equal(appearances([[null]],original).image,null);
 const draftOnly=S.compute({matches:[{...match,races:[],reported_results:null}]},{});
 assert.deepEqual(draftOnly.umas_ran,[]);
 const catalog=require('../assets/support-cards.json').cards;

@@ -18,15 +18,14 @@ function compute(index,docs,catalogues={}){
  const grades=Object.fromEntries(gradeKeys.map(k=>[k,{S:0,A:0,B:0,lower:0,unknown:0}]));
  const active=Object.fromEntries(['distance','style','surface'].map(k=>[k,{S:0,A:0,B:0,lower:0,unknown:0}]));
  const grade=(target,v)=>target[v==='S'?'S':v==='A'?'A':v==='B'?'B':/^[C-G]$/.test(v)?'lower':'unknown']++;
- const appearances=new Map(), runnerImages=new Map();
+ const appearances=new Map(), outfitMatchups=new Map();
  let races=0,starts=0,draftMatches=0,pickMatches=0,fieldedSlots=0,rosterMatches=0,deckBuilds=0,skillBuilds=0;
  for(const m of index.matches){
-  const ran=new Set();
+  const ran=new Map();
   const countRunner=(name,card)=>{
    if(!name||name==='Not supplied')return;
-   ran.add(name);
-   if(!runnerImages.has(name)&&Number.isInteger(Number(card))&&Number(card)>0)
-    runnerImages.set(name,`assets/runners/${Number(card)}.webp`);
+   if(!ran.has(name))ran.set(name,new Set());
+   if(Number.isSafeInteger(Number(card))&&Number(card)>0)ran.get(name).add(Number(card));
   };
   const d=m.draft||{};
   if(m.draft_has_content)draftMatches++;
@@ -49,7 +48,11 @@ function compute(index,docs,catalogues={}){
     const key=[m.id,row.team_id,row.owner.trim().toLowerCase().replace(/^@/,''),fingerprint].join('|');if(!builds.has(key))builds.set(key,row);
    }
   }
-  for(const name of ran)add(appearances,name);
+  for(const [name,cards] of ran){
+   add(appearances,name);
+   if(!outfitMatchups.has(name))outfitMatchups.set(name,new Map());
+   for(const card of cards)add(outfitMatchups.get(name),card);
+  }
  }
  for(const b of builds.values()){
   for(const k of gradeKeys)grade(grades[k],b.aptitudes?.[k]);
@@ -58,7 +61,10 @@ function compute(index,docs,catalogues={}){
  }
  const uma=name=>({name,image:portraits[name]?.portrait||null});
  const out={schema_version:1,coverage:{matches:index.matches.length,draft_matches:draftMatches,pick_matches:pickMatches,roster_matches:rosterMatches,reported_races:races,verified_races:seenRaces.size,starts,builds:builds.size,deck_builds:deckBuilds,skill_builds:skillBuilds,fielded_slots:fieldedSlots},
-  umas_ran:ranking(appearances,name=>({name,image:portraits[name]?.portrait||runnerImages.get(name)||null})),
+  umas_ran:ranking(appearances,name=>{
+   const outfits=ranking(outfitMatchups.get(name));
+   return {name,image:outfits.length?`assets/runners/${outfits[0].id}.webp`:null};
+  }),
   support:ranking(support,id=>({name:supports[id]?.name||'Support card '+id,image:`assets/supports/${id}.webp`,thumbnail:supports[id]?.thumbnail,rarity:Number(id)>=30000?'SSR':Number(id)>=20000?'SR':'R'})),
   skills:ranking(skill,id=>({name:skills[id]?.name||'Skill '+id,image:skillMeta[id]?.icon_id?`assets/icons/skills/${skillMeta[id].icon_id}.webp`:null})),
   fielded:ranking(fielded,uma),veto:ranking(veto,uma),preban:ranking(preban,uma),track_picks:ranking(picks),track_vetoes:ranking(trackVeto),distance:ranking(dist),surface:ranking(surface),aptitudes:grades,active_aptitudes:active,
