@@ -1,3 +1,4 @@
+import {styles} from './model.js';
 const $=id=>document.getElementById(id);
 const make=(tag,value,cls)=>{const e=document.createElement(tag);if(value!=null)e.textContent=value;if(cls)e.className=cls;return e;};
 const profile=location.pathname==='/uma-highlight';
@@ -42,9 +43,31 @@ function values(title,entries){
  }
  return group.children.length?[make('h2',title),group]:[];
 }
+function profileHeading(d){
+ const header=make('div',null,'profile-heading');
+ header.append(make('h1',d.uma.name));
+ const summary=make('div',null,'build-summary');
+ if(d.rank){
+  const badge=make('span',null,'rank-badge');
+  badge.setAttribute('role','img');badge.setAttribute('aria-label','Rank '+d.rank.label);
+  const cell=80,index=d.rank.index;
+  badge.style.backgroundPosition=(-cell*(index%10))+'px '+(-cell*Math.floor(index/10))+'px';
+  summary.append(badge);
+ }
+ if(Number.isSafeInteger(d.rating)){
+  const value=make('div');value.append(make('small','Rating'),make('strong',d.rating.toLocaleString('en-US')));summary.append(value);
+ }
+ const style=styles[d.runningStyle];
+ if(style){
+  const value=make('div',null,'running-style');
+  value.append(make('small','Running style'),make('strong',style.name.toLowerCase()));summary.append(value);
+ }
+ if(summary.childElementCount)header.append(summary);
+ return header;
+}
 function spotlight(d){
  const section=make('div',null,'profile'),art=make('img');art.alt='';if(d.uma.card){const portrait='/assets/cards/'+d.uma.card+'.png';art.src=d.uma.art||portrait;art.onerror=()=>{art.onerror=null;art.src=portrait;};}
- const detail=make('div',null,'detail');detail.append(make('h1',d.uma.name),make('p',[d.uma.outfit,d.player,d.team].filter(Boolean).join(' · ')),...values('Stats',d.stats),...values('Aptitudes',d.aptitudes));
+ const detail=make('div',null,'detail');detail.append(profileHeading(d),make('p',[d.uma.outfit,d.player,d.team].filter(Boolean).join(' · ')),...values('Stats',d.stats),...values('Aptitudes',d.aptitudes));
  if(d.teamCard){const badge=portrait(d.teamCard);badge.classList.add('spotlight-team');detail.querySelector('p').prepend(badge);}
  if(d.skills.length){const label=make('h2');label.id='skill-title';const stack=make('div',null,'skill-pages');stack.id='skill-pages';detail.append(label,stack);}
  if(!Object.keys(d.stats).length&&!Object.keys(d.aptitudes).length&&!d.skills.length)detail.append(make('p','Build details were not recorded in this capture.'));
@@ -64,23 +87,27 @@ function showSkills(d,page){
  stack.append(group);
  if(!previous)return;
  if(matchMedia('(prefers-reduced-motion: reduce)').matches){previous.remove();return;}
- previous.animate([{opacity:1},{opacity:0}],{duration:180,fill:'forwards'}).finished.then(()=>previous.remove());
- group.animate([{opacity:0,transform:'translateY(5px)'},{opacity:1,transform:'translateY(0)'}],{duration:230,easing:'ease-out'});
+ previous.animate([{opacity:1},{opacity:0}],{duration:120,fill:'forwards'}).finished.then(()=>previous.remove());
+ group.animate([{opacity:0,transform:'translateY(5px)'},{opacity:1,transform:'translateY(0)'}],{duration:150,easing:'ease-out'});
 }
-let signature=null,currentPage=-1,since=0;
+let signature=null,skillTimer;
+function rotateSkills(data){
+ clearInterval(skillTimer);
+ if(!profile||!data?.skills?.length)return;
+ const pages=Math.ceil(data.skills.length/8);
+ let page=0;showSkills(data,page);
+ if(pages>1)skillTimer=setInterval(()=>{page=(page+1)%pages;showSkills(data,page);},4000);
+}
 async function poll(){
  try{
   const res=await fetch(profile?'/api/highlight':'/api/results',{cache:'no-store'});if(!res.ok)throw Error();
   const data=await res.json(),key=JSON.stringify(data);
   $('fixture').textContent=data?.match||'';
   if(key!==signature){
-   signature=key;since=Date.now();currentPage=-1;
+   signature=key;
    $('context').textContent=data?[data.round,data.race].filter(Boolean).join(' · '):'';
    $('content').replaceChildren(...(data?(profile?spotlight(data):results(data)):[make('p',profile?'Choose an Uma on the Race Desk.':'Awaiting a finalized result for this race.','empty')]));
-  }
-  if(profile&&data?.skills?.length){
-   const page=Math.floor((Date.now()-since)/8000)%Math.ceil(data.skills.length/8);
-   if(page!==currentPage){showSkills(data,page);currentPage=page;}
+   rotateSkills(data);
   }
  }catch{$('fixture').textContent='Helper disconnected';}
  setTimeout(poll,1200);

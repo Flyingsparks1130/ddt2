@@ -2,7 +2,7 @@
 #content{height:825px;padding-top:26px}#content h1{margin:0 0 22px;font-size:60px}#content table{width:100%;border-collapse:collapse;font-size:30px}
 #content th{color:#d6b9b2;font:600 19px sans-serif;text-align:left}#content td,#content th{padding:10px 20px;border-bottom:1px solid #49313a}
 #content tbody tr:nth-child(odd){background:#261821}#content tbody tr:first-child{color:#edce8e}
-#content .profile{display:grid;grid-template-columns:400px 1fr;gap:50px}.profile>img{width:100%;height:730px;object-fit:contain}
+#content .profile{display:grid;grid-template-columns:565px minmax(0,1fr);gap:24px}.profile>img{width:100%;height:785px;object-fit:contain}
 .detail h2{font-size:33px;margin:24px 0 10px}.detail>p{font-size:28px;color:#dec2be}
 .values,.skills{display:flex;flex-wrap:wrap;gap:10px}.values span,.skills span{background:#30202a;border-top:2px solid #b95066;padding:12px 16px;font-size:26px}
 .values b{color:#f5d99a;margin-left:10px}.empty{font-size:34px;color:#c7b5b2}
@@ -27,3 +27,14 @@
 .finishers strong,.finishers small{display:block;overflow:hidden;text-overflow:ellipsis}.finishers .team-cell span{min-width:0;overflow:hidden;text-overflow:ellipsis}
 
 .skill-pages{display:grid}.skill-pages>.skills{grid-area:1/1}.profile .detail .spotlight-team{height:42px;width:42px;object-fit:contain;vertical-align:middle;margin-right:10px}
+
+.profile-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:80px}
+#content .profile-heading h1{min-width:0;margin:0;font-size:54px;line-height:1.08}
+.build-summary{display:flex;align-items:center;gap:12px;flex:none}
+.rank-badge{width:80px;height:80px;background:url('/assets/icons/ranks.webp') no-repeat}
+.build-summary small,.build-summary strong{display:block}
+.build-summary small{font-size:15px;color:#c5acb4;margin-bottom:3px}
+.build-summary strong{font:700 32px/1.1 DDTDisplay;font-variant-numeric:tabular-nums}
+.running-style{border-left:1px solid #5d434c;padding-left:17px;margin-left:6px}
+.running-style:first-child{border:0;padding:0;margin:0}
+.running-style strong{text-transform:capitalize}
