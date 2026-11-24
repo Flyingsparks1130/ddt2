@@ -17,7 +17,7 @@
    return {complete:'Final',forfeit:'Forfeit',in_progress:'In progress',needs_review:'Under review'}[m.status]||'Pending';
   }
   const date=roundSchedule?.[m.round]?.[view==='draft'?'draft':'races'];
-  return date?`<time datetime="${esc(date)}">${shortDate.format(new Date(date))}</time>`:'To be determined';
+  return date?`<time datetime="${esc(date)}">${shortDate.format(new Date(date))}</time>`:'TBD';
  }
  const matchURL=(m,view='results')=>`archive.html?${new URLSearchParams({round:m.round,match:m.id,view})}`;
  const lineup=m=>(m.lineup?.length?m.lineup:m.draft_lineup?.length?m.draft_lineup:m.draft?.roster||[]).filter(p=>!p.benched);
