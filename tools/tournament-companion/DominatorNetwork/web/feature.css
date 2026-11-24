@@ -25,3 +25,5 @@
 #content .finishers th{padding:8px 12px}
 .finishers th:nth-child(1){width:6%}.finishers th:nth-child(2){width:7%}.finishers th:nth-child(3){width:18%}.finishers th:nth-child(4){width:29%}.finishers th:nth-child(5){width:23%}.finishers th:nth-child(6){width:11%}.finishers th:nth-child(7){width:6%}
 .finishers strong,.finishers small{display:block;overflow:hidden;text-overflow:ellipsis}.finishers .team-cell span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+
+.skill-pages{display:grid}.skill-pages>.skills{grid-area:1/1}.profile .detail .spotlight-team{height:42px;width:42px;object-fit:contain;vertical-align:middle;margin-right:10px}

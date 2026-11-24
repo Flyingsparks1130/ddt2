@@ -34,6 +34,8 @@ export function resetMatch(state,match){
  }
  if(heats.has(state.armedHeatId))state.armedHeatId=null;
  if(heats.has(state.activeHeatId))state.activeHeatId=match.heats[0]?.id||null;
+ if(state.highlight && state.races.some(r=>r.id===state.highlight.raceId&&!r.heatId))state.highlight=null;
+ delete match.spotlightChoice;
  delete match.deskDeletedAt;
 }
 export function needsMatchRecovery(state){
@@ -67,7 +69,7 @@ export function seriesSummary(state,match){
  if(manual)for(const team of teams)team.points=manual.scores[team.id];
  const scoreKey=JSON.stringify({scores:teams.map(t=>[t.id,t.points]),races:races.map(r=>r.id),manual:manual?.id||null});
  const latestDecision=[...corrections].reverse().find(c=>c.kind==='outcome'||c.kind==='reopen');
- const decision=latestDecision?.kind==='outcome'&&latestDecision.scoreKey===scoreKey?latestDecision:null;
+ const decision=latestDecision?.kind==='outcome'&&latestDecision.scoreKey===scoreKey&&teams.some(t=>t.id===latestDecision.winnerId&&t.points>=(state.tournament.seriesFormat?.target||25))?latestDecision:null;
  const target=state.tournament.seriesFormat?.target||25,leader=teams.find(t=>t.points>=target);
  const consecutive=races.every((r,i)=>r.number===i+1);
  const status=decision?'confirmed':latestDecision?.kind==='outcome'?'outcome-needs-review':manual?'manual-score':leader?'awaiting-confirmation':races.length===6?'tiebreaker-required':races.length?'in-progress':'not-started';
@@ -92,7 +94,8 @@ export function draftCorrection(state,body){
  const kind=body.kind;requireThat(['score','automatic','outcome','reopen'].includes(kind),'Unknown correction type.');
  const summary=seriesSummary(state,match);const correction={id:id(),matchId:match.id,kind,status:'pending',reason:text(body.reason,'Correction reason',500),createdAt:stamp(),baseKey:summary.scoreKey};
  if(kind==='score'){requireThat(body.scores&&Object.keys(body.scores).length===2,'Enter both team scores.');correction.scores={};for(const tid of match.teamIds){const n=body.scores[tid];requireThat(Number.isSafeInteger(n)&&n>=0&&n<=10000,'Manual points must be whole numbers between 0 and 10000.');correction.scores[tid]=n;}}
- if(kind==='outcome'){requireThat(match.teamIds.includes(body.winnerId),'Choose one of the teams as the confirmed winner.');correction.winnerId=body.winnerId;correction.scoreKey=summary.scoreKey;}
+ if(kind==='outcome'){requireThat(match.teamIds.includes(body.winnerId),'Choose one of the teams as the confirmed winner.');requireThat(summary.teams.some(t=>t.id===body.winnerId&&t.points>=summary.target),'The winning team must reach '+summary.target+' points before finalization.');
+ correction.winnerId=body.winnerId;correction.scoreKey=summary.scoreKey;}
  (state.corrections||=[]).push(correction);return correction;
 }
 export function correctionReview(state,correction){return {correction,hash:digest({correction,revision:state.revision}),current:seriesSummary(state,state.matches.find(m=>m.id===correction.matchId))};}

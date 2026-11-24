@@ -25,3 +25,4 @@ body:not(.scoreboard) .scene-intro { height:42px;justify-content:flex-end; }
 body:not(.scoreboard) .lineup { margin-top:14px; }
 
 .finisher img{inset:7% 4% auto auto;width:32%;height:86%;object-fit:contain;object-position:center;mask-image:none}.finish-info{max-width:62%}
+#match-winner{margin-right:auto;border-left:4px solid #e8bd74;padding:4px 18px;background:#302328;color:#f7d695;font-size:30px;line-height:1.1}

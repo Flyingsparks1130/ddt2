@@ -26,8 +26,8 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR args, int) {
     bool switching = false;
     if (!quiet && state == Desk::ready && probe(connection, &initial) == Desk::ready && previousHelper(initial)) {
         if (idleLegacyDesk(initial)) {
-            int choice = MessageBoxW(nullptr, L"Helper 0.6.8 is installed. The Race Desk is still running an earlier version.\n\n"
-                                      L"Save any unfinished edits before switching. Switch to 0.6.8 now?",
+            int choice = MessageBoxW(nullptr, L"Helper 0.6.9 is installed. The Race Desk is still running an earlier version.\n\n"
+                                      L"Save any unfinished edits before switching. Switch to 0.6.9 now?",
                                       L"Update Tournament Helper", MB_YESNO | MB_ICONQUESTION);
             if (choice == IDYES) {
                 if (!retireLegacyDesk(connection, 27840, node, initial))
@@ -65,8 +65,8 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR args, int) {
     if (switching) {
         nlohmann::json loaded;
         if (state != Desk::ready || probe(connection, &loaded) != Desk::ready ||
-            loaded["version"] != "0.6.8")
-            return fail(L"Windows did not confirm Helper 0.6.8. Reopen the shortcut to check again.", quiet);
+            loaded["version"] != "0.6.9")
+            return fail(L"Windows did not confirm Helper 0.6.9. Reopen the shortcut to check again.", quiet);
     }
     WinHttpCloseHandle(connection);
     WinHttpCloseHandle(session);

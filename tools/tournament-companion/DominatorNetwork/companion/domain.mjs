@@ -46,7 +46,7 @@ export function reviewRace(state,race){
  if(!race.heatId)problems.push('Assign this race to a match and heat.');else {try{({match,heat}=heatFor(state,race.heatId));}catch(e){problems.push(e.message);}}
  const rules=state.tournament.rules;if(!rules)problems.push('Scoring format is not configured.');
  const selected=match?state.tournament.players.filter(p=>match.playerIds.includes(p.id)):[];
- const mapped=race.runners.map(r=>{const manual=race.mapping?.[r.index];const player=manual?selected.find(p=>p.id===manual):selected.find(p=>p.gameName===r.trainer);
+ const mapped=race.runners.map(r=>{const manual=race.mapping?.[r.index];const player=manual?selected.find(p=>p.id===manual):selected.find(p=>p.gameName&&p.gameName===r.trainer);
   if(!player)problems.push(`Assign gate ${r.gate} (${r.trainer||'player name unavailable'}) to a registered participant.`);
   return {...r,playerId:player?.id??null,playerName:player?.name??r.trainer,team:player?.team??'',teamId:player?.teamId??null,points:rules?(rules.points[r.rank-1]??0):null};});
  if(match){

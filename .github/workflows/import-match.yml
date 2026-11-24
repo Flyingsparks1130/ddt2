@@ -25,15 +25,21 @@ jobs:
           FILENAME: ${{ inputs.filename }}
         run: |
           python - <<'PY'
-          import os, pathlib, zipfile
+          import os, pathlib, re, zipfile
           folder = pathlib.Path('imports').resolve()
           name = os.environ['FILENAME']
           path = (folder / name).resolve()
           if path.parent != folder or name != path.name or path.suffix.lower() != '.zip':
               raise ValueError('Choose a ZIP filename from imports/')
           with zipfile.ZipFile(path) as archive:
-              if archive.namelist() != ['approved-results.json'] or archive.infolist()[0].file_size > 10_000_000:
-                  raise ValueError('Expected one approved match export')
+              names = archive.namelist()
+              if len(set(names)) != len(names) or 'approved-results.json' not in names:
+                  raise ValueError('Expected one approved-results.json')
+              for entry in archive.infolist():
+                  if entry.filename == 'approved-results.json' and entry.file_size <= 10_000_000:
+                      continue
+                  if not re.fullmatch(r'races/race-[1-7]\.json', entry.filename) or entry.file_size > 16 * 1024 * 1024:
+                      raise ValueError('Unexpected entry in match ZIP')
               pathlib.Path(os.environ['RUNNER_TEMP'], 'match.json').write_bytes(archive.read('approved-results.json'))
           PY
       - name: Merge match and validate site

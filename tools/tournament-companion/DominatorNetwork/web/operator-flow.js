@@ -7,14 +7,14 @@ function tab(id){document.querySelector(`[data-tab="${id}"]`)?.click();window.sc
 function note(text,error=false){$('notice').textContent=text;$('notice').hidden=false;$('notice').classList.toggle('error',error);}
 function details(label,...nodes){const d=make('details',null,'operator-details');d.append(make('summary',label),...nodes);return d;}
 const nav=document.querySelector('nav[aria-label="Workspace"]');
-for(const [id,label] of [['show','Race desk'],['roster','Teams & connection'],['previews','Broadcast scenes'],['corrections','Corrections'],['history','Activity']]){const b=nav.querySelector(`[data-tab="${id}"]`);b.textContent=label;nav.append(b);}
+for(const [id,label] of [['show','Race desk'],['roster','Teams & connection'],['previews','Broadcast scenes'],['corrections','Finalize'],['history','Activity']]){const b=nav.querySelector(`[data-tab="${id}"]`);b.textContent=label;nav.append(b);}
 nav.append($('version'));
 document.querySelector('header h1').textContent='Tournament control';document.querySelector('header .muted').textContent='Prepare the matchup. Run the race. Approve the result.';
 document.querySelector('header .eyebrow').textContent='DOMINATOR NETWORK';
 for(const a of document.querySelectorAll('.header-links a'))a.textContent=a.textContent.replace(' ↗','');
 const guide=make('section',null,'next-action');guide.innerHTML='<div><p class="eyebrow">YOUR NEXT STEP</p><h2 id="next-title">Connect your tournament</h2><p id="next-help"></p></div><button id="next-action">Open setup</button>';
 $('show').prepend(guide);
-const steps=make('div',null,'run-steps');steps.innerHTML='<span data-step="select">Choose a race</span><span data-step="capture">Capture</span><span data-step="review">Review & approve</span><span data-step="publish">Export match</span>';guide.after(steps);
+const steps=make('div',null,'run-steps');steps.innerHTML='<span data-step="select">Select matchup</span><span data-step="capture">Capture</span><span data-step="review">Confirm race</span><span data-step="publish">Finalize matchup</span>';guide.after(steps);
 const primary=document.querySelector('#show .primary'),aside=document.querySelector('#show aside');
 aside.prepend($('series-card'));
 const standings=$('player-standings').closest('section');$('history').append(details('Recorded-race standings',standings));
@@ -26,7 +26,7 @@ const lineups=make('form',null,'card lineup-editor');lineups.id='lineup-form';
 lineups.innerHTML='<div class="card-heading"><h2 id="lineup-team-names">Match Lineup</h2><span class="badge" id="lineup-count"></span></div><datalist id="uma-options"></datalist><div id="lineup-players"></div><p id="lineup-help" class="help"></p><button id="save-lineup" disabled>Save lineup</button>';
 const lineupPanel=details('Match Lineup',lineups);
 $('match-select').closest('.card').after(lineupPanel);
-$('select-heat').textContent='Broadcast This Race';$('arm').textContent='Capture next race';$('disarm').textContent='Cancel capture';$('approve').textContent='Approve race result';$('review-outcome').textContent='Confirm series outcome';
+$('select-heat').textContent='Broadcast This Race';$('arm').textContent='Capture next race';$('disarm').textContent='Cancel capture';$('approve').textContent='Approve race result';$('review-outcome').textContent='Finalize matchup';
 $('match-select').closest('.card').querySelector('h2').textContent='On Air';$('sync').textContent='Choose a past or upcoming race, then select Broadcast This Race. Capture next race waits for one new horseACT file.';
 $('review-card').querySelector('h2').textContent='Check the result';$('review-empty').textContent='Choose a captured race above. Check its players and points after the broadcast finishes.';
 function fold(node,label){const wrapper=details(label);node.before(wrapper);wrapper.append(node);}
@@ -38,12 +38,16 @@ function renderGuide(){const match=current(),series=state.series.find(s=>s.id===
  if(state.tournament.id!=='ddt2'){title='Load the DDT2 teams';help='Import the published roster once, then choose your matchup.';label='Connect DDT2';action=()=>tab('roster');}
  else if(!state.matches.length){title='Load the bracket';help='Open Teams & connection to import the published matchups.';label='Open bracket';action=()=>tab('roster');}
  else if(!match){title='Choose the race you are running';help='Select a matchup and race below, then click Broadcast This Race.';label='Choose race';action=()=>$('match-select').focus();}
+ else if(series?.winnerId && series.teams.some(t=>t.id===series.winnerId&&t.points>=series.target)){
+  step='publish';title='Matchup confirmed';help=match.name;label='Download match ZIP';action=()=>{location.href='/api/ops/match-zip?match='+encodeURIComponent(match.id);};
+ }
+ else if(series?.leaderId&&!series.winnerId){
+  step='publish';title='Finalize the matchup';help='Check the winning team and final score.';label='Review final score';action=()=>$('review-outcome').click();
+ }
  else if(pending){step='review';title='A race is ready to review';help='Check the track and confirm the players. Approve the finishing order once the race ends on broadcast.';label='Review captured race';action=()=>{document.querySelector(`[data-race-id="${pending.id}"]`)?.click();$('review-card').scrollIntoView({behavior:'smooth',block:'start'});};}
  else if(series?.races.some(r=>r.heatId===state.activeHeatId)){
   const next=match.heats.find(h=>!series.races.some(r=>r.heatId===h.id));
-  if(series.leaderId&&!series.winnerId){
-   step='review';title='Confirm the series winner';help='Check the final score before recording the outcome.';label='Confirm outcome';action=()=>$('review-outcome').click();
-  }else if(next&&!series.winnerId){
+  if(next&&!series.winnerId){
    const raceName=next.tiebreaker?'the tiebreaker':'Race '+next.number;
    title='Ready for '+raceName;help='The approved result is on the scoreboard.';label='Use '+raceName;
    action=()=>{
@@ -51,7 +55,7 @@ function renderGuide(){const match=current(),series=state.series.find(s=>s.id===
     $('heat-select').value=next.id;$('select-heat').click();
    };
   }else{
-   step='publish';title=series.winnerId?'Series complete':'All races approved';help='Download the approved match for the organizer.';label='Export match ZIP';action=()=>$('export').click();
+   step='review';title='Review the matchup';help='Check the approved races and both team totals.';label='Open Finalize';action=()=>$('review-outcome').click();
   }
  }
  else if(state.armedHeatId){step='capture';title='Waiting for the race file';help='Run the selected race. The next complete horseACT export will enter the review inbox. Nothing publishes automatically.';label='View matchup scene';action=()=>{tab('previews');$('preview-live').checked=true;$('preview-live').dispatchEvent(new Event('change'));document.querySelector('[data-url="/matchup?demo=1"]').click();};}

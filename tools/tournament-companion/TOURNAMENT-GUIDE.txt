@@ -1,4 +1,4 @@
-DDT2 OPERATIONS — COMPANION 0.6.8
+DDT2 OPERATIONS — COMPANION 0.6.9
 
 1. Open http://127.0.0.1:27840/. In Teams & connection, check the published DDT2
    source, review it, then import. The bundled fallback has 12 teams and 60
@@ -21,8 +21,8 @@ DDT2 OPERATIONS — COMPANION 0.6.8
    Confirm the series outcome separately after review. A score/race change
    invalidates an earlier outcome confirmation. No automatic bracket advance.
 8. In Race Review, choose a finalized race and select Edit result to correct player assignments. Confirm the correction to update the existing race. Broadcast This Race changes the live race selection.
-9. In Uma Spotlight, import a race JSON or select an imported file. Choose a runner and click Show on broadcast. The selection persists across races.
-10. Under Export Match, click Send Match to email the approved ZIP to the organizer. On first use, open Email settings and connect the deployment URL and private operator key provided by the organizer. Download match ZIP also saves a copy. The owner uploads the ZIP at https://github.com/Flyingsparks1130/ddt2/upload/main/imports and runs Import approved match in GitHub Actions using the ZIP filename.
+9. After the first ten-runner capture is assigned, choose any of the ten under Uma Spotlight and click Show on broadcast. These choices stay with this matchup.
+10. When a team reaches 25, open Finalize, review the matchup score and confirm the winner. Download match ZIP includes approved-results.json and the original synced capture for each approved race under races/. Give the ZIP to the organizer, who uploads it to imports/ and runs Import approved match with its filename.
 
 OBS SOURCES
 Use http://127.0.0.1:27840/overlay for the live tracker. The /matchup, /scoreboard, /race-result and /uma-highlight sources use 1920 x 1080. Download the stinger from Broadcast scenes, add an OBS Stinger transition, and choose a time of 850 ms. Select that transition for scene changes.
@@ -49,4 +49,4 @@ MATCH MANAGEMENT
 DDT2 uses the published bracket. Select a match and choose Reset match to clear its results and winner. The same fixture, teams, drafted tracks, and lineups remain available. Captured races can be reviewed again. Resetting a match does not publish changes.
 
 UPDATING AN OPEN DESK
-If an earlier Helper is still running after 0.6.8 is installed, save any pending edits and open the Tournament Helper shortcut. Choose Yes to switch versions. The launcher checks the running desk again before switching. The game and saved tournament stay in place.
+If an earlier Helper is still running after 0.6.9 is installed, save any pending edits and open the Tournament Helper shortcut. Choose Yes to switch versions. The launcher checks the running desk again before switching. The game and saved tournament stay in place.
