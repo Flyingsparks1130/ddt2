@@ -2,3 +2,7 @@
 @media(max-width:1100px){.columns{grid-template-columns:1fr}.columns aside{grid-template-columns:1fr 1fr;display:grid;gap:20px}.roster-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:760px){.shell{padding:20px 16px}.next-action{align-items:stretch;flex-direction:column;gap:16px}.next-action button{width:100%}.run-steps span{font-size:11px;padding:7px 3px}.setup-grid,#lineup-players,.columns aside{grid-template-columns:1fr}.roster-grid{grid-template-columns:1fr}.card{padding:19px}.summary{grid-template-columns:1fr}.summary>div:first-child{grid-column:auto}nav{gap:1px}.tab{padding:10px;font-size:13px}.correction-scores{flex-direction:column}}
 
 #drafted-tracks{margin-top:1rem}#drafted-tracks .draft-slot{display:flex;align-items:center;justify-content:space-between;gap:1rem;width:100%;text-align:left;margin-top:.25rem}#drafted-tracks .draft-slot span{text-align:right}
+
+.lineup-player .lineup-dq{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:0 3px;cursor:pointer;font-size:13px}
+.lineup-player .lineup-dq input{margin:0;width:18px;height:18px;accent-color:#bd475e}
+.lineup-dq:has(:checked){color:#ff9ca6}

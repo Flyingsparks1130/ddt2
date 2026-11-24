@@ -25,4 +25,20 @@ body:not(.scoreboard) .scene-intro { height:42px;justify-content:flex-end; }
 body:not(.scoreboard) .lineup { margin-top:14px; }
 
 .finisher img{inset:7% 4% auto auto;width:32%;height:86%;object-fit:contain;object-position:center;mask-image:none}.finish-info{max-width:62%}
-#match-winner{margin-right:auto;border-left:4px solid #e8bd74;padding:4px 18px;background:#302328;color:#f7d695;font-size:30px;line-height:1.1}
+#match-winner{margin-right:auto;color:#f4d79a;font:700 48px/1 DDTDisplay;letter-spacing:.2px}
+body.match-decided .scene-intro{height:72px}
+body.match-decided:not(.scoreboard) .team-heading{height:116px}
+.match-winner .team-heading h1::after,.match-winner .team-cell strong::after{
+ content:'✓';display:inline-grid;place-items:center;width:1em;height:1em;margin-left:.35em;
+ border-radius:50%;background:#efc875;color:#352512;font:bold .8em/1 'Segoe UI Symbol',sans-serif;vertical-align:.08em
+}
+.team.match-winner .team-heading{border-color:#efc875}
+#series-table .match-winner td.team-cell{border-left-color:#efc875}
+#series-table .match-loser td,.match-loser .team-heading{filter:grayscale(1) brightness(.82)}
+.team.match-loser .player-card,.player-card.disqualified{background:#211e21;border-color:#665e64}
+.team.match-loser .player-card::before,.player-card.disqualified::before{display:none}
+.match-loser .player-art,.disqualified .player-art{filter:grayscale(1) brightness(.68)}
+.match-loser .player-info,.disqualified .player-info{filter:grayscale(1);color:#cfcace}
+.player-card .dq-badge{position:absolute;z-index:3;top:49px;left:0;right:0;text-align:center;
+ padding:6px 2px;background:#301317ed;color:#ff8a96;border-block:1px solid #a24050;
+ font:700 19px/1.15 DDTDisplay;letter-spacing:1px;text-transform:uppercase}

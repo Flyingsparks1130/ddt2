@@ -15,6 +15,19 @@ test('public contract rejects inflated scores, unapproved outcomes and a forged 
 test('DDT2 HTTP import, operator surfaces, manual approval, and native-preview settings survive restart',{timeout:25000},async()=>{const temp=await mkdtemp(path.join(os.tmpdir(),'dominator-ddt2-')),root=path.join(temp,'root');await mkdir(root,{recursive:true});await cp(path.join(project,'DominatorNetwork/web'),path.join(root,'web'),{recursive:true});await cp(path.join(project,'DominatorNetwork/assets'),path.join(root,'assets'),{recursive:true});const port=await new Promise(resolve=>{const n=net.createServer();n.listen(0,'127.0.0.1',()=>{const p=n.address().port;n.close(()=>resolve(p));});});const base='http://127.0.0.1:'+port;let child;const start=async()=>{child=spawn(process.execPath,[path.join(project,'DominatorNetwork/companion/app.mjs'),'--port',String(port),'--bridge-port','0','--root',root,'--data',path.join(temp,'data')],{windowsHide:true,stdio:'ignore'});for(let i=0;i<80;i++){try{if((await fetch(base+'/api/ops/state')).ok)return;}catch{}await delay(50);}throw Error('Companion did not start');};const stop=async()=>{if(child?.exitCode===null){const done=new Promise(r=>child.once('exit',r));child.kill();await done;}};const get=async route=>(await fetch(base+'/api/ops/'+route)).json();const post=async(route,body,code=200)=>{const s=await get('state');const r=await fetch(base+'/api/ops/'+route,{method:'POST',headers:{Origin:base,'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({...body,revision:s.revision})});const data=await r.json();assert.equal(r.status,code,JSON.stringify(data));return data;};try{await start();const preview=await get('ddt2-preview?offline=1');await post('ddt2-sync',{sourceHash:preview.hash});let s=await get('state');assert.equal(Object.keys(s)[0],'version','Desktop launcher expects the version first');
 assert.equal(s.tournament.players.length,60);assert.equal(s.github.repo,'ddt2');assert.equal(s.matches.length,4);for(const route of ['/','/matchup','/scoreboard','/overlay','/ddt2-ops.js','/operator-flow.js','/operator-flow.css','/intermission.js','/intermission.css','/assets/ddt2/barlow-condensed-bold.ttf'])assert.equal((await fetch(base+route)).status,200,route);await post('series-match',{teamIds:s.tournament.teams.slice(0,2).map(t=>t.id),stage:'R2/QF'},409);s=await get('state');const m=s.matches.find(m=>m.siteMatchId==='r1-m1');assert.equal(s.matches.length,4);await post('select',{heatId:m.heats[0].id});const entries=m.playerIds.map(playerId=>({playerId,card:100601}));await post('lineup',{heatId:m.heats[0].id,entries});assert.equal((await(await fetch(base+'/api/broadcast')).json()).series.teams[0].players[0].uma.card,100601);assert((await get('uma-catalog')).some(c=>c.card===100602&&c.outfit==='Ashen Miracle'));const draft=await post('manual-draft',{heatId:m.heats[0].id,podium:s.tournament.players.filter(p=>p.teamId===m.teamIds[0]).slice(0,3).map(p=>p.id),reason:'Missing test capture'});assert.equal((await get('export')).series.matches[0].raceCount,0);const review=await get('manual/'+draft.id);await post('manual-approve',{manualId:draft.id,reviewHash:review.hash,operator:'Test',broadcastFinished:true});const bundle=await get('export');contract.validate(bundle,'ddt2');assert.equal(bundle.series.matches[0].teams[0].points,7);await post('game-preview',{enabled:true,demo:true,scale:.8,x:24,y:40,opacity:1});assert.equal((await get('game-preview')).enabled,true);await stop();await start();assert.equal((await get('state')).series[0].teams[0].points,7);assert.equal((await get('game-preview')).scale,.8);assert.equal((await get('state')).publications.length,0);
  const other=s.matches.find(match=>match.id!==m.id);
+ const flagged=entries.map((entry,index)=>({...entry,disqualified:index===0}));
+ const onAirDQs=async()=>(await(await fetch(base+'/api/broadcast')).json()).series.teams.flatMap(team=>team.players.filter(p=>p.disqualified).map(p=>p.id));
+ await post('lineup',{matchId:m.id,entries:flagged});
+ await post('select',{heatId:m.heats[1].id});
+ await stop();await start();
+ assert.deepEqual(await onAirDQs(),[entries[0].playerId]);
+ assert.equal((await get('state')).series.find(row=>row.id===m.id).teams[0].points,7);
+ await post('select',{heatId:other.heats[0].id});
+ assert.deepEqual(await onAirDQs(),[]);
+ await post('select',{heatId:m.heats[0].id});
+ await post('lineup',{matchId:m.id,entries}); // Older desks omit DQ status.
+ assert.deepEqual(await onAirDQs(),[entries[0].playerId]);
+
  await post('reset-match',{matchId:other.id},400);
  await post('reset-match',{matchId:other.id,confirm:true});
  assert.equal((await get('state')).series.find(x=>x.id===m.id).raceCount,1);
@@ -104,6 +117,10 @@ assert.equal(s.tournament.players.length,60);assert.equal(s.github.repo,'ddt2');
  const approved=JSON.parse(files.get('approved-results.json'));contract.validate(approved,'ddt2');
  const {merge}=require('../../../assets/match-package.js');
  assert.doesNotThrow(()=>merge(require('../../../data/tournament-index.json'),null,approved));
+ assert.deepEqual(await onAirDQs(),[entries[0].playerId]);
+ const recorded=(await get('state')).matches.find(row=>row.id===m.id).lineup;
+ await post('lineup',{matchId:m.id,entries:m.playerIds.map(playerId=>({playerId,card:recorded[playerId],disqualified:false}))});
+ assert.deepEqual(await onAirDQs(),[]);
  assert.equal(approved.series.matches.length,1);assert.equal(approved.results.length,6);
  for(const [i,original] of originals.entries())assert.deepEqual(files.get('races/race-'+(i+1)+'.json'),original);
  const broadcast=await(await fetch(base+'/api/broadcast')).json();
