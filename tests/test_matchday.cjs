@@ -35,7 +35,7 @@ data.index.matches=[match('m','ready',{lineup:players})];data.params=new URLSear
 let html=UI.views.archive(data);
 assert.match(html,/data-runner="0"/);assert.match(html,/Support Cards/);assert.match(html,/Kitasan Black/);
 assert(!html.includes('Runner B'),'Benched Uma must not be selectable');
-assert.match(html,/Copy match link/);assert(!/undefined|NaN/.test(html));
+assert.doesNotMatch(html,/Copy match link|data-share-match|matchday-share-url/);assert(!/undefined|NaN/.test(html));
 assert.match(M.detail(players[1],data),/&lt;Runner B&gt;/);assert.match(M.detail(players[1],data),/>0<\/dd>/);
 assert.match(M.detail(players[2],data),/>—<\/dd>/,'Missing stats stay unknown');
 data.favorite='a';assert.match(M.hub(data),/<option value="a" selected>/);
