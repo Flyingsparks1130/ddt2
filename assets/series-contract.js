@@ -54,7 +54,7 @@
     }}
     m.lineup=[...players.values()];
    }
-   m.reported_results={...(m.reported_results||{}),races:s.races.map(r=>{if(r.manual)return {number:r.number,track:'Manually verified podium',source:'manual',podium:r.rows.map(p=>({place:p.rank,points:p.points,display_name:p.playerName,team_id:p.teamId,uma:'Not supplied'}))};const race=recorded.find(x=>x.raceId===r.id);return {number:r.number,track:[race.track.name,race.track.distance+'m',({1:'Turf',2:'Dirt'})[race.track.surface]].filter(Boolean).join(' · '),source:'horseACT',podium:race.rows.filter(p=>p.rank<=3).map(p=>({place:p.rank,points:p.points,display_name:p.playerName,team_id:p.teamId,uma:p.name,card_id:p.card}))};})};
+   m.reported_results={...(m.reported_results||{}),races:s.races.map(r=>{if(r.manual)return {number:r.number,track:'Manually verified podium',source:'manual',podium:r.rows.map(p=>({place:p.rank,points:p.points,display_name:p.playerName,team_id:p.teamId,uma:'Not supplied'}))};const race=recorded.find(x=>x.raceId===r.id);return {number:r.number,track:[race.track.name,race.track.distance.toLocaleString('en-US')+' m',({1:'Turf',2:'Dirt'})[race.track.surface]].filter(Boolean).join(' · '),source:'horseACT',podium:race.rows.filter(p=>p.rank<=3).map(p=>({place:p.rank,points:p.points,display_name:p.playerName,team_id:p.teamId,uma:p.name,card_id:p.card}))};})};
   }return result;
  }
  return {validate,apply};

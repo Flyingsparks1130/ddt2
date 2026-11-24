@@ -236,3 +236,70 @@ img.team-crest.profile-uma-icon {
 .season-mini-umas:not(:has(.uma-art)),.season-club-umas:not(:has(.uma-art)){display:none}
 .draw-panel .season-mini-umas .uma-art{height:100%}
 .draft-track-list{padding-inline-start:2rem;margin-block:.75rem}.draft-track-list li{padding:.45rem .25rem;border-bottom:1px solid var(--line)}
+
+/* Match results and lineup history */
+.result-check {display:inline-grid;place-items:center;flex:none;width:1.25em;height:1.25em;border-radius:50%;background:#94d4ab;color:#122619;font:800 .8em/1 system-ui;vertical-align:middle;margin-inline-start:.3em;}
+.result-loser {filter:grayscale(1);color:#bbb0b6;}
+.season-match .result-loser :is(.season-team-label,.season-score),.matchday-contender.result-loser :is(a,strong) {color:#b4aab0;}
+.draw-panel .season-match-sides > section {grid-template-columns:minmax(0,1fr) auto;}
+.draw-panel .season-score {margin-left:auto;}
+.matchday-entrance {padding-block:16px;}
+.matchday-contender .result-check {font-size:18px;}
+.lineup-history {display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:10px 0 16px;}
+.lineup-history select {background:#2e222a;color:inherit;border:1px solid #73575e;border-radius:4px;padding:8px;}
+.lineup-history a {margin-left:auto;}
+.matchday-owner span,.matchday-outfit span {color:#c8b8ac;margin-right:6px;}
+.matchday-build,.matchday-lineups.is-single .matchday-build {min-height:0;align-items:center;}
+.matchday-build-info {padding-top:0;}
+.matchday-build-art .uma-art,.matchday-lineups.is-single .matchday-build-art .uma-art {height:260px;}
+.matchday-supports summary,.cp-panel summary {cursor:pointer;}
+.matchday-picker button {min-height:42px;}
+.matchday-picker button .uma-art {height:44px;min-height:44px;}
+.race-list-labels,.race-summary>summary {display:grid;grid-template-columns:5.2rem minmax(0,2fr) minmax(0,1fr) 1rem;align-items:center;gap:10px;padding:12px 16px;}
+.race-list-labels {color:#d9c1a6;font-size:.8rem;}
+.race-summary {background:#261e24;border:1px solid #513d43;border-radius:5px;margin-bottom:5px;}
+.race-summary>summary,.race-drilldown>summary {list-style:none;cursor:pointer;}
+.race-summary>summary::after,.race-drilldown>summary::after {content:'⌄';color:#e9c48d;}
+.race-summary[open]>summary::after,.race-drilldown[open]>summary::after {transform:rotate(180deg);}
+.race-summary>summary strong {color:#f1d095;}
+.podium-list {list-style:none;margin:0;padding:0 16px;}
+.podium-list li {display:flex;align-items:center;gap:14px;padding:8px 0;border-top:1px solid #45353e;}
+.podium-list li>span {color:#e9c48d;width:2em;text-align:center;}
+.podium-list small {display:block;color:#cfbfbd;}
+.podium-list b {margin-left:auto;}
+.race-summary>a {margin:0 16px 12px;}
+.cp-panel.race-drilldown {background:#251d23;margin:8px 0;padding:0;border-color:#57444c;scroll-margin-top:100px;}
+.race-drilldown>summary {display:flex;align-items:center;gap:18px;padding:15px 18px;}
+.race-number {font-weight:700;color:#e9c48d;}
+.race-course small {display:block;color:#d2c1bd;margin-top:3px;}
+.race-context {margin-left:auto;color:#d2c1bd;}
+.race-drilldown .cp-table-wrap {overflow-x:auto;}
+.race-drilldown .cp-table {margin:0;}
+.race-approval {padding:0 18px;}
+@media(max-width:650px){
+ .race-list-labels,.race-summary>summary {grid-template-columns:3rem minmax(0,1.4fr) minmax(0,1fr) .6rem;font-size:.83rem;gap:6px;padding:11px 8px;}
+ .race-drilldown>summary {display:grid;grid-template-columns:auto 1fr auto;gap:5px 12px;}
+ .race-course {grid-column:2;grid-row:1 / span 2;}
+ .race-context {grid-column:1 / span 3;grid-row:3;margin:0;font-size:.8rem;}
+ .race-drilldown>summary::after {grid-column:3;grid-row:1;}
+ .matchday-build-art .uma-art,.matchday-lineups.is-single .matchday-build-art .uma-art {height:195px;}
+}
+
+.matchday-contender.result-winner>div {display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+.matchday-contender.result-winner:last-child>div {justify-content:flex-end;}
+.matchday-contender.result-winner>div>.result-check {display:inline-grid;font:800 16px/1 system-ui;margin:0;}
+@media(max-width:650px){
+ .matchday-contender.result-winner>div,.matchday-contender.result-winner:last-child>div {justify-content:center;}
+ .race-drilldown .cp-table {display:block;min-width:0;}
+ .race-drilldown .cp-table thead {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
+ .race-drilldown .cp-table tbody {display:block;}
+ .race-drilldown .cp-table tr {display:grid;grid-template-columns:22px 38px minmax(0,1fr) auto;align-items:center;gap:2px 7px;padding:10px;border-top:1px solid #4c363d;}
+ .race-drilldown .cp-table td {padding:0;border:0;min-width:0;white-space:normal;}
+ .race-drilldown td:nth-child(1),.race-drilldown td:nth-child(2) {grid-row:1 / span 3;}
+ .race-drilldown td:nth-child(3),.race-drilldown td:nth-child(4),.race-drilldown td:nth-child(5) {grid-column:3;}
+ .race-drilldown td:nth-child(4) small {display:inline;margin-left:4px;}
+ .race-drilldown td:nth-child(6) {grid-column:4;grid-row:1;}
+ .race-drilldown td:nth-child(7) {grid-column:4;grid-row:2;text-align:right;color:#e7c797;}
+ .race-drilldown td:nth-child(7)::after {content:' pts';}
+ .race-drilldown .cp-runner-portrait {width:36px;height:42px;}
+}

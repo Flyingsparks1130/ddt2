@@ -20,3 +20,30 @@ const ctx={CompanionContract:contract,DDT2SeriesContract:series,Response,fetch};
  for(const name of ['index','bracket','archive','clubs','rules','stats','tracks']){const html=fs.readFileSync(path.join(__dirname,'../'+name+'.html'),'utf8');assert(html.indexOf('assets/series-contract.js')<html.indexOf('assets/companion-contract.js'));assert(html.indexOf('assets/companion-feed.js')<html.indexOf('assets/ddt2-app.js'));}
  console.log('Series approval, conflict protection, stale-feed fallback and page wiring passed.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
+
+async function verifyRecordedImport() {
+ const {verifyCaptures}=require('../scripts/import_match.cjs');
+ const {readRace}=await import('../tools/tournament-companion/DominatorNetwork/companion/domain.mjs');
+ const fs=require('node:fs/promises'),path=require('node:path');
+ const dir=await fs.mkdtemp(path.join(require('node:os').tmpdir(),'ddt-captures-'));
+ const raw={raceCourseSet:{raceTrackId:10005,distance:2500,ground:1},
+  raceHorse:[{finishOrder:1,finishTimeRaw:121,responseHorseData:{card_id:100101}}]};
+ const parsed=readRace(raw);
+ const match={status:'confirmed',winnerId:'alpha',decision:{status:'approved',winnerId:'alpha'}};
+ const result={heat:{number:1},fingerprint:parsed.fingerprint,track:{...parsed.track},rows:parsed.runners};
+ const bundle={series:{matches:[match]},results:[result]};
+ const file=path.join(dir,'race-1.json');
+ try {
+  await assert.rejects(verifyCaptures(bundle,dir),/Missing/);
+  await fs.writeFile(file,JSON.stringify(raw));
+  await verifyCaptures(bundle,dir);
+  assert.equal(result.track.name,'Nakayama');
+  await assert.rejects(verifyCaptures({...bundle,series:{matches:[{...match,status:'pending'}]}},dir),/Finalize/);
+  await fs.writeFile(path.join(dir,'race-2.json'),JSON.stringify(raw));
+  await assert.rejects(verifyCaptures(bundle,dir),/Unmatched/);
+  raw.raceHorse[0].finishTimeRaw+=1;
+  await fs.writeFile(file,JSON.stringify(raw));
+  await assert.rejects(verifyCaptures(bundle,dir),/does not match/);
+ } finally {await fs.rm(dir,{recursive:true,force:true});}
+}
+verifyRecordedImport().catch(error=>{console.error(error);process.exitCode=1;});

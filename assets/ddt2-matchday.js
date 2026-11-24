@@ -93,11 +93,11 @@
     const artwork = global.UmaRaceArt?.resolve(p);
     const statLabels = [['speed','Speed'],['stamina','Stamina'],['power','Power'],['guts','Guts'],['wisdom','Wit']];
     return `<div class="matchday-build-art">${figure(p)}</div><div class="matchday-build-info">
-      <p class="matchday-owner">${esc(p.display_name || p.owner || 'Player not announced')}</p><h3>${esc(p.uma || p.name || 'Uma not announced')}</h3>
-      ${artwork ? `<p class="matchday-outfit">${esc(artwork.outfit_name)}</p>` : ''}
+      <p class="matchday-owner"><span>Trainer</span> ${esc(p.display_name || p.owner || 'Player not announced')}</p><h3>${esc(p.uma || p.name || 'Uma not announced')}</h3>
+      ${artwork ? `<p class="matchday-outfit"><span>Outfit</span> ${esc(artwork.outfit_name)}</p>` : ''}
       <p class="matchday-style">Running style <strong>${esc(p.running_style || '—')}</strong></p>
       <dl class="matchday-stats">${statLabels.map(([key,label]) => `<div><dt>${label}</dt><dd>${esc(p.stats?.[key] ?? '—')}</dd></div>`).join('')}</dl>
-      <div class="matchday-supports"><h4>Support Cards</h4>${p.support?.length ? `<ul>${p.support.map(s => `<li><span>${esc(d.supports?.cards?.[s.id]?.name || 'Support card '+s.id)}</span>${s.limit_breaks != null ? `<small>${esc(s.limit_breaks)} LB</small>` : ''}</li>`).join('')}</ul>` : '<p>Not available</p>'}</div>
+      <details class="matchday-supports"><summary>Support Cards</summary>${p.support?.length ? `<ul>${p.support.map(s => `<li><span>${esc(d.supports?.cards?.[s.id]?.name || 'Support card '+s.id)}</span>${s.limit_breaks != null ? `<small>${esc(s.limit_breaks)} LB</small>` : ''}</li>`).join('')}</ul>` : '<p>Not available</p>'}</details>
     </div>`;
   }
   function group(d, team, lineup, key) {
@@ -112,9 +112,16 @@
     const teams = (m.participants || []).filter(t => t && (!clubId || t.id === clubId));
     return `<div class="matchday-lineups ${teams.length===1?'is-single':''}" data-lineup-match="${esc(m.id)}">${teams.map(t => group(d,t,rows(m),`${m.round}:${m.id}:${t.id}`)).join('') || '<p class="season-no-data">Lineup not announced.</p>'}</div>`;
   }
+  function lineupHistory(d,id) {
+    return pathMatches(d.index,id).reverse().filter(m=>rows(m).some(p=>p.team_id===id));
+  }
   function clubLineup(d,id) {
-    const m = [...d.index.matches].reverse().find(m => rows(m).some(p => p.team_id === id));
-    return m ? `<a class="season-text-link" href="${esc(url(m))}">View match →</a>${lineups(d,m,id)}` : '<p class="season-no-data">No Uma builds have been submitted yet.</p>';
+    const history=lineupHistory(d,id);
+    if(!history.length)return '<p class="season-no-data">No Uma builds have been submitted yet.</p>';
+    const chosen=history.find(m=>m.id===d.lineupByTeam?.[id])||history[0];
+    const label=m=>[d.index.rounds.find(r=>r.id===m.round)?.name||m.round, m.participants.find(t=>t&&t.id!==id)?.name].filter(Boolean).join(' · vs ');
+    const picker=history.length>1?`<label for="lineup-match">Match lineup</label><select id="lineup-match" data-team="${esc(id)}">${history.map(m=>`<option value="${esc(m.id)}" ${m.id===chosen.id?'selected':''}>${esc(label(m))}</option>`).join('')}</select>`:`<strong>${esc(label(chosen))}</strong>`;
+    return `<div class="lineup-history">${picker}<a class="season-text-link" href="${esc(url(chosen))}">View match →</a></div>${lineups(d,chosen,id)}`;
   }
   function pathMatches(index, id) {
     if (!index.teams.some(t => t.id === id)) return [];
@@ -167,16 +174,20 @@
       (cards.find(c=>c.dataset.matchId===focusMatch?.id)||stops[0])?.scrollIntoView({behavior:motion()?'smooth':'instant',block:'nearest',inline:'center'});
     }
   }
+  function outcome(match,team) {
+    if (!team || !match.winner_id) return '';
+    return team.id===match.winner_id?'result-winner':'result-loser';
+  }
+  const winMark = outcome => outcome==='result-winner'?'<span class="result-check" role="img" aria-label="Winner">✓</span>':'';
   function entrance(d,m) {
-    const round=d.index.rounds.find(r=>r.id===m.round);
-    return `<section class="matchday-entrance" data-match-entrance="${esc(m.round+':'+m.id)}" aria-label="Match score"><p class="matchday-entrance-round">${esc(round?.name || m.round)} <span>${esc((m.slot?'Match '+m.slot:m.id.toUpperCase()))}</span></p><div class="matchday-faceoff">${[0,1].map(i=>{
+    return `<section class="matchday-entrance" data-match-entrance="${esc(m.round+':'+m.id)}" aria-label="Match score"><div class="matchday-faceoff">${[0,1].map(i=>{
       const t=m.participants?.[i];
       const source=m.sources?.[i]?.winner_of;
       const opponent=source?'Winner of '+String(source).toUpperCase():'Opponent to be confirmed';
       const mark=t?`<span class="matchday-club-mark" aria-hidden="true">${teamCrest(t.id,d.event.team_artwork)}</span>`:'';
       const name=t?`<a href="team.html?id=${encodeURIComponent(t.id)}">${esc(t.name)}</a>`:`<span class="pending-opponent">${esc(opponent)}</span>`;
       const score=t?m.scores?.[t.id]:null;
-      return `<div class="matchday-contender">${mark}<div>${name}${t&&m.winner_id===t.id?'<small>Winner</small>':''}</div>${score!=null?`<strong>${esc(score)}</strong>`:''}</div>`;
+      return `<div class="matchday-contender ${outcome(m,t)}">${mark}<div>${name}${winMark(outcome(m,t))}</div>${score!=null?`<strong>${esc(score)}</strong>`:''}</div>`;
     }).join('<span class="matchday-faceoff-vs" aria-hidden="true">VS</span>')}</div></section>`;
   }
   function present(root,d,{enter=false}={}) {
@@ -204,6 +215,11 @@
   }
   function bind(root, getData, rerender) {
     root.addEventListener('change', e => {
+      if(e.target.id==='lineup-match'){
+        const d=getData(), id=e.target.dataset.team;
+        (d.lineupByTeam??={})[id]=e.target.value;
+        rerender();return;
+      }
       if(e.target.id==='bracket-club') {
         const d=getData(),id=e.target.value;
         if(id&&!d.index.teams.some(t=>t.id===id)) return;
@@ -250,7 +266,7 @@
       if (d && (e.key===preference.key(d.event.id) || e.key===null)) { preference.external(d.event.id); d.favorite=preference.get(d.event.id,d.index.teams); rerender(); }
     });
   }
-  const api = {teamCrest,featured,createPreference,preference,followButton,hub,lineups,clubLineup,detail,bind,pathMatches,bracketTools,paintBracket,entrance,present};
+  const api = {outcome,winMark,lineupHistory,teamCrest,featured,createPreference,preference,followButton,hub,lineups,clubLineup,detail,bind,pathMatches,bracketTools,paintBracket,entrance,present};
   global.DDT2Matchday = api;
   if (typeof module !== 'undefined' && module.exports) module.exports=api;
 })(typeof window !== 'undefined' ? window : globalThis);
