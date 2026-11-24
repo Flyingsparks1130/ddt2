@@ -24,27 +24,9 @@ jobs:
         env:
           FILENAME: ${{ inputs.filename }}
         run: |
-          python - <<'PY'
-          import os, pathlib, re, zipfile
-          folder = pathlib.Path('imports').resolve()
-          name = os.environ['FILENAME']
-          path = (folder / name).resolve()
-          if path.parent != folder or name != path.name or path.suffix.lower() != '.zip':
-              raise ValueError('Choose a ZIP filename from imports/')
-          with zipfile.ZipFile(path) as archive:
-              names = archive.namelist()
-              if len(set(names)) != len(names) or 'approved-results.json' not in names:
-                  raise ValueError('Expected one approved-results.json')
-              for entry in archive.infolist():
-                  if entry.filename == 'approved-results.json' and entry.file_size <= 10_000_000:
-                      continue
-                  if not re.fullmatch(r'races/race-[1-7]\.json', entry.filename) or entry.file_size > 16 * 1024 * 1024:
-                      raise ValueError('Unexpected entry in match ZIP')
-              pathlib.Path(os.environ['RUNNER_TEMP'], 'match.json').write_bytes(archive.read('approved-results.json'))
-          PY
-      - name: Merge match and validate site
+          python scripts/import_match_zip.py "$FILENAME"
+      - name: Validate site
         run: |
-          node scripts/import_match.cjs "$RUNNER_TEMP/match.json"
           node scripts/companion_bridge.cjs check
           if git diff --quiet -- data/companion && ! git ls-files --others --exclude-standard data/companion | grep -q .; then
             echo "UNCHANGED=true" >> "$GITHUB_ENV"

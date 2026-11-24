@@ -53,8 +53,8 @@ console.log('Matchday: published status, follow persistence, event isolation, mi
  assert.deepEqual(M.pathMatches(d.index,'a').map(m=>m.id),['opening','next']);
  assert.deepEqual(M.pathMatches(d.index,'missing'),[]);
  assert.match(M.bracketTools(d),/<option value="a" selected>/);
- assert(!M.entrance(d,first).includes('<small>Winner</small>'),'Scores cannot imply a winner');
- assert.match(M.entrance(d,{...first,winner_id:'b'}),/<small>Winner<\/small>/);
+ assert(!M.entrance(d,first).includes('class="result-check"'),'Scores cannot imply a winner');
+ assert.match(M.entrance(d,{...first,winner_id:'b'}),/class="result-check"/);
  assert.match(M.entrance(d,unresolved),/Winner of NEXT/);
  assert.equal((M.entrance(d,unresolved).match(/class="matchday-club-mark"/g)||[]).length,1);
  assert(!/undefined|NaN/.test(M.entrance(d,unresolved)));
@@ -130,3 +130,15 @@ console.log('Matchday: published status, follow persistence, event isolation, mi
  document.hidden=false;response={...response,id:'another-event',teams:[]};await poll();assert.match(rendered,/Preview Club A/,'Another event cannot replace DDT2');
  console.log('Matchday polling: unchanged data, offline fallback, recovery, background pause and event validation passed.');
 })().catch(e=>{console.error(e);process.exitCode=1;});
+
+{
+ const first=match('r1-m1','complete',{lineup:players});
+ const next=match('r2-m1','ready',{round:'R2',lineup:[]});
+ const d={...data,index:{...data.index,matches:[next,first],rounds:[{id:'R1',name:'Round 1'},{id:'R2',name:'Quarterfinals'}]}};
+ assert.match(M.clubLineup(d,'a'),/data-lineup-match="r1-m1"/);
+ next.lineup=players.map(p=>({...p,uma:'Quarterfinal build'}));
+ assert.match(M.clubLineup(d,'a'),/data-lineup-match="r2-m1"/);
+ d.lineupByTeam={a:'r1-m1'};
+ assert.match(M.clubLineup(d,'a'),/data-lineup-match="r1-m1"/);
+ assert.doesNotMatch(M.clubLineup(d,'a'),/Quarterfinal build/);
+}
