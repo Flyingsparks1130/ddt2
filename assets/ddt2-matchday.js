@@ -227,7 +227,7 @@
       d.followNotice = persisted ? '' : 'Saved for this visit. Browser storage is unavailable.';
       rerender();
     }
-    root.addEventListener('click', async e => {
+    root.addEventListener('click', e => {
       const followControl = e.target.closest('[data-follow]');
       if (followControl) { follow(getData().favorite===followControl.dataset.follow?'':followControl.dataset.follow); return; }
       const pick = e.target.closest('[data-runner]');
@@ -243,12 +243,6 @@
         groupEl.querySelectorAll('[data-runner]').forEach(b => b.setAttribute('aria-pressed',String(b===pick)));
         const panel = groupEl.querySelector('.matchday-build');
         selectRunner(panel,p,d,pick,Number(pick.dataset.runner)<Number(previous?.dataset.runner)?-1:1);
-      }
-      const share = e.target.closest('[data-share-match]');
-      if (share) {
-        const target = new URL(share.dataset.shareMatch,global.location.href).href;
-        try { await global.navigator.clipboard.writeText(target); share.textContent='Link copied'; }
-        catch { const input = root.querySelector('.matchday-share-url'); input.hidden=false; input.value=target; input.focus(); input.select(); }
       }
     });
     global.addEventListener('storage', e => {

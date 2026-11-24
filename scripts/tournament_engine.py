@@ -592,7 +592,17 @@ def make_site(root: Path, destination: Path) -> None:
     build(root)
     if destination.exists():shutil.rmtree(destination)
     destination.mkdir()
-    for p in root.glob('*.html'):shutil.copy2(p,destination/p.name)
+    versions = {}
+    def version_asset(match):
+        asset = match.group(1)
+        if asset not in versions:
+            versions[asset] = hashlib.sha256((root / asset).read_bytes()).hexdigest()[:16]
+        return f'{asset}?v={versions[asset]}'
+
+    for page in root.glob('*.html'):
+        html = re.sub(r'\b(assets/[\w/-]+\.(?:js|css))\?v=[\w.-]+', version_asset,
+                      page.read_text(encoding='utf-8'))
+        (destination / page.name).write_text(html, encoding='utf-8', newline='\n')
     for name in ('assets','config','data',ARCHIVE):
         if (root/name).exists():shutil.copytree(root/name,destination/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
     (destination/'.nojekyll').touch()

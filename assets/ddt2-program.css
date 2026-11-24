@@ -46,7 +46,31 @@ body[data-section=home] .season-character-stage { height: clamp(510px,68vh,690px
 .season-metrics { background: transparent; border-inline: 0; }
 .season-metric { padding: 16px 20px; }
 .season-metric strong { font-size: 36px; }
-.matchday-follow,.matchday-share { border-radius: 4px; min-height: 44px; }
+.matchday-follow { border-radius: 4px; min-height: 44px; }
+.match-view-switch {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  box-sizing: border-box;
+  width: min(100%, 17rem);
+  padding: 3px;
+  margin: 0 0 1.25rem;
+  background: #20171b;
+  border: 1px solid #84674e;
+  border-radius: 8px;
+}
+.match-view-switch a {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border-radius: 5px;
+  color: #e7d5c8;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.match-view-switch a[aria-current="page"] { background: #ebca93; color: #2a181e; }
+.match-view-switch a:hover:not([aria-current]) { background: #3b282f; }
+.match-view-switch a:focus-visible { outline: 2px solid #f2cc80; outline-offset: 2px; }
 .season-match-grid .season-match { border-radius: 6px; background: var(--program-surface); }
 .season-match-grid .season-match-sides > section { min-height: 0; padding: 16px; }
 .season-match-grid .season-team-label { display: flex; align-items: center; overflow-wrap: anywhere; }
