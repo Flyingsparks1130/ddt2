@@ -83,7 +83,7 @@ function draw(state,cfg,connected=true){
   if(item.rank!==r.rank){item.changed=performance.now();el.classList.toggle('rising',r.rank<item.rank);el.classList.toggle('falling',r.rank>item.rank);item.rank=r.rank;}
   if(performance.now()-item.changed>1400)el.classList.remove('rising','falling');
   el.style.transform=`translateY(${i*frame.row}px)`;el.style.zIndex=String(40-i);el.dataset.place=podium(r.rank);
-  el.classList.toggle('picked',r.player||cfg.picks?.includes(r.gate));el.classList.toggle('finished',r.finished);
+  el.classList.toggle('finished',r.finished);
   p.rank.textContent=String(r.rank);p.gate.textContent=String(r.gate);p.gate.title=`Gate ${r.gate}`;p.gate.setAttribute('aria-label',`Gate ${r.gate}`);p.fallback.textContent=String(r.gate);
   if(item.card!==r.card){item.card=r.card;p.portrait.hidden=!r.card;p.fallback.hidden=!!r.card;if(r.card)p.portrait.src=`/assets/cards/${Number(r.card)}.png`;}
   p.gap.textContent=r.finished?'FIN':r.rank===1?'LEADER':`+${Math.max(0,leader-r.distance).toFixed(1)}m`;p.speed.textContent=Number(r.speed).toFixed(1);p.speed.title='km/h';

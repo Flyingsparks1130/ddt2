@@ -11,7 +11,6 @@ for(const [id,label] of [['show','Race desk'],['roster','Teams & connection'],['
 nav.append($('version'));
 document.querySelector('header h1').textContent='Tournament control';document.querySelector('header .muted').textContent='Prepare the matchup. Run the race. Approve the result.';
 document.querySelector('header .eyebrow').textContent='DOMINATOR NETWORK';
-for(const a of document.querySelectorAll('.header-links a'))a.textContent=a.textContent.replace(' ↗','');
 const guide=make('section',null,'next-action');guide.innerHTML='<div><p class="eyebrow">YOUR NEXT STEP</p><h2 id="next-title">Connect your tournament</h2><p id="next-help"></p></div><button id="next-action">Open setup</button>';
 $('show').prepend(guide);
 const steps=make('div',null,'run-steps');steps.innerHTML='<span data-step="select">Select matchup</span><span data-step="capture">Capture</span><span data-step="review">Confirm race</span><span data-step="publish">Finalize matchup</span>';guide.after(steps);
@@ -86,35 +85,42 @@ function rebuildLineup(force=false){
    image.alt='';image.hidden=!card;if(card)image.src='/assets/cards/'+card+'.png';
    image.onerror=()=>{image.hidden=true;};
    input.oninput=()=>{
-    dirty=true;const chosen=catalog.find(c=>outfitLabel(c)===input.value);
+    dirty=true;$('save-lineup').disabled=false;const chosen=catalog.find(c=>outfitLabel(c)===input.value);
     input.dataset.card=String(chosen?.card||'');image.hidden=!chosen;if(chosen)image.src='/assets/cards/'+chosen.card+'.png';
     updateLineupCount(match.playerIds.length);
    };
-   label.append(input);row.append(image,label);group.append(row);
+   const dqLabel=make('label',null,'lineup-dq'),dq=make('input');
+   dq.type='checkbox';dq.setAttribute('aria-label','Disqualified: '+player.name);
+   dq.checked=match.disqualifiedPlayerIds?.includes(player.id)===true;
+   dq.onchange=()=>{dirty=true;$('save-lineup').disabled=false;};
+   dqLabel.append(dq,document.createTextNode('DQ'));
+   label.append(input);row.append(image,label,dqLabel);group.append(row);
   }
   target.append(group);
  }
  updateLineupCount(match.playerIds.length);
- $('save-lineup').disabled=!available||!target.querySelector('input:enabled');
+ $('save-lineup').disabled=!state.matchLineups||!dirty;
  $('lineup-help').textContent=!state.matchLineups?'Open the desktop Helper shortcut to activate the update.':!catalog.length?'Uma list unavailable. Reload the desk.':'One Uma and outfit per trainer for the entire match.';
 }
 function outfitLabel(uma){return uma.name+' ('+uma.outfit+')';}
 function updateLineupCount(total){
- const filled=[...$('lineup-players').querySelectorAll('input')].filter(input=>input.dataset.card).length;
+ const filled=[...$('lineup-players').querySelectorAll('input[data-player-id]')].filter(input=>input.dataset.card).length;
  $('lineup-count').textContent=filled+' / '+total;
 }
 lineups.onsubmit=async e=>{
  e.preventDefault();const button=$('save-lineup');button.disabled=true;
  try{
-  const entries=[...$('lineup-players').querySelectorAll('input')].map(input=>{
+  const entries=[...$('lineup-players').querySelectorAll('input[data-player-id]')].map(input=>{
    if(input.value.trim()&&!input.dataset.card)throw Error('Choose a listed Uma and outfit for each filled player.');
-   return {playerId:input.dataset.playerId,card:Number(input.dataset.card)||null};
+   return {playerId:input.dataset.playerId,card:Number(input.dataset.card)||null,disqualified:input.closest('.lineup-player').querySelector('[type=checkbox]').checked};
   });
   const res=await fetch('/api/ops/lineup',{method:'POST',headers:{'Content-Type':'application/json','X-Dominator-Ops':'1'},body:JSON.stringify({revision:lineupRevision,matchId:lineupMatch,entries})});
-  const result=await res.json();if(!res.ok)throw Error(result.error);
+  const result=await res.json();
+  if(res.status===409){dirty=false;document.dispatchEvent(new Event('opsrefresh'));throw Error('The lineup changed. Review the latest lineup and save again.');}
+  if(!res.ok)throw Error(result.error);
   dirty=false;note('Match lineup saved.');document.dispatchEvent(new Event('opsrefresh'));
  }catch(err){note(err.message,true);}
- finally{button.disabled=false;}
+ finally{button.disabled=!dirty;}
 };
 function render(next){state=next;renderGuide();if(revision===state.revision)return;revision=state.revision;rebuildLineup();}
 document.addEventListener('opsstate',e=>render(e.detail));

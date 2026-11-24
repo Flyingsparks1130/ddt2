@@ -14,9 +14,15 @@ export function saveLineup(state,body) {
  requireThat(match?.teamIds?.length===2,'Choose a team matchup first.');
  requireThat(Array.isArray(body.entries)&&body.entries.length===match.playerIds.length,'Provide one lineup choice for each player.');
  const existing=matchLineup(state,match),seen=new Set();
+ const disqualified=new Set(match.disqualifiedPlayerIds||[]);
  for(const entry of body.entries){
   requireThat(match.playerIds.includes(entry.playerId)&&!seen.has(entry.playerId),'Choose each registered player exactly once.');
   seen.add(entry.playerId);
+  if(entry.disqualified!==undefined){
+   requireThat(typeof entry.disqualified==='boolean','Choose a valid DQ status.');
+   if(entry.disqualified)disqualified.add(entry.playerId);
+   else disqualified.delete(entry.playerId);
+  }
   requireThat(entry.card===null||cards.has(entry.card)||(entry.card>0&&entry.card===existing[entry.playerId]),'Choose an exact Uma outfit from the list.');
  }
  const next=Object.fromEntries(body.entries.filter(e=>e.card!==null).map(e=>[e.playerId,e.card]));
@@ -26,6 +32,7 @@ export function saveLineup(state,body) {
   }
  }
  match.lineup=next;
+ match.disqualifiedPlayerIds=[...disqualified];
  for(const heat of match.heats)delete heat.lineup;
  return {matchId:match.id,heatId:body.heatId,count:Object.keys(next).length};
 }
@@ -41,7 +48,7 @@ export function broadcastState(state,config,connected=false) {
   players:team.players.map(player=>{
   const row=recorded?.rows.find(r=>r.playerId===player.id);
   const card=lineup[player.id];
-  return {...player,uma:umaFor(card,row?.name),lineupSource:row?.card?'approved':card?'selected':'unknown'};
+  return {...player,disqualified:match.disqualifiedPlayerIds?.includes(player.id)===true,uma:umaFor(card,row?.name),lineupSource:row?.card?'approved':card?'selected':'unknown'};
  })}));
  const running=Object.fromEntries(teams.map(t=>[t.id,0]));
  const columns=Array.from({length:7},(_,i)=>{

@@ -11,6 +11,6 @@ header:after{content:'';position:absolute;left:-28px;top:-54px;width:125px;heigh
 .columns{background:#360609;color:#ceae79}.race-info{background:#260408;border-top-color:#e7c96f44}.race-conditions{color:#cebbae}.race-conditions span+span{border-color:#d1ad6744}
 .runner{background:#290b10;border-radius:2px}.runner[data-place="3"]{background:#431018}.runner[data-place="2"]{background:#651722}.runner[data-place="1"]{background:linear-gradient(100deg,#9b2630,#6c191d);box-shadow:inset 0 1px #e7c96f3b}
 .rank{font-family:DDTDisplay,sans-serif;font-size:26px;border-radius:2px;border-color:#9a684c;background:#26090e}.runner[data-place="1"] .rank{color:#ffe59b;border-color:var(--gold)}
-.portrait-wrap{background:#43131c;border-radius:2px}.runner.picked{border-left-color:var(--gold)}.variant{color:#e3cba7}.trainer{color:#d6bfb4}.speed{color:#cbb6ae}.gate{border-color:#90725d}
+.portrait-wrap{background:#43131c;border-radius:2px}.variant{color:#e3cba7}.trainer{color:#d6bfb4}.speed{color:#cbb6ae}.gate{border-color:#90725d}
 footer{color:#cbb6ae}.progress{background:#e7c96f25}.progress i{background:linear-gradient(90deg,#e7c96f,#fff0bb)}#remaining{color:var(--gold)}
 .empty-row{background:#38090c88;border-color:#e7c96f1c}.empty-pos{border-color:#e7c96f44}.empty-portrait,.empty-name,.empty-player{background:#d8b46a20}
