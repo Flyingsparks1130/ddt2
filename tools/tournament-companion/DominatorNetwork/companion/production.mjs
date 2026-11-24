@@ -1,6 +1,7 @@
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {crc32,deflateRawSync} from 'node:zlib';
+import trainingRanks from '../assets/training-ranks.json' with {type:'json'};
 import skillIcons from '../assets/skill-icons.json' with {type:'json'};
 import {representativeCard} from './ddt2.mjs';
 import skills from '../assets/skill-names.json' with {type:'json'};
@@ -88,6 +89,16 @@ export function finalized(state,heatId){
   rows:race.rows.map(r=>({...r,uma:umaFor(r.card||match.lineup?.[r.playerId],r.name),
    teamCard:representativeCard(state.tournament.teams?.find(t=>t.id===r.teamId||t.name===r.team)||{},state.tournament.id)}))};
 }
+export function spotlightRating(horse){
+ const trained=horse.trainedCharaData||{},entry=horse.responseHorseData||{};
+ const score=trained.rankScore??entry.rank_score;
+ const rating=Number.isSafeInteger(score)&&score>=0?score:null;
+ const grade=trained.rank||entry.final_grade;
+ const index=Number.isInteger(grade)&&grade>0?grade-1:
+  rating===null?-1:trainingRanks.findLastIndex(([minimum])=>rating>=minimum);
+ const rank=trainingRanks[index];
+ return {rating,rank:rank?{label:rank[1],index}:null};
+}
 export async function highlight(state,directory,choice){
  if(!choice)return null;
  const race=state.races.find(r=>r.id===choice.raceId&&r.status!=='void');
@@ -97,8 +108,13 @@ export async function highlight(state,directory,choice){
  const raw=JSON.parse((await readFile(path.join(directory,'raw',race.fingerprint+'.json'),'utf8')).replace(/^\uFEFF/,''));
  const mapped=(race.approval?.result?.rows||reviewRace(state,race).rows).find(r=>r.index===row.index);
  const player=state.tournament.players.find(p=>p.id===mapped?.playerId);
- return {player:player?.name||row.trainer,team:player?.team,teamCard:representativeCard(state.tournament.teams?.find(t=>t.id===player?.teamId)||{},state.tournament.id),
-  uma:umaFor(row.card,row.name)||{name:row.name},...runnerBuild(raw.raceHorse[row.index])};
+ const horse=raw.raceHorse[row.index];
+ const matchId=choice.matchId||state.matches.find(m=>m.heats.some(h=>h.id===race.heatId))?.id;
+ const activeRace=player&&matchId&&state.races.find(r=>r.heatId===state.activeHeatId&&r.status==='approved'&&r.approval?.result?.match?.id===matchId);
+ const activeStyle=activeRace?.approval.result.rows.find(r=>r.playerId===player.id)?.style;
+ const runningStyle=activeStyle||horse.responseHorseData?.running_style||horse.trainedCharaData?.runningStyle||null;
+ return {...spotlightRating(horse),runningStyle,player:player?.name||row.trainer,team:player?.team,teamCard:representativeCard(state.tournament.teams?.find(t=>t.id===player?.teamId)||{},state.tournament.id),
+  uma:umaFor(row.card,row.name)||{name:row.name},...runnerBuild(horse)};
 }
 
 

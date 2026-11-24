@@ -45,3 +45,12 @@ test('spotlight reads recorded build fields and match ZIP preserves its single J
  assert.deepEqual(JSON.parse(plain),bundle);assert.equal(crc32(plain),zip.readUInt32LE(14));
  assert.equal(zip.readUInt32LE(zip.length-22),0x06054b50);
 });
+
+test('spotlight distinguishes training rank and evaluation score from finish position',async()=>{
+ const {spotlightRating}=await import('../DominatorNetwork/companion/production.mjs');
+ const uf={label:'UF',index:28};
+ assert.deepEqual(spotlightRating({finishOrder:2,trainedCharaData:{rank:29,rankScore:24040}}),{rank:uf,rating:24040});
+ assert.deepEqual(spotlightRating({responseHorseData:{final_grade:29}}),{rank:uf,rating:null});
+ assert.deepEqual(spotlightRating({trainedCharaData:{rankScore:23900}}),{rank:uf,rating:23900});
+ assert.deepEqual(spotlightRating({finishOrder:1}),{rank:null,rating:null});
+});

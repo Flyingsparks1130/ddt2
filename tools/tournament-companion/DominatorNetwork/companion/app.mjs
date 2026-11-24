@@ -94,7 +94,7 @@ function opsState(){
  const state=store.state,bundle=publicBundle(state);
  const {matches,races}=state;
  const trainerNames=[...new Set(races.flatMap(r=>r.runners.map(entry=>entry.trainer)).filter(Boolean))].sort();
- return {version:'0.6.10',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m),spotlight:spotlightRoster(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
+ return {version:'0.6.11',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m),spotlight:spotlightRoster(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
  races:races.map(({id,filename,heatId,status,importedAt,runners,voidReason})=>({id,filename,heatId,status,importedAt,count:runners.length,voidReason})),
  watch:state.watch,watchNotice,github:state.github,publication:publicationPreview(state,bundle,!!process.env.DOMINATOR_GITHUB_TOKEN),publications:state.publications.slice(-10).reverse(),
  standings:bundle.standings,audit:state.audit.slice(-30).reverse(),locked:state.races.some(r=>r.status==='approved'),bridge:{connected:!!bridge,active:!!bridge?.active,count:bridge?.runners?.length||0,version:bridge?.version||null},overlayNotice};}
@@ -211,6 +211,7 @@ const server=http.createServer(async(req,res)=>{try{
  if(route.startsWith('/api/ops/race/')){const race=store.state.races.find(r=>r.id===route.slice('/api/ops/race/'.length));requireThat(race,'Race not found.',404);return response(res,200,{race,review:race.status==='approved'?{...race.approval.result,problems:[],canApprove:false}:reviewRace(store.state,race)});}
  let file=staticFiles[route]?path.join(root,'web',staticFiles[route]):null;
  if(/^\/assets\/racewear\/\d{6}\.webp$/.test(route))file=path.join(root,route.slice(1));
+ else if(route==='/assets/icons/ranks.webp')file=path.join(root,'assets/icons/ranks.webp');
  else if(/^\/assets\/icons\/(?:skills\/\d+|stats\/(?:speed|stamina|power|guts|wit))\.webp$/.test(route))file=path.join(root,route.slice(1));
  else if(/^\/assets\/cards\/\d{6}\.png$/.test(route)||route==='/assets/gentildonna.png')file=path.join(root,route.slice(1));
  if(/^\/assets\/ddt2\/(?:crests\/)?[a-z0-9-]+\.(?:png|svg|ttf)$/.test(route))file=path.join(root,route.slice(1));
@@ -223,6 +224,6 @@ await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
 const opened=await openStore(dataDir,config.tournament);
 if(needsMatchRecovery(opened.state))await opened.transaction(recoverMatches);
 store=opened;
-await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.10',startedAt:new Date().toISOString()}));
+await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.11',startedAt:new Date().toISOString()}));
 await refreshBridge();setInterval(refreshBridge,100);setInterval(watchTick,2000);
-console.log(`DDT2 tournament companion 0.6.10: ${origin} (bridge ${bridgePort})`);
+console.log(`DDT2 tournament companion 0.6.11: ${origin} (bridge ${bridgePort})`);
