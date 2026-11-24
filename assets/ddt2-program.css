@@ -104,6 +104,8 @@ body[data-section=club] .matchday-club-toolbar { padding-bottom: 16px; margin-bo
 .draw-panel .season-bracket-round:last-child .season-match { background: #443037; border-color: #ab8861; }
 .draw-panel .season-match-meta { color: #dec39d; background: #271d22; border-color: #695057; padding: 5px 10px; }
 .draw-panel .season-match-meta span:last-child { color: #dec39d; }
+.season-match-meta { flex-wrap: wrap; gap: 3px 10px; }
+.match-status time, .season-heading time { white-space: nowrap; }
 .draw-panel .season-match-sides > section { min-height: 31px; padding: 4px 10px; }
 .draw-panel .season-match-sides > section:last-child { border-color: #74565d77; }
 .draw-panel .season-team-label { color: var(--program-ink); font-size: clamp(17px,1.55vw,21px); }
