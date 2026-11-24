@@ -11,6 +11,19 @@ for(const [key,view] of Object.entries(UI.views)){
 assert.match(UI.views.home(data),/>6<\/strong>/);assert.match(UI.views.rules(data),/>6<\/strong>/);
 assert.equal((UI.views.bracket(data).match(/data-match-id=/g)||[]).length,11);
 assert.match(UI.views.bracket(data),/Grand Final/);
+const scheduled={...data.index.matches[0],status:'ready'};
+const upcoming={...data,index:{...data.index,matches:[scheduled]},event:{...data.event,round_schedule:{R1:{draft:'2026-11-29',races:'2026-11-30'}}}};
+for(const view of ['results','draft']){
+ const selected={...upcoming,params:new URLSearchParams({match:scheduled.id,view})};
+ for(const render of [UI.views.tracks,UI.views.archive]){
+  const html=render(selected);
+  assert.ok(html.includes(view==='draft'?'Nov 29':'Nov 30'));
+  assert.ok(!html.includes(view==='draft'?'Nov 30':'Nov 29'));
+  assert.match(html,new RegExp('aria-current="page">'+(view==='draft'?'Drafts':'Results')+'</a>'));
+ }
+ assert.ok(UI.views.tracks(selected).includes('view='+view+'"'));
+}
+assert.match(UI.views.bracket(upcoming),/<time datetime="2026-11-30">Nov 30<\/time>/);
 const palmerPortrait='src="assets/runners/106401.webp"';
 for (const view of ['clubs','tracks','bracket']) {
  assert.ok(UI.views[view](data).includes(palmerPortrait),view+' shows the assigned portrait');
