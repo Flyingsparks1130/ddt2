@@ -37,6 +37,8 @@ test('spotlight reads recorded build fields and match ZIP preserves its single J
  assert.deepEqual(build.stats,{Speed:1104});assert.equal(build.aptitudes.Turf,'S');
  assert.equal(build.skills[0].name,'Warning Shot!');assert.equal(build.skills[0].level,2);
  assert.deepEqual(runnerBuild({}).aptitudes,{});
+ const kinds=runnerBuild({responseHorseData:{skill_array:[110581,910581,100101111].map(skill_id=>({skill_id,level:3}))}});
+ assert.deepEqual(kinds.skills.map(skill=>skill.level),[3,null,null]);
  const bundle={schema:'fixture',build},zip=packageZip(bundle),nameLength=zip.readUInt16LE(26),start=30+nameLength;
  assert.equal(zip.toString('utf8',30,start),'approved-results.json');
  const plain=inflateRawSync(zip.subarray(start,start+zip.readUInt32LE(18)));

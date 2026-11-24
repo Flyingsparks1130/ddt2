@@ -43,7 +43,7 @@ export async function sourcePreview(offline=false,fetcher=fetch){
 }
 export function representativeCard(team, tournamentId) {
  if (tournamentId !== 'ddt2') return null;
- if (Object.hasOwn(team, 'representativeCard')) return team.representativeCard;
+ if (Number.isInteger(team.representativeCard) && team.representativeCard>0) return team.representativeCard;
  return seed.teamArtwork[team.id]?.card || null;
 }
 export function importDDT2(state,source){

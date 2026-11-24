@@ -33,14 +33,17 @@ assert.equal(s.tournament.players.length,60);assert.equal(s.github.repo,'ddt2');
  await stop();await start();
  assert.equal((await get('state')).matches.length,4);
  assert.equal((await get('export')).series.matches[0].teams[0].points,0);
- // An unassigned JSON can supply a spotlight; reviewing races must leave the on-air selection alone.
+ // The first capture supplies the ten spotlight choices for the whole matchup.
  const horses=m.playerIds.map((playerId,index)=>({
   finishOrder:index+1,finishTimeRaw:100+index,charaName:'Special Week',
   responseHorseData:{card_id:100101,frame_order:index+1,skill_array:[{skill_id:100101111,level:1}],speed:1210}
  }));
  const raw={raceCourseSet:{distance:2000},raceHorse:horses};
- const first=await post('import',{race:raw,filename:'spotlight.json'});
- await post('highlight',{raceId:first.id,index:0});
+ await post('select',{heatId:m.heats[0].id});
+ const first=await post('import',{race:raw,filename:'race1.json',heatId:m.heats[0].id});
+ const roster=(await get('state')).matches.find(match=>match.id===m.id).spotlight;
+ assert.equal(roster.choices.length,10);assert.equal(new Set(roster.choices.map(c=>c.index)).size,10);
+ await post('highlight',{raceId:first.id,index:0,matchId:m.id});
  const spotlight=await(await fetch(base+'/api/highlight')).json();
  assert.equal(spotlight.skills[0].rarity,6);
  assert.equal(spotlight.skills[0].id,100101111);
@@ -62,6 +65,54 @@ assert.equal(s.tournament.players.length,60);assert.equal(s.github.repo,'ddt2');
  assert.equal((await get('export')).series.matches.find(x=>x.id===m.id).raceCount,2);
  assert.equal((await(await fetch(base+'/api/highlight')).json()).skills[0].id,100101111);
 
+
+ await post('reset-match',{matchId:m.id,confirm:true});
+ const zipUrl=base+'/api/ops/match-zip?match='+m.id;
+ const originals=[];
+ const teamA=m.playerIds.filter(id=>s.tournament.players.find(p=>p.id===id).teamId===m.teamIds[0]);
+ const teamB=m.playerIds.filter(id=>!teamA.includes(id));
+ for(let n=1;n<=6;n++){
+  const podium=n===6?[teamA[0],teamB[0],teamA[1]]:[teamA[0],teamB[0],teamB[1]];
+  const order=[...podium,...m.playerIds.filter(id=>!podium.includes(id))];
+  const capture={...raw,randomSeed:n+100};
+  const bytes='\uFEFF'+JSON.stringify(capture,null,2)+'\n';
+  const uploaded=await fetch(base+'/api/ops/import-file?filename=round.json&heat='+m.heats[n-1].id,{method:'POST',headers:{Origin:base,'Content-Type':'application/json','X-Dominator-Ops':'1'},body:bytes});
+  assert.equal(uploaded.status,200);
+  const {id}=await uploaded.json();
+  originals.push(Buffer.from(bytes));
+  await post('map',{raceId:id,mapping:Object.fromEntries(order.map((id,i)=>[i,id]))});
+  const detail=await get('race/'+id);
+  await post('approve',{raceId:id,reviewHash:detail.review.hash,operator:'Test',broadcastFinished:true});
+  assert.equal((await fetch(zipUrl)).status,400);
+ }
+ const pending=(await get('state')).series.find(row=>row.id===m.id);
+ assert.deepEqual(pending.teams.map(t=>t.points),[25,17]);assert.equal(pending.winnerId,null);
+ await post('correction-draft',{matchId:m.id,kind:'outcome',winnerId:m.teamIds[1],reason:'Invalid winner'},400);
+ const decision=await post('correction-draft',{matchId:m.id,kind:'outcome',winnerId:m.teamIds[0],reason:'Matchup complete'});
+ assert.equal((await fetch(zipUrl)).status,400);
+ const finalReview=await get('correction/'+decision.id);
+ await post('correction-approve',{correctionId:decision.id,reviewHash:finalReview.hash,operator:'Test',confirm:true});
+ const download=await fetch(zipUrl);assert.equal(download.status,200);
+ const zip=Buffer.from(await download.arrayBuffer()),files=new Map();
+ const {inflateRawSync}=await import('node:zlib');
+ for(let offset=0;zip.readUInt32LE(offset)===0x04034b50;){
+  const size=zip.readUInt32LE(offset+18),nameEnd=offset+30+zip.readUInt16LE(offset+26);
+  const name=zip.toString('utf8',offset+30,nameEnd),start=nameEnd+zip.readUInt16LE(offset+28);
+  files.set(name,inflateRawSync(zip.subarray(start,start+size)));offset=start+size;
+ }
+ assert.equal(files.size,7);assert.equal(zip.readUInt16LE(zip.length-12),7);
+ const approved=JSON.parse(files.get('approved-results.json'));contract.validate(approved,'ddt2');
+ const {merge}=require('../../../assets/match-package.js');
+ assert.doesNotThrow(()=>merge(require('../../../data/tournament-index.json'),null,approved));
+ assert.equal(approved.series.matches.length,1);assert.equal(approved.results.length,6);
+ for(const [i,original] of originals.entries())assert.deepEqual(files.get('races/race-'+(i+1)+'.json'),original);
+ const broadcast=await(await fetch(base+'/api/broadcast')).json();
+ assert.equal(broadcast.series.winnerId,m.teamIds[0]);assert.equal(broadcast.columns[1].points[m.teamIds[0]],4);
+ assert.equal((await get('finalized?heat='+m.heats[0].id)).rows.find(r=>r.teamId==='dominate').teamCard,102003);
+ const reopen=await post('correction-draft',{matchId:m.id,kind:'reopen',reason:'Review scores'});
+ const rr=await get('correction/'+reopen.id);
+ await post('correction-approve',{correctionId:reopen.id,reviewHash:rr.hash,operator:'Test',confirm:true});
+ assert.equal((await fetch(zipUrl)).status,400);
 }finally{await stop();}});
 
 test('legacy hidden fixtures return once and unofficial matches retire with their scoring state',async()=>{

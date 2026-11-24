@@ -4,9 +4,8 @@ import os from 'node:os';
 import {fileURLToPath} from 'node:url';
 import {readFile,stat,readdir,mkdir,writeFile} from 'node:fs/promises';
 import {initialState,InputError,requireThat,id,text,cleanName,digest,rulesFrom,playersFrom,heatFor,readRace,reviewRace as baseReview,publicBundle as baseBundle} from './domain.mjs';
-import {roundName,finalized,highlight,packageZip,matchExport,enrichPackage} from './production.mjs';
+import {roundName,finalized,highlight,packageZip,matchExport,enrichPackage,captureFiles,spotlightRoster} from './production.mjs';
 import {openStore,atomicWrite} from './store.mjs';
-import {matchEmail} from './match-email.mjs';
 import {publicationPreview} from './github.mjs';
 import {sourcePreview,importDDT2,bracketPreview} from './ddt2.mjs';
 import {broadcastState,saveLineup,umaCatalog} from './broadcast.mjs';
@@ -19,7 +18,7 @@ async function matchAttachment(matchId) {
  const match = bundle.series.matches[0];
  return {
   filename: 'DDT2-' + match.siteMatchId + '.zip',
-  content: packageZip(await enrichPackage(bundle, dataDir))
+  content: packageZip(await enrichPackage(bundle, dataDir), await captureFiles(bundle, dataDir))
  };
 }
 
@@ -29,7 +28,6 @@ const port=Number(args.port||27840),bridgePort=Number(args['bridge-port']||27845
 const root=path.resolve(args.root||path.dirname(here));
 const dataDir=path.resolve(args.data||path.join(process.env.LOCALAPPDATA||path.join(os.homedir(),'AppData','Local'),'DominatorTournament'));
 const origin=`http://127.0.0.1:${port}`,bridgeOrigin=`http://127.0.0.1:${bridgePort}`;
-const email = matchEmail(dataDir, matchAttachment);
 const settingsPath=path.join(root,'obs-settings.json');
 const previewPath=path.join(root,'game-preview.json');
 const previewDefaults={enabled:false,demo:true,x:16,y:100,scale:1,opacity:1};
@@ -52,7 +50,8 @@ function response(res,status,value,type='application/json; charset=utf-8',header
  res.writeHead(status,{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff',
   'Content-Security-Policy':"default-src 'self'; img-src 'self' data: https://raw.githubusercontent.com; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'self'; form-action 'self'; base-uri 'none'",...headers});res.end(body);
 }
-async function bodyOf(req){const chunks=[];let length=0;for await(const chunk of req){length+=chunk.length;requireThat(length<=16*1024*1024,'Upload is too large (16 MB maximum).',413);chunks.push(chunk);}try{return JSON.parse(Buffer.concat(chunks).toString('utf8').replace(/^\uFEFF/,''));}catch{throw new InputError('Request is not valid JSON.');}}
+async function bodyText(req){const chunks=[];let length=0;for await(const chunk of req){length+=chunk.length;requireThat(length<=16*1024*1024,'Upload is too large (16 MB maximum).',413);chunks.push(chunk);}return Buffer.concat(chunks).toString('utf8');}
+async function bodyOf(req){const source=await bodyText(req);try{return JSON.parse(source.replace(/^\uFEFF/,''));}catch{throw new InputError('Request is not valid JSON.');}}
 function writable(state){requireThat(!state.races.some(r=>r.status==='approved'),'Tournament rules and participants are locked while approved results exist. Void those results before changing the format.');}
 function checkRevision(state,body){requireThat(body.revision===state.revision,'The tournament changed in another window. Refresh and review again.',409);}
 function validateConfig(raw){const next={...defaults};for(const k of ['tournament','matchup','round','stage'])if(typeof raw[k]==='string'&&raw[k].length<=256)next[k]=raw[k];
@@ -69,8 +68,8 @@ async function syncActive(){if(!store?.state.activeHeatId)return;const {match,he
 async function refreshBridge(){if(bridgeBusy)return;bridgeBusy=true;const wasOnline=!!bridge;try{const result=await fetch(bridgeOrigin+'/api/state',{signal:AbortSignal.timeout(700)});if(!result.ok)throw Error();bridge=await result.json();
  if(!wasOnline){if(store?.state.activeHeatId)await syncActive();else if(digest(bridge.config)!==digest(config))await saveConfig(config);}
  }catch{bridge=null;}finally{bridgeBusy=false;}}
-async function importRace(raw,filename,heatId=null,fromWatch=false){const race=readRace(raw);const existing=store.state.races.find(r=>r.fingerprint===race.fingerprint);if(existing)return {id:existing.id,duplicate:true};
- await store.saveRaw(race.fingerprint,JSON.stringify(raw));
+async function importRace(raw,filename,heatId=null,fromWatch=false,source=null){const race=readRace(raw);const existing=store.state.races.find(r=>r.fingerprint===race.fingerprint);if(existing)return {id:existing.id,duplicate:true};
+ await store.saveRaw(race.fingerprint,source??JSON.stringify(raw));
  return store.transaction(state=>{const duplicate=state.races.find(r=>r.fingerprint===race.fingerprint);if(duplicate)return {id:duplicate.id,duplicate:true};
   requireThat(state.races.length<5000,'This tournament has reached the 5000-race limit.');
   const assignment=fromWatch?state.armedHeatId:heatId;if(assignment)heatFor(state,assignment);
@@ -87,7 +86,7 @@ async function watchTick(){if(watchBusy||!store?.state.watch.enabled)return;watc
   for(const file of files){const sig=`${file.size}:${file.mtime}`,known=watchKnown.get(file.file);if(watchBaseline){watchKnown.set(file.file,{sig,done:true});continue;}
    if(known?.sig===sig&&known.done)continue;if(!known||known.sig!==sig){watchKnown.set(file.file,{sig,seen:Date.now(),done:false});continue;}
    if(Date.now()-known.seen<1500)continue;
-   try{const raw=JSON.parse((await readFile(file.file,'utf8')).replace(/^\uFEFF/,''));if(!raw.raceHorse){known.done=true;continue;}const imported=await importRace(raw,path.basename(file.file),null,true);known.done=true;watchNotice=imported.duplicate?'Duplicate replay ignored.':'New race staged for review. Results are not published.';}
+   try{const source=await readFile(file.file,'utf8');const raw=JSON.parse(source.replace(/^\uFEFF/,''));if(!raw.raceHorse){known.done=true;continue;}const imported=await importRace(raw,path.basename(file.file),null,true,source);known.done=true;watchNotice=imported.duplicate?'Duplicate replay ignored.':'New race staged for review. Results are not published.';}
    catch(e){watchNotice=`Waiting for a complete race file: ${path.basename(file.file)} (${e.message})`;if(Date.now()-known.seen>15000)known.done=true;}
   }watchBaseline=false;
  }catch(e){watchNotice=e.message;}finally{watchBusy=false;}}
@@ -95,7 +94,7 @@ function opsState(){
  const state=store.state,bundle=publicBundle(state);
  const {matches,races}=state;
  const trainerNames=[...new Set(races.flatMap(r=>r.runners.map(entry=>entry.trainer)).filter(Boolean))].sort();
- return {version:'0.6.8',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
+ return {version:'0.6.9',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m),spotlight:spotlightRoster(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
  races:races.map(({id,filename,heatId,status,importedAt,runners,voidReason})=>({id,filename,heatId,status,importedAt,count:runners.length,voidReason})),
  watch:state.watch,watchNotice,github:state.github,publication:publicationPreview(state,bundle,!!process.env.DOMINATOR_GITHUB_TOKEN),publications:state.publications.slice(-10).reverse(),
  standings:bundle.standings,audit:state.audit.slice(-30).reverse(),locked:state.races.some(r=>r.status==='approved'),bridge:{connected:!!bridge,active:!!bridge?.active,count:bridge?.runners?.length||0,version:bridge?.version||null},overlayNotice};}
@@ -130,13 +129,17 @@ const result=await store.transaction(async state=>{checkRevision(state,body);
   else if(route==='match'){requireThat(state.tournament.id!=='ddt2','DDT2 matchups come from the published bracket.');requireThat(state.matches.length<256,'Maximum 256 matches.');const selected=body.playerIds||[];requireThat(selected.length>0&&new Set(selected).size===selected.length&&selected.every(pid=>state.tournament.players.some(p=>p.id===pid)),'Choose registered participants for this match.');
    const count=Number(body.heats);requireThat(Number.isInteger(count)&&count>=1&&count<=64,'Choose 1–64 heats.');const expected={};for(const key of ['distance','surface','trackId']){const value=Number(body.expected?.[key]||0);requireThat(Number.isInteger(value)&&value>=0,'Course constraints must be whole numbers.');expected[key]=value;}
    const match={id:id(),name:text(body.name,'Match name'),round:text(body.round,'Round',60),stage:text(body.stage,'Stage',30),playerIds:selected,expected,heats:Array.from({length:count},(_,i)=>({id:id(),number:i+1}))};state.matches.push(match);audit(state,'match.created',{matchId:match.id});return {id:match.id};}
-  else if(route==='select'){const {match}=heatFor(state,body.heatId);requireThat(!match.deskDeletedAt,'This match was deleted from the desk.',409);state.activeHeatId=body.heatId;state.armedHeatId=null;audit(state,'heat.selected',{heatId:body.heatId});}
+  else if(route==='select'){const {match}=heatFor(state,body.heatId);requireThat(!match.deskDeletedAt,'This match was deleted from the desk.',409);const previous=state.activeHeatId&&heatFor(state,state.activeHeatId).match;
+   if(previous?.id!==match.id)state.highlight=match.spotlightChoice||null;
+   state.activeHeatId=body.heatId;state.armedHeatId=null;audit(state,'heat.selected',{heatId:body.heatId});}
   else if(route==='arm'){requireThat(state.activeHeatId,'Select a heat first.');const problems=[];checkSeriesRace(state,{heatId:state.activeHeatId},problems);requireThat(!problems.length,problems.join(' '));requireThat(state.watch.enabled&&state.watch.folder,'Enable the horseACT watch folder first.');requireThat(!state.races.some(r=>r.heatId===state.activeHeatId&&r.status==='approved'),'This heat already has an approved result.');if(watchBaseline||watchSignature!==state.watch.folder){const files=await scanFiles(state.watch.folder);watchKnown=new Map(files.map(f=>[f.file,{sig:`${f.size}:${f.mtime}`,done:true}]));watchBaseline=false;watchSignature=state.watch.folder;}state.armedHeatId=state.activeHeatId;audit(state,'heat.armed',{heatId:state.activeHeatId});}
   else if(route==='disarm'){state.armedHeatId=null;}
   else if(route==='highlight'){
-   const race=state.races.find(r=>r.id===body.raceId&&r.status!=='void');
-   requireThat(race?.runners.some(r=>r.index===body.index),'Select a runner from an imported capture.');
-   state.highlight={raceId:race.id,index:body.index};
+   const match=state.matches.find(m=>m.id===body.matchId);
+   const roster=match&&spotlightRoster(state,match);
+   requireThat(roster&&roster.raceId===body.raceId&&roster.choices.some(row=>row.index===body.index),'Choose a runner from this matchup.');
+   state.highlight={matchId:match.id,raceId:roster.raceId,index:body.index};
+   match.spotlightChoice=state.highlight;
   }
   else if(route==='watch'){const folder=String(body.folder||'').trim();requireThat(!body.enabled||path.isAbsolute(folder),'Choose an absolute Saved races folder path.');if(folder){const item=await stat(folder);requireThat(item.isDirectory(),'The watch path must be a folder.');}
    state.watch={folder,enabled:!!body.enabled};watchSignature='';watchBaseline=true;state.armedHeatId=null;audit(state,'watch.configured',{enabled:state.watch.enabled});}
@@ -179,13 +182,15 @@ const server=http.createServer(async(req,res)=>{try{
  if(req.method==='POST'){requireThat(req.headers.origin===origin&&String(req.headers['content-type']||'').startsWith('application/json'),'Operations must come from this local console.',403);
   if(route==='/api/config'){requireThat(req.headers['x-dominator-settings']==='1','Invalid settings request.',403);return response(res,200,await saveConfig(await bodyOf(req)));}
   requireThat(route.startsWith('/api/ops/')&&req.headers['x-dominator-ops']==='1','Invalid operation request.',403);
-  if(route==='/api/ops/email-settings')return response(res,200,await email.configure(await bodyOf(req)));
-  if(route==='/api/ops/email-match')return response(res,200,await email.send((await bodyOf(req)).matchId));
+  if(route==='/api/ops/import-file'){
+   const source=await bodyText(req);
+   const raw=JSON.parse(source.replace(/^\uFEFF/,''));
+   return response(res,200,await importRace(raw,url.searchParams.get('filename'),url.searchParams.get('heat')||null,false,source));
+  }
   return response(res,200,await mutate(route.slice('/api/ops/'.length),await bodyOf(req)));}
  requireThat(req.method==='GET','Method not allowed.',405);
  if(route==='/api/state'){if(!bridge)return response(res,503,{error:'Game bridge offline'});return response(res,200,{...bridge,config});}
  if(route==='/api/config')return response(res,200,config);
- if(route==='/api/ops/email-settings')return response(res,200,await email.status());
  if(route==='/api/ops/match-zip'){
   const attachment=await matchAttachment(url.searchParams.get('match'));
   return response(res,200,attachment.content,'application/zip',{'Content-Disposition':'attachment; filename="'+attachment.filename+'"'});
@@ -218,6 +223,6 @@ await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
 const opened=await openStore(dataDir,config.tournament);
 if(needsMatchRecovery(opened.state))await opened.transaction(recoverMatches);
 store=opened;
-await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.8',startedAt:new Date().toISOString()}));
+await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.9',startedAt:new Date().toISOString()}));
 await refreshBridge();setInterval(refreshBridge,100);setInterval(watchTick,2000);
-console.log(`DDT2 tournament companion 0.6.8: ${origin} (bridge ${bridgePort})`);
+console.log(`DDT2 tournament companion 0.6.9: ${origin} (bridge ${bridgePort})`);

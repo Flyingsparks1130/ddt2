@@ -17,7 +17,7 @@ foreach ($name in @('web', 'assets')) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "DominatorNetwork/$name") -Destination $runtime -Recurse
 }
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'DominatorNetwork/obs-settings.json') -Destination $runtime
-foreach ($name in @('app.mjs','match-email.mjs','broadcast.mjs','production.mjs','ddt2.mjs','ddt2-seed.json','domain.mjs','github.mjs','series.mjs','store.mjs','NODE-LICENSE.txt','Start Tournament Companion.exe')) {
+foreach ($name in @('app.mjs','broadcast.mjs','production.mjs','ddt2.mjs','ddt2-seed.json','domain.mjs','github.mjs','series.mjs','store.mjs','NODE-LICENSE.txt','Start Tournament Companion.exe')) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "DominatorNetwork/companion/$name") -Destination (Join-Path $runtime 'companion')
 }
 Copy-Item -LiteralPath $NodeRuntime -Destination (Join-Path $runtime 'companion/node.exe')
