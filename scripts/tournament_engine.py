@@ -11,6 +11,7 @@ import copy
 import hashlib
 import json
 import math
+import os
 import re
 import shutil
 import sys
@@ -587,9 +588,31 @@ def save_draft(root: Path, payload: dict) -> dict:
         raise
 
 
+def publish_helper_bracket(root: Path, destination: Path, index: dict) -> None:
+    tournament = read_json(root / ARCHIVE / 'tournament.json')
+    teams = {team['id']: team['name'] for team in tournament['teams']}
+    slot_file = root / 'data' / 'companion' / 'bracket-slots.json'
+    slots = read_json(slot_file) if slot_file.exists() else {}
+    matches = []
+    for match in index['matches']:
+        advanced = slots.get(match['id'], [None, None])
+        participants = []
+        for side, team in enumerate(match['participants']):
+            team_id = team['id'] if team else advanced[side]
+            participants.append({'id': team_id, 'name': teams[team_id]} if team_id else None)
+        matches.append({'id': match['id'], 'participants': participants})
+    event = read_json(root / 'config' / 'event.json')
+    write_json(destination / 'data' / 'helper-bracket.json', {
+        'commit': os.environ.get('GITHUB_SHA'),
+        'tournament': tournament,
+        'index': {'id': index['id'], 'matches': matches},
+        'teamArtwork': event.get('team_artwork', {}),
+    })
+
+
 def make_site(root: Path, destination: Path) -> None:
     if destination.resolve().parent!=root.resolve() or destination.name!='_site':raise TournamentError('Site output must be the repo-root _site folder.')
-    build(root)
+    index = build(root)['index']
     if destination.exists():shutil.rmtree(destination)
     destination.mkdir()
     versions = {}
@@ -605,6 +628,8 @@ def make_site(root: Path, destination: Path) -> None:
         (destination / page.name).write_text(html, encoding='utf-8', newline='\n')
     for name in ('assets','config','data',ARCHIVE):
         if (root/name).exists():shutil.copytree(root/name,destination/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+    if index['id'] == 'ddt2':
+        publish_helper_bracket(root, destination, index)
     (destination/'.nojekyll').touch()
 
 
