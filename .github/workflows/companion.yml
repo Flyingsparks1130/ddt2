@@ -48,3 +48,21 @@ jobs:
           ./tools/tournament-companion/tests/install.test.ps1
       # Validate the installer without exposing a downloadable build artifact.
       # The organizer distributes locally built Windows packages privately.
+      - name: Verify installed operator can import and broadcast on a fresh Windows machine
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $temp = Join-Path $env:RUNNER_TEMP 'Independent Operator'
+          $game = Join-Path $temp 'Steam Library'
+          New-Item -ItemType Directory -Path $game -Force | Out-Null
+          New-Item -ItemType File -Path (Join-Path $game 'UmamusumePrettyDerby.exe') | Out-Null
+          $archive = Get-Item './tools/tournament-companion/dist/Dominator-Tournament-0.6.12-win64.zip'
+          Expand-Archive -LiteralPath $archive.FullName -DestinationPath (Join-Path $temp 'Extracted')
+          & (Join-Path $temp 'Extracted/Install.ps1') -GameDirectory $game
+          $deps = Join-Path $temp 'browser-test'
+          npm install --prefix $deps --no-audit --no-fund playwright-core@1.55.0
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          $env:TEST_PLAYWRIGHT = Join-Path $deps 'node_modules/playwright-core'
+          & (Join-Path $game 'DominatorNetwork/companion/node.exe') ./tools/tournament-companion/tests/installed-operator.cjs $game
+          exit $LASTEXITCODE
+
