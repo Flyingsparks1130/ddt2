@@ -27,7 +27,7 @@ async function check(mode){
  const profile=fs.mkdtempSync(path.join(process.env.RUNNER_TEMP,'Operator '+mode+' '));
  const env={SystemRoot:process.env.SystemRoot,WINDIR:process.env.WINDIR,PATH:process.env.SystemRoot+'\\System32',TEMP:profile,TMP:profile,USERPROFILE:profile,LOCALAPPDATA:profile,APPDATA:profile};
  if(mode==='offline')Object.assign(env,{NODE_USE_ENV_PROXY:'1',HTTPS_PROXY:'http://127.0.0.1:1',HTTP_PROXY:'http://127.0.0.1:1',NO_PROXY:'127.0.0.1,localhost'});
- const state=async()=>{const r=await fetch(origin+'/api/ops/state');assert.equal(r.status,200);return r.json();};
+ const state=async()=>{const r=await fetch(origin+'/api/ops/state',{headers:{connection:'close'}});assert.equal(r.status,200);return r.json();};
  const pidFile=path.join(profile,'DominatorTournament','companion-process.json');
  let browser;
  try{
@@ -67,4 +67,11 @@ async function check(mode){
   if(fs.existsSync(pidFile)){const pid=JSON.parse(fs.readFileSync(pidFile)).pid;process.kill(pid);for(let i=0;i<50;i++){try{process.kill(pid,0)}catch{break}await delay(100)}}
  }
 }
-(async()=>{verifyPackage();await check('live');await check('offline')})().catch(e=>{console.error(e);process.exitCode=1});
+const mode=process.argv[3];
+if(mode)check(mode).catch(e=>{console.error(e);process.exitCode=1});
+else{
+ verifyPackage();
+ for(const scenario of ['live','offline']){
+  execFileSync(process.execPath,[__filename,game,scenario],{stdio:'inherit'});
+ }
+}
