@@ -1,8 +1,20 @@
 import os from 'node:os';
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile,mkdtemp,mkdir,cp} from 'node:fs/promises';import {spawn} from 'node:child_process';import path from 'node:path';import {fileURLToPath} from 'node:url';import {createRequire} from 'node:module';import net from 'node:net';import {setTimeout as delay} from 'node:timers/promises';
-import {initialState,publicBundle} from '../DominatorNetwork/companion/domain.mjs';import {importDDT2} from '../DominatorNetwork/companion/ddt2.mjs';import {seriesSummary,draftManualHeat,manualReview,approveManual,draftCorrection,correctionReview,approveCorrection,checkSeriesRace,allSeries} from '../DominatorNetwork/companion/series.mjs';
+import {initialState,publicBundle} from '../DominatorNetwork/companion/domain.mjs';import {importDDT2,sourcePreview} from '../DominatorNetwork/companion/ddt2.mjs';import {seriesSummary,draftManualHeat,manualReview,approveManual,draftCorrection,correctionReview,approveCorrection,checkSeriesRace,allSeries} from '../DominatorNetwork/companion/series.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url)),project=path.resolve(here,'..'),require=createRequire(import.meta.url),contract=require('../../../assets/companion-contract.js'),seriesContract=require('../../../assets/series-contract.js');
 const source=JSON.parse(await readFile(path.join(project,'DominatorNetwork/companion/ddt2-seed.json'),'utf8'));
+test('live preview reads one public Pages snapshot and reports a refused live request',async()=>{
+ const urls=[];
+ const preview=await sourcePreview(false,async(url,options)=>{
+  urls.push(url);
+  assert.deepEqual(options.headers,{Accept:'application/json'});
+  return Response.json(source);
+ });
+ assert.deepEqual(urls,['https://flyingsparks1130.github.io/ddt2/data/helper-bracket.json']);
+ assert.equal(preview.offline,false);
+ assert.equal(preview.teamCount,12);
+ await assert.rejects(sourcePreview(false,async()=>new Response(null,{status:403})),/DDT2 website returned HTTP 403/);
+});
 function setup(){const s=initialState();importDDT2(s,source);const teams=s.tournament.teams.slice(0,2),m={id:'test-series',name:teams.map(t=>t.name).join(' vs '),round:'Test round',stage:'TEST',siteMatchId:'test-match',siteRoundId:'TEST',teamIds:teams.map(t=>t.id),playerIds:s.tournament.players.filter(p=>teams.some(t=>t.id===p.teamId)).map(p=>p.id),expected:{},heats:Array.from({length:7},(_,i)=>({id:'h'+(i+1),number:i+1,expected:{}}))};s.matches.unshift(m);return {s,m,a:m.playerIds.slice(0,5),b:m.playerIds.slice(5)};}
 function manual(s,m,number,podium){const r=draftManualHeat(s,{heatId:m.heats[number-1].id,podium,reason:'Synthetic test podium'});s.revision++;const review=manualReview(s,r);approveManual(s,{manualId:r.id,reviewHash:review.hash,operator:'Test operator',broadcastFinished:true});s.revision++;return r;}
 function correct(s,m,kind,extra={}){const c=draftCorrection(s,{matchId:m.id,kind,reason:'Synthetic test correction',...extra});s.revision++;const review=correctionReview(s,c);approveCorrection(s,{correctionId:c.id,reviewHash:review.hash,operator:'Test operator',confirm:true});s.revision++;return c;}
