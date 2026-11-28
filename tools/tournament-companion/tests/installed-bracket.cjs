@@ -6,6 +6,8 @@ const {chromium} = require(process.env.TEST_PLAYWRIGHT);
 
 async function test() {
   const install = path.join(process.argv[2], 'DominatorNetwork', 'companion');
+  const scenario=process.argv[3];
+  assert.ok(['new','empty-upgrade','inbox-upgrade'].includes(scenario));
   const profile = fs.mkdtempSync(path.join(process.env.RUNNER_TEMP, 'Broadcaster '));
   const directory = path.join(profile, 'DominatorTournament');
   const pidFile = path.join(directory, 'companion-process.json');
@@ -15,11 +17,11 @@ async function test() {
     USERPROFILE: profile, LOCALAPPDATA: profile, APPDATA: profile};
   // A pre-DDT2 desk with one pending, unassigned capture blocked 0.6.12 imports.
   fs.mkdirSync(directory);
-  fs.writeFileSync(path.join(directory, 'tournament.json'), JSON.stringify({
+  if(scenario!=='new')fs.writeFileSync(path.join(directory, 'tournament.json'), JSON.stringify({
     schema: 1, revision: 3, tournament: {id:'local', name:'DOMINATOR NETWORK', rules:null, players:[]},
     matches: [], activeHeatId:null, armedHeatId:null, audit:[], publications:[],
     github: {owner:'', repo:'', branch:'', file:''}, watch:{folder:'',enabled:false},
-    races:[{id:'existing-capture',filename:'capture.json',status:'pending',heatId:null,runners:[],mapping:{}}]
+    races:scenario==='inbox-upgrade'?[{id:'existing-capture',filename:'capture.json',status:'pending',heatId:null,runners:[],mapping:{}}]:[]
   }));
   // Serve a simulated published quarterfinal through the installed app's normal fetch path.
   const draw = JSON.parse(fs.readFileSync(path.join(install,'ddt2-seed.json')));
@@ -62,10 +64,10 @@ async function test() {
     await page.waitForFunction(()=>document.querySelector('#site-preview-text').textContent==='4 matchups ready in Race Desk.');
     const state=await (await page.request.get(origin+'/api/ops/state')).json();
     assert.equal(state.matches.length,4);
-    assert.equal(state.races[0].id,'existing-capture');
+    assert.deepEqual(state.races.map(race=>race.id),scenario==='inbox-upgrade'?['existing-capture']:[]);
     assert.equal(state.publication.tokenAvailable,false);
     assert.equal(state.activeHeatId,'ddt2-r1-m4-race-1');
-    console.log('Reviewed import retained the four matchups, active race, and original inbox capture.');
+    console.log(scenario+': reviewed import retained all four matchups, the active race and inbox contents.');
     for(let attempt=0;attempt<2;attempt++){
       const synced=page.waitForResponse(r=>r.url().endsWith('/api/ops/ddt2-sync'));
       await page.locator('#site-preview').click();

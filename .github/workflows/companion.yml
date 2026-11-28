@@ -48,7 +48,7 @@ jobs:
           ./tools/tournament-companion/tests/install.test.ps1
       # Validate the installer without exposing a downloadable build artifact.
       # The organizer distributes locally built Windows packages privately.
-      - name: Verify the installed Race Desk with an existing operator inbox
+      - name: Verify Race Desk on fresh and upgraded operator profiles
         shell: pwsh
         run: |
           $work = Join-Path $env:RUNNER_TEMP 'Operator upgrade'
@@ -61,5 +61,7 @@ jobs:
           npm install --prefix $work --no-audit --no-fund playwright-core@1.55.0
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           $env:TEST_PLAYWRIGHT = Join-Path $work 'node_modules/playwright-core'
-          & (Join-Path $game 'DominatorNetwork/companion/node.exe') tools/tournament-companion/tests/installed-bracket.cjs $game
-          exit $LASTEXITCODE
+          foreach ($scenario in 'new','empty-upgrade','inbox-upgrade') {
+            & (Join-Path $game 'DominatorNetwork/companion/node.exe') tools/tournament-companion/tests/installed-bracket.cjs $game $scenario
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          }
