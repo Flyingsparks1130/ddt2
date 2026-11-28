@@ -7,7 +7,7 @@ import {initialState,InputError,requireThat,id,text,cleanName,digest,rulesFrom,p
 import {roundName,finalized,highlight,packageZip,matchExport,enrichPackage,captureFiles,spotlightRoster} from './production.mjs';
 import {openStore,atomicWrite} from './store.mjs';
 import {publicationPreview} from './github.mjs';
-import {sourcePreview,importDDT2,bracketPreview} from './ddt2.mjs';
+import {sourcePreview,importDDT2,bracketPreview,needsOpeningDraw} from './ddt2.mjs';
 import {broadcastState,saveLineup,umaCatalog} from './broadcast.mjs';
 import {matchLineup,resetMatch,needsMatchRecovery,recoverMatches,allSeries,seriesSummary,checkSeriesRace,draftCorrection,correctionReview,approveCorrection,draftManualHeat,manualReview,approveManual} from './series.mjs';
 
@@ -32,7 +32,8 @@ const settingsPath=path.join(root,'obs-settings.json');
 const previewPath=path.join(root,'game-preview.json');
 const previewDefaults={enabled:false,demo:true,x:16,y:100,scale:1,opacity:1};
 async function previewSettings(){try{return {...previewDefaults,...JSON.parse(await readFile(previewPath,'utf8'))};}catch{return {...previewDefaults};}}
-let sourceCache=null,spotlightRevision=-1,spotlightData=null;
+const previews=new Map();
+let spotlightRevision=-1,spotlightData=null;
 function currentSpotlight(){
  const state=store.state;
  if(spotlightRevision!==state.revision){
@@ -94,7 +95,7 @@ function opsState(){
  const state=store.state,bundle=publicBundle(state);
  const {matches,races}=state;
  const trainerNames=[...new Set(races.flatMap(r=>r.runners.map(entry=>entry.trainer)).filter(Boolean))].sort();
- return {version:'0.6.12',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m),spotlight:spotlightRoster(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
+ return {version:'0.6.13',revision:state.revision,tournament:state.tournament,trainerNames,canResetMatch:true,matchLineups:true,highlight:state.highlight||null,matches:matches.map(m=>({...m,round:roundName(m),stage:roundName(m),lineup:matchLineup(state,m),spotlight:spotlightRoster(state,m)})),site:state.site||null,series:allSeries(state),corrections:(state.corrections||[]).filter(c=>c.status!=='reset'),manualHeats:(state.manualHeats||[]).filter(h=>h.status!=='reset'),activeHeatId:state.activeHeatId,armedHeatId:state.armedHeatId,suggestedWatchFolder:path.join(os.homedir(),'Documents','Saved races'),
  races:races.map(({id,filename,heatId,status,importedAt,runners,voidReason})=>({id,filename,heatId,status,importedAt,count:runners.length,voidReason})),
  watch:state.watch,watchNotice,github:state.github,publication:publicationPreview(state,bundle,!!process.env.DOMINATOR_GITHUB_TOKEN),publications:state.publications.slice(-10).reverse(),
  standings:bundle.standings,audit:state.audit.slice(-30).reverse(),locked:state.races.some(r=>r.status==='approved'),bridge:{connected:!!bridge,active:!!bridge?.active,count:bridge?.runners?.length||0,version:bridge?.version||null},overlayNotice};}
@@ -102,7 +103,10 @@ async function mutate(route,body){
  if(route==='publish'||route==='github')throw new InputError('Export a match ZIP from the Race Desk.',410);
  if(route==='import')return importRace(body.race,body.filename,body.heatId||null);
  if(route==='game-preview'){const p={...previewDefaults};for(const key of ['enabled','demo'])p[key]=body[key]===true;for(const [key,min,max] of [['x',0,3840],['y',0,2160],['scale',.45,2],['opacity',.45,1]])if(Number.isFinite(body[key]))p[key]=Math.max(min,Math.min(max,body[key]));await atomicWrite(previewPath,p);return p;}
-const result=await store.transaction(async state=>{checkRevision(state,body);
+const result=await store.transaction(async state=>{
+  // Bracket imports confirm the reviewed source hash and merge into the latest
+  // state under the store lock. Unrelated inbox arrivals cannot invalidate it.
+  if(route!=='ddt2-sync')checkRevision(state,body);
   if(route==='reset-match'){
    const match=state.matches.find(m=>m.id===body.matchId);
    requireThat(match,'Match not found.',404);
@@ -113,7 +117,7 @@ const result=await store.transaction(async state=>{checkRevision(state,body);
    return {id:match.id};
   }
   if(route==='delete-match')throw new InputError('Refresh the Race Desk and choose Reset match.',409);
-  if(route==='ddt2-sync'){requireThat(sourceCache&&body.sourceHash===sourceCache.hash,'Refresh the DDT2 import preview first.',409);const result=importDDT2(state,sourceCache.source);audit(state,'ddt2.synchronized',{...result,commit:sourceCache.source.commit});return result;}
+  if(route==='ddt2-sync'){const sourceCache=[...previews.values()].find(preview=>preview.hash===body.sourceHash);requireThat(sourceCache,'Refresh the DDT2 import preview first.',409);const result=importDDT2(state,sourceCache.source);state.site.offline=sourceCache.offline;audit(state,'ddt2.synchronized',{...result,commit:sourceCache.source.commit});return result;}
   else if(route==='lineup'){const result=saveLineup(state,body);audit(state,'match.lineup',result);return result;}
   else if(route==='player-alias'){const p=state.tournament.players.find(p=>p.id===body.playerId);requireThat(p,'Player not found.');const name=cleanName(String(body.gameName||'')).slice(0,120);requireThat(!name||!state.tournament.players.some(x=>x.id!==p.id&&x.gameName===name),'That in-game name is already assigned to another player.');p.gameName=name;audit(state,'player.alias',{playerId:p.id,name});}
   else if(route==='series-match')throw new InputError('DDT2 matchups come from the published bracket.',409);
@@ -199,7 +203,7 @@ const server=http.createServer(async(req,res)=>{try{
  if(route==='/api/results')return response(res,200,finalized(store.state,store.state.activeHeatId));
  if(route==='/api/highlight')return response(res,200,await currentSpotlight());
  if(route==='/api/ops/game-preview')return response(res,200,await previewSettings());
- if(route==='/api/ops/ddt2-preview'){sourceCache=await sourcePreview(url.searchParams.get('offline')==='1');return response(res,200,{hash:sourceCache.hash,offline:sourceCache.offline,commit:sourceCache.source.commit,teamCount:sourceCache.teamCount,playerCount:sourceCache.playerCount,matchCount:sourceCache.matchCount,bracket:bracketPreview(sourceCache.source)});}
+ if(route==='/api/ops/ddt2-preview'){const offline=url.searchParams.get('offline')==='1';const sourceCache=await sourcePreview(offline);previews.set(offline,sourceCache);return response(res,200,{hash:sourceCache.hash,offline:sourceCache.offline,commit:sourceCache.source.commit,teamCount:sourceCache.teamCount,playerCount:sourceCache.playerCount,matchCount:sourceCache.matchCount,bracket:bracketPreview(sourceCache.source)});}
  if(route==='/api/broadcast')return response(res,200,broadcastState(store.state,config,!!bridge));
  if(route==='/api/ops/courses')return response(res,200,JSON.parse(await readFile(path.join(root,'assets/courses.json'),'utf8')));
  if(route==='/api/ops/uma-catalog')return response(res,200,umaCatalog);
@@ -222,8 +226,17 @@ server.on('error',error=>{if(error.code==='EADDRINUSE'){console.log('Tournament 
 // Bind first: a second game launch must not open or mutate a second copy of the store.
 await new Promise(resolve=>server.listen(port,'127.0.0.1',resolve));
 const opened=await openStore(dataDir,config.tournament);
+// The installed launcher and game both use the default operator profile.
+if((!args.data || args.event==='ddt2') && needsOpeningDraw(opened.state)){
+ const {source}=await sourcePreview(true);
+ await opened.transaction(state=>{
+  const result=importDDT2(state,source);
+  state.site.offline=true;
+  audit(state,'ddt2.opening-draw',result);
+ });
+}
 if(needsMatchRecovery(opened.state))await opened.transaction(recoverMatches);
 store=opened;
-await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.12',startedAt:new Date().toISOString()}));
+await mkdir(dataDir,{recursive:true});await writeFile(path.join(dataDir,'companion-process.json'),JSON.stringify({pid:process.pid,port,version:'0.6.13',startedAt:new Date().toISOString()}));
 await refreshBridge();setInterval(refreshBridge,100);setInterval(watchTick,2000);
-console.log(`DDT2 tournament companion 0.6.12: ${origin} (bridge ${bridgePort})`);
+console.log(`DDT2 tournament companion 0.6.13: ${origin} (bridge ${bridgePort})`);

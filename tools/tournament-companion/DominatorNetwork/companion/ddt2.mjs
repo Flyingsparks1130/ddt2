@@ -11,7 +11,7 @@ export function bracketPreview(source) {
  return Object.entries(bracketStages).map(([id, name]) => ({
   name, matches: source.tournament.matches.filter(m => m.round === id).map(m => ({
    id: m.id, sides: m.sources.map((side, i) => {
-    const team = matches.get(m.id)?.participants?.[i]?.id || side.team;
+    const team = participantId(matches.get(m.id),side,i);
     return teams.get(team) || 'Winner of ' + side.winner_of.toUpperCase();
    })
   }))
@@ -51,9 +51,23 @@ export function representativeCard(team, tournamentId) {
  if (Number.isInteger(team.representativeCard) && team.representativeCard>0) return team.representativeCard;
  return seed.teamArtwork[team.id]?.card || null;
 }
+// Unassigned captures belong to the inbox and can be reviewed after connecting.
+function hasOnlyInboxData(state){
+ return !state.matches.length && !state.publications.length &&
+  state.races.every(r=>r.status==='pending' && !r.heatId && !r.approval);
+}
+export function needsOpeningDraw(state){
+ if(state.matches.length || !hasOnlyInboxData(state))return false;
+ return state.tournament.id==='ddt2' ||
+  (!state.tournament.rules && !state.tournament.players.length &&
+   !state.audit.some(e=>e.action==='tournament.configured'));
+}
+function participantId(match,slot,index){
+ return match?.participants?.[index]?.id || slot.team || null;
+}
 export function importDDT2(state,source){
  validateSource(source);
- requireThat(state.tournament.id==='ddt2'||(!state.matches.length&&!state.races.length&&!state.publications.length),'This desk contains another tournament. Preserve it before connecting DDT2.');
+ requireThat(state.tournament.id==='ddt2'||hasOnlyInboxData(state),'This desk contains another tournament. Preserve it before connecting DDT2.');
  const t=source.tournament,old=state.tournament.players,players=[];
  if(state.matches.length)for(const team of state.tournament.teams||[])requireThat(t.teams.some(t=>t.id===team.id&&t.name.toLowerCase()===team.name.toLowerCase()),'A team identity changed on DDT2. Review the existing series before replacing the roster.');
  for(const team of t.teams)for(const member of team.members){
@@ -67,7 +81,7 @@ export function importDDT2(state,source){
  const generated=source.index.matches||[];const imported=[];const deferred=[];
  for(const raw of t.matches){
   const published=generated.find(m=>m.id===raw.id);
-  const teamIds=(published?.participants?.map(p=>p?.id)||raw.sources?.map(s=>s.team)||[]).filter(Boolean);
+  const teamIds=raw.sources.map((slot,i)=>participantId(published,slot,i)).filter(Boolean);
   if(teamIds.length!==2||new Set(teamIds).size!==2||!teamIds.every(id=>t.teams.some(t=>t.id===id))){deferred.push(raw.id);continue;}
   const found=state.matches.find(m=>m.siteMatchId===raw.id);
   if(found){requireThat(JSON.stringify(found.teamIds)===JSON.stringify(teamIds),`Published participants changed for ${found.name}. Review that series before syncing.`);continue;}
@@ -76,6 +90,7 @@ export function importDDT2(state,source){
   const match={id:matchId,siteMatchId:raw.id,siteRoundId:raw.round,name:teamIds.map(id=>t.teams.find(t=>t.id===id).name).join(' vs '),round:round?.name||raw.round,stage:bracketStages[raw.round],teamIds,playerIds:players.filter(p=>teamIds.includes(p.teamId)&&!p.retired).map(p=>p.id),expected:{},heats:Array.from({length:7},(_,i)=>({id:matchId+'-race-'+(i+1),number:i+1,tiebreaker:i===6,expected:{}}))};
   requireThat(match.playerIds.length===10,'A published match does not have ten registered players.');state.matches.push(match);imported.push(match.id);
  }
+ requireThat(imported.length || state.matches.some(m=>m.siteMatchId),'The bracket has no confirmed matchups to load.');
  state.site={repository:'Flyingsparks1130/ddt2',commit:source.commit,syncedAt:new Date().toISOString(),bracket:bracketPreview(source),pendingMatchIds:deferred,bracketPublished:!!t.published};
  return {teams:t.teams.length,players:players.length,addedMatches:imported.length,deferredMatches:deferred.length};
 }
