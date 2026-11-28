@@ -593,6 +593,10 @@ def publish_helper_bracket(root: Path, destination: Path, index: dict) -> None:
     teams = {team['id']: team['name'] for team in tournament['teams']}
     slot_file = root / 'data' / 'companion' / 'bracket-slots.json'
     slots = read_json(slot_file) if slot_file.exists() else {}
+    approved_file = root / 'data' / 'companion' / 'approved-results.json'
+    approved = read_json(approved_file) if approved_file.exists() else {}
+    series = {m['siteMatchId']: m for m in (approved.get('series') or {}).get('matches', [])
+              if m.get('status') == 'confirmed' and m.get('winnerId')}
     matches = []
     for match in index['matches']:
         advanced = slots.get(match['id'], [None, None])
@@ -600,7 +604,19 @@ def publish_helper_bracket(root: Path, destination: Path, index: dict) -> None:
         for side, team in enumerate(match['participants']):
             team_id = team['id'] if team else advanced[side]
             participants.append({'id': team_id, 'name': teams[team_id]} if team_id else None)
-        matches.append({'id': match['id'], 'participants': participants})
+        entry = {'id': match['id'], 'participants': participants}
+        ids = [p['id'] for p in participants if p]
+        winner, scores = match.get('winner_id'), match.get('scores') or {}
+        final = series.get(match['id'])
+        if final and final.get('siteRoundId') == match['round']:
+            final_scores = {t['id']: t['points'] for t in final['teams']}
+            if (set(ids) == set(final_scores) and winner in (None, final['winnerId'])
+                    and (not any(scores.values()) or scores == final_scores)
+                    and not (match.get('reported_results') or {}).get('races')):
+                winner, scores = final['winnerId'], final_scores
+        if winner in ids:
+            entry['result'] = {'winnerId': winner, 'scores': scores}
+        matches.append(entry)
     event = read_json(root / 'config' / 'event.json')
     write_json(destination / 'data' / 'helper-bracket.json', {
         'commit': os.environ.get('GITHUB_SHA'),

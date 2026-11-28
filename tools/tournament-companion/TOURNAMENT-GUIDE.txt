@@ -1,9 +1,8 @@
-DDT2 OPERATIONS — COMPANION 0.6.12
+DDT2 OPERATIONS — COMPANION 0.6.13
 
-1. Open http://127.0.0.1:27840/. In Teams & connection, check the published DDT2
-   source, review it, then import. The bundled fallback has 12 teams and 60
-   players but no invented bracket. Recheck the source after bracket updates.
-   Import is deliberate; opening the desk never replaces tournament data.
+1. Open http://127.0.0.1:27840/. A new Race Desk starts with the four confirmed
+   Round 1 matchups. Under Teams & connection, click Check DDT2 for updates
+   to load published scores, winners and confirmed next-round matchups.
 2. Save exact in-game trainer aliases for registered players. Unknown aliases
    can also be mapped gate by gate during race review.
 3. On Race Desk, choose a bracket match. Open Match Lineup and choose one Uma
@@ -50,4 +49,4 @@ MATCH MANAGEMENT
 DDT2 uses the published bracket. Select a match and choose Reset match to clear its results and winner. The same fixture, teams, drafted tracks, and lineups remain available. Captured races can be reviewed again. Resetting a match does not publish changes.
 
 UPDATING AN OPEN DESK
-If an earlier Helper is still running after 0.6.12 is installed, save any pending edits and open the Tournament Helper shortcut. Choose Yes to switch versions. The launcher checks the running desk again before switching. The game and saved tournament stay in place.
+If an earlier Helper is still running after 0.6.13 is installed, save any pending edits and open the Tournament Helper shortcut. Choose Yes to switch versions. The launcher checks the running desk again before switching. The game and saved tournament stay in place.
