@@ -117,7 +117,7 @@ const result=await store.transaction(async state=>{
    return {id:match.id};
   }
   if(route==='delete-match')throw new InputError('Refresh the Race Desk and choose Reset match.',409);
-  if(route==='ddt2-sync'){const sourceCache=[...previews.values()].find(preview=>preview.hash===body.sourceHash);requireThat(sourceCache,'Refresh the DDT2 import preview first.',409);const result=importDDT2(state,sourceCache.source);state.site.offline=sourceCache.offline;audit(state,'ddt2.synchronized',{...result,commit:sourceCache.source.commit});return result;}
+  if(route==='ddt2-sync'){const sourceCache=[...previews.values()].find(preview=>preview.hash===body.sourceHash && (body.offline===undefined || preview.offline===body.offline));requireThat(sourceCache,'Refresh the DDT2 import preview first.',409);requireThat(!sourceCache.offline || state.site?.offline!==false,'The published bracket is already saved on this desk.',409);const result=importDDT2(state,sourceCache.source);state.site.offline=sourceCache.offline;audit(state,'ddt2.synchronized',{...result,commit:sourceCache.source.commit});return result;}
   else if(route==='lineup'){const result=saveLineup(state,body);audit(state,'match.lineup',result);return result;}
   else if(route==='player-alias'){const p=state.tournament.players.find(p=>p.id===body.playerId);requireThat(p,'Player not found.');const name=cleanName(String(body.gameName||'')).slice(0,120);requireThat(!name||!state.tournament.players.some(x=>x.id!==p.id&&x.gameName===name),'That in-game name is already assigned to another player.');p.gameName=name;audit(state,'player.alias',{playerId:p.id,name});}
   else if(route==='series-match')throw new InputError('DDT2 matchups come from the published bracket.',409);

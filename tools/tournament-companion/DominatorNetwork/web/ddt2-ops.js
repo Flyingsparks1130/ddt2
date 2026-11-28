@@ -57,6 +57,15 @@ function showRoster(){
  }
 }
 $('roster-search').oninput=showRoster;$('roster-team').onchange=showRoster;
+export function publishedOutcome(result,teams){
+ if(!result)return '';
+ const team=teams?.find(t=>t.id===result.winnerId);
+ if(!team)return '';
+ const scores=result.scores||{};
+ const other=Object.entries(scores).find(([id])=>id!==team.id);
+ const margin=other && Number.isFinite(scores[team.id])?' · '+scores[team.id]+'–'+other[1]:'';
+ return team.name+' wins'+margin;
+}
 function showBracket(rounds) {
  const panel = $('site-bracket');
  panel.hidden = !rounds?.some(round => round.matches.length);
@@ -65,13 +74,8 @@ function showBracket(rounds) {
   section.append(make('h3', round.name));
   for (const match of round.matches) {
    const row=make('p',match.sides.join(' vs '));
-   if(match.result){
-    const {winnerId,scores}=match.result;
-    const team=state?.tournament.teams?.find(t=>t.id===winnerId);
-    const other=Object.entries(scores||{}).find(([id])=>id!==winnerId);
-    const margin=other && Number.isFinite(scores[winnerId])?' · '+scores[winnerId]+'–'+other[1]:'';
-    if(team)row.append(make('strong',' · '+team.name+' wins'+margin));
-   }
+   const outcome=publishedOutcome(match.result,state?.tournament.teams);
+   if(outcome)row.append(make('strong',' · '+outcome));
    section.append(row);
   }
   return section;
@@ -90,7 +94,7 @@ function render(next){state=next;$('preview-bridge').textContent=state.bridge.co
 }
 document.addEventListener('opsstate',e=>render(e.detail));
 async function applyBracket(){
- const result=await api('ddt2-sync',{sourceHash:source.hash});
+ const result=await api('ddt2-sync',{sourceHash:source.hash,offline:source.offline});
  $('site-import').disabled=true;
  $('site-preview-text').textContent=result.readyMatches+' matchups ready in Race Desk.';
 }
@@ -101,6 +105,11 @@ for(const [button,offline] of [['site-preview',false],['site-offline',true]]){
   const status=$('site-preview-text');
   status.textContent=offline?'Loading offline bracket...':'Checking DDT2...';
   try{
+   if(offline && state?.site?.offline===false){
+    showBracket(state.site.bracket);
+    status.textContent='Saved bracket · '+state.matches.filter(m=>m.siteMatchId).length+' matchups ready in Race Desk.';
+    return;
+   }
    source=await api('ddt2-preview'+(offline?'?offline=1':''));
    showBracket(source.bracket);
    if(offline){

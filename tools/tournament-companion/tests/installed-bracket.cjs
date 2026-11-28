@@ -35,7 +35,7 @@ async function test() {
     "globalThis.fetch=(url,options)=>String(url)==='https://flyingsparks1130.github.io/ddt2/data/helper-bracket.json'",
     "  ? Promise.resolve(new Response(require('node:fs').readFileSync(process.env.TEST_BRACKET))) : upstream(url,options);"
   ].join('\n'));
-  env.NODE_OPTIONS='--require "'+preload+'"';
+  env.NODE_OPTIONS='--require "'+preload.split(path.sep).join('/')+'"';
   env.TEST_BRACKET=fixture;
   let browser;
   try {
@@ -74,6 +74,8 @@ async function test() {
     }
     assert.match(await page.locator('#site-bracket').innerText(),/Dominare wins.*25.*17/);
     await page.locator('[data-tab="show"]').click();
+    await menu.selectOption('ddt2-r1-m1');
+    assert.match(await page.locator('#published-outcome').textContent(),/Dominare wins.*25.*17/);
     await menu.selectOption('ddt2-r2-m1');
     assert.equal(await menu.locator('option:checked').textContent(),'Dominance vs Dominare');
     await page.locator('#heat-select').selectOption('ddt2-r2-m1-race-1');
