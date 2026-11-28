@@ -1,4 +1,4 @@
-import {courseCatalogReady,outfitCatalog} from './ddt2-ops.js';
+import {courseCatalogReady,outfitCatalog,publishedOutcome} from './ddt2-ops.js';
 import {raceLabels,suggestedPlayer,reservePlayers} from './model.js';
 const $=id=>document.getElementById(id);
 let state=null,reviewData=null,selectedRace=null,publication=null,busy=false,setupLoaded=false,lastRenderedRevision=-1;
@@ -27,6 +27,10 @@ function updateHeats(){const old=$('heat-select').value;const match=state.matche
 function syncDeskSelection(){
  const match=state.matches.find(m=>m.id===$('match-select').value);
 
+ const fixture=state.site?.bracket?.flatMap(round=>round.matches).find(m=>m.id===match?.siteMatchId);
+ const outcome=publishedOutcome(fixture?.result,state.tournament.teams);
+ $('published-outcome').hidden=!outcome;
+ $('published-outcome').textContent=outcome?'Published result · '+outcome:'';
  document.dispatchEvent(new Event('deskselection'));
 }
 $('heat-select').addEventListener('change',syncDeskSelection);
