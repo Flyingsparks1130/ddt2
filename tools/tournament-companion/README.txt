@@ -7,9 +7,10 @@ for automatic race JSON capture. Neither dependency is bundled or modified.
 INSTALL / UPDATE
 1. Obtain Dominator-Tournament-0.6.13-win64.zip privately from the organizer.
    Extract it outside your game folder. Public installer downloads are withdrawn.
-2. Close Umamusume and the existing Tournament Companion, if running.
+2. Save your Race Desk edits, finish any race or cancel capture, and close Umamusume.
 3. Run Install.cmd. Paste Steam > Umamusume > Manage > Browse local files.
-   The installer checks the package, copies only DominatorNetwork files and
+   The installer verifies the ZIP contents, closes this installation's idle Helper,
+   copies only DominatorNetwork files and
    preserves existing obs-settings.json, game-preview.json and tournament data.
    It does not change Hachimi or horseACT DLLs/configuration.
 4. Existing DominatorNetwork users need no Hachimi changes. On a first install,

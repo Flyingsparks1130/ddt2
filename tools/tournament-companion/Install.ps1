@@ -32,8 +32,39 @@ foreach ($required in @('DominatorNetwork.dll','DominatorNetwork/companion/node.
 }
 if ($CheckOnly) { Write-Output "Verified package $($manifest.version). No files changed."; exit 0 }
 if (Get-Process -Name UmamusumePrettyDerby -ErrorAction SilentlyContinue) { throw 'Close Umamusume before installing.' }
-$runningCompanion = Get-Process -Name node -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq (Join-Path $target 'DominatorNetwork/companion/node.exe') }
-if ($runningCompanion) { throw 'Close the existing Tournament Companion before updating. Its PID is in %LOCALAPPDATA%/DominatorTournament/companion-process.json. No processes were stopped.' }
+# Hold a process handle while verifying the listener so PID reuse cannot target another process.
+function Close-InstalledHelper([string]$runtime) {
+    $running = @(Get-Process -Name node -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $runtime })
+    if (-not $running.Count) { return }
+    if ($running.Count -ne 1) { throw 'Multiple processes are using the Helper runtime. Finish the current session and retry.' }
+    $desk = $running[0]
+    try {
+        if ($desk.HasExited) { return }
+        $null = $desk.Handle
+        $listener = @(Get-NetTCPConnection -State Listen -LocalAddress '127.0.0.1' -OwningProcess $desk.Id -ErrorAction SilentlyContinue)
+        if ($listener.Count -ne 1) { throw 'The Helper is starting or its listener could not be verified. Wait a moment and run Install.cmd again.' }
+        $url = 'http://127.0.0.1:' + $listener[0].LocalPort + '/api/ops/state'
+        $previousRevision = $null
+        foreach ($check in 1..2) {
+            $state = Invoke-RestMethod -Uri $url -TimeoutSec 5 -MaximumRedirection 0
+            if (-not $state.version -or $null -eq $state.revision -or -not $state.tournament -or
+                $state.PSObject.Properties.Name -notcontains 'armedHeatId' -or $state.bridge.active -ne $false) {
+                throw 'The Race Desk is active or could not be verified. Finish the race and retry.'
+            }
+            if ($null -ne $state.armedHeatId) { throw 'Cancel capture in Race Desk, then run Install.cmd again.' }
+            if ($check -eq 2 -and $state.revision -ne $previousRevision) { throw 'The Race Desk is saving changes. Run Install.cmd again when it is idle.' }
+            $previousRevision = $state.revision
+        }
+        if (-not $desk.HasExited) {
+            $desk.Kill()
+            if (-not $desk.WaitForExit(5000)) { throw 'The Helper is still closing. Wait a moment and run Install.cmd again.' }
+        }
+        Write-Output 'Closed the running Tournament Helper.'
+    } finally {
+        $desk.Dispose()
+    }
+}
+Close-InstalledHelper (Join-Path $target 'DominatorNetwork/companion/node.exe')
 foreach ($item in $items) {
     if ($item.Relative -ne 'DominatorNetwork.dll' -and -not $item.Relative.StartsWith('DominatorNetwork/')) { continue }
     if ($item.Relative -eq 'DominatorNetwork/obs-settings.json' -and (Test-Path -LiteralPath $item.Destination)) { continue }
